@@ -27,6 +27,7 @@ class App extends Component {
       'pages/discover/index',//发现
       'pages/message/index',//消息
       'pages/profile/index',//我的
+      'pages/splash/index'
     ],
     "subPackages": [
       {

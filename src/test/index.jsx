@@ -16,6 +16,9 @@ export default class Index extends Component {
 
   navigate(key) {
     switch (key) {
+      case 'splash':
+        Taro.navigateTo({ url: '/pages/splash/index' })
+        break;
       case 'index':
         Taro.navigateTo({ url: '/pages/index/index' })
         break;
@@ -40,6 +43,7 @@ export default class Index extends Component {
   render() {
     return (
       <View className='test'>
+        <Button onClick={() => this.navigate('splash')}>开屏</Button>
         <Button onClick={() => this.navigate('index')}>首页</Button>
         <Button onClick={() => this.navigate('discover')}>发现</Button>
         <Button onClick={() => this.navigate('message')}>消息</Button>
