@@ -11,7 +11,7 @@ export default class Login extends Presenter {
     return (
       <View className='login-viewport'>
         <View className='logo-wrapp'>
-          <Text>LOGO</Text>
+          <Text className='logo'>LOGO</Text>
         </View>
         <View className='invite-tip'>
           <Text>小富爸爸邀请你一起使用“童年”，共同关注小福的成长</Text>
