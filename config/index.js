@@ -1,5 +1,5 @@
 const config = {
-  projectName: 'childhood',
+  projectName: 'tn-miniapp',
   date: '2020-3-9',
   designWidth: 750,
   deviceRatio: {

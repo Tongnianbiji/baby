@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import Index from './pages/index'
+import Index from './test/index'
 
 import './app.scss'
 
@@ -11,17 +11,38 @@ import './app.scss'
 
 class App extends Component {
 
-  componentDidMount () {}
+  componentDidMount() { }
 
-  componentDidShow () {}
+  componentDidShow() { }
 
-  componentDidHide () {}
+  componentDidHide() { }
 
-  componentDidCatchError () {}
+  componentDidCatchError() { }
 
   config = {
     pages: [
-      'pages/index/index'
+      //主package
+      'test/index',//开发测试入口页面
+      'pages/index/index',//首页
+      'pages/discover/index',//发现
+      'pages/message/index',//消息
+      'pages/profile/index',//我的
+    ],
+    "subPackages": [
+      {
+        "root": "packageA",
+        "pages": [
+          "pages/index/index",
+          "pages/discover/index"
+        ]
+      },
+      {
+        "root": "packageB",
+        "pages": [
+          "pages/index/index",
+          "pages/discover/index"
+        ]
+      }
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -33,7 +54,7 @@ class App extends Component {
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
-  render () {
+  render() {
     return (
       <Index />
     )

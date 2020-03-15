@@ -1,5 +1,5 @@
 {
-  "name": "childhood",
+  "name": "tn-miniapp",
   "version": "1.0.0",
   "private": true,
   "description": "",
@@ -25,8 +25,8 @@
     "dev:rn": "npm run build:rn -- --watch",
     "dev:qq": "npm run build:qq -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch",
-    "starth":"npm run dev:h5",
-    "startw":"npm run dev:weapp"
+    "starth": "npm run dev:h5",
+    "startw": "npm run dev:weapp"
   },
   "author": "",
   "license": "MIT",

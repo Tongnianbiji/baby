@@ -1,0 +1,12 @@
+.test {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+
+  button {
+    margin: 10px 0;
+    width: 30%;
+  }
+}

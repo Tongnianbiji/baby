@@ -15,13 +15,13 @@ export default class Index extends Component {
   componentDidHide() { }
 
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '我的'
   }
 
   render() {
     return (
-      <View className='index'>
-        首页
+      <View className='profile'>
+        我的
       </View>
     )
   }
