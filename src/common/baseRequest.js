@@ -1,6 +1,8 @@
 import Taro from '@tarojs/taro'
 import appSettings from '../../settings'
-import { EnvType } from './enums'
+import {
+  EnvType
+} from './enums'
 
 const Hosts = {
   [EnvType.DEVELOPMENT]: 'https://xxxx.test.xxxx.com',
@@ -15,14 +17,14 @@ export default class BaseRequest {
    * @param {*} virtual_path 虚拟目录, 设置之后. 这个实例下所有请求路径中无需再指定
    */
   constructor(virtual_path = '') {
-      this.host = Hosts[appSettings.ENV];
-      this.path = +function() {
-        let ret = '';
-        if (virtual_path) {
-          ret = reg.test(virtual_path) ? virtual_path : `/${virtual_path}`
-        }
-        return ret
-      }()
+    this.host = Hosts[appSettings.ENV];
+    this.path = + function () {
+      let ret = '';
+      if (virtual_path) {
+        ret = reg.test(virtual_path) ? virtual_path : `/${virtual_path}`
+      }
+      return ret
+    }()
   }
 
   _get_header(custom_header_obj, need_token) {
@@ -45,7 +47,12 @@ export default class BaseRequest {
 
   _request(url, data, method, head, token) {
     const header = this._get_header(head, token);
-    return Taro.request({ url, data, method, header });
+    return Taro.request({
+      url,
+      data,
+      method,
+      header
+    });
   }
 
   _build_url(schema) {

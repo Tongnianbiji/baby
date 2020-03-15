@@ -6,7 +6,7 @@ import Model from './model'
  */
 export default class SplashPresenter extends BaseComponent {
   constructor(props) {
-      super(props);
+    super(props);
   }
 
   config = {

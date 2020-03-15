@@ -8,9 +8,9 @@ import './style.scss'
  * just jsx here, because we have presenter layer;
  */
 export default class SplashView extends Presenter {
-    render() {
-        return (
-            <View>我是开屏页</View>
-        )
-    }
+  render() {
+    return (
+      <View>我是开屏页</View>
+    )
+  }
 }
