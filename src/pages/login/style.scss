@@ -1,0 +1,31 @@
+@import '../../assets/scss/theme.scss';
+
+.login-viewport {
+    padding: 0 60px;
+    font-family:PingFangSC-Regular,PingFang SC;
+
+    .logo-wrapp {
+        height: 494px;
+        vertical-align: middle;
+        text-align: center;
+    }
+    .invite-tip {
+        font-size:24px;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+        line-height:33px;
+        margin-bottom: 32px;
+    }
+    .btn-wechat {
+        margin-bottom: 16px;
+        background: $sys-btn-bg;
+        font-size:32px;
+        font-weight:400;
+        color:rgba(255,255,255,1);
+    }
+    .btn-phone {
+        font-size:32px;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+    }
+}

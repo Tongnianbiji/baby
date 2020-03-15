@@ -2,6 +2,6 @@
  * 常量
  */
 
- export default {
-     
- }
+export default {
+    
+}

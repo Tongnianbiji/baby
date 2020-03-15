@@ -1,21 +1,33 @@
+import Taro from '@tarojs/taro'
 import BaseComponent from '../../common/baseComponent'
-import Model from './model'
+// import Model from './model'
 
-/**
- * 只写业务逻辑, 和view分离
- */
 export default class SplashPresenter extends BaseComponent {
   constructor(props) {
     super(props);
   }
 
-  config = {
-    navigationBarTitleText: '开屏欢迎页'
+  componentDidMount() {
+    Taro.getSetting().then(res => {
+      if (!res.authSetting['scope.userLocation']) {
+        Taro.authorize({
+          scope: 'scope.userLocation'
+        }).then(() => {
+          this.doLocation()
+        }, reason => {
+          console.log(reason, 'reason...')
+        })
+      } else {
+        this.doLocation()
+      }
+    }, reason => {
+      console.log(reason, 'rejected')
+    })
   }
 
-  componentDidMount() {
-    Model.getAdminData().then(data => {
-      this.setState({ dataList: data })
+  doLocation() {
+    Taro.getLocation().then(res => {
+      console.log(res, 'location eded...')
     })
   }
 }

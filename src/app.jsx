@@ -27,7 +27,8 @@ class App extends Component {
       'pages/discover/index',//发现
       'pages/message/index',//消息
       'pages/profile/index',//我的
-      'pages/splash/index'
+      'pages/splash/index',
+      'pages/login/index'
     ],
     "subPackages": [
       {
@@ -50,6 +51,11 @@ class App extends Component {
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    "permission": {
+      "scope.userLocation": {
+        "desc": "需要您的位置信息, 匹配附近的宝宝家长"
+      }
     }
   }
 

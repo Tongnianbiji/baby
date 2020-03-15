@@ -31,6 +31,9 @@ export default class Index extends Component {
       case 'profile':
         Taro.navigateTo({ url: '/pages/profile/index' })
         break;
+      case 'login':
+        Taro.navigateTo({ url: '/pages/login/index' })
+        break;
       default:
         break;
     }
@@ -44,6 +47,7 @@ export default class Index extends Component {
     return (
       <View className='test'>
         <Button onClick={() => this.navigate('splash')}>开屏</Button>
+        <Button onClick={() => this.navigate('login')}>登录</Button>
         <Button onClick={() => this.navigate('index')}>首页</Button>
         <Button onClick={() => this.navigate('discover')}>发现</Button>
         <Button onClick={() => this.navigate('message')}>消息</Button>

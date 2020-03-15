@@ -80,4 +80,5 @@ export default class BaseComponent extends Taro.Component {
       url
     })
   }
+  
 }
