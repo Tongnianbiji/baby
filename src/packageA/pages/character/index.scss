@@ -1,0 +1,189 @@
+@import "../../../app.scss";
+@import "../../../assets/scss/theme.scss";
+@import "~taro-ui/dist/style/components/tabs.scss";
+
+.character-viewport {
+  background: $sys-page-bg;
+  min-height: 100vh;
+
+  .banner-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 245px;
+    background: url("https://tongnian-image.oss-cn-shanghai.aliyuncs.com/banner.png")
+      no-repeat center;
+    background-size: 100%;
+  }
+
+  // top tabs
+  .top-tabs-wrapper {
+    padding: 0 32px;
+  }
+  .top-tabs {
+    .at-tabs__header,
+    .at-tabs__body .at-tabs__underline {
+      background-color: transparent;
+    }
+    .at-tabs__header .at-tabs__item {
+      font-size: 32px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+      padding: 48px 24px 24px;
+    }
+    .at-tabs__header .at-tabs__item--active .at-tabs__item-underline {
+      width: 0;
+      height: 0;
+      background: transparent;
+      border-left: 21px solid transparent;
+      border-right: 21px solid transparent;
+      border-bottom: 19px solid #ffffff;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: width 0.2s;
+    }
+    .at-tabs-pane--active {
+      background: rgba(255, 255, 255, 1);
+      border-radius: 16px;
+      height: 100%;
+    }
+  }
+
+  // sub tabs
+  .sub-tabs-wrapper {
+    padding: 0 24px;
+  }
+  .sub-tabs {
+    .at-tabs__header {
+      background: rgba(255, 255, 255, 1);
+      border-radius: 16px;
+    }
+    .at-tabs__body {
+      padding-top: 25px;
+    }
+    .at-tabs__body .at-tabs__underline {
+      background: $sys-border-bg;
+    }
+    .at-tabs__header .at-tabs__item {
+      font-size: 28px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: rgba(51, 51, 51, 1);
+      padding: 24px 24px 12px 24px;
+    }
+    .at-tabs__header .at-tabs__item--active {
+      color: rgba(255, 71, 58, 1);
+    }
+    .at-tabs__header .at-tabs__item--active .at-tabs__item-underline {
+      width: 61px;
+      height: 6px;
+      background: $sys-active-bg;
+      border: unset;
+      border-radius: 9px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: width 0.2s;
+    }
+    .at-tabs-pane--active {
+      background: rgba(255, 255, 255, 1);
+    }
+  }
+
+  // body item
+  .baby-item {
+    background: rgba(252, 245, 244, 1);
+    border-radius: 12px;
+    padding: 0 24px;
+    margin-bottom: 24px;
+
+    .item-group {
+      .item-title {
+        font-size: 32px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: 500;
+        color: rgba(51, 51, 51, 1);
+        padding: 24px;
+      }
+      .item-content {
+        @extend .flex-direction-row;
+        padding: 0 24px 32px 24px;
+
+        .content-item {
+          @extend .flex-center;
+          width: 200px;
+          height: 60px;
+          background: rgba(250, 212, 209, 1);
+          border-radius: 30px;
+          font-size: 28px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(102, 102, 102, 1);
+        }
+        .active {
+          background: $sys-linear-active;
+          color: rgba(255, 255, 255, 1);
+        }
+
+        .radio-list {
+          radio .weui-check {
+            width: 28rpx;
+            height: 28rpx;
+            border: 2rpx solid #333;
+          }
+          
+          radio .weui-check.weui-icon-checked {
+            border: 2rpx solid #ff473a !important;
+            background: #ff473a;
+          }
+          
+          radio .weui-check.weui-icon-checked::before {
+            width: 50%;
+            height: 50%;
+            background: #fff;
+            border-radius: 100%;
+            content: '';
+            transform: translate(-50%, -50%);
+          }          
+        }
+      }
+    }
+
+    .item-group:not(:last-child) {
+      border-bottom: 1px solid #e6e6e6;
+    }
+  }
+
+  .baby-btn {
+    @extend .flex-center;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: rgba(255, 71, 58, 1);
+    padding: 32px 0;
+  }
+
+  //next
+  .next-btn-wrapper {
+    padding: 70px 56px 45px 56px;
+    .next-btn {
+      @extend .flex-center;
+      margin-bottom: 24px;
+      height: 72px;
+      background: $sys-linear-active;
+      border-radius: 36px;
+      opacity: 0.49;
+      font-size: 32px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
+    }
+    .next-tips {
+      @extend .flex-center;
+      font-size: 24px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(153, 153, 153, 1);
+    }
+  }
+}

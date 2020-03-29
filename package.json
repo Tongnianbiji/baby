@@ -46,7 +46,8 @@
     "@tarojs/mobx-h5": "2.0.5",
     "mobx": "4.8.0",
     "nervjs": "^1.5.5",
-    "nerv-devtools": "^1.5.5"
+    "nerv-devtools": "^1.5.5",
+    "taro-ui": "^2.3.1"
   },
   "devDependencies": {
     "@types/react": "^16.4.6",
