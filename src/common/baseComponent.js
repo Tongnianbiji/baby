@@ -69,7 +69,27 @@ export default class BaseComponent extends Taro.Component {
    * 用户是否登录
    */
   isLogin() {
-    // do something
+    return Taro.checkSession().then(() => {
+      return true
+    }, reason => {
+      return reason
+    })
+  }
+
+  login(options) {
+    return Taro.login(options)
+  }
+
+  /**
+   * 当前微信客户端是否可以使用 指定的schema
+   * @param {*} schema 
+   * @example
+   * 
+   * schema
+   * 用户信息授权:: button.open-type.contact
+   */
+  canIUse(schema) {
+    return Taro.canIUse(schema)
   }
 
   /**

@@ -39,4 +39,40 @@
         font-weight:400;
         color:rgba(51,51,51,1);
     }
+    .inp-phone {
+      border-bottom: 1px solid #e6e6e6;
+      font-size: 28px;
+      padding: 24px 0;
+    }
+    .verify-code-wrapper {
+      border-bottom: 1px solid #e6e6e6;
+      display: flex;
+      padding: 14px 0;
+      margin-top: 11px;
+      .verify-code-inp {
+        flex: 1;
+        .inp-verify-code {
+          font-size: 28px;
+          height: 60px;
+        }
+      }
+      .verify-code-btn {
+        width: 168px;
+        font-size: 28px;
+        color: #3D7EFF;
+        border-left: 1px solid #e6e6e6;
+        text-align: right;
+        line-height: 60px;
+      }
+      .counting-down {
+        color: #999;
+      }
+    }
+    .confirm-btn {
+      margin-top: 41px;
+      background: #4BC065;
+      border-radius: 8px;
+      font-size: 32px;
+      color: #fff;
+    }
 }

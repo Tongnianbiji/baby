@@ -52,6 +52,38 @@ class App extends Component {
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
     },
+    "tabBar": {
+      "color": "#CCC",
+      "selectedColor": "#333",
+      "backgroundColor": "#FEFDFD",
+      "borderStyle": "black",
+      "list": [
+        {
+          pagePath: "pages/index/index",
+          text: "首页",
+          iconPath: "assets/img/tabbar/home.png",
+          selectedIconPath: "assets/img/tabbar/home-actived.png"
+        },
+        {
+          pagePath: 'pages/discover/index',
+          text: "发现",
+          iconPath: "assets/img/tabbar/discovery.png",
+          selectedIconPath: "assets/img/tabbar/discovery-actived.png"
+        },
+        {
+          pagePath: "test/index",
+          text: "测试",
+          iconPath: "assets/img/tabbar/message.png",
+          selectedIconPath: "assets/img/tabbar/message-actived.png"
+        },
+        {
+          pagePath: "pages/profile/index",
+          text: "我的",
+          iconPath: "assets/img/tabbar/my.png",
+          selectedIconPath: "assets/img/tabbar/my-actived.png"
+        }
+      ]
+    },
     "permission": {
       "scope.userLocation": {
         "desc": "需要您的位置信息, 匹配附近的宝宝家长"

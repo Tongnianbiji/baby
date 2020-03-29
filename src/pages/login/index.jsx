@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { View, Text, Button } from '@tarojs/components'
+import { View, Text, Button, Input } from '@tarojs/components'
 import Presenter from './presenter'
 import './style.scss'
 
@@ -8,6 +8,7 @@ export default class Login extends Presenter {
     navigationBarTitleText: '登录'
   }
   render() {
+    const { countDown } = this.state;
     return (
       <View className='login-viewport'>
         <View className='logo-wrapp'>
@@ -16,8 +17,26 @@ export default class Login extends Presenter {
         <View className='invite-tip'>
           <Text>小富爸爸邀请你一起使用“童年”，共同关注小福的成长</Text>
         </View>
-        <Button className='btn-wechat'>微信一键登陆</Button>
-        <Button className='btn-phone'>手机号验证登陆</Button>
+        {
+          this.state.loginType === 1 ?
+          <View>
+            <Button className='btn-wechat' loading={this.state.loging} openType='getUserInfo' onGetUserInfo={this.onGetUserInfo}>微信一键登陆</Button>
+            <Button className='btn-phone' onClick={this.changeLoginType}>手机号验证登陆</Button>
+          </View> :
+          <View>
+            <Input placeholder='输入手机号' type='number' className='inp-phone' onInput={this.phoneNumInput} />
+            <View className='verify-code-wrapper'>
+              <View className='verify-code-inp'>
+                <Input className='inp-verify-code' onInput={this.verifyCodeInput} type='number' placeholder='请输入手机验证码' />
+              </View>
+              <View className={`verify-code-btn${countDown ? ' counting-down' : ''}`} onClick={this.sendVerifyCode}>
+                {countDown ? `${countDown}后重新发送` : '发送验证码'}
+              </View>
+            </View>
+            <Button className='confirm-btn' onClick={this.verifyCodeLogin}>确认</Button>
+          </View>
+        }
+        
       </View>
     )
   }
