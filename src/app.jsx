@@ -35,7 +35,8 @@ class App extends Component {
         "root": "packageA",
         "pages": [
           "pages/index/index",
-          "pages/discover/index"
+          "pages/discover/index",
+          "pages/character/index"
         ]
       },
       {

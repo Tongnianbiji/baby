@@ -1,6 +1,9 @@
+@import "~taro-ui/dist/style/components/tabs.scss";
+@import "../../app.scss";
 .home-page-viewport {
   display: flex;
   flex-direction: column;
+  background: #f5f5f5;
   .search-bar {
     height: 72px;
     background: #fff;
@@ -49,6 +52,63 @@
         width: 30px;
         height: 40px;
       }
+    }
+  }
+  .tabs-container {
+    flex: 1;
+    .tabs {
+      .at-tabs__header .at-tabs__item--active {
+        color: #333 !important;
+        font-size: 32px;
+      }
+      .at-tabs__header .at-tabs__item {
+        color: #999;
+        font-size: 32px;
+      }
+      .at-tabs__header .at-tabs__item--active .at-tabs__item-underline {
+        background: #333;
+        width: 72px;
+        height: 6px;
+        border-radius: 9px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: width .2s ease;
+      }
+    }
+    .attention-tabs {
+        margin: 24px 32px;
+        height: 60px;
+        border-radius: 8px;
+        background: #e3e3e3;
+        padding: 3px;
+        box-sizing: border-box;
+        position: relative;
+        .slider-view {
+          width: 50%;
+          background: #fff;
+          border-radius: 8px;
+          height: 100%;
+        }
+        .tab-items {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 32px;
+          right: 32px;
+          background: transparent;
+          display: flex;
+          .tab-item {
+            flex: 1;
+            @extend .flex-center;
+            font-size: 28px;
+            font-weight: 400;
+            color: #333;
+          }
+        }
+    }
+    .user-item-wrapper {
+      padding: 0 32px;
+      box-sizing: border-box;
     }
   }
 }

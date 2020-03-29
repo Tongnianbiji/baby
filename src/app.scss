@@ -1,0 +1,30 @@
+.flex {
+  display: flex;
+}
+.flex-center {
+  @extend .flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-around {
+  @extend .flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.flex-direction-row {
+  @extend .flex;
+  flex-direction: row;
+}
+.flex-direction-column {
+  @extend .flex;
+  flex-direction: column;
+}
+.width-100 {
+  width: 100% !important;
+}
+.text-align-center {
+  text-align: center;
+}
+.mt-35{
+  margin-top: 35px;
+}
