@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
-import Index from './test/index'
+// import Index from './test/index'
+import Splash from './pages/splash'
 
 import './app.scss'
 
@@ -22,12 +23,12 @@ class App extends Component {
   config = {
     pages: [
       //主package
-      'test/index',//开发测试入口页面
       'pages/index/index',//首页
+      'pages/splash/index',
+      'test/index',//开发测试入口页面
       'pages/discover/index',//发现
       'pages/message/index',//消息
       'pages/profile/index',//我的
-      'pages/splash/index',
       'pages/login/index'
     ],
     "subPackages": [
@@ -73,7 +74,7 @@ class App extends Component {
         },
         {
           pagePath: "test/index",
-          text: "测试",
+          text: "消息",
           iconPath: "assets/img/tabbar/message.png",
           selectedIconPath: "assets/img/tabbar/message-actived.png"
         },
@@ -96,7 +97,7 @@ class App extends Component {
   // 请勿修改此函数
   render() {
     return (
-      <Index />
+      <Splash />
     )
   }
 }

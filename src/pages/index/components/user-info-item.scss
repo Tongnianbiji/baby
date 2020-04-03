@@ -6,11 +6,30 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  &:first-child {
+    margin-top: 20px;
+  }
   .release-info {
-    font-size: 24px;
-    line-height: 24px;
-    color: #999;
     margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    .release {
+      font-size: 24px;
+      line-height: 24px;
+      color: #999;
+    }
+    .info {
+      @extend .flex-center;
+      .btn-share {
+        width: 32px;
+        height: 32px;
+      }
+      .distance-info {
+        font-size: 24px;
+        color: #333;
+        margin-right: 30px;
+      }
+    }
   }
   .user-info {
     display: flex;

@@ -64,7 +64,6 @@ export default class Index extends Component {
         <Button onClick={() => this.navigate('profile')}>页面一</Button>
         <Button onClick={() => this.navigate('profile')}>页面一</Button>
         <Button onClick={() => this.navigate('profile')}>页面一</Button>
-
       </View>
     )
   }

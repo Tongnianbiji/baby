@@ -1,15 +1,26 @@
 @import "~taro-ui/dist/style/components/tabs.scss";
 @import "../../app.scss";
+page {
+  min-height: 100%;
+  background: #f5f5f5;
+}
 .home-page-viewport {
   display: flex;
   flex-direction: column;
   background: #f5f5f5;
+  height: 100%;
   .search-bar {
+    position: fixed;
     height: 72px;
     background: #fff;
     display: flex;
     padding: 12px 0;
     box-sizing: border-box;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 99;
     .location-info {
       width: 135px;
       font-size: 28px;
@@ -109,6 +120,16 @@
     .user-item-wrapper {
       padding: 0 32px;
       box-sizing: border-box;
+    }
+    .at-tabs {
+      .at-tabs__header {
+        position: fixed;
+        top: 72px;
+        z-index: 99;
+      }
+      .at-tabs-pane {
+        padding-top: 164px;
+      }
     }
   }
 }

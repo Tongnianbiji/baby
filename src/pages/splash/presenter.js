@@ -30,4 +30,8 @@ export default class SplashPresenter extends BaseComponent {
       console.log(res, 'location eded...')
     })
   }
+
+  goToTest() {
+    Taro.switchTab({ url: '/test/index' })
+  }
 }

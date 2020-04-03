@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image, ScrollView } from '@tarojs/components'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import Presenter from './presenter'
 import UserInfoItem from './components/user-info-item'
@@ -15,7 +15,8 @@ import iconRing from '../../assets/img/icon-ring.png'
 export default class Index extends Presenter {
 
   config = {
-    navigationBarTitleText: '童年'
+    navigationBarTitleText: '童年',
+    style: 'height: 100%'
   }
 
   render() {
@@ -38,7 +39,7 @@ export default class Index extends Presenter {
           </View>
         </View>
         <View className='tabs-container'>
-          <AtTabs className='tabs' tabList={topTabs} current={currentTopTab} onClick={this.topTabChange}>
+          <AtTabs className='tabs' tabList={topTabs} current={currentTopTab} onClick={this.topTabChange} height='519'>
             <AtTabsPane current={currentTopTab} index={0}>
               <View className='attention-tabs'>
                 <View className='slider-view'></View>
@@ -49,7 +50,7 @@ export default class Index extends Presenter {
               </View>
               <View className='user-item-wrapper'>
                 {
-                  [1,2].map(key => {
+                  [1,2,3,4,5].map(key => {
                     return (
                       <UserInfoItem key={key} />
                     )
@@ -58,16 +59,33 @@ export default class Index extends Presenter {
               </View>
             </AtTabsPane>
             <AtTabsPane current={currentTopTab} index={1}>
-              <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>2</View>
+              <View className='user-item-wrapper'>
+                {
+                  [1,2,3,4,5].map(key => {
+                    return (
+                      <UserInfoItem key={key} needShared />
+                    )
+                  })
+                }
+              </View>
             </AtTabsPane>
             <AtTabsPane current={currentTopTab} index={2}>
-              <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>3</View>
+              <View className='user-item-wrapper'>
+                {
+                  [1,2,3,4,5].map(key => {
+                    return (
+                      <UserInfoItem key={key} needShared needDistance />
+                    )
+                  })
+                }
+              </View>
             </AtTabsPane>
             <AtTabsPane current={currentTopTab} index={3}>
               <View style='padding: 100px 50px;background-color: #FAFBFC;text-align: center;'>4</View>
             </AtTabsPane>
           </AtTabs>
         </View>
+        
       </View>
     )
   }
