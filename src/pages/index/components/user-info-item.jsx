@@ -6,7 +6,9 @@ import './user-info-item.scss'
 export default class UserInfoItem extends Taro.Component {
   static defaultProps = {
     needShared: false,
-    needDistance: false
+    needDistance: false,
+    countryAble: true,
+    showOrder: false
   }
 
   data = {
@@ -28,6 +30,13 @@ export default class UserInfoItem extends Taro.Component {
           </View>
         </View>
         <View className='user-info'>
+          {
+            this.props.showOrder &&
+              <View className='order'>
+                <Image className='icon-order' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/comment.png' />
+                <Text>1</Text>
+              </View>
+          }
           <View className='avatar'></View>
           <View className='infos'>
             <View className='name-area'>
@@ -40,9 +49,12 @@ export default class UserInfoItem extends Taro.Component {
         </View>
         <Text className='content'>济阳三村幼儿园怎么样，算比较好的幼儿园吗？</Text>
         <View className='tags'>
-          <View className='community-area'>
-            <Text className='community-name'>上海 新城</Text>
-          </View>
+          {
+            this.props.countryAble &&
+            <View className='community-area'>
+              <Text className='community-name'>上海 新城</Text>
+            </View>
+          }
           <View className='tips'>
             <View className='views'>
               <Image className='img' src={ICONS.PREVIEW} />

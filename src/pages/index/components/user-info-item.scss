@@ -33,6 +33,18 @@
   }
   .user-info {
     display: flex;
+    .order {
+      width: 30px;
+      padding-right: 16px;
+      @extend .flex-center;
+      color: #999;
+      .icon-order {
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        margin-right: 4px;
+      }
+    }
     .avatar {
       width: 60px;
       height: 60px;

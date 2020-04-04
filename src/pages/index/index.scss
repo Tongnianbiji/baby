@@ -68,15 +68,20 @@ page {
   .tabs-container {
     flex: 1;
     .tabs {
-      .at-tabs__header .at-tabs__item--active {
+      &>.at-tabs__header {
+        position: fixed;
+        top: 72px;
+        z-index: 99;
+      }
+      &>.at-tabs__header .at-tabs__item--active {
         color: #333 !important;
         font-size: 32px;
       }
-      .at-tabs__header .at-tabs__item {
+      &>.at-tabs__header .at-tabs__item {
         color: #999;
         font-size: 32px;
       }
-      .at-tabs__header .at-tabs__item--active .at-tabs__item-underline {
+      &>.at-tabs__header .at-tabs__item--active .at-tabs__item-underline {
         background: #333;
         width: 72px;
         height: 6px;
@@ -84,6 +89,9 @@ page {
         left: 50%;
         transform: translateX(-50%);
         transition: width .2s ease;
+      }
+      .attention-tabs-pane {
+        padding-top: 164px;
       }
     }
     .attention-tabs {
@@ -99,6 +107,10 @@ page {
           background: #fff;
           border-radius: 8px;
           height: 100%;
+          transition: all .2s ease;
+          &.left-status {
+            transform: translateX(100%);
+          }
         }
         .tab-items {
           position: absolute;
@@ -121,15 +133,6 @@ page {
       padding: 0 32px;
       box-sizing: border-box;
     }
-    .at-tabs {
-      .at-tabs__header {
-        position: fixed;
-        top: 72px;
-        z-index: 99;
-      }
-      .at-tabs-pane {
-        padding-top: 164px;
-      }
-    }
+    
   }
 }

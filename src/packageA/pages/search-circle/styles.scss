@@ -1,0 +1,85 @@
+.search-circle-viewport {
+  height: 100%;
+  .search-bar {
+    height: 89px;
+    padding: 12px 32px 29px;
+    background: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    .search-inp {
+      flex: 1;
+      position: relative;
+      height: 48px;
+      .inp {
+        width: 100%;
+        height: 100%;
+        border-radius: 29px;
+        background: #f5f5f5;
+        padding-left: 65px;
+        box-sizing: border-box;
+        font-size: 28px;
+      }
+      .search-icon {
+        width: 27px;
+        height: 26px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 24px;
+      }
+      .clean-icon {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 17px;
+        z-index: 999;
+      }
+    }
+    .search-btn {
+      color: #333;
+      min-width: 75px;
+      font-size: 28px;
+      text-align: right;
+      padding-left: 16px;
+      line-height: 48px;
+      height: 48px;
+    }
+  }
+  .item-wrapper {
+    padding: 110px 32px 0;
+  }
+
+  .no-data {
+    padding: 59px 32px 60px;
+    .no-data-content {
+      background:rgba(255,255,255,1);
+      border-radius:16px;
+      padding: 30px 24px;
+      display: flex;
+      justify-content: space-between;
+      color: #333;
+      font-size: 28px;
+      align-items: center;
+      .create-circle {
+        padding: 0 24px;
+        background: #FDAC29;
+        font-size: 28px;
+        height: 48px;
+        line-height: 48px;
+        color: #fff;
+        border-radius: 30px;
+      }
+    }
+  }
+}
+page {
+  height: 100%;
+  background: #f5f5f5;
+}

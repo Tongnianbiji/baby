@@ -95,9 +95,13 @@ export default class BaseComponent extends Taro.Component {
   /**
    * 导航
    */
-  navto(url) {
-    Taro.navigateTo({
-      url
+  navto(obj) {
+    Taro.navigateTo(obj)
+  }
+
+  setNavBarTitle(txt) {
+    Taro.setNavigationBarTitle({
+      title: txt
     })
   }
   
