@@ -23,11 +23,12 @@ class App extends Component {
   config = {
     pages: [
       //主package
+      'pages/message/index',//消息
       'pages/index/index',//首页
       'pages/discover/index',//发现
       'pages/splash/index',
       'test/index',//开发测试入口页面
-      'pages/message/index',//消息
+      
       'pages/profile/index',//我的
       'pages/login/index'
     ],
@@ -76,7 +77,7 @@ class App extends Component {
           selectedIconPath: "assets/img/tabbar/discovery-actived.png"
         },
         {
-          pagePath: "test/index",
+          pagePath: "pages/message/index",
           text: "消息",
           iconPath: "assets/img/tabbar/message.png",
           selectedIconPath: "assets/img/tabbar/message-actived.png"
