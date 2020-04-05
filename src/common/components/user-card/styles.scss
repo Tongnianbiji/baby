@@ -28,6 +28,7 @@
       .sex {
         width: 26px;
         height: 24px;
+        margin: 0 8px 0 10px;
       }
       .tags-warpper {
         height: 36px;
@@ -38,6 +39,9 @@
           padding: 0 16px;
           height: 36px;
           line-height: 36px;
+          background: #e9e9e9;
+          border-radius: 18px;
+          margin-right: 10px;
         }
       }
     }
