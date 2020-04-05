@@ -6,11 +6,16 @@ export default class Presenter extends BaseComponent {
     super(props)
 
     this.state = {
-      tabList: Model.tabsList
+      tabList: Model.tabsList,
+      currentTab: 0
     }
   }
 
   getMessage() {
     Model.getMessage()
+  }
+
+  tabChange = index => {
+    this.setState({ currentTab: index })
   }
 }
