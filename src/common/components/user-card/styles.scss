@@ -1,0 +1,60 @@
+.ui-user-info-card {
+  padding: 24px;
+  display: flex;
+  background:rgba(255,255,255,1);
+  border-radius:16px;
+  margin-bottom: 24px;
+  .avatar-wrapper {
+    width: 100px;
+    padding-top: 2px;
+    .avatar {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      background: #eee;
+      overflow: hidden;
+    }
+  }
+  .info-wrapper {
+    padding-left: 24px;
+    .name-area {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      .name {
+        color: #3D3AFF;
+        font-size: 28px;
+      }
+      .sex {
+        width: 26px;
+        height: 24px;
+      }
+      .tags-warpper {
+        height: 36px;
+        overflow: hidden;
+        .tag {
+          color: #666;
+          font-size: 24px;
+          padding: 0 16px;
+          height: 36px;
+          line-height: 36px;
+        }
+      }
+    }
+    .sub-title {
+      padding-top: 16px;
+      color: #999;
+      font-size: 24px;
+    }
+    .nubmers {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 29px;
+      .num {
+        color: #666;
+        font-size: 24px;
+        text-align: center;
+      }
+    }
+  }
+}

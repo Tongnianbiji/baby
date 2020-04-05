@@ -23,8 +23,8 @@ class App extends Component {
   config = {
     pages: [
       //主package
-      'pages/discover/index',//发现
       'pages/index/index',//首页
+      'pages/discover/index',//发现
       'pages/splash/index',
       'test/index',//开发测试入口页面
       'pages/message/index',//消息
@@ -39,7 +39,8 @@ class App extends Component {
           "pages/discover/index",
           "pages/character/index",
           "pages/search-circle/index",
-          "pages/more-circle/index"
+          "pages/more-circle/index",
+          "pages/home-search-panel/index"
         ]
       },
       {

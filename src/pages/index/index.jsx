@@ -2,7 +2,8 @@ import Taro from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import Presenter from './presenter'
-import UserInfoItem from './components/user-info-item'
+// import UserInfoItem from './components/user-info-item'
+import UserInfoItem from '../../common/components/post-card'
 import AttentionCircle from './components/attention-circle'
 
 // scss
@@ -29,7 +30,7 @@ export default class Index extends Presenter {
             <Image src={arrowDown} className='icon-arrow-down'></Image>
           </View>
           <View className='search-info'>
-            <View className='search-inp'>
+            <View className='search-inp' onClick={this.goSearch}>
               <Image src={iconSearch} className='icon-search'></Image>
               <Text>搜索</Text>
             </View>
@@ -102,7 +103,6 @@ export default class Index extends Presenter {
             </AtTabsPane>
           </AtTabs>
         </View>
-        
       </View>
     )
   }

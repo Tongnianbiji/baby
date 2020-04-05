@@ -2,7 +2,8 @@ import Taro from '@tarojs/taro'
 import { View, Input, Image } from '@tarojs/components'
 import { ICONS } from '../../../common/constant'
 import Presenter from './presenter'
-import SearchCircleItem from './circle-item'
+// import SearchCircleItem from './circle-item'
+import SearchCircleItem from '../../../common/components/circle-card'
 import './styles.scss'
 
 export default class SearchCircle extends Presenter {

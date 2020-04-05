@@ -5,6 +5,7 @@ import './styles.scss'
 export default class CircleItem extends Component {
   static defaultProps = {
     data: null,
+    // 是否在最上方显示 [可能感兴趣] 一栏
     recommand: false,
     kw: '济阳'
   }

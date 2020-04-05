@@ -23,5 +23,9 @@ export const ICONS = {
 
   ARROW_UP: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/collapse.png',
 
-  CLOSE_BTN: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/cancel-a.png'
+  CLOSE_BTN: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/cancel-a.png',
+
+  DELETE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/delete.png',
+
+  ARROW_RIGHT_C: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-a.png'
 }

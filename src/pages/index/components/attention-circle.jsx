@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import { View, ScrollView, Image, Text } from '@tarojs/components'
-import UserInfoItem from './user-info-item'
+// import UserInfoItem from './user-info-item'
+import UserInfoItem from '../../../common/components/post-card'
 import './attention-circle.scss'
 
 const mockData = [

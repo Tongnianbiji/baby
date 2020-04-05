@@ -26,4 +26,8 @@ export default class HomePage extends BaseComponent {
   hotTabChange = hotTabType => {
     this.setState({ hotTabType })
   }
+
+  goSearch() {
+    this.navto({url: '/packageA/pages/home-search-panel/index'})
+  }
 }

@@ -1,0 +1,39 @@
+.ui-post-title-bar {
+  display: flex;
+  border-bottom: 1px solid #dddfe8;
+  .title {
+    flex: 1;
+    padding: 31px 0 19px 24px;
+    color: #333;
+    font-size: 28px;
+  }
+  .tabs {
+    flex: 1;
+    display: flex;
+    .tab-item {
+      flex: 1;
+      padding: 32px 0 18px 0;
+      white-space: nowrap;
+      color: #999;
+      font-size: 24px;
+      text-align: center;
+      position: relative;
+      &.actived {
+        color: #333;
+      }
+      .actived-underscore {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 4px;
+        background: #FF473A;
+        animation: actived-underscore-animate .2s ease;
+      }
+    }
+  }
+}
+
+@keyframes actived-underscore-animate {
+  0% { width: 20% }
+  100% { width: 100% }
+}
