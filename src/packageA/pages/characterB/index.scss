@@ -3,11 +3,8 @@
 
 .characterB-viewport {
   min-height: 100vh;
-  background: linear-gradient(
-    308deg,
-    $sys-active-bg 0%,
-    rgba(255, 138, 99, 1) 100%
-  );
+  background: $sys-linear-active;
+  padding-bottom: 32px;
 
   .header-wrapper {
     font-size: 24px;
@@ -16,7 +13,7 @@
     color: rgba(255, 255, 255, 1);
     padding-top: 24px;
     padding-bottom: 24px;
-    padding-left: 32px;;
+    padding-left: 32px;
   }
   .body-wrapper {
     margin: 0 32px;
@@ -31,6 +28,9 @@
         height: 22px;
         width: 12px;
       }
+    }
+    .item:last-child {
+      margin-bottom: 32px;
     }
     .item:not(:last-child) {
       border-bottom: 1px solid #dddfe8;

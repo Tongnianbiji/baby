@@ -32,7 +32,7 @@ export default class CharacterA extends Presenter {
   renderTopTabs() {
     const { topTabs, topTabsCurrent } = this.state;
     return (
-      <AtTabs className='top-tabs' current={topTabsCurrent} tabList={topTabs} onClick={this.onClickForTopTab.bind(this)}>
+      <AtTabs className='top-tabs' current={topTabsCurrent} tabList={topTabs} swipeable={false} onClick={this.onClickForTopTab.bind(this)}>
         <AtTabsPane current={topTabsCurrent} index={0} >
           {this.renderSubTabs()}
         </AtTabsPane>
@@ -53,7 +53,7 @@ export default class CharacterA extends Presenter {
     const { subTabs, subTabsCurrent } = this.state;
     return (
       <View className='sub-tabs-wrapper'>
-        <AtTabs className='sub-tabs' current={subTabsCurrent} tabList={subTabs} onClick={this.onClickForSubTabs.bind(this)}>
+        <AtTabs className='sub-tabs' current={subTabsCurrent} tabList={subTabs} swipeable={false} onClick={this.onClickForSubTabs.bind(this)}>
           <AtTabsPane current={subTabsCurrent} index={0} >
             <View>{this.renderParenting()}</View>
           </AtTabsPane>

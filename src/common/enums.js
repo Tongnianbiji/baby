@@ -7,3 +7,11 @@ export const EnvType = {
   PRODUCTION: 'PROD'
 }
 
+/**
+ * 全局搜索结果的类型
+ */
+export const SearchResultType = {
+  CIRCLE: 'circle',
+  ANSWER: 'answer',
+  POST: 'post'
+}

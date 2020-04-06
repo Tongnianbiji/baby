@@ -1,0 +1,47 @@
+.ui-school-item {
+  background: #fff;
+  border-radius:16px;
+  margin-top: 22px;
+  padding: 24px 24px 31px;
+  .title {
+    display: flex;
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #eee;
+    }
+    .title {
+      flex: 1;
+      height: 100px;
+      line-height: 100px;
+      color: #000;
+      font-size: 36px;
+      padding-left: 14px;
+      font-weight: 500;
+    }
+  }
+  .sub-title {
+    margin-top: 16px;
+    font-size: 28px;
+    color: #666;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* autoprefixer: ignore next */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    word-break: break-all;
+  }
+  .numbers {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    .num {
+      text-align: center;
+      color: #333;
+      font-size: 28px;
+    }
+  }
+}

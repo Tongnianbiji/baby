@@ -1,82 +1,118 @@
-import Taro, { Component } from '@tarojs/taro'
-import { View, Image } from '@tarojs/components'
+import Taro from '@tarojs/taro'
+import { View, Text, Image } from '@tarojs/components'
 import { AtBadge, AtTabs, AtTabsPane } from 'taro-ui'
 import Presenter from './presenter'
+// import UserInfoItem from './components/user-info-item'
+import UserInfoItem from '../../common/components/post-card'
+import AttentionCircle from './components/attention-circle'
+
+// scss
 import './index.scss'
+
+// images
+import iconSearch from '../../assets/img/icon-search.png'
+import arrowDown from '../../assets/img/arrow-down.png'
+import iconRing from '../../assets/img/icon-ring.png'
 
 export default class Index extends Presenter {
 
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '童年'
   }
 
   render() {
-    const { topTabsCurrent, topTabs } = this.state;
+    const { topTabs, currentTopTab, attentionType, hotTabType } = this.state;
     return (
-      <View className='index-viewport'>
-        <View className='header'>
-          <View className='header-left'>
-            <View>上海</View>
-            <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/triangle.png'></Image>
+      <View className='home-page-viewport'>
+        <View className='search-bar'>
+          <View className='location-info'>
+            <Text>上海</Text>
+            <Image src={arrowDown} className='icon-arrow-down'></Image>
           </View>
-          <View className='header-center'>
-            <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/search.png'></Image>
-            <View>搜索</View>
+          <View className='search-info'>
+            <View className='search-inp' onClick={this.goSearch}>
+              <Image src={iconSearch} className='icon-search'></Image>
+              <Text>搜索</Text>
+            </View>
           </View>
-          <View className='header-right'>
+          <View className='notice-info' onLongPress={this.onLongPressForDebug.bind(this)}>
             <AtBadge value={8}>
-              <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/message.png'></Image>
+              <Image src={iconRing} className='icon-ring'></Image>
             </AtBadge>
           </View>
         </View>
-        <View className='body'>
-          <AtTabs className='top-tabs' current={topTabsCurrent} tabList={topTabs} swipeable={false} onClick={this.onClickForTopTab.bind(this)}>
-            <AtTabsPane current={topTabsCurrent} index={0} >
-              {this.renderFocus()}
+        <View className='tabs-container'>
+          <AtTabs className='tabs' tabList={topTabs} current={currentTopTab} swipeable={false} onClick={this.topTabChange}>
+            <AtTabsPane current={currentTopTab} index={0} className='attention-tabs-pane'>
+              <View className='attention-tabs'>
+                <View className={`slider-view${attentionType === 2 ? ' left-status' : ''}`}></View>
+                <View className='tab-items'>
+                  <Text className='tab-item' onClick={this.attentionTabChange.bind(this, 1)}>关注的用户</Text>
+                  <Text className='tab-item' onClick={this.attentionTabChange.bind(this, 2)}>关注的圈子</Text>
+                </View>
+              </View>
+              <View className='user-item-wrapper'>
+                {
+                  attentionType === 1 ?
+                    [1, 2, 3, 4, 5].map(key => {
+                      return (
+                        <UserInfoItem key={key} />
+                      )
+                    }) :
+                    <AttentionCircle />
+                }
+              </View>
             </AtTabsPane>
-            <AtTabsPane current={topTabsCurrent} index={1}>
-              推荐
+            <AtTabsPane current={currentTopTab} index={1} className='attention-tabs-pane'>
+              <View className='user-item-wrapper'>
+                {
+                  [1, 2, 3, 4, 5].map(key => {
+                    return (
+                      <UserInfoItem key={key} needShared />
+                    )
+                  })
+                }
+              </View>
             </AtTabsPane>
-            <AtTabsPane current={topTabsCurrent} index={2}>
-              附近
+            <AtTabsPane current={currentTopTab} index={2} className='attention-tabs-pane'>
+              <View className='user-item-wrapper'>
+                {
+                  [1, 2, 3, 4, 5].map(key => {
+                    return (
+                      <UserInfoItem key={key} needShared needDistance />
+                    )
+                  })
+                }
+              </View>
             </AtTabsPane>
-            <AtTabsPane current={topTabsCurrent} index={2}>
-              热榜
+            <AtTabsPane current={currentTopTab} index={3} className='attention-tabs-pane'>
+              <View className='attention-tabs'>
+                <View className={`slider-view${hotTabType === 2 ? ' left-status' : ''}`}></View>
+                <View className='tab-items'>
+                  <Text className='tab-item' onClick={this.hotTabChange.bind(this, 1)}>近24小时</Text>
+                  <Text className='tab-item' onClick={this.hotTabChange.bind(this, 2)}>近7天</Text>
+                </View>
+              </View>
+              <View className='user-item-wrapper'>
+                {
+                  [1, 2, 3, 4, 5].map(key => {
+                    return (
+                      <UserInfoItem key={key} showOrder />
+                    )
+                  })
+                }
+              </View>
             </AtTabsPane>
           </AtTabs>
         </View>
       </View>
     )
   }
-
+  
   /**
-   * 关注
+   * 分享
    */
-  renderFocus() {
-    return (
-      <View>
-        <View className='focus-header'>
-          <View className='focus-header-user active'>
-            关注的用户
-         </View>
-          <View className='focus-header-group'>
-            关注的圈子
-          </View>
-        </View>
-        <View className='focus-body'>
-          关注
-        </View>
-      </View>
-    )
+  onShareAppMessage() {
+    return this.setShareOptions()
   }
 }

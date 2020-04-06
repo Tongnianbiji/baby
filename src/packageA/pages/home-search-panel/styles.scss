@@ -1,0 +1,98 @@
+@import "~taro-ui/dist/style/components/tabs.scss";
+page {
+  height: 100%;
+  background: #f5f5f5;
+}
+.home-search-viewport {
+  // height: 100%;
+  .search-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 12px 32px 20px;
+    display: flex;
+    box-sizing: border-box;
+    z-index: 99;
+    background: #fff;
+    .inp-wrapper {
+      display: flex;
+      flex: 1;
+      position: relative;
+      .inp {
+        background: #f5f5f5;
+        border-radius: 29px;
+        width: 100%;
+        height: 100%;
+        padding-left: 61px;
+        box-sizing: border-box;
+        &::placeholder{
+          font-size: 24px;
+        }
+      }
+      .search-icon {
+        width: 27px;
+        height: 26px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 24px;
+      }
+      .search-txt {
+        height: 28px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 63px;
+        color: #999;
+        font-size: 28px;
+        line-height: 28px;
+      }
+    }
+    .cancel-btn {
+      width: 72px;
+      min-width: 72px;
+      height: 48px;
+      line-height: 48px;
+      padding-left: 16px;
+      font-size: 28px;
+    }
+  }
+  .placehoder {
+    font-size: 24px;
+    color: #999;
+  }
+  .tabs {
+    &>.at-tabs__header {
+      position: fixed;
+      top: 75px;
+      z-index: 99;
+    }
+    &>.at-tabs__header .at-tabs__item--active {
+      color: #333 !important;
+      font-size: 32px;
+    }
+    &>.at-tabs__header .at-tabs__item {
+      color: #999;
+      font-size: 32px;
+      height: 28px;
+      line-height: 28px;
+      padding: 8px 24px 19px;
+    }
+    &>.at-tabs__header .at-tabs__item--active .at-tabs__item-underline {
+      background: #333;
+      width: 72px;
+      height: 6px;
+      border-radius: 9px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: width .2s ease;
+    }
+  }
+  .tabs-pane {
+    padding: 154px 32px 30px;
+    background: #f5f5f5;
+    height: 100%;
+  }
+}

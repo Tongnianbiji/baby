@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-
+import { SHAREOPTIONS } from '../common/constant'
 /**
  * 所有 页面视图 都应该继承自这个类
  * 提供一些基础动作和封装
@@ -69,16 +69,46 @@ export default class BaseComponent extends Taro.Component {
    * 用户是否登录
    */
   isLogin() {
-    // do something
+    return Taro.checkSession().then(() => {
+      return true
+    }, reason => {
+      return reason
+    })
+  }
+
+  login(options) {
+    return Taro.login(options)
+  }
+
+  /**
+   * 当前微信客户端是否可以使用 指定的schema
+   * @param {*} schema 
+   * @example
+   * 
+   * schema
+   * 用户信息授权:: button.open-type.contact
+   */
+  canIUse(schema) {
+    return Taro.canIUse(schema)
   }
 
   /**
    * 导航
    */
-  navto(url) {
-    Taro.navigateTo({
-      url
+  navto(obj) {
+    Taro.navigateTo(obj)
+  }
+
+  setNavBarTitle(txt) {
+    Taro.setNavigationBarTitle({
+      title: txt
     })
   }
-  
+
+  /**
+   * 设置分享信息
+   */
+  setShareOptions() {
+    return SHAREOPTIONS
+  }
 }

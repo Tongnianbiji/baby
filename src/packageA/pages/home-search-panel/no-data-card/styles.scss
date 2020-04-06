@@ -1,0 +1,22 @@
+.car-no-data {
+  padding: 59px 0px 60px;
+  .no-data-content {
+    background:rgba(255,255,255,1);
+    border-radius:16px;
+    padding: 30px 24px;
+    display: flex;
+    justify-content: space-between;
+    color: #333;
+    font-size: 28px;
+    align-items: center;
+    .create-circle {
+      padding: 0 24px;
+      background: #FDAC29;
+      font-size: 28px;
+      height: 48px;
+      line-height: 48px;
+      color: #fff;
+      border-radius: 30px;
+    }
+  }
+}

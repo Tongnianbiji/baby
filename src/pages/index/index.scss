@@ -1,52 +1,66 @@
-@import "../../app.scss";
-@import "../../assets/scss/theme.scss";
 @import "~taro-ui/dist/style/components/badge.scss";
 @import "~taro-ui/dist/style/components/tabs.scss";
-
-.index-viewport {
-  min-height: 100vh;
-  background: $sys-page-bg;
-
-  .header {
-    @extend .flex-direction-row;
-    height: 60px;
-    background-color: $sys-white-bg;
-    .header-left {
-      @extend .flex-center;
-      margin-left: 32px;
-      margin-right: 30px;
+@import "../../app.scss";
+page {
+  min-height: 100%;
+  background: #f5f5f5;
+}
+.home-page-viewport {
+  display: flex;
+  flex-direction: column;
+  background: #f5f5f5;
+  height: 100%;
+  .search-bar {
+    position: fixed;
+    height: 72px;
+    background: #fff;
+    display: flex;
+    padding: 12px 0;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 99;
+    .location-info {
+      width: 135px;
       font-size: 28px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: rgba(51, 51, 51, 1);
-
-      image {
-        margin-left: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .icon-arrow-down {
         width: 12px;
         height: 8px;
+        margin-left: 5px;
       }
     }
-    .header-center {
-      @extend .flex-center;
-      flex-grow: 1;
-      background: rgba(245, 245, 245, 1);
-      border-radius: 29px;
-      font-size: 28px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: rgba(204, 204, 204, 1);
-
-      image {
-        margin-right: 10px;
-        width: 27px;
-        height: 26px;
+    .search-info {
+      flex: 1;
+      .search-inp {
+        background: #F5F5F5;
+        border-radius: 29px;
+        width: 100%;
+        height: 48px;
+        text-align: center;
+        font-size: 28px;
+        color: #ccc;
+        line-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .icon-search {
+          width: 27px;
+          height: 27px;
+          margin-right: 6px;
+        }
       }
     }
-    .header-right {
-      @extend .flex-center;
-      margin-left: 25px;
-      margin-right: 32px;
-      image {
+    .notice-info {
+      width: 95px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .icon-ring {
         width: 30px;
         height: 40px;
       }
@@ -58,55 +72,74 @@
       }
     }
   }
-
-  .body {
-    .at-tabs__header {
-      .at-tabs__item {
+  .tabs-container {
+    flex: 1;
+    .tabs {
+      &>.at-tabs__header {
+        position: fixed;
+        top: 72px;
+        z-index: 99;
+      }
+      &>.at-tabs__header .at-tabs__item--active {
+        color: #333 !important;
         font-size: 32px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: rgba(153, 153, 153, 1);
       }
-      .at-tabs__item--active {
-        color: rgba(51, 51, 51, 1);
+      &>.at-tabs__header .at-tabs__item {
+        color: #999;
+        font-size: 32px;
       }
-      .at-tabs__item--active .at-tabs__item-underline {
+      &>.at-tabs__header .at-tabs__item--active .at-tabs__item-underline {
+        background: #333;
         width: 72px;
         height: 6px;
-        background: rgba(51, 51, 51, 1);
         border-radius: 9px;
         left: 50%;
         transform: translateX(-50%);
-        transition: width 0.2s;
+        transition: width .2s ease;
+      }
+      .attention-tabs-pane {
+        padding-top: 184px;
       }
     }
-    .at-tabs__body .at-tabs__underline {
-      background-color: transparent;
-    }
-    .at-tabs-pane {
-      padding: 0 32px;
-    }
-    .focus-header {
-      @extend .flex-direction-row;
-      @extend .flex-center;
-      height: 60px;
-      border-radius: 8px;
-      background: rgba(227, 227, 227, 1);
-      margin-top: 24px;
-      .focus-header-user,
-      .focus-header-group {
-        @extend .flex-center;
-        @extend .width-100;
-        flex: 1;
+    .attention-tabs {
+        margin: 4px 32px 24px 32px;
         height: 60px;
-      }
-      .active {
-        height: 60px;
-        background: rgba(255, 255, 255, 1);
         border-radius: 8px;
-        border: 3px solid rgba(227, 227, 227, 1);
+        background: #e3e3e3;
+        padding: 3px;
         box-sizing: border-box;
-      }
+        position: relative;
+        .slider-view {
+          width: 50%;
+          background: #fff;
+          border-radius: 8px;
+          height: 100%;
+          transition: all .2s ease;
+          &.left-status {
+            transform: translateX(100%);
+          }
+        }
+        .tab-items {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 32px;
+          right: 32px;
+          background: transparent;
+          display: flex;
+          .tab-item {
+            flex: 1;
+            @extend .flex-center;
+            font-size: 28px;
+            font-weight: 400;
+            color: #333;
+          }
+        }
     }
+    .user-item-wrapper {
+      padding: 0 32px;
+      box-sizing: border-box;
+    }
+    
   }
 }

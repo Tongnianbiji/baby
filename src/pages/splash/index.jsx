@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
+import { AtTabs, AtTabsPane } from 'taro-ui'
 import Presenter from './presenter'
 // import AppSettings from '../../../settings'
 import './style.scss'
@@ -10,11 +11,29 @@ import './style.scss'
  */
 export default class SplashView extends Presenter {
   config = {
-    navigationBarTitleText: 'appname 没值'
+    navigationBarTitleText: '开屏页',
+    navigationStyle: 'custom'
   }
   render() {
+    const tabList = [{ title: '第一tab' }, { title: '第二tab' }]
     return (
-      <View>我是开屏页</View>
+      <View className='splash-viewport'>
+        <View className='header' onClick={this.goToTest}>header</View>
+        <View className='content'>
+          <AtTabs tabList={tabList} current={0} swipeable={false}>
+            <AtTabsPane index={0}>
+              <View className='item'><View className='t'></View></View>
+              <View className='item'><View className='t'></View></View>
+              <View className='item'><View className='t'></View></View>
+              <View className='item'><View className='t'></View></View>
+              <View className='item'><View className='t'></View></View>
+              <View className='item'><View className='t'></View></View>
+              <View className='item'><View className='t'></View></View>
+            </AtTabsPane>
+            <AtTabsPane index={1}></AtTabsPane>
+          </AtTabs>
+        </View>
+      </View>
     )
   }
 }
