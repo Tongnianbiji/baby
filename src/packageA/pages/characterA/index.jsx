@@ -2,32 +2,20 @@ import Taro from '@tarojs/taro'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import { View, Input, RadioGroup, Label, Radio } from '@tarojs/components'
 import Presenter from './presenter'
-import Model from './model'
 import './index.scss'
 
-export default class Character extends Presenter {
+export default class CharacterA extends Presenter {
   config = {
     navigationBarTitleText: '选择身份',
   }
 
   render() {
-    const { topTabsCurrent } = this.state;
     return (
-      <View className='character-viewport'>
+      <View className='characterA-viewport'>
         <View className='banner-wrapper' />
 
         <View className='top-tabs-wrapper'>
-          <AtTabs className='top-tabs' current={topTabsCurrent} tabList={Model.topTabList} onClick={this.topTabhandleClick.bind(this)}>
-            <AtTabsPane current={topTabsCurrent} index={0} >
-              {this.renderSubTabs()}
-            </AtTabsPane>
-            <AtTabsPane current={topTabsCurrent} index={1}>
-              <View>Top标签页二的内容</View>
-            </AtTabsPane>
-            <AtTabsPane current={topTabsCurrent} index={2}>
-              <View>Top标签页三的内容</View>
-            </AtTabsPane>
-          </AtTabs>
+          {this.renderTopTabs()}
         </View>
 
         <View className='next-btn-wrapper'>
@@ -38,11 +26,34 @@ export default class Character extends Presenter {
     )
   }
 
+  /**
+   * top tabs
+   */
+  renderTopTabs() {
+    const { topTabs, topTabsCurrent } = this.state;
+    return (
+      <AtTabs className='top-tabs' current={topTabsCurrent} tabList={topTabs} onClick={this.onClickForTopTab.bind(this)}>
+        <AtTabsPane current={topTabsCurrent} index={0} >
+          {this.renderSubTabs()}
+        </AtTabsPane>
+        <AtTabsPane current={topTabsCurrent} index={1}>
+          {this.renderSubTabs()}
+        </AtTabsPane>
+        <AtTabsPane current={topTabsCurrent} index={2}>
+          {this.renderSubTabs()}
+        </AtTabsPane>
+      </AtTabs>
+    )
+  }
+
+  /**
+   * sub tabs
+   */
   renderSubTabs() {
-    const { topTabsCurrent, subTabsCurrent } = this.state;
+    const { subTabs, subTabsCurrent } = this.state;
     return (
       <View className='sub-tabs-wrapper'>
-        <AtTabs className='sub-tabs' current={subTabsCurrent} tabList={Model.subTabList} onClick={this.subTabsHandleClick.bind(this)}>
+        <AtTabs className='sub-tabs' current={subTabsCurrent} tabList={subTabs} onClick={this.onClickForSubTabs.bind(this)}>
           <AtTabsPane current={subTabsCurrent} index={0} >
             <View>{this.renderParenting()}</View>
           </AtTabsPane>
@@ -50,7 +61,7 @@ export default class Character extends Presenter {
             <View>{this.renderPregnancy()}</View>
           </AtTabsPane>
           <AtTabsPane current={subTabsCurrent} index={2}>
-            <View>{this.renderPlanPregnancy()}</View>
+            <View>{this.renderPregnancy()}</View>
           </AtTabsPane>
         </AtTabs>
       </View>
@@ -61,8 +72,20 @@ export default class Character extends Presenter {
    * 育儿
    */
   renderParenting() {
+    const { showCharacterSpecial } = this.state;
     return (
       <View>
+        {
+          showCharacterSpecial &&
+          <View className='baby-item-special'>
+            <View className='item-group-special'>
+              <View className='item-title'>选择角色</View>
+              <View className='item-content'>
+                <View className='content-item width-100'>请选择角色</View>
+              </View>
+            </View>
+          </View>
+        }
         <View className='baby-item'>
           <View className='item-group'>
             <View className='item-title'>宝宝性别</View>
@@ -105,15 +128,16 @@ export default class Character extends Presenter {
             </View>
           </View>
         </View>
-        <View className='baby-btn'>+家有多宝</View>
+        <View className='baby-item-btn'>+家有多宝</View>
       </View>
     )
   }
 
   /**
-   * 孕育
+   * 孕育、备孕
    */
   renderPregnancy() {
+    const { babyList, showCalc, showCalcPartOne, showCalcPartTwo } = this.state;
     return (
       <View>
         <View className='baby-item'>
@@ -123,19 +147,49 @@ export default class Character extends Presenter {
               <View className='content-item width-100'>请选择时间</View>
             </View>
           </View>
-          <View className='item-group'>
-            <View className='item-content flex-center'>
-              <View className='content-item active mt-35'>预产期计算</View>
+
+          {/* calc part one begin */}
+          {
+            showCalcPartOne &&
+            <View className='item-group'>
+              <View className='item-title'>末次月经时间</View>
+              <View className='item-content'>
+                <View className='content-item width-100'>2020-03-29</View>
+              </View>
             </View>
-            <View className='item-content radio-list'>
-              <RadioGroup>
+          }
+          {/* calc part one end */}
+
+          <View className='item-group'>
+            {/* calc part two begin */}
+            {
+              showCalcPartTwo &&
+              <View>
+                <View className='item-title'>末次月经时间</View>
+                <View className='item-content'>
+                  <View className='content-item width-100'>28天</View>
+                </View>
+                <View className='item-content'>
+                  <View className='content-item width-100 content-calc'>计算</View>
+                </View>
+              </View>
+            }
+            {/* calc part two end */}
+
+            {/* calc begin */}
+            {
+              showCalc &&
+              <View className='item-content flex-center'>
+                <View className='content-item active mt-35' onClick={this.onClickForCalc.bind(this)}>预产期计算</View>
+              </View>
+            }
+            {/* calc end */}
+
+            <View className='item-content'>
+              <RadioGroup className='width-100 radio-group'>
                 {
-                  Model.babyList.map((item, i) => {
-                    return (
-                      <Label className='radio-list__label' for={i} key={i}>
-                        <Radio className='radio-list__radio' value={item.value} checked={item.checked}>{item.title}</Radio>
-                      </Label>
-                    )
+                  babyList.map((item, index) => {
+                    return <Radio key={index} color='#ff473a' value={item.value} checked={item.checked}>{item.title}</Radio>
                   })
                 }
               </RadioGroup>
@@ -143,15 +197,6 @@ export default class Character extends Presenter {
           </View>
         </View>
       </View>
-    )
-  }
-
-  /**
-   * 备孕
-   */
-  renderPlanPregnancy() {
-    return (
-      <View>备孕</View>
     )
   }
 }

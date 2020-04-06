@@ -2,7 +2,7 @@
 @import "../../../assets/scss/theme.scss";
 @import "~taro-ui/dist/style/components/tabs.scss";
 
-.character-viewport {
+.characterA-viewport {
   background: $sys-page-bg;
   min-height: 100vh;
 
@@ -92,23 +92,25 @@
   }
 
   // body item
-  .baby-item {
+  .baby-item,
+  .baby-item-special {
     background: rgba(252, 245, 244, 1);
     border-radius: 12px;
     padding: 0 24px;
     margin-bottom: 24px;
 
-    .item-group {
+    .item-group,
+    .item-group-special {
       .item-title {
         font-size: 32px;
         font-family: PingFangSC-Medium, PingFang SC;
         font-weight: 500;
         color: rgba(51, 51, 51, 1);
-        padding: 24px;
+        padding: 24px 0;
       }
       .item-content {
         @extend .flex-direction-row;
-        padding: 0 24px 32px 24px;
+        padding: 0 0 32px 0;
 
         .content-item {
           @extend .flex-center;
@@ -121,41 +123,45 @@
           font-weight: 400;
           color: rgba(102, 102, 102, 1);
         }
+
         .active {
           background: $sys-linear-active;
           color: rgba(255, 255, 255, 1);
         }
 
-        .radio-list {
-          radio .weui-check {
-            width: 28rpx;
-            height: 28rpx;
-            border: 2rpx solid #333;
+        .radio-group {
+          font-size: 28px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(51, 51, 51, 1);
+
+          radio {
+            margin-right: 12rpx;
           }
-          
-          radio .weui-check.weui-icon-checked {
-            border: 2rpx solid #ff473a !important;
-            background: #ff473a;
-          }
-          
-          radio .weui-check.weui-icon-checked::before {
-            width: 50%;
-            height: 50%;
-            background: #fff;
-            border-radius: 100%;
-            content: '';
-            transform: translate(-50%, -50%);
-          }          
+        }
+
+        .content-calc {
+          height: 60px;
+          background: rgba(253, 172, 41, 1);
+          border-radius: 30px;
+          font-size: 28px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 1);
         }
       }
     }
-
     .item-group:not(:last-child) {
       border-bottom: 1px solid #e6e6e6;
     }
   }
 
-  .baby-btn {
+  .baby-item-special {
+    background-color: $sys-white-bg;
+    margin-bottom: 0;
+  }
+
+  .baby-item-btn {
     @extend .flex-center;
     font-family: PingFangSC-Regular, PingFang SC;
     font-weight: 400;

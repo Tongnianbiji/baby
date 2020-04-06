@@ -1,12 +1,11 @@
 import Taro from '@tarojs/taro'
 import BaseComponent from '../../../common/baseComponent'
+import Model from './model'
 
-export default class CharacterPresenter extends BaseComponent {
+export default class CharacterXPresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      topTabsCurrent: 0,
-      subTabsCurrent: 0,
     }
   }
 
@@ -20,15 +19,4 @@ export default class CharacterPresenter extends BaseComponent {
 
   componentDidHide() { }
 
-  topTabhandleClick(value) {
-    this.setState({
-      topTabsCurrent: value
-    })
-  }
-
-  subTabsHandleClick(value) {
-    this.setState({
-      subTabsCurrent: value
-    })
-  }
 }

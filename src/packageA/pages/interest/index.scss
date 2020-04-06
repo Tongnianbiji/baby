@@ -1,0 +1,83 @@
+@import "../../../app.scss";
+@import "../../../assets/scss/theme.scss";
+
+.interest-viewport {
+  min-height: 100vh;
+  background: $sys-page-bg;
+
+  .body-wrapper {
+    height: calc(100vh - 192px);
+    .left-wrapper {
+      margin-top: 31px;
+      height: calc(100% - 31px);
+      width: 276px;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0px 10px 40px 0px rgba(237, 216, 214, 1);
+      .left-item {
+        height: 100px;
+        background: rgba(255, 255, 255, 1);
+        position: relative;
+      }
+      .left-item-active {
+        position: absolute;
+        left: 0;
+        top: 20;
+        bottom: 20;
+        width: 8px;
+        height: 60px;
+        background: rgba(255, 71, 58, 1);
+        border-radius: 4px;
+      }
+      .active {
+        background: rgba(255, 238, 237, 1);
+      }
+    }
+    .right-wrapper {
+      margin-top: 31px;
+      padding-left: 32px;
+      padding-right: 32px;
+      height: calc(100% - 31px);
+      .right-item {
+        height: 80px;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 16px;
+        margin-bottom: 20px;
+        font-size: 28px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: rgba(51, 51, 51, 1);
+      }
+      .active {
+        background: $sys-linear-active;
+        color: rgba(255, 255, 255, 1);
+      }
+    }
+  }
+  .footer-wrapper {
+    margin-top: 36px;
+    .footer-btn-wrapper {
+      margin: 0 56px;
+    }
+    .footer-btn {
+      height: 72px;
+      background: $sys-linear-active;
+      border-radius: 36px;
+      // opacity: 0.5;
+      font-size: 32px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
+    }
+    .footer-skip-wrapper {
+      margin: 28px 0;
+    }
+    .footer-skip {
+      height: 28px;
+      font-size: 24px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(51, 51, 51, 1);
+      line-height: 28px;
+    }
+  }
+}

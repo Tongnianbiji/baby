@@ -36,7 +36,10 @@ class App extends Component {
         "pages": [
           "pages/index/index",
           "pages/discover/index",
-          "pages/character/index"
+          "pages/characterA/index",
+          "pages/characterB/index",
+          "pages/characterX/index",
+          "pages/interest/index",
         ]
       },
       {
