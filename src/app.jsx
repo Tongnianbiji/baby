@@ -45,6 +45,7 @@ class App extends Component {
           "pages/interest/index",
           "pages/more-circle/index",
           "pages/search-circle/index",
+          "pages/personal-home/index",
         ]
       },
       {

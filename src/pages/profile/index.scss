@@ -1,0 +1,148 @@
+@import "../../app.scss";
+@import "../../assets/scss/theme.scss";
+
+.profile-viewport {
+  background: $sys-page-bg;
+  min-height: 100vh;
+
+  .profile-top {
+    background: linear-gradient(
+      rgba(255, 255, 255, 1) 0%,
+      rgba(245, 245, 245, 1) 100%
+    );
+    padding: 3px 32px 30px 32px;
+
+    .top-wrapper {
+      @extend .flex-between;
+      .left-container {
+        @extend .flex-direction-row;
+        position: relative;
+        .avatar {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          background: rgba(222, 198, 193, 1);
+          margin-right: 4px;
+          z-index: 98;
+        }
+        .heart {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 99;
+          width: 44px;
+          height: 40px;
+          background: url("https://tongnian-image.oss-cn-shanghai.aliyuncs.com/heart.png")
+            no-repeat center;
+          background-size: 100%;
+        }
+      }
+      .right-container {
+        @extend .flex-center;
+        align-items: center;
+        .right-txt {
+          height: 60px;
+          font-size: 28px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(51, 51, 51, 1);
+          line-height: 60px;
+        }
+        .right-icon {
+          margin-left: 10px;
+          width: 12px;
+          height: 23px;
+          background: url("https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png")
+            no-repeat center;
+          background-size: 100%;
+        }
+      }
+    }
+    .number-wrapper {
+      @extend .flex-around;
+      margin-top: 28px;
+
+      .number {
+        @extend .flex-direction-column;
+        align-items: center;
+
+        .number-value {
+          font-size: 48px;
+          font-family: DIN-Medium, DIN;
+          font-weight: 500;
+          color: rgba(51, 51, 51, 1);
+        }
+        .number-title {
+          color: rgba(204, 204, 204, 1);
+          font-size: 24px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+  .profile-body {
+    margin: 0 32px;
+    background: linear-gradient(
+      360deg,
+      rgba(245, 245, 245, 1) 0%,
+      rgba(243, 244, 247, 0) 100%
+    );
+    .entry-wrapper {
+      padding: 44px 0;
+      @extend .flex-around;
+      background: rgba(255, 255, 255, 1);
+      border-radius: 20px;
+
+      .entry {
+        @extend .flex-direction-column;
+        align-items: center;
+        .entry-icon {
+          min-width: 50px;
+          max-width: 56px;
+          min-height: 44px;
+          max-height: 50px;
+        }
+        .entry-txt {
+          padding-top: 18px;
+          font-size: 26px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(51, 51, 51, 1);
+        }
+      }
+    }
+    .other-wrapper {
+      @extend .flex-direction-column;
+      margin-top: 44px;
+      background: rgba(255, 255, 255, 1);
+      border-radius: 20px;
+
+      .other {
+        @extend .flex-direction-row;
+        align-items: center;
+        
+        height: 108px;
+        padding-left: 29px;
+        margin: 0 24px;
+        .other-icon {
+          min-width: 34px;
+          max-width: 38px;
+          min-height: 33px;
+          max-height: 36px;
+        }
+        .other-txt {
+          padding-left: 16px;
+          font-size: 26px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(51, 51, 51, 1);
+        }
+      }
+      .other:not(:last-child) {
+        border-bottom: 1px solid #dddfe8;
+      }
+    }
+  }
+}
