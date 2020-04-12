@@ -34,4 +34,8 @@ export default class HomePage extends BaseComponent {
   onLongPressForDebug(){
     this.navto({url:'/test/index'})
   }
+
+  selectCity = () => {
+    this.navto({ url: '/packageA/pages/city-picker/index' })
+  }
 }

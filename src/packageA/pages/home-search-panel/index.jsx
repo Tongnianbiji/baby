@@ -19,9 +19,9 @@ export default class HomeSearchView extends Presenter {
   }
 
   render() {
-    const { currentTopTab } = this.state;
+    const { currentTopTab, searchData } = this.state;
     return (
-      <View className='home-search-viewport'>
+      <View className={`home-search-viewport${searchData ? ' graybg' : ''}`}>
         <View className='search-box'>
           <View className='inp-wrapper'>
             <Input className='inp' placeholder='请输入关键字' placeholderClass='placehoder' confirmType='search' onConfirm={this.onSearch} />
@@ -30,7 +30,7 @@ export default class HomeSearchView extends Presenter {
           <View className='cancel-btn'>取消</View>
         </View>
         {
-          this.state.searchData ?
+          searchData ?
           <AtTabs tabList={this.state.tabList} className='tabs' current={currentTopTab} swipeable={false} onClick={this.topTabChange}>
             <AtTabsPane index={0} className='tabs-pane' current={currentTopTab}>
               {

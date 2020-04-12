@@ -25,7 +25,7 @@ export default class Index extends Presenter {
     return (
       <View className='home-page-viewport'>
         <View className='search-bar'>
-          <View className='location-info'>
+          <View className='location-info' onClick={this.selectCity}>
             <Text>上海</Text>
             <Image src={arrowDown} className='icon-arrow-down'></Image>
           </View>

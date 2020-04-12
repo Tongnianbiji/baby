@@ -46,6 +46,12 @@ class App extends Component {
           "pages/more-circle/index",
           "pages/search-circle/index",
           "pages/personal-home/index",
+          "pages/fans/index",
+          "pages/postReply/index",
+          "pages/qa-list/index",
+          "pages/collects/index",
+          "pages/system-message/index",
+          "pages/city-picker/index"
         ]
       },
       {

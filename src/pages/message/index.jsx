@@ -18,25 +18,25 @@ export default class Index extends Presenter {
         <AtTabs tabList={this.state.tabList} current={currentTab} swipeable={false} className='tabs' onClick={this.tabChange}>
           <AtTabsPane className='message-tabs-pane' index={0} current={currentTab}>
             <View className='entry-wrapper'>
-              <View className='entry'>
+              <View className='entry' onClick={this.toFans}>
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-fans.png' className='icon' />
                 <Text className='txt'>粉丝</Text>
               </View>
-              <View className='entry'>
+              <View className='entry' onClick={this.toCollect}>
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-like.png' className='icon' />
                 <Text className='txt'>收藏/获赞</Text>
               </View>
-              <View className='entry'>
+              <View className='entry' onClick={this.toPostReply}>
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-posts.png' className='icon' />
                 <Text className='txt'>回贴</Text>
               </View>
-              <View className='entry'>
+              <View className='entry' onClick={this.toQaList}>
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-quesion.png' className='icon' />
                 <Text className='txt'>回答</Text>
               </View>
             </View>
             <View className='message-list'>
-              <View className='message-card'>
+              <View className='message-card' onClick={this.toSysMessage}>
                 <View className='icon-wrapper'>
                   <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/messages.png' className='icon' />
                 </View>
