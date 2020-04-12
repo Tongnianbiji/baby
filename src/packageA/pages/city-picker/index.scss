@@ -109,8 +109,10 @@ page {
       .city-card-wrapper {
         padding: 34px 0 31px;
         border-bottom: 1px solid #DDDFE8;
+        font-size: 0;
         .city-card {
           margin-right: 24px;
+          margin-bottom: 24px;
           width: 199px;
           height: 72px;
           line-height: 72px;
@@ -123,6 +125,7 @@ page {
           border:1px solid rgba(221,223,232,1);
           padding: 0 18px;
           box-sizing: border-box;
+          font-size: 28px;
         }
       }
     }
