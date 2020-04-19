@@ -62,10 +62,10 @@ export default class BaseRequest {
     } else {
       finalPath = schema;
     }
-    return `${this.host}${this.path}${finalPath}`
+    return /^http[s]?\:/.test(schema) ? schema : `${this.host}${this.path}${finalPath}`
   }
 
-  get(path, params, header) {
+  get(path, params, header = {}) {
     let url = this._build_url(path);
     return this._request(url, params, "GET", header).then(res => {
       //do something log;

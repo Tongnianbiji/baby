@@ -21,12 +21,12 @@ export default class Index extends Presenter {
   }
 
   render() {
-    const { topTabs, currentTopTab, attentionType, hotTabType } = this.state;
+    const { topTabs, currentTopTab, attentionType, hotTabType, currentCity } = this.state;
     return (
       <View className='home-page-viewport'>
         <View className='search-bar'>
           <View className='location-info' onClick={this.selectCity}>
-            <Text>上海</Text>
+            <Text>{currentCity}</Text>
             <Image src={arrowDown} className='icon-arrow-down'></Image>
           </View>
           <View className='search-info'>
@@ -108,7 +108,7 @@ export default class Index extends Presenter {
       </View>
     )
   }
-  
+
   /**
    * 分享
    */

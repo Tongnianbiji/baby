@@ -1,10 +1,19 @@
 import Taro from '@tarojs/taro'
-import { SHAREOPTIONS } from '../common/constant'
+import { SHAREOPTIONS, CURRENT_CITY_KEY } from '../common/constant'
+import Dto from '../common/localStorage'
 /**
  * 所有 页面视图 都应该继承自这个类
  * 提供一些基础动作和封装
  */
 export default class BaseComponent extends Taro.Component {
+
+  constructor(props) {
+    super(props)
+
+    this.__local_dto = Dto.getInstance()
+
+    this.taro = Taro
+  }
 
   /**
    * 不应该被业务代码访问的属性..
@@ -93,10 +102,28 @@ export default class BaseComponent extends Taro.Component {
   }
 
   /**
+   * 是否得到了 指定权限 的授权 (异步)
+   * @param {*} permissionName 权限名称
+   */
+  hasPermission(permissionName) {
+    return Taro.getSetting().then(ret => {
+      return ret.authSetting[permissionName]
+    })
+  }
+
+  /**
    * 导航
    */
   navto(obj) {
     Taro.navigateTo(obj)
+  }
+
+  /**
+   * 回退页面
+   * @param {*} num 回退的层数
+   */
+  navback(num = 1, success) {
+    Taro.navigateBack({ delta: num, success })
   }
 
   setNavBarTitle(txt) {
@@ -110,5 +137,42 @@ export default class BaseComponent extends Taro.Component {
    */
   setShareOptions() {
     return SHAREOPTIONS
+  }
+
+  /**
+   * 获取定位信息
+   */
+  getLocation() {
+    const permissionName = 'scope.userLocation'
+    return new Promise((resolve, reject) => {
+      Taro.getSetting().then(res => {
+        if (!res.authSetting[permissionName]) {
+          Taro.authorize({
+            scope: permissionName
+          }).then(() => {
+            Taro.getLocation().then(resolve)
+          }, reason => {
+            reject(reason)
+          })
+        } else {
+          Taro.getLocation().then(resolve)
+        }
+      })
+    })
+  }
+
+  /**
+   * 获取当前城市名
+   */
+  getCurrentCity() {
+    return this.__local_dto.getValue(CURRENT_CITY_KEY)
+  }
+
+  /**
+   * 设置城市名称
+   * @param {*} cityname 城市名称
+   */
+  setCurrentCity(cityname) {
+    this.__local_dto.setValue(CURRENT_CITY_KEY, cityname)
   }
 }
