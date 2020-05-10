@@ -50,3 +50,5 @@ export const GMAP_API_KEY = 'ca2421a75ca2a312bbce4cdc9095e3d1'
  * 当前正被选中的城市, 在LocalStoreage中的Key
  */
 export const CURRENT_CITY_KEY = 'key_current_city'
+
+export const USER_INFO_KEY = '__TN_USER_INFO_'

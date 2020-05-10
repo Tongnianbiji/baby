@@ -1,30 +1,33 @@
 import Taro from '@tarojs/taro'
 import appSettings from '../../settings'
+import localStorage from './localStorage'
 import {
   EnvType
 } from './enums'
 
 const Hosts = {
-  [EnvType.DEVELOPMENT]: 'https://xxxx.test.xxxx.com',
+  [EnvType.DEVELOPMENT]: 'https://www.tongnian.world',
   [EnvType.PRODUCTION]: 'https://xxx.prod.xxx.com'
 }
 
 const reg = /^\//;
+
+const local = localStorage.getInstance()
 
 export default class BaseRequest {
   /**
    * 构造函数
    * @param {*} virtual_path 虚拟目录, 设置之后. 这个实例下所有请求路径中无需再指定
    */
-  constructor(virtual_path = '') {
+  constructor(virtual_path = 'tn-api') {
     this.host = Hosts[appSettings.ENV];
-    this.path = + function () {
+    this.path = (function () {
       let ret = '';
       if (virtual_path) {
         ret = reg.test(virtual_path) ? virtual_path : `/${virtual_path}`
       }
       return ret
-    }()
+    })()
   }
 
   _get_header(custom_header_obj, need_token) {
@@ -34,6 +37,7 @@ export default class BaseRequest {
 
     if (need_token) {
       // take token by localStore tools
+      header['X-TOKEN'] = local.getToken()
     }
 
     if (custom_header_obj) {

@@ -124,6 +124,14 @@ class Storage {
   setValue(key, value = '', fn) {
     update(key, value, fn)
   }
+
+  setToken(token) {
+    update('__TN_LOGIN_TOKEN_', token)
+  }
+
+  getToken() {
+    return Taro.getStorageSync('__TN_LOGIN_TOKEN_') || ''
+  }
 }
 
 export default {

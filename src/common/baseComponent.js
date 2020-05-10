@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { SHAREOPTIONS, CURRENT_CITY_KEY } from '../common/constant'
+import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY } from '../common/constant'
 import Dto from '../common/localStorage'
 /**
  * 所有 页面视图 都应该继承自这个类
@@ -78,15 +78,23 @@ export default class BaseComponent extends Taro.Component {
    * 用户是否登录
    */
   isLogin() {
-    return Taro.checkSession().then(() => {
-      return true
-    }, reason => {
-      return reason
-    })
+    const token = this.__local_dto.getToken()
+    return token
   }
 
-  login(options) {
-    return Taro.login(options)
+  logout() {
+    this.__local_dto.setToken('')
+  }
+
+  /**
+   * 去登录
+   * @param {*} options 
+   */
+  login() {
+    const { path } = this.$router
+    this.navto({
+      url: `/pages/login/index?from=${path}`
+    })
   }
 
   /**
@@ -174,5 +182,12 @@ export default class BaseComponent extends Taro.Component {
    */
   setCurrentCity(cityname) {
     this.__local_dto.setValue(CURRENT_CITY_KEY, cityname)
+  }
+
+  /**
+   * 获取用户信息
+   */
+  getUserInfo() {
+    return this.__local_dto.getValue(USER_INFO_KEY)
   }
 }

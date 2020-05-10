@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { View, Text, Button, Input } from '@tarojs/components'
+import { View, Text, Button, Input, Image } from '@tarojs/components'
 import Presenter from './presenter'
 import './style.scss'
 
@@ -12,7 +12,7 @@ export default class Login extends Presenter {
     return (
       <View className='login-viewport'>
         <View className='logo-wrapp'>
-          <Text className='logo'>LOGO</Text>
+          <Image className='img-logo' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/tn_logo.png' />
         </View>
         <View className='invite-tip'>
           <Text>小富爸爸邀请你一起使用“童年”，共同关注小福的成长</Text>
@@ -20,7 +20,8 @@ export default class Login extends Presenter {
         {
           this.state.loginType === 1 ?
           <View>
-            <Button className='btn-wechat' loading={this.state.loging} openType='getUserInfo' onGetUserInfo={this.onGetUserInfo}>微信一键登陆</Button>
+            {/* <Button className='btn-wechat' loading={this.state.loging} openType='getUserInfo' onGetUserInfo={this.onGetUserInfo}>微信一键登陆</Button> */}
+            <Button className='btn-wechat' loading={this.state.loging} openType='getPhoneNumber' onGetPhoneNumber={this.onGetPhoneNumber}>微信一键登陆</Button>
             <Button className='btn-phone' onClick={this.changeLoginType}>手机号验证登陆</Button>
           </View> :
           <View>
@@ -33,10 +34,9 @@ export default class Login extends Presenter {
                 {countDown ? `${countDown}后重新发送` : '发送验证码'}
               </View>
             </View>
-            <Button className='confirm-btn' onClick={this.verifyCodeLogin}>确认</Button>
+            <Button className='confirm-btn' onClick={this.doLogin}>确认</Button>
           </View>
         }
-        
       </View>
     )
   }

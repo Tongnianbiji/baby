@@ -21,7 +21,6 @@ export default class Presenter extends BaseComponent {
 
   doLocation() {
     this.getLocation().then(info => {
-      // console.log(info, '...$$')
       Model.getCityInfo(info.longitude, info.latitude).then(data => {
         // console.log(data, 'nb')
         this.setState({ locationCity: data.city })

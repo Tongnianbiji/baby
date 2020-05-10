@@ -10,14 +10,9 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        .logo {
-            width:174px;
-            height:84px;
-            font-size:60px;
-            font-weight:600;
-            color:rgba(61,126,255,1);
-            line-height:84px;
-            color: #3D7EFF;
+        .img-logo {
+          width: 180px;
+          height: 180px;
         }
     }
     .invite-tip {

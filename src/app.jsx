@@ -1,6 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 // import Index from './test/index'
 import Splash from './pages/splash'
+import { setGlobalData } from './global_data'
 
 import './app.scss'
 
@@ -12,7 +13,14 @@ import './app.scss'
 
 class App extends Component {
 
-  componentDidMount() { }
+  componentDidMount() {
+    // console.log('app did mounted')
+    Taro.login().then(({ errMsg, code }) => {
+      if (errMsg === 'login:ok') {
+        setGlobalData('loginCode', code)
+      }
+    })
+  }
 
   componentDidShow() { }
 
