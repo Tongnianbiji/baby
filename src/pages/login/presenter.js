@@ -111,13 +111,24 @@ export default class Presenter extends BaseComponent {
   }
 
   doLogin = () => {
-    const { phoneNum, verifyCode } = this.state
-    if (this.verifyCodeLogin()) {
+    const { phoneNum, verifyCode, loging } = this.state
+    if (this.verifyCodeLogin() && !loging) {
       Model.getToken({
         mobile: phoneNum,
         msgCode: verifyCode
-      }).then(ret => {
-        console.log(ret, 'hehe')
+      }).then(({ errMsg: msg, data }) => {
+        this.setState({ loging: false })
+        const { data: ret, code: status } = data
+        // console.log(code, data, 'cdoe , data')
+        if (msg === 'request:ok' && status === 0) {
+          this.storage.setToken(ret.token)
+          this.storage.setValue(USER_INFO_KEY, ret.profile)
+          this.return2caller()
+        } else if (status === 3) {
+          this.showToast('验证码错误')
+        } else {
+          this.showToast('登录失败, 请稍候再试')
+        }
       })
     }
   }
@@ -136,11 +147,18 @@ export default class Presenter extends BaseComponent {
       this.showToast('请输入正确的手机号码')
       return
     }
-    // api . then . success
-    Utils.countDown(10, num => {
-      this.setState({
-        countDown: num
-      })
+
+    Model.sendSms(phoneNum).then(ret => {
+      if (!ret.code) {
+        Utils.countDown(60, num => {
+          this.setState({
+            countDown: num
+          })
+        })
+        this.showToast('验证码发送成功')
+      } else {
+        this.showToast('验证码发送失败, 请重试')
+      }
     })
   }
 

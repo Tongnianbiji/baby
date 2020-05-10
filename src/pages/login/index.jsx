@@ -34,7 +34,7 @@ export default class Login extends Presenter {
                 {countDown ? `${countDown}后重新发送` : '发送验证码'}
               </View>
             </View>
-            <Button className='confirm-btn' onClick={this.doLogin}>确认</Button>
+            <Button className='confirm-btn' loading={this.state.loging} onClick={this.doLogin}>确认</Button>
           </View>
         }
       </View>

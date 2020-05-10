@@ -9,10 +9,9 @@ export default {
   },
 
   countDown(num, cb) {
-
     if (num > 0) {
+      cb && 'function' === typeof cb && cb(num - 1)
       setTimeout(() => {
-        cb && 'function' === typeof cb && cb(num - 1)
         this.countDown(num - 1, cb)
       }, 1000)
     }

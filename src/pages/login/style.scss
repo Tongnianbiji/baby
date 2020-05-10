@@ -52,12 +52,13 @@
         }
       }
       .verify-code-btn {
-        width: 168px;
+        width: 190px;
         font-size: 28px;
         color: #3D7EFF;
         border-left: 1px solid #e6e6e6;
         text-align: right;
         line-height: 60px;
+        white-space: nowrap;
       }
       .counting-down {
         color: #999;
