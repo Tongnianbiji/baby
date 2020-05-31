@@ -1,7 +1,6 @@
 import BaseRequest from '../../common/baseRequest'
 
 const request = new BaseRequest()
-const okMsg = 'request:ok'
 
 export default {
   getToken(opts) {
@@ -10,7 +9,7 @@ export default {
 
   sendSms(mobile) {
     return request.get('user/sendSms', { mobile }).then(ret => {
-      if (ret.errMsg === okMsg) {
+      if (ret.errMsg === request.okMsg) {
         return ret.data
       }
       return { code: -1 }

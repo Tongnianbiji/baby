@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
-import {View,Input,Image} from '@tarojs/components'
+import { View, Input, Image } from '@tarojs/components'
 import Presenter from './presenter'
-import {ICONS} from '../../../common/constant'
+import { ICONS } from '../../../common/constant'
 import SchoolItem from './school-item'
 import './styles.scss'
 
@@ -15,7 +15,7 @@ export default class MoreCircleView extends Presenter {
       <View className='more-circle-viewport'>
         <View className='search-box'>
           <View className='inp-wrapper'>
-            <Input className='inp' />
+            <Input className='search-inp' />
             <Image src={ICONS.SEARCH} className='search-icon' />
           </View>
         </View>
@@ -29,7 +29,7 @@ export default class MoreCircleView extends Presenter {
             </View>
           </View>
           {
-            [1,2,3,4,5,6,8,7].map(n => {
+            [1, 2, 3, 4, 5, 6, 8, 7].map(n => {
               return (
                 <SchoolItem key={n} />
               )

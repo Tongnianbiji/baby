@@ -1,4 +1,6 @@
 @import '../../app.scss';
+@import '../../assets/scss/theme.scss';
+
 page {
   height: 100%;
   background: #f5f5f5;
@@ -18,7 +20,7 @@ page {
       border-radius:29px;
       display: flex;
       align-items: center;
-      .icon-search {
+      .search-icon {
         width: 27px;
         height: 27px;
         margin-left: 24px;
@@ -76,7 +78,7 @@ page {
               display: flex;
               justify-content: space-between;
               align-items: center;
-              padding: 32px 0 24px 0;
+              margin: 0 0 20px 0;
               .title {
                 color: #333;
                 font-size: 32px;
@@ -94,7 +96,8 @@ page {
           }
           .btn-trogge {
             width: 110px;
-            @extend .flex-center;
+            margin-bottom: 20px;
+            @extend .flex-around;
             .arrow-icon {
               width: 26px;
               height: 13px;
@@ -122,7 +125,7 @@ page {
             margin-right: 16px;
             margin-bottom: 24px;
             &.tag-actived {
-              background:linear-gradient(270deg,rgba(255,71,58,1) 0%,rgba(255,138,99,1) 100%);
+              background:$sys-linear-active;
               color: #fff;
             }
           }

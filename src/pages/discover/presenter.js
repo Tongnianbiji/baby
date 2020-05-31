@@ -8,38 +8,67 @@ export default class Presenter extends BaseComponent {
     this.state = {
       menus: [],
       tags: [],
-      activedMenu: 2,
+      circles: [],
+      activedMenu: null,
       activedTag: null,
-      tagsOpen: false
+      tagsOpen: false,
     }
   }
 
   componentDidMount() {
     this.getMenus()
-    this.getTags()
   }
 
+  /**
+   * 一级
+   */
   getMenus() {
     Model.getMenus().then(ret => {
       this.setState({
-        menus: ret.data
-      })
+        menus: ret.data,
+        activedMenu: ret.data && ret.data.length && ret.data[0]
+      }, () => { this.getTags() })
     })
   }
 
+  /**
+   * 二级
+   * @param {*} sid 
+   */
   getTags() {
-    Model.getTags().then(ret => {
+    const { sid } = this.state.activedMenu;
+    Model.getTags({ sid }).then(ret => {
       this.setState({
-        activedTag: ret.data[0],
-        tags: ret.data
+        tags: ret.data,
+        activedTag: ret.data && ret.data.length && ret.data[0],
+      }, () => {
+        this.getCircles()
       })
     })
   }
 
-  menuClick({ id }) {
-    this.setState({
-      activedMenu: id
+  /**
+   * 列表
+   * @param {*} param0 
+   */
+  getCircles() {
+    const { activedMenu, activedTag } = this.state;
+    const param = { psid: activedMenu.sid, sid: activedTag.sid, cid: 0 };
+    Model.getCircle(param).then(ret => {
+      this.setState({ circles: ret.data.circles })
     })
+  }
+
+  menuClick(menu) {
+    this.setState({
+      activedMenu: menu
+    }, () => { this.getTags(menu) })
+  }
+
+  tagsClick(tag) {
+    this.setState({
+      activedTag: tag
+    }, () => { this.getCircles() })
   }
 
   troggleTags() {

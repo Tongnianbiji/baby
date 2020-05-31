@@ -112,4 +112,8 @@ export default class BaseRequest {
       return err;
     });
   }
+
+  restfulCcode = 0
+
+  okMsg = 'request:ok'
 }
