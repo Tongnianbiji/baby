@@ -10,13 +10,13 @@ export default class HomePage extends BaseComponent {
       currentTopTab: 0,
       attentionType: 1, //1: 关注的用户   2: 关注的圈子
       hotTabType: 1, //1: 24小时   2: 7天
-      currentCity: this.getCurrentCity() || '未知'
+      currentCity: this.getSubCityName()
     }
   }
 
   componentDidShow() {
     // console.log('index page show...')
-    this.setState({ currentCity: this.getCurrentCity() })
+    this.setState({ currentCity: this.getSubCityName() })
   }
 
   topTabChange = (current) => {
@@ -43,5 +43,10 @@ export default class HomePage extends BaseComponent {
 
   selectCity = () => {
     this.navto({ url: '/packageA/pages/city-picker/index' })
+  }
+
+  getSubCityName = () => {
+    const city = this.getCurrentCity() || '未知'
+    return city.length > 3 ? `${city.substr(0, 3)}...` : city
   }
 }

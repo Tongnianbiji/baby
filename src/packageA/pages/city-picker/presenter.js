@@ -6,23 +6,21 @@ export default class Presenter extends BaseComponent {
     super(props)
     this.state = {
       anchor: '',
-      allcity: Model.allCity,
-      letters: Model.getLetter(),
-      currentList: Model.allCity,
       currentCity: this.getCurrentCity() || '未设置',
-      locationCity: '定位中...'
+      locationCity: '定位中...',
+      tabsData: [{ title: '选择省', id: 0 }, { title: '选择市', id: 1 }, { title: '选择区/县', id: 2 }],
+      currentTab: 0
     }
   }
 
   componentDidMount() {
     this.doLocation()
-    // Model.getData()
+    Model.getCity()
   }
 
   doLocation() {
     this.getLocation().then(info => {
       Model.getCityInfo(info.longitude, info.latitude).then(data => {
-        // console.log(data, 'nb')
         this.setState({ locationCity: data.city })
       })
     }).catch(() => {
@@ -58,27 +56,37 @@ export default class Presenter extends BaseComponent {
     this.setState(stat)
   }
 
-  jumpToKey(key) {
-    const stat = { anchor: '' }
-    if (key === '热门') {
-      stat.anchor = '__my_id_letter_hot'
-    } else {
-      stat.anchor = `__my_id_letter_${key}`
-    }
-    this.setState(stat)
-  }
-
   goBack = () => {
     this.navback()
   }
 
-  pickCity(city) {
-    this.setState({
-      currentCity: city
-    }, () => {
-      this.setCurrentCity(city)
-      this.goBack()
-    })
+  selectedCity(record) {
+    const { currentTab } = this.state
+    if (currentTab === 0) { // province
+      Model.getCity(record.code, 'province')
+    } else if (currentTab === 1) { // city
+      Model.getCity(record.code, 'city')
+    } else { // town
+      this.setState({
+        currentCity: record
+      }, () => {
+        this.setCurrentCity(record)
+        this.goBack()
+      })
+    }
+  }
+
+  tabChange = currentTab => {
+    if (currentTab === 1) {
+      this.setState(prevState => {
+        const data = prevState.tabsData
+        data[0].title = '上海'
+        return {
+          tabsData: data
+        }
+      })
+    }
+    this.setState({ currentTab })
   }
 
   reLocation = () => {

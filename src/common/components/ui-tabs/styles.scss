@@ -1,0 +1,40 @@
+@import '../../../app.scss';
+.ui-tabs {
+  display: flex;
+  border-bottom: 1px solid #e6e6e6;
+  .ui-tabs-item {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 18px 0;
+    position: relative;
+    font-weight: 500;
+    white-space: nowrap;
+    &.item-actived {
+      color: #FF473A;
+      .active-underscore {
+        background: #FF473A;
+        width: 72rpx;
+        height: 6rpx;
+        border-radius: 3rpx;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        transition: width .2s ease;
+        display: block;
+        position: absolute;
+        bottom: 0;
+        animation: underscore-in .3s ease;
+      }
+    }
+  }
+  @keyframes underscore-in {
+    0% {
+      width: 100%;
+    }
+    100% {
+      width: 72px;
+    }
+  }
+}

@@ -1,3 +1,19 @@
 {
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "search.followSymlinks": false,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.DS_Store": true,
+    "**/tmp": true,
+    "**/bower_components": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/tmp/**": true,
+    "**/node_modules/**": true,
+    "**/bower_components/**": true,
+    "**/dist/**": true
+  }
 }
