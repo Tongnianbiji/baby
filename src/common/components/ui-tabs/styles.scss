@@ -11,6 +11,9 @@
     position: relative;
     font-weight: 500;
     white-space: nowrap;
+    &.item-unuserable {
+      color: #aaa;
+    }
     &.item-actived {
       color: #FF473A;
       .active-underscore {

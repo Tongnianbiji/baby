@@ -56,7 +56,7 @@ export default class Index extends Presenter {
                   attentionType === 1 ?
                     [1, 2, 3, 4, 5].map(key => {
                       return (
-                        <UserInfoItem key={key} />
+                        <UserInfoItem key={key} onClick={this.jump2circle} />
                       )
                     }) :
                     <AttentionCircle />

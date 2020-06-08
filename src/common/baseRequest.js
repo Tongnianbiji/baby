@@ -116,4 +116,11 @@ export default class BaseRequest {
   restfulCcode = 0
 
   okMsg = 'request:ok'
+
+  standardResponse(wxResponse) {
+    if (wxResponse.errMsg === 'request:ok') {
+      return wxResponse.data
+    }
+    return { code: -1, errMsg: wxResponse.errMsg }
+  }
 }

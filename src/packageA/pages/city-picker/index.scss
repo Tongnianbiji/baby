@@ -108,17 +108,6 @@ page {
         line-height:28px;
         padding: 0 32px 34px 32px;
       }
-      .letter-title {
-        height:60px;
-        background:rgba(245,245,245,1);
-        padding: 0 0 0 31px;
-        line-height: 60px;
-        font-size:28px;
-        font-weight:600;
-        color: #999;
-        position: sticky;
-        top: 0px;
-      }
       .city-item {
         padding: 0 25px;
         height: 108px;
@@ -126,8 +115,24 @@ page {
         box-sizing: border-box;
         .city-name {
           font-size:28px;
+          padding: 0 25px;
           color:rgba(51,51,51,1);
           border-bottom: 1px solid #DDDFE8;
+        }
+        &:nth-last-child(1) {
+          .city-name {
+            border-bottom: 0;
+          }
+        }
+      }
+    }
+    .search-result {
+      padding: 0 32px 25px;
+      .result-item {
+        padding: 25px 0;
+        border-bottom: 1px solid #DDDFE8;
+        &:nth-last-child(1) {
+          border-bottom: 0;
         }
       }
     }

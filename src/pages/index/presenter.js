@@ -49,4 +49,8 @@ export default class HomePage extends BaseComponent {
     const city = this.getCurrentCity() || '未知'
     return city.length > 3 ? `${city.substr(0, 3)}...` : city
   }
+
+  jump2circle = () => {
+    this.navto({ url: '/packageA/pages/circle-detail/index' })
+  }
 }
