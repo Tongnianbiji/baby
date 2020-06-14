@@ -5,7 +5,7 @@ import Presenter from './presenter'
 import UserInfoItem from '../../../common/components/post-card'
 import './index.scss'
 
-export default class PersonalHome extends Presenter {
+export default class ProfileHome extends Presenter {
 
   componentWillMount() { }
 
@@ -26,8 +26,8 @@ export default class PersonalHome extends Presenter {
   render() {
     const { tabs, tabsCurrent } = this.state;
     return (
-      <View className='personal-viewport'>
-        <View className='personal-header'>
+      <View className='profile-home-viewport'>
+        <View className='profile-header'>
           <View className='top-wrapper'>
             <View className='left-container'>
               <View className='avatar'></View>
@@ -92,7 +92,7 @@ export default class PersonalHome extends Presenter {
             </View>
           </View>
         </View>
-        <View className='personal-body'>
+        <View className='profile-body'>
 
           <View className='tabs-container'>
             <AtTabs className='tabs' current={tabsCurrent} tabList={tabs} swipeable={false} onClick={this.onClickForTabs.bind(this)}>

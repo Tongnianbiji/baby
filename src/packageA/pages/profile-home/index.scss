@@ -2,11 +2,11 @@
 @import "../../../assets/scss/theme.scss";
 @import "~taro-ui/dist/style/components/tabs.scss";
 
-.personal-viewport {
+.profile-home-viewport {
   background: $sys-page-bg;
   min-height: 100vh;
 
-  .personal-header {
+  .profile-header {
     background: rgba(0, 0, 0, 0.7);
     padding: 3px 32px 30px 32px;
     color: $sys-white-bg;
@@ -160,7 +160,7 @@
       }
     }
   }
-  .personal-body {
+  .profile-body {
     .tabs-container {
       .tabs {
         .at-tabs__header {
