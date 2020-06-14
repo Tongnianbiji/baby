@@ -19,7 +19,7 @@ export default class Index extends Presenter {
           </View>
         </View>
         <View className='content-box'>
-          <View className='slider-wrapper'>
+          <View className='left-wrapper'>
             <ScrollView style={{ height: '100%' }} scrollY>
               {
                 this.state.menus.map(m => {
@@ -34,45 +34,26 @@ export default class Index extends Presenter {
               }
             </ScrollView>
           </View>
-          <View className='data-list-wrapper'>
+          <View className='right-wrapper'>
+            <View className='tags-pane'>
+              <ScrollView scrollX >
+                <View className='targs-pane-view' >
+                  {
+                    this.state.tags.map(t => {
+                      const isActive = t.sid === this.state.activedTag.sid;
+                      return (
+                        <View key={t.sid} className={`tag-item${isActive ? ' tag-actived' : ''}`} onClick={this.tagsClick.bind(this, t)}>{t.name}</View>
+                      )
+                    })
+                  }
+                </View>
+              </ScrollView>
+              <Image className='arrow-right-icon' src={ICONS.ARROW_RIGHT_B} />
+            </View>
+
             <View className='list-layout'>
-              {
-                this.state.tagsOpen ?
-                  <View className='tags-pane all-list'>
-                    <View className='all-tags-title'>
-                      <View className='title'>选择分类</View>
-                      <View className='click-hot-area' onClick={this.troggleTags}>
-                        <Image src={ICONS.ARROW_DOWN} className='arrow-up-icon' />
-                      </View>
-                    </View>
-                    {
-                      this.state.tags.map(t => {
-                        const isActive = t.sid === this.state.activedTag.sid;
-                        return (
-                          <View key={t.sid} className={`tag-item${isActive ? ' tag-actived' : ''}`} onClick={this.tagsClick.bind(this, t)}>{t.name}</View>
-                        )
-                      })
-                    }
-                  </View> :
-                  <View className='tags-pane'>
-                    <View className='single-tags'>
-                      {
-                        this.state.tags.map((t, index) => {
-                          const isActive = t.sid === this.state.activedTag.sid;
-                          return index < 4 ? (
-                            <View key={t.sid} className={`tag-item${isActive ? ' tag-actived' : ''}`} onClick={this.tagsClick.bind(this, t)}>{t.name}</View>
-                          ) : null
-                        })
-                      }
-                    </View>
-                    <View className='btn-trogge' onClick={this.troggleTags}>
-                      <Text className='btn-txt'>全部</Text>
-                      <Image src={ICONS.ARROW_DOWN} className='arrow-icon' />
-                    </View>
-                  </View>
-              }
               <View className='data-list'>
-                <ScrollView scrollY style={{ height: '100%' }}>
+                <ScrollView style={{ height: '100%' }}>
                   {
                     this.state.circles.map(n => {
                       return (
