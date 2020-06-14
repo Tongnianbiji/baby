@@ -31,13 +31,13 @@ class App extends Component {
   config = {
     pages: [
       //主package
+
+      'pages/profile/index',//我的
+      'pages/discover/index',//发现
       'pages/index/index',//首页
       'pages/message/index',//消息
-      'pages/discover/index',//发现
       'pages/splash/index',
       'test/index',//开发测试入口页面
-      
-      'pages/profile/index',//我的
       'pages/login/index'
     ],
     "subPackages": [
@@ -53,7 +53,9 @@ class App extends Component {
           "pages/interest/index",
           "pages/more-circle/index",
           "pages/search-circle/index",
-          "pages/personal-home/index",
+          "pages/profile-home/index",
+          "pages/profile-baby/index",
+          "pages/profile-baby-detail/index",
           "pages/fans/index",
           "pages/postReply/index",
           "pages/qa-list/index",
