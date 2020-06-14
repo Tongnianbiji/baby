@@ -61,7 +61,8 @@ class App extends Component {
           "pages/qa-list/index",
           "pages/collects/index",
           "pages/system-message/index",
-          "pages/city-picker/index"
+          "pages/city-picker/index",
+          "pages/circle-detail/index"
         ]
       },
       {

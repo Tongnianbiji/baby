@@ -62,11 +62,24 @@ const tabsLv2 = [
   }
 ]
 
-const tags = [{ title: '全部', actived: true }, { title: '生活' }, { title: '灌水' }, { title: '学校' }, { title: '家庭' }, { title: '医院' }]
+const tags = [
+  { title: '全部', actived: true },
+  { title: '生活' },
+  { title: '灌水' },
+  { title: '学校' },
+  { title: '家庭' },
+  { title: '医院' }
+]
 
 export default class AttentionCircle extends Taro.Component {
   constructor(props) {
     super(props)
+  }
+
+  goToDetail = id => {
+    Taro.navigateTo({
+      url: `/packageA/pages/circle-detail/index?id=${id}`
+    })
   }
 
   render() {
@@ -77,7 +90,7 @@ export default class AttentionCircle extends Taro.Component {
             {
               mockData.map(n => {
                 return (
-                  <View key={n} className='community-entry'>
+                  <View key={n} className='community-entry' onClick={this.goToDetail.bind(this, '1')}>
                     <View className='avatar'>
                       { n.url ? <Image></Image> : '' }
                     </View>

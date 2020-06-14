@@ -29,14 +29,10 @@ export default {
     })
   },
   getCity(id, type) {
-    const query = type ? `?${type}=id` : ''
-    return request.get('/poi/locate' + query).then(data => {
-      console.log(data, 'poi, data')
-    })
+    const query = type ? `?${type}=${id}` : ''
+    return request.get('/poi/locate' + query).then(request.standardResponse)
   },
   searchCity(kw) {
-    return request.get(`/poi/search?kw=${kw}`).then(data => {
-      console.log(data)
-    })
+    return request.get(`/poi/search?kw=${kw}`).then(request.standardResponse)
   }
 }

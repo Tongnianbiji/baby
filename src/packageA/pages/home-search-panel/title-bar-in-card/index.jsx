@@ -17,7 +17,7 @@ export default class PostTitleBar extends Taro.Component {
         <View className='title'>{this.props.title}</View>
         <View className='tabs'>
           <View className='tab-item actived'>
-            最新相关
+            最相关
             <View className='actived-underscore'></View>
           </View>
           <View className='tab-item'>最热</View>

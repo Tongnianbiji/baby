@@ -5,6 +5,8 @@ import './styles.scss'
 
 export default class UserInfoItem extends Taro.Component {
   static defaultProps = {
+    // 数据
+    model: {},
     // 是否显示 [分享] 按钮
     needShared: false,
     // 是否显示 [距离]
@@ -18,12 +20,17 @@ export default class UserInfoItem extends Taro.Component {
     // 是否关闭 发布信息 那一行
     closeRelease: false,
     // 是否为问答 卡
-    isAnwser: false
+    isAnwser: false,
+    onClick: () => {}
+  }
+
+  cardClick = () => {
+    this.props.onClick(this.model)
   }
   
   render() {
     return (
-      <View className='ui-user-info-item'>
+      <View className='ui-user-info-item' onClick={this.cardClick}>
         { this.props.children }
         <View className='main-wrapper'>
           {
