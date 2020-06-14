@@ -6,6 +6,11 @@
   padding: 24px 24px 0;
   font-family:PingFangSC-Regular,PingFang SC;
   font-weight:400;
+  .icon-right {
+    width: 26px;
+    height: 13px;
+    transform: rotate(-90deg);
+  }
   .head {
     display: flex;
     align-items: center;
@@ -60,11 +65,6 @@
       align-items: center;
       font-size: 24px;
       color:rgba(61,58,255,.3);
-      .icon-detail {
-        width: 26px;
-        height: 13px;
-        transform: rotate(-90deg);
-      }
     }
   }
   .num-s {
@@ -79,17 +79,17 @@
     display: flex;
     margin-bottom: 45px;
     .circle-item {
-      padding-left: 20px;
-      width: 80px;
+      padding-left: 15px;
+      width: 100px;
       .avatar {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         background: #eee;
         margin: 0 auto 10px;
         border-radius: 50%;
       }
       .name {
-        font-size: 20px;
+        font-size: 24px;
         color: #333;
         white-space: nowrap;
         @extend .line1;
@@ -97,41 +97,17 @@
     }
     .all-circle {
       border-right: 1px solid #DDDFE8;
-      padding-right: 48px;
-      width: 96px;
-      padding-left: 0;
-      .avatar {
-        width: 60px;
-        height: 60px;
-      }
-      .name {
-        font-size: 24px;
-      }
-    }
-    .first-item {
-      padding-left: 45px;
     }
     .btn-all-circle {
-      text-align: center;
       margin-top: 4px;
-      width: 140px;
-      height:40px;
-      background:linear-gradient(270deg,rgba(255,71,58,1) 0%,rgba(255,138,99,1) 100%);
-      border-radius:19px;
-      color: #fff;
+      width: 100px;
+      color:rgba(61,58,255,.3);
       text-align: center;
-      line-height: 40px;
-      margin-left: 28px;
       font-size: 24px;
-      white-space: nowrap;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 0 4px 0 4px;
-      .icon-right {
-        width: 22px;
-        height: 28px;
-      }
     }
   }
   .swiper-style {

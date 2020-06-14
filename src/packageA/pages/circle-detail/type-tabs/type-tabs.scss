@@ -1,8 +1,9 @@
 @import '../../../../app.scss';
-@import "~taro-ui/dist/style/components/tabs.scss";
 
 .type-tabs-view {
   margin: 20px 0 0;
   background:rgba(255,255,255,1);
   border-radius:16px;
+  overflow: hidden;
+  padding: 8px 0 0;
 }

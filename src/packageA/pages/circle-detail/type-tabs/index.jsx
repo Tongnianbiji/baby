@@ -20,11 +20,17 @@ export default class TypeTabsView extends Taro.Component {
     }
   }
 
+  typeTabChange = index => {
+    this.setState({
+      current: index
+    })
+  }
+
   render() {
     const {current} = this.state
     return (
       <View className='type-tabs-view'>
-        <AtTabs tabList={TypeTabs} current={current}>
+        <AtTabs className='tabs' tabList={TypeTabs} current={current} onClick={this.typeTabChange}>
           <AtTabsPane index={0} current={current}>1</AtTabsPane>
           <AtTabsPane index={1} current={current}>2</AtTabsPane>
           <AtTabsPane index={2} current={current}>3</AtTabsPane>

@@ -4,7 +4,6 @@ import './styles.scss'
 
 const ShareIconUrl = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/share-c.png'
 const DetailIconUrl = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/expand.png'
-const RightAllowUrl = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/jiantouyou.png'
 
 export default class MainInfoPanel extends Taro.Component {
   render() {
@@ -25,7 +24,7 @@ export default class MainInfoPanel extends Taro.Component {
           <View className='txt'>简介：济阳三村幼儿园地址位于上海市杨浦区市光路333号</View>
           <View className='btn'>
             详情
-            <Image src={DetailIconUrl} className='icon-detail' />
+            <Image src={DetailIconUrl} className='icon-right' />
           </View>
         </View>
         {/* 各种数量 */}
@@ -36,11 +35,15 @@ export default class MainInfoPanel extends Taro.Component {
         </View>
         {/* 圈子列表 */}
         <View className='circle-list'>
-          <View className='circle-item all-circle'>
+          <View className='circle-item' style={{paddingLeft: 0}}>
             <View className='avatar'></View>
             <View className='name'>全部圈子</View>
           </View>
-          <View className='circle-item first-item'>
+          <View className='btn-all-circle all-circle'>
+            12个父圈子
+            <Image src={DetailIconUrl} className='icon-right' />
+          </View>
+          <View className='circle-item'>
             <View className='avatar'></View>
             <View className='name'>济阳二村</View>
           </View>
@@ -53,8 +56,8 @@ export default class MainInfoPanel extends Taro.Component {
             <View className='name'>济阳四村</View>
           </View>
           <View className='btn-all-circle'>
-            102个圈子
-            <Image src={RightAllowUrl} className='icon-right' />
+            102个子圈子
+            <Image src={DetailIconUrl} className='icon-right' />
           </View>
         </View>
         {/* 公告列表 */}

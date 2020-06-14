@@ -1,4 +1,5 @@
 @import '../../../app.scss';
+@import "~taro-ui/dist/style/components/tabs.scss";
 
 page {
   @extend .page100;
@@ -7,4 +8,24 @@ page {
 .circle-detail-viewport {
   padding: 26px 32px 0;
   height: 100%;
+  .tabs {
+    &>.at-tabs__header {
+      padding-right: 20px;
+    }
+    &>.at-tabs__header .at-tabs__item {
+      padding: 24px 0;
+      font-size: 28px;
+      font-weight: 500;
+      color: #333;
+      text-overflow: unset;
+    }
+    &>.at-tabs__header .at-tabs__item--active {
+      color: #FF473A;
+    }
+    &>.at-tabs__header .at-tabs__item .at-tabs__item-underline {
+      background: #FF473A;
+      height: 6px;
+      border-radius: 9px;
+    }
+  }
 }
