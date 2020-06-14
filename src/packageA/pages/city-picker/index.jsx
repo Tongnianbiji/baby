@@ -1,9 +1,11 @@
 import Taro from '@tarojs/taro'
-import { View, Input, Image, Text, ScrollView } from '@tarojs/components'
+import { View, Input, Image, Text, ScrollView, Button } from '@tarojs/components'
 import UITabs from '../../../common/components/ui-tabs'
 import Presenter from './presenter'
 import './index.scss'
 import iconSearch from '../../../assets/img/icon-search.png'
+
+const LocationIcon = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/address.png'
 
 export default class CityPickerView extends Presenter {
   config = {
@@ -11,7 +13,8 @@ export default class CityPickerView extends Presenter {
   }
 
   render() {
-    const { tabsData, currentTab, provinceData, cityData, townData, searchResult } = this.state
+    const { tabsData, currentTab, provinceData, cityData, townData, searchResult, locationCity } = this.state
+    const { locationStatus } = this
     return (
       <View className='city-picker-vewport'>
         <View className='page-header'>
@@ -22,15 +25,21 @@ export default class CityPickerView extends Presenter {
             </View>
             <View className='btn-cancel' onClick={this.goBack}>取消</View>
           </View>
-          { !searchResult && <View className='current-city-info'>当前: {this.state.currentCity}</View> }
+          { !searchResult && <View className='current-city-info'>当前选择: {this.state.currentCity}</View> }
           {
             !searchResult &&
             <View className='location-pane'>
-              <View className='title'>定位/最近访问</View>
-              <View className='btn-location' onClick={this.reLocation}>
-                <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/address.png' className='icon-location' />
-                <Text className='btn-txt'>{this.state.locationCity}</Text>
-              </View>
+              <View className='title'>当前定位</View>
+              {
+                locationCity === locationStatus.LocationFaild ?
+                  <View>
+                    <Button className='btn-location btn-openSetting' openType='openSetting' onOpenSetting={this.onOpenSettings}>定位失败</Button>
+                  </View> :
+                  <View className='btn-location' onClick={this.reLocation}>
+                    <Image src={LocationIcon} className='icon-location' />
+                    <Text className='btn-txt'>{locationCity}</Text>
+                  </View>
+              }
             </View>
           }
           { !searchResult && <UITabs tabList={tabsData} current={currentTab} onChange={this.tabChange} /> }

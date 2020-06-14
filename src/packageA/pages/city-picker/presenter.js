@@ -4,9 +4,15 @@ import Model from './model'
 export default class Presenter extends BaseComponent {
   constructor(props) {
     super(props)
+
+    this.locationStatus = {
+      Locating: '定位中...',
+      LocationFaild: '定位失败'
+    }
+
     this.state = {
       currentCity: this.getCurrentCity() || '未设置',
-      locationCity: '定位中...',
+      locationCity: this.locationStatus.Locating,
       tabsData: [{ title: '选择省', useable: false }, { title: '选择市', useable: false }, { title: '选择区/县', useable: false }],
       currentTab: 0,
       provinceData: [],
@@ -39,7 +45,7 @@ export default class Presenter extends BaseComponent {
         this.setState({ locationCity: data.district || data.city })
       })
     }).catch(() => {
-      this.setState({ locationCity: '定位失败' })
+      this.setState({ locationCity: this.locationStatus.LocationFaild })
     })
   }
 
@@ -111,7 +117,7 @@ export default class Presenter extends BaseComponent {
             tabsData: prevData
           })
         }
-        this.showNavLoading()
+        this.hideNavLoading()
       })
     } else { // town
       this.pickCity(record.name)
@@ -146,7 +152,7 @@ export default class Presenter extends BaseComponent {
 
   reLocation = () => {
     const {locationCity} = this.state
-    if (locationCity === '定位失败') {
+    if (locationCity === this.locationStatus.LocationFaild) {
       this.hasPermission('scope.userLoaction').then(ok => {
         if (ok) {
           this.doLocation()
@@ -156,6 +162,15 @@ export default class Presenter extends BaseComponent {
       })
     } else {
       this.pickCity(locationCity)
+    }
+  }
+
+  onOpenSettings = ({ detail }) => {
+    if (detail && detail.errMsg === 'openSetting:ok') {
+      const reTry = detail.authSetting['scope.userLocation']
+      if (reTry) {
+        this.doLocation()
+      }
     }
   }
 }

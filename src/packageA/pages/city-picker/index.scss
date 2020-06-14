@@ -92,6 +92,10 @@ page {
           line-height:28px;
         }
       }
+      .btn-openSetting {
+        border: 0;
+        padding: 0 54px;
+      }
     }
   }
   .page-body {
@@ -133,6 +137,14 @@ page {
         border-bottom: 1px solid #DDDFE8;
         &:nth-last-child(1) {
           border-bottom: 0;
+        }
+        .title {
+          color: #333;
+          font-size: 28px;
+        }
+        .sub-title {
+          color: #999;
+          font-size: 28px;
         }
       }
     }
