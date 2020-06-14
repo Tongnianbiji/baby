@@ -29,7 +29,7 @@ export default class ProfileBaby extends Presenter {
             return (
               <View key={`item_${item.id}_${index}`} className='item' onClick={this.onClickNavTo.bind(this, item.id)}>
                 <View className='item-txt'>{item.name}</View>
-                <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-a.png' />
+                <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
               </View>
             )
           })

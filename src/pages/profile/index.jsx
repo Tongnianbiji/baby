@@ -20,6 +20,9 @@ export default class ProfileIndex extends Presenter {
   }
 
   render() {
+
+    const ICON_ARROW = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png';
+
     return (
       <View className='profile-viewport'>
         <View className='profile-top'>
@@ -75,24 +78,39 @@ export default class ProfileIndex extends Presenter {
 
           <View className='other-wrapper'>
             <View className='other' onClick={this.onClickNavTo.bind(this, 'baby')}>
-              <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-baby.png' />
-              <View className='other-txt'>宝宝信息</View>
+              <View className='other-left'>
+                <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-baby.png' />
+                <View className='other-txt'>宝宝信息</View>
+              </View>
+              <Image className='other-right' src={ICON_ARROW} />
             </View>
             <View className='other' onClick={this.onClickNavTo.bind(this, 'share')}>
-              <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-share.png' />
-              <View className='other-txt'>分享</View>
+              <View className='other-left'>
+                <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-share.png' />
+                <View className='other-txt'>分享</View>
+              </View>
+              <Image className='other-right' src={ICON_ARROW} />
             </View>
             <View className='other' onClick={this.onClickNavTo.bind(this, 'setting')}>
-              <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-setting.png' />
-              <View className='other-txt'>设置</View>
+              <View className='other-left'>
+                <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-setting.png' />
+                <View className='other-txt'>设置</View>
+              </View>
+              <Image className='other-right' src={ICON_ARROW} />
             </View>
             <View className='other' onClick={this.onClickNavTo.bind(this, 'about')}>
-              <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-about.png' />
-              <View className='other-txt'>关于我们</View>
+              <View className='other-left'>
+                <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-about.png' />
+                <View className='other-txt'>关于我们</View>
+              </View>
+              <Image className='other-right' src={ICON_ARROW} />
             </View>
             <View className='other' onClick={this.onClickNavTo.bind(this, 'contact')}>
-              <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-contact.png' />
-              <View className='other-txt'>联系我们</View>
+              <View className='other-left'>
+                <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-contact.png' />
+                <View className='other-txt'>联系我们</View>
+              </View>
+              <Image className='other-right' src={ICON_ARROW} />
             </View>
           </View>
         </View>

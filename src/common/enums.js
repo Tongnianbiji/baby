@@ -15,3 +15,15 @@ export const SearchResultType = {
   ANSWER: 'answer',
   POST: 'post'
 }
+
+/**
+ * 性别
+ */
+export const GENDER_LIST = [
+  {
+    id: 0, name: '小王子'
+  },
+  {
+    id: 1, name: '小公举'
+  }
+]

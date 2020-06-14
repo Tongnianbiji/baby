@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro'
 import { AtTabs, AtTabsPane } from 'taro-ui'
-import { View, Input, RadioGroup, Label, Radio } from '@tarojs/components'
+import { View, Input, RadioGroup, Radio } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
 
