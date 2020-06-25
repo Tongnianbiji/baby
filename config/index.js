@@ -22,7 +22,7 @@ const config = {
       'transform-object-rest-spread'
     ]
   },
-  plugins: [],
+  plugins: ['@tarojs/plugin-sass'],
   defineConstants: {
   },
   mini: {
