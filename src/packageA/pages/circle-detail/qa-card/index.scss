@@ -1,0 +1,78 @@
+@import '../../../../app.scss';
+.qa-card-view {
+  background: #fff;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  margin-bottom: 20px;
+  .anwser,.questions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    .icon {
+      width:35px;
+      height:35px;
+      min-width: 35px;
+      background:rgba(149,184,255,1);
+      border-radius:4px;
+      font-size:24px;
+      color:rgba(255,255,255,1);
+      line-height: 35px;
+      text-align: center;
+    }
+    .txt {
+      flex: 1;
+      padding-left: 16px;
+      font-size:28px;
+      color:rgba(51,51,51,1);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 0px;
+    }
+    .share-btn {
+      width: 32px;
+      font-size: 0;
+      .share-icon {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+  .tips {
+    align-items: center;
+    @extend .flex-between;
+    padding: 0 12px;
+    .views, .comment, .favorite {
+      color: #666;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+    }
+    .views {
+      color: #666;
+      .img {
+        width: 35px;
+        height: 26px;
+        margin-right: 6px;
+      }
+    }
+    .comment {
+      color: #666;
+      .img {
+        width: 34px;
+        height: 32px;
+        margin-right: 6px;
+      }
+    }
+    .favorite {
+      color: #666;
+      .img {
+        width: 34px;
+        height: 32px;
+        margin-right: 6px;
+      }
+    }
+  }
+}

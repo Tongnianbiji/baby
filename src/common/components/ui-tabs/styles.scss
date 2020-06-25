@@ -15,7 +15,7 @@
       color: #aaa;
     }
     &.item-actived {
-      color: #FF473A;
+      color: #FF473A !important;
       .active-underscore {
         background: #FF473A;
         width: 72rpx;
@@ -30,6 +30,10 @@
         bottom: 0;
         animation: underscore-in .3s ease;
       }
+    }
+    &.small-item {
+      font-size: 24px;
+      font-weight: 400;
     }
   }
   @keyframes underscore-in {

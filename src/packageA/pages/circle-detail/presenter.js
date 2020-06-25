@@ -5,7 +5,10 @@ export default class Presenter extends BaseComponent {
     super(props)
 
     this.state = {
-      loading: true
+      loading: true,
+      listType: 0,
+      dataList: [1, 2, 3, 4],
+      showOpPanel: false
     }
   }
 
@@ -20,5 +23,15 @@ export default class Presenter extends BaseComponent {
         loading: false
       })
     }, 1000)
+  }
+
+  typeChange = (index, data) => {
+    this.setState({ listType: index })
+  }
+
+  troggleOpPanel = () => {
+    this.setState(prevState => ({
+      showOpPanel: !prevState.showOpPanel
+    }))
   }
 }

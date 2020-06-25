@@ -6,7 +6,9 @@ export default class UITabs extends Taro.Component {
   static defaultProps = {
     tabList: [],
     current: 0,
-    change: () => ({})
+    onChange: () => ({}),
+    size: 'normal',
+    itemColor: ''
   }
 
   constructor() {
@@ -28,17 +30,19 @@ export default class UITabs extends Taro.Component {
   }
 
   render() {
-    const { tabList } = this.props
+    const { tabList, size, itemColor } = this.props
     const { cur } = this.state
+    const customItemStyle = {}
+    itemColor && (customItemStyle.color = itemColor)
     return (
       <View className='ui-tabs'>
         {
           tabList.map((tab, index) => (
             <View
-              key={index}
-              className={`ui-tabs-item${index === cur ? ' item-actived' : ''}${tab.useable ? '' : ' item-unuserable'}`}
-              onClick={this.itemClick.bind(this, tab, index)}
-            >
+              key={tab.title}
+              style={customItemStyle}
+              className={`ui-tabs-item${index === cur ? ' item-actived' : ''}${tab.useable ? '' : ' item-unuserable'}${size==='small' ? ' small-item': ''}`}
+              onClick={this.itemClick.bind(this, tab, index)}>
               {tab.title}
               {index === cur && <View className='active-underscore'></View>}
             </View>

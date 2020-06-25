@@ -6,6 +6,13 @@ const ShareIconUrl = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/share-
 const DetailIconUrl = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/expand.png'
 
 export default class MainInfoPanel extends Taro.Component {
+
+  toDesc = () => {
+    Taro.navigateTo({
+      url: '/packageA/pages/circle-desc/index'
+    })
+  }
+
   render() {
     return (
       <View className='main-info-panel'>
@@ -22,7 +29,7 @@ export default class MainInfoPanel extends Taro.Component {
         { /* 简介 */ }
         <View className='desc'>
           <View className='txt'>简介：济阳三村幼儿园地址位于上海市杨浦区市光路333号</View>
-          <View className='btn'>
+          <View className='btn' onClick={this.toDesc}>
             详情
             <Image src={DetailIconUrl} className='icon-right' />
           </View>
@@ -35,29 +42,29 @@ export default class MainInfoPanel extends Taro.Component {
         </View>
         {/* 圈子列表 */}
         <View className='circle-list'>
-          <View className='circle-item' style={{paddingLeft: 0}}>
+          <View className='circle-item'>
             <View className='avatar'></View>
             <View className='name'>全部圈子</View>
           </View>
-          <View className='btn-all-circle all-circle'>
-            12个父圈子
-            <Image src={DetailIconUrl} className='icon-right' />
+          <View className='circle-item last-parent-one'>
+            <View className='avatar'>2</View>
+            <View className='name'>父圈子</View>
           </View>
-          <View className='circle-item'>
+          <View className='circle-item small-item'>
             <View className='avatar'></View>
             <View className='name'>济阳二村</View>
           </View>
-          <View className='circle-item'>
+          <View className='circle-item small-item'>
             <View className='avatar'></View>
             <View className='name'>济阳三村</View>
           </View>
-          <View className='circle-item'>
+          <View className='circle-item small-item'>
             <View className='avatar'></View>
             <View className='name'>济阳四村</View>
           </View>
-          <View className='btn-all-circle'>
-            102个子圈子
-            <Image src={DetailIconUrl} className='icon-right' />
+          <View className='circle-item small-item'>
+            <View className='avatar'>102</View>
+            <View className='name'>子圈子</View>
           </View>
         </View>
         {/* 公告列表 */}

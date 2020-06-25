@@ -1,0 +1,36 @@
+@import '../../../app.scss';
+.ui-slider-tab {
+  // margin: 4px 32px 24px 32px;
+  height: 60px;
+  border-radius: 8px;
+  background: #e3e3e3;
+  padding: 3px;
+  box-sizing: border-box;
+  position: relative;
+  .slider-view {
+    width: 50%;
+    background: #fff;
+    border-radius: 8px;
+    height: 100%;
+    transition: all .2s ease;
+    &.left-status {
+      transform: translateX(100%);
+    }
+  }
+  .tab-items {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 32px;
+    right: 32px;
+    background: transparent;
+    display: flex;
+    .tab-item {
+      flex: 1;
+      @extend .flex-center;
+      font-size: 28px;
+      font-weight: 400;
+      color: #333;
+    }
+  }
+}

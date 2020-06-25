@@ -145,7 +145,8 @@
       .tips {
         flex: 1;
         align-items: center;
-        @extend .flex-around;
+        @extend .flex-between;
+        padding: 0 12px;
         .views, .comment, .favorite {
           color: #666;
           font-size: 28px;
