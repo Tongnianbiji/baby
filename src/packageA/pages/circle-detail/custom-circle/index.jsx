@@ -42,11 +42,25 @@ export default class CustomCircle extends Taro.Component {
           </View>
           {
             openArea &&
-              <View className='area-item-wrapper'>
-                <View className='area-item actived'>
-                  深圳
-                  <View className='btn-close'>
-                    <Image className='btn-close-icon' src={ICON_CLOSE} alt='' />
+              <View className='items-wrapper'>
+                <View className='item-card'>
+                  <View className='container'>
+                    <View className='radio-wrapper'>
+                      <View className='radio'><View className='radio-center' /></View>
+                    </View>
+                    <View className='content-wrapper'>
+                      <View className='title'>同省(江苏省)</View>
+                    </View>
+                  </View>
+                </View>
+                <View className='item-card actived'>
+                  <View className='container'>
+                    <View className='radio-wrapper'>
+                      <View className='radio'><View className='radio-center' /></View>
+                    </View>
+                    <View className='content-wrapper'>
+                      <View className='title'>同省(江苏省)</View>
+                    </View>
                   </View>
                 </View>
               </View>
@@ -59,22 +73,29 @@ export default class CustomCircle extends Taro.Component {
           </View>
           {
             openFeature &&
-              <View className='feature-wrapper'>
-                {
-                  mock.map(group => {
-                    return (
-                      <View className='feature-list'>
-                        {
-                          group.data.map(item => {
-                            return (
-                              <View className={`feature-item${item.actived ? ' actived-one': ''}`}>{item.title}</View>
-                            )
-                          })
-                        }
-                      </View>
-                    )
-                  })
-                }
+              <View className='items-wrapper'>
+                <View className='item-card'>
+                  <View className='container'>
+                    <View className='radio-wrapper'>
+                      <View className='radio'><View className='radio-center' /></View>
+                    </View>
+                    <View className='content-wrapper'>
+                      <View className='title'>相同一级阶段</View>
+                      <View className='sub-title'>(启蒙1-3岁; 小学)</View>
+                    </View>
+                  </View>
+                </View>
+                <View className='item-card actived'>
+                  <View className='container'>
+                    <View className='radio-wrapper'>
+                      <View className='radio'><View className='radio-center' /></View>
+                    </View>
+                    <View className='content-wrapper'>
+                      <View className='title'>相同一级阶段</View>
+                      <View className='sub-title'>(启蒙1-3岁; 小学)</View>
+                    </View>
+                  </View>
+                </View>
               </View>
           }
         </View>

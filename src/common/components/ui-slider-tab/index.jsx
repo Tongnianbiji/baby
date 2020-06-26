@@ -1,9 +1,7 @@
 import Taro from '@tarojs/taro'
 import {View, Text} from '@tarojs/components'
 import './index.scss'
-/**
- * 未完成, 目前只支持 两个item...
- */
+
 export default class UISliderTabView extends Taro.Component {
   static defaultProps = {
     tabList: [],
@@ -28,14 +26,18 @@ export default class UISliderTabView extends Taro.Component {
     const {current} = this.state
     return (
       <View className='ui-slider-tab'>
-        <View className={`slider-view${current === 1 ? ' left-status' : ''}`}></View>
+        <View className={`slider-view left-${current} item-${Math.min(5, tabList.length)}`}></View>
         <View className='tab-items'>
           {
             tabList.map((tab, index) => {
-              return <Text
-                key={tab.title}
-                className='tab-item'
-                onClick={this.tabChange.bind(this, index)}>{tab.title}</Text>
+              return index < 5 ? (
+                <Text
+                  key={tab.title}
+                  className='tab-item'
+                  onClick={this.tabChange.bind(this, index)}>
+                    {tab.title}
+                </Text>
+              ) : null
             })
           }
         </View>
