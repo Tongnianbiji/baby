@@ -26,7 +26,7 @@ export default class ProfileHome extends Presenter {
   render() {
     const { tabs, tabsCurrent } = this.state;
     return (
-      <View className='profile-baby-action-viewport'>
+      <View className='profile-home-viewport'>
         <View className='profile-header'>
           <View className='top-wrapper'>
             <View className='left-container'>

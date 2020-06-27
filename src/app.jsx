@@ -30,14 +30,14 @@ class App extends Component {
 
   config = {
     pages: [
-      'test/index',//开发测试入口页面
       //主package
       'pages/index/index',//首页
       'pages/profile/index',//我的
       'pages/discover/index',//发现
       'pages/message/index',//消息
       'pages/splash/index',
-      
+      'test/index',//开发测试入口页面
+
       'pages/login/index'
     ],
     "subPackages": [

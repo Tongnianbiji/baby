@@ -1,54 +1,5 @@
-@import "../../../app.scss";
-@import "../../../assets/scss/theme.scss";
+@import "~taro-ui/dist/style/components/article.scss";
 
-.profile-baby-viewport {
-  background: $sys-page-bg;
-  min-height: 100vh;
-  padding: 24px 32px;
-
-  .logo-wrapp {
-    height: 263rpx;
-    @extend .flex;
-    @extend .flex-center;
-    @extend .flex-direction-column;
-    .img-logo {
-      width: 180px;
-      height: 180px;
-    }
-  }
-
-  .item {
-    @extend .flex-between;
-    @extend .flex-direction-row;
-    padding: 0 24px;
-    margin: 24px 0;
-    height: 100px;
-    background: rgba(255, 255, 255, 1);
-    border-radius: 16px;
-
-    .item-txt {
-      font-size: 28px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: rgba(51, 51, 51, 1);
-    }
-    .item-icon {
-      width: 9px;
-      height: 20px;
-      margin-right: 25px;
-    }
-  }
-
-  .btn-wrapper {
-    margin: 56px 56px 0 56px;
-    .btn {
-      height: 72px;
-      background: $sys-linear-active;
-      border-radius: 36px;
-      font-size: 32px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 1);
-    }
-  }
+.at-article__p {
+  margin: 25rpx 30rpx;
 }
