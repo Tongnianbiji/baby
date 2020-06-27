@@ -4,7 +4,7 @@ import { GENDER_LIST } from '../../../common/enums';
 import Presenter from './presenter'
 import './index.scss'
 
-export default class ProfileBabyDetai extends Presenter {
+export default class ProfileBabyDetail extends Presenter {
 
   componentWillMount() { }
 
@@ -23,7 +23,7 @@ export default class ProfileBabyDetai extends Presenter {
 
   render() {
     return (
-      <View className='profile-baby-viewport'>
+      <View className='profile-baby-detail-viewport'>
         <View className='item'>
           <View className='item-label'>
             <View className='item-txt'>宝宝小名</View>

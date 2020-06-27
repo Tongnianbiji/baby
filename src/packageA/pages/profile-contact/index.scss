@@ -1,0 +1,54 @@
+@import "../../../app.scss";
+@import "../../../assets/scss/theme.scss";
+
+.profile-setting-info-nickname-viewport {
+  background: $sys-page-bg;
+  min-height: 100vh;
+  padding: 24px 32px;
+
+  .item-input-wrapper {
+    margin-top: 24px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 16px;
+    padding: 25px;
+    .item-input {
+      background: rgba(255, 255, 255, 1);
+    }
+    .item-input-placeholder {
+      font-size: 28px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(153, 153, 153, 1);
+      padding-left: 24px;
+    }
+  }
+
+  .item-label-wrapper {
+    font-size: 32px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+  }
+
+  .height-345 {
+    height: 345px;
+  }
+
+  .height-100 {
+    height: 100px;
+  }
+
+  .btn-wrapper {
+    margin: 56px 56px 0 56px;
+    .btn {
+      height: 72px;
+      background: $sys-linear-active;
+      border-radius: 36px;
+      // opacity: 0.49;
+      font-size: 32px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+}

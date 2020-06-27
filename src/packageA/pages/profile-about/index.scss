@@ -1,10 +1,21 @@
 @import "../../../app.scss";
 @import "../../../assets/scss/theme.scss";
 
-.profile-baby-detail-viewport {
+.profile-baby-viewport {
   background: $sys-page-bg;
   min-height: 100vh;
   padding: 24px 32px;
+
+  .logo-wrapp {
+    height: 263rpx;
+    @extend .flex;
+    @extend .flex-center;
+    @extend .flex-direction-column;
+    .img-logo {
+      width: 180px;
+      height: 180px;
+    }
+  }
 
   .item {
     @extend .flex-between;
@@ -19,42 +30,12 @@
       font-size: 28px;
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
-    }
-
-    .item-label {
       color: rgba(51, 51, 51, 1);
     }
-
-    .item-value {
-      @extend .flex-center;
-      @extend .flex-direction-row;
-      .item-txt {
-        color: rgba(153, 153, 153, 1);
-        margin-right: 36px;
-      }
-      .item-icon {
-        width: 9px;
-        height: 20px;
-        margin-right: 25px;
-      }
-      .item-search {
-        width: 27px;
-        height: 26px;
-        margin-right: 20px;
-      }
-      .radio-group {
-        font-size: 28px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: rgba(51, 51, 51, 1);
-
-        radio {
-          padding-right: 24px;
-        }
-        radio:last-child {
-          margin-left: 50px;
-        }
-      }
+    .item-icon {
+      width: 9px;
+      height: 20px;
+      margin-right: 25px;
     }
   }
 

@@ -2,11 +2,11 @@ import Taro from '@tarojs/taro'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
 
-export default class ProfileBabyPresenter extends BaseComponent {
+export default class ProfileSettingPrivacyPresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      babyList: Model.babyList,
+      checked: true
     }
   }
 
@@ -19,12 +19,4 @@ export default class ProfileBabyPresenter extends BaseComponent {
   componentDidShow() { }
 
   componentDidHide() { }
-
-  onClickNavTo(id) {
-    this.navto({ url: `/packageA/pages/profile-baby-detail/index?id=${id}` })
-  }
-
-  onClickNavToAction() {
-    this.navto({ url: `/packageA/pages/profile-baby-action/index` })
-  }
 }

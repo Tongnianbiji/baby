@@ -35,7 +35,7 @@ export default class ProfileBaby extends Presenter {
           })
         }
         <View className='btn-wrapper'>
-          <View className='btn flex-center'>添加新宝宝</View>
+          <View className='btn flex-center' onClick={this.onClickNavToAction.bind(this)}>添加新宝宝</View>
         </View>
       </View>
     )

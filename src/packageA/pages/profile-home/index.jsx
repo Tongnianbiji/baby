@@ -26,7 +26,7 @@ export default class ProfileHome extends Presenter {
   render() {
     const { tabs, tabsCurrent } = this.state;
     return (
-      <View className='profile-home-viewport'>
+      <View className='profile-baby-action-viewport'>
         <View className='profile-header'>
           <View className='top-wrapper'>
             <View className='left-container'>
@@ -97,7 +97,7 @@ export default class ProfileHome extends Presenter {
           <View className='tabs-container'>
             <AtTabs className='tabs' current={tabsCurrent} tabList={tabs} swipeable={false} onClick={this.onClickForTabs.bind(this)}>
 
-              <AtTabsPane current={tabsCurrent} index={0} >
+              <AtTabsPane current={tabsCurrent} index={0}>
                 <View className='new-info'>
                   共3条内容
                 </View>

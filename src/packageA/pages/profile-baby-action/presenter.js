@@ -2,11 +2,12 @@ import Taro from '@tarojs/taro'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
 
-export default class ProfileBabyPresenter extends BaseComponent {
+export default class ProfileBabyActionPresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      babyList: Model.babyList,
+      tabs: Model.tabs,
+      tabsCurrent: 0,
     }
   }
 
@@ -24,7 +25,13 @@ export default class ProfileBabyPresenter extends BaseComponent {
     this.navto({ url: `/packageA/pages/profile-baby-detail/index?id=${id}` })
   }
 
-  onClickNavToAction() {
-    this.navto({ url: `/packageA/pages/profile-baby-action/index` })
+  /**
+   * tab 点击
+   * @param {Number} value 索引
+   */
+  onClickForTabs(value) {
+    this.setState({
+      tabsCurrent: value,
+    })
   }
 }
