@@ -51,7 +51,7 @@ export default class UserInfoItem extends Taro.Component {
             {
               this.props.showOrder &&
                 <View className='order'>
-                  <Image className='icon-order' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/comment.png' />
+                  <Image className='icon-order' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/ranking.png' />
                   <Text>1</Text>
                 </View>
             }

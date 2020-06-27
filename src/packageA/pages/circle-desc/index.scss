@@ -1,0 +1,20 @@
+page {
+  background: #f5f5f5;
+}
+
+.circle-desc-view {
+  padding: 26px 32px 0;
+  height: 100%;
+  position: relative;
+
+  .info-panel {
+    background: #fff;
+    border-radius: 16px;
+    font-family:PingFangSC-Regular,PingFang SC;
+    font-weight:400;
+    padding: 24px;
+    color: #666;
+    font-size: 28px;
+    text-align: justify;
+  }
+}

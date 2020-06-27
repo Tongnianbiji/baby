@@ -1,0 +1,12 @@
+@import "../../../app.scss";
+
+page {
+  @extend .page100;
+}
+
+.circle-list-view {
+  padding: 108px 32px 0;
+  .tab-wrapper {
+    padding-bottom: 24px;
+  }
+}

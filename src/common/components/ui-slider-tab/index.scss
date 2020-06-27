@@ -1,0 +1,62 @@
+@import '../../../app.scss';
+.ui-slider-tab {
+  // margin: 4px 32px 24px 32px;
+  height: 60px;
+  border-radius: 8px;
+  background: #e3e3e3;
+  padding: 3px;
+  box-sizing: border-box;
+  position: relative;
+  .slider-view {
+    background: #fff;
+    border-radius: 8px;
+    height: 100%;
+    transition: all .2s ease;
+    &.left-1 {
+      transform: translateX(100%);
+    }
+    &.left-2 {
+      transform: translateX(200%);
+    }
+    &.left-3 {
+      transform: translateX(300%);
+    }
+    &.left-4 {
+      transform: translateX(400%);
+    }
+    &.item-1 {
+      width: 100%;
+    }
+    &.item-2 {
+      width: 50%;
+    }
+    &.item-3 {
+      width: 33.33%;
+    }
+    &.item-4 {
+      width: 25%;
+    }
+    &.item-5 {
+      width: 20%;
+    }
+  }
+  .tab-items {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    // left: 32px;
+    // right: 32px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: transparent;
+    display: flex;
+    .tab-item {
+      flex: 1;
+      @extend .flex-center;
+      font-size: 28px;
+      font-weight: 400;
+      color: #333;
+    }
+  }
+}
