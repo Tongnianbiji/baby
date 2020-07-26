@@ -3,14 +3,14 @@ import { View, Image } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
 
-export default class SystemMessageView extends Presenter {
+export default class MessageSystemView extends Presenter {
   config = {
     navigationBarTitleText: '系统消息'
   }
 
   render() {
     return (
-      <View className='sys-message-viewport'>
+      <View className='message-sys-viewport'>
         <View className='container'>
           <View className='message-card'>
             <View className='icon-wrapper'>

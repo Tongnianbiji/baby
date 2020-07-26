@@ -1,0 +1,8 @@
+@import "../../../app.scss";
+page {
+  @extend .page100;
+}
+.message-im-viewport {
+  height: 100%;
+  background-color: #f2f2f2;
+}

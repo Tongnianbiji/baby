@@ -1,11 +1,11 @@
-@import '../../../app.scss';
+@import "../../../app.scss";
 page {
   @extend .page100;
 }
-.sys-message-viewport {
+.message-sys-viewport {
   height: 100%;
   padding: 23px 32px 32px;
-  font-family:PingFangSC-Regular,PingFang SC;
+  font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   box-sizing: border-box;
   .container {
@@ -35,22 +35,22 @@ page {
           display: flex;
           justify-content: space-between;
           .txt {
-            height:28px;
-            font-size:32px;
-            color:rgba(51,51,51,1);
-            line-height:28px;
+            height: 28px;
+            font-size: 32px;
+            color: rgba(51, 51, 51, 1);
+            line-height: 28px;
           }
           .time {
-            height:28px;
-            font-size:24px;
-            color:rgba(153,153,153,1);
-            line-height:28px;
+            height: 28px;
+            font-size: 24px;
+            color: rgba(153, 153, 153, 1);
+            line-height: 28px;
           }
         }
         .sub-title {
-          font-size:28px;
-          color:rgba(102,102,102,1);
-          line-height:41px;
+          font-size: 28px;
+          color: rgba(102, 102, 102, 1);
+          line-height: 41px;
           padding-top: 10px;
           text-align: justify;
         }

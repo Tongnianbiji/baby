@@ -36,6 +36,10 @@ export default class Presenter extends BaseComponent {
   }
 
   toSysMessage = () => {
-    this.navto({ url: '/packageA/pages/system-message/index' })
+    this.navto({ url: '/packageA/pages/message-system/index' })
+  }
+
+  toIM = (item) => {
+    this.navto({ url: `/packageA/pages/message-im/index?name=${item.name}&id=${item.id}` })
   }
 }

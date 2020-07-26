@@ -52,15 +52,15 @@ export default class Index extends Presenter {
             <View className='chat-list'>
               {
                 [{ name: '张三', txt: '哈喽, 打个招呼', id: 1 },
-                { name: '张三', txt: '哈喽, 打个招呼', id: 2 },
-                { name: '张三', txt: '哈喽, 打个招呼', id: 3 },
+                { name: '李四', txt: '哈喽, 打个招呼', id: 2 },
+                { name: '赵六', txt: '哈喽, 打个招呼', id: 3 },
                 { name: '张三', txt: '哈喽, 打个招呼', id: 4 },
                 { name: '王五', txt: '回复: 哈喽, 打个招呼', id: 5 },
                 { name: '张三', txt: '哈喽, 打个招呼', id: 6 },
                 { name: '张三', txt: '哈喽, 打个招呼', id: 7 },
                 { name: '张三', txt: '哈喽, 打个招呼', id: 8 },].map(item => {
                   return (
-                    <View className='chat-item' key={item.id}>
+                    <View className='chat-item' key={item.id} onClick={this.toIM.bind(this, item)}>
                       <View className='avatar-wrapper'>
                         <View className='avatar'></View>
                       </View>
@@ -84,7 +84,7 @@ export default class Index extends Presenter {
       </View>
     )
   }
-  
+
   /**
    * 分享
    */

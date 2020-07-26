@@ -33,6 +33,8 @@
 	"dependencies": {
 		"@tarojs/components": "2.2.9",
 		"@tarojs/components-qa": "2.2.9",
+		"@tarojs/mobx": "2.2.9",
+		"@tarojs/mobx-h5": "2.2.9",
 		"@tarojs/router": "2.2.9",
 		"@tarojs/taro": "2.2.9",
 		"@tarojs/taro-alipay": "2.2.9",
@@ -42,11 +44,10 @@
 		"@tarojs/taro-swan": "2.2.9",
 		"@tarojs/taro-tt": "2.2.9",
 		"@tarojs/taro-weapp": "2.2.9",
-		"@tarojs/mobx": "2.2.9",
-		"@tarojs/mobx-h5": "2.2.9",
+		"goeasy": "^1.0.17",
 		"mobx": "4.8.0",
-		"nervjs": "^1.5.7",
 		"nerv-devtools": "^1.5.7",
+		"nervjs": "^1.5.7",
 		"taro-ui": "^2.3.1"
 	},
 	"devDependencies": {
