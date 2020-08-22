@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { View, Image } from '@tarojs/components'
 import './style.scss'
 
 export default class CircleItem extends Taro.Component {
@@ -15,13 +15,22 @@ export default class CircleItem extends Taro.Component {
     Taro.navigateTo({ url: '/packageA/pages/more-circle/index' })
   }
 
+  gotoCircleDetail = () => {
+    const { cid, name } = this.props
+    Taro.navigateTo({ url: `/packageA/pages/circle-detail/index?cid=${cid}&cname=${name}` })
+  }
+
   render() {
-    const { name, subscribe, posts, questions, leaf } = this.props;
+    const { name, subscribe, posts, questions, leaf, descript, imgUrl } = this.props;
     return (
-      <View className='comp-circle-item'>
+      <View className='comp-circle-item' onClick={this.gotoCircleDetail}>
         <View className='base-info'>
           <View className='avatar-wrapper'>
-            <View className='avatar'></View>
+            <View className='avatar'>
+              {
+                imgUrl && <Image className='avatar-img' src={imgUrl} />
+              }
+            </View>
           </View>
           <View className='infos'>
             <View className='title'>{name}</View>

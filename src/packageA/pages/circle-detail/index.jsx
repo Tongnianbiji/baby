@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
+import { inject, observer } from '@tarojs/mobx'
 import Presenter from './presenter'
 import MainInfoPanel from './main-info-panel'
 import TypeTabs from './type-tabs'
@@ -14,7 +15,9 @@ const ICON_CLOSE = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/cancel-b
 const ICON_POST = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/posts.png'
 const ICON_QA = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/question.png'
 
-export default class CircleDetailView extends Presenter {
+@inject('circleDetailStore')
+@observer
+class CircleDetailView extends Presenter {
   config = {
     navigationBarTitleText: '圈子'
   }
@@ -25,12 +28,20 @@ export default class CircleDetailView extends Presenter {
     )
   }
 
+  noDataRender() {
+    return (
+      <View className='no-data-view'>暂无该圈子信息</View>
+    )
+  }
+
   render() {
-    const { loading, listType, dataList, showOpPanel } = this.state
-    return loading ? this.loadingRender() : (
+    const { listType, dataList, showOpPanel } = this.state
+    const { loading, noData } = this.$store
+
+    return loading ? this.loadingRender() : noData ? this.noDataRender() : (
       <View className='circle-detail-viewport'>
-        <MainInfoPanel />
-        <TypeTabs onTypeChange={this.typeChange} key='123'/>
+        <MainInfoPanel cid={this.$router.params.cid} />
+        <TypeTabs onTypeChange={this.typeChange} key='123' />
         <View className='card-wrapper'>
           {
             dataList.map(num => {
@@ -67,3 +78,5 @@ export default class CircleDetailView extends Presenter {
     )
   }
 }
+
+export default CircleDetailView

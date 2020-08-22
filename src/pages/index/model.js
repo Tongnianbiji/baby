@@ -30,5 +30,11 @@ export default {
         }
       }
     })
+  },
+
+  //
+  async getAttentionCircle(params) {
+    const ret = await request.post('/relation/user/circles', params)
+    console.log(ret, 'ret')
   }
 }
