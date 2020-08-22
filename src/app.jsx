@@ -39,8 +39,8 @@ class App extends Component {
   config = {
     pages: [
       //主package
-      'pages/profile/index',//我的
       'pages/index/index',//首页
+      'pages/profile/index',//我的
       'pages/discover/index',//发现
       'pages/message/index',//消息
       'pages/splash/index',
@@ -90,8 +90,7 @@ class App extends Component {
       {
         "root": "packageB",
         "pages": [
-          "pages/index/index",
-          "pages/discover/index"
+          "pages/create-post/index"
         ]
       }
     ],

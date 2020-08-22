@@ -1,5 +1,5 @@
 import BaseComponent from '../../../common/baseComponent'
-import Model from './model'
+// import Model from './model'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -42,5 +42,9 @@ export default class Presenter extends BaseComponent {
     this.setState(prevState => ({
       showOpPanel: !prevState.showOpPanel
     }))
+  }
+
+  toCreatePost = () => {
+    this.navto({ url: `/packageB/pages/create-post/index?cid=${this.$router.params.cid}` })
   }
 }
