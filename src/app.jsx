@@ -31,8 +31,8 @@ class App extends Component {
   config = {
     pages: [
       //主package
-      'pages/index/index',//首页
       'pages/profile/index',//我的
+      'pages/index/index',//首页
       'pages/discover/index',//发现
       'pages/message/index',//消息
       'pages/splash/index',

@@ -6,19 +6,19 @@ export default class ProfileBabyPresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      babyList: Model.babyList,
+      babyList: []
     }
   }
 
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
+  componentDidMount() {
+    Model.childMine().then((res) => {
+      if (!res.code) {
+        this.setState({
+          babyList: res.data
+        })
+      }
+    })
+  }
 
   onClickNavTo(id) {
     this.navto({ url: `/packageA/pages/profile-baby-detail/index?id=${id}` })

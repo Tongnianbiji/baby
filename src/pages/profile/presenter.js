@@ -9,15 +9,9 @@ export default class ProfilePresenter extends BaseComponent {
     }
   }
 
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
+  componentDidMount() {
+    Model.profile().then((res) => { console.log('res', res); })
+  }
 
   onClickNavTo(type) {
     switch (type) {

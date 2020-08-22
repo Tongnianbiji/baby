@@ -11,18 +11,15 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
     }
   }
 
-  componentWillMount() { }
-
   componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
 
   onClickNavTo(id) {
     this.navto({ url: `/packageA/pages/profile-baby-detail/index?id=${id}` })
+  }
+
+  onClickForCreate() {
+    Model.childCreate();
+    // Model.searchSchool();
   }
 
   /**

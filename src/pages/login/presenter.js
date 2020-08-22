@@ -166,7 +166,7 @@ export default class Presenter extends BaseComponent {
     // jump to caller page.
     const { from } = this.$router.params
     const reg = /^\//
-    console.log(from , 'from..')
+    console.log(from, 'from..')
     if (from) {
       const goto = `${reg.test(from) ? '' : '/'}${from}`
       if (this.appBars.includes(goto.split('?')[0])) {

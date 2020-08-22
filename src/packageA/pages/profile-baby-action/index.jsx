@@ -6,17 +6,6 @@ import Presenter from './presenter'
 import './index.scss'
 
 export default class ProfileBabyAction extends Presenter {
-
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
   config = {
     navigationBarTitleText: '新增宝宝',
     navigationBarBackgroundColor: '#FFFFFF',
@@ -98,7 +87,7 @@ export default class ProfileBabyAction extends Presenter {
           </View>
         </View>
         <View className='btn-wrapper'>
-          <View className='btn flex-center'>确认</View>
+          <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认</View>
         </View>
       </View>
     )

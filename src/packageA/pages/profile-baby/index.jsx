@@ -4,17 +4,6 @@ import Presenter from './presenter'
 import './index.scss'
 
 export default class ProfileBaby extends Presenter {
-
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
   config = {
     navigationBarTitleText: '宝宝信息',
     navigationBarBackgroundColor: '#FFFFFF',

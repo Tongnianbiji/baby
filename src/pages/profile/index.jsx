@@ -3,26 +3,13 @@ import { View, Image } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
 
-export default class ProfileIndex extends Presenter {
-
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
+export default class Profile extends Presenter {
   config = {
     navigationBarTitleText: '我的',
   }
 
   render() {
-
     const ICON_ARROW = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png';
-
     return (
       <View className='profile-viewport'>
         <View className='profile-top'>

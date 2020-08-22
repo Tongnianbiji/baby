@@ -37,7 +37,7 @@ export default class BaseRequest {
 
     if (need_token) {
       // take token by localStore tools
-      header['X-TOKEN'] = local.getToken()
+      header['token'] = local.getToken()
     }
 
     if (custom_header_obj) {
