@@ -1,4 +1,5 @@
 import { observable } from 'mobx'
+import Taro from '@tarojs/taro'
 import Request from '../common/baseRequest'
 
 const req = new Request()

@@ -45,6 +45,7 @@ export default class Presenter extends BaseComponent {
   }
 
   toCreatePost = () => {
-    this.navto({ url: `/packageB/pages/create-post/index?cid=${this.$router.params.cid}` })
+    const { cid, cname = '' } = this.$router.params
+    this.navto({ url: `/packageB/pages/create-post/index?cid=${cid}&cname=${cname}` })
   }
 }

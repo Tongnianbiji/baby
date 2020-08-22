@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import {View, ScrollView} from '@tarojs/components'
+import {View, ScrollView, Image} from '@tarojs/components'
 import UITabs from '../../../../common/components/ui-tabs'
 import './index.scss'
 
@@ -44,7 +44,8 @@ export default class CircleTabs extends Taro.Component {
               tabList={tabList}
               size='small'
               current={current}
-              onChange={this.onTabChange} />
+              onChange={this.onTabChange}
+            />
           </View>
         </View>
         <View className='tag-wrapper'>

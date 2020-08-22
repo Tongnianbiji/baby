@@ -60,7 +60,7 @@ class CircleDetailView extends Presenter {
           showOpPanel &&
           <View className='operator-panel'>
             <View className='add-btns'>
-              <View className='btn-item'>
+              <View className='btn-item' onClick={this.toCreatePost}>
                 <Image src={ICON_POST} alt='' className='icon' />
                 <View className='txt'>我想发贴</View>
               </View>
