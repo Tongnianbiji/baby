@@ -1,7 +1,11 @@
 import Taro, { Component } from '@tarojs/taro'
+import { Provider } from '@tarojs/mobx'
 // import Index from './test/index'
 import Splash from './pages/splash'
 import { setGlobalData } from './global_data'
+
+// store(s)
+import circleDetailStore from './store/circle-detail'
 
 import './app.scss'
 
@@ -10,6 +14,10 @@ import './app.scss'
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
 //   require('nerv-devtools')
 // }
+
+const store = {
+  circleDetailStore
+}
 
 class App extends Component {
 
@@ -136,7 +144,9 @@ class App extends Component {
   // 请勿修改此函数
   render() {
     return (
-      <Splash />
+      <Provider store={store}>
+        <Splash />
+      </Provider>
     )
   }
 }

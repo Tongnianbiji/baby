@@ -7,7 +7,7 @@ export default class HomePage extends BaseComponent {
 
     this.state = {
       topTabs: Model.tabConfig.top,
-      currentTopTab: 0,
+      currentTopTab: 1,
       attentionType: 1, //1: 关注的用户   2: 关注的圈子
       hotTabType: 1, //1: 24小时   2: 7天
       currentCity: '定位中'

@@ -2,11 +2,13 @@ import Taro from '@tarojs/taro'
 import { View, ScrollView, Image, Text } from '@tarojs/components'
 // import UserInfoItem from './user-info-item'
 import UserInfoItem from '../../../common/components/post-card'
+import Model from '../model'
+
 import './attention-circle.scss'
 
 const mockData = [
   {
-    url: '',
+    url: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/tn_logo.png',
     title: '全部圈子'
   },
   {
@@ -74,11 +76,28 @@ const tags = [
 export default class AttentionCircle extends Taro.Component {
   constructor(props) {
     super(props)
+
+    this.config = {
+      current: 1,
+      pageSize: 10
+    }
+  }
+
+  componentDidMount() {
+    this.getDatas()
   }
 
   goToDetail = id => {
     Taro.navigateTo({
       url: `/packageA/pages/circle-detail/index?id=${id}`
+    })
+  }
+
+  getDatas() {
+    Model.getAttentionCircle({
+      uid: '7cd645ccffc41c4705a676c234fa957e',
+      pageNum: this.config.current,
+      pageSize: this.config.pageSize
     })
   }
 
@@ -92,7 +111,7 @@ export default class AttentionCircle extends Taro.Component {
                 return (
                   <View key={n} className='community-entry' onClick={this.goToDetail.bind(this, '1')}>
                     <View className='avatar'>
-                      { n.url ? <Image></Image> : '' }
+                      { n.url ? <Image src={n.url} className='avatar-img'></Image> : '' }
                     </View>
                     <Text className='title'>{n.title}</Text>
                     { n.actived && <View className='arrow-up'></View> }
