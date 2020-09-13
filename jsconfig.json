@@ -1,5 +1,23 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true
-  }
+    "experimentalDecorators": true,
+    "baseUrl": "./",
+    "paths": {
+      "@common/*": [
+        "src/common/*"
+      ],
+      "@decorators": [
+        "src/decorators/"
+      ],
+      "@components/*": [
+        "src/common/components/*"
+      ]
+    }
+  },
+  "include": [
+    "./src/"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

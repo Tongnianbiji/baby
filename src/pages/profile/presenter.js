@@ -49,7 +49,9 @@ export default class ProfilePresenter extends BaseComponent {
       case 'contact'://联系我们
         this.navto({ url: '/packageA/pages/profile-contact/index' })
         break;
-
+      case 'mypost': //我的帖子
+        this.navto({ url: '/packageB/pages/my-post/index' })
+        break;
       default:
         break;
     }

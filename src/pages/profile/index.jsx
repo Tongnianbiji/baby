@@ -49,7 +49,7 @@ export default class Profile extends Presenter {
               <Image className='entry-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-favorite.png' />
               <View className='entry-txt'>收藏点赞</View>
             </View>
-            <View className='entry'>
+            <View className='entry' onClick={this.onClickNavTo.bind(this, 'mypost')}>
               <Image className='entry-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-posts.png' />
               <View className='entry-txt'>我的帖子</View>
             </View>

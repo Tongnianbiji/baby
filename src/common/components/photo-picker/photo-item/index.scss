@@ -1,0 +1,17 @@
+.img-item {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  padding: 20px;
+  .img {
+    width: 120px;
+    height: 120px;
+  }
+  .btn-remove {
+    width: 44px;
+    height: 44px;
+    position: absolute;
+    top: -22px;
+    right: -22px;
+  }
+}

@@ -43,6 +43,13 @@ export default class Index extends Component {
       //PACKAGEB
       case 'index':
         Taro.switchTab({ url: '/pages/index/index' })
+        break;
+      case 'post-detail':
+        Taro.navigateTo({ url: '/packageB/pages/post-detail/index?pid=8' })
+        break;
+      case 'issue-detail':
+        Taro.navigateTo({ url: '/packageB/pages/issue-detail/index?qid=8' })
+        break;
       default:
         break;
     }
@@ -63,6 +70,8 @@ export default class Index extends Component {
         <Button onClick={() => this.navigate('characterX')}>选择身份 X</Button>
         <Button onClick={() => this.navigate('interest')}>选择兴趣话题</Button>
         <Button onClick={() => this.navigate('circle-list')}>圈子列表</Button>
+        <Button onClick={() => this.navigate('post-detail')}>帖子详情</Button>
+        <Button onClick={() => this.navigate('issue-detail')}>问答详情</Button>
         {/* <Button onClick={() => this.navigate('index')}>首页</Button>
         <Button onClick={() => this.navigate('discover')}>发现</Button>
         <Button onClick={() => this.navigate('message')}>消息</Button>

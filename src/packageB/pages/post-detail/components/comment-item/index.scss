@@ -1,0 +1,129 @@
+.comment-item {
+  padding: 14px 0 10px;
+  position: relative;
+  .info-wrapper {
+    position: relative;
+    .user-info {
+      margin-bottom: 23px;
+      position: relative;
+      display: flex;
+      .avatar {
+        width: 60px;
+        height: 60px;
+        overflow: hidden;
+        margin-right: 12px;
+        background: #eee;
+        border-radius: 50%;
+        img { width: 100%; height: 100%; }
+      }
+      .infos {
+        flex: 1;
+        font-size: 0;
+        position: relative;
+        .name-area {
+          display: flex;
+          align-items: center;
+          .name {
+            color: #3D3AFF;
+            font-size: 28px;
+            margin-right: 10px;
+          }
+          .sex {
+            width: 26px;
+            height: 24px;
+            margin-right: 12px;
+          }
+          .years-old {
+            height: 36px;
+            background: #e9e9e9;
+            padding: 0 16px;
+            border-radius: 18px;
+            font-size: 24px;
+            color: #666;
+            margin-right: 10px;
+          }
+          .like-btns {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            .btns-wrapper {
+              display: flex;
+              align-items: center;
+              .like-btn {
+                font-size: 24px;
+                color: #999;
+                .like-btn-img {
+                  width: 24px;
+                  height: 24px;
+                  margin-right: 6px;
+                }
+                &:nth-child(1) {
+                  margin-right: 20px;
+                }
+              }
+            }
+          }
+        }
+        .times {
+          color: #999;
+          font-size: 24px;
+          line-height: 24px;
+        }
+      }
+      .line {
+        position: absolute;
+        height: 2px;
+        left: -35px;
+        width: 34px;
+        top: 30px;
+        transform: translateY(-50%);
+        background-color: #999;
+      }
+    }
+    .contents {
+      padding-left: 67px;
+      font-size: 28px;
+      font-weight: 400;
+      color: #333333;
+    }
+    .vertical-line {
+      width: 2px;
+      position: absolute;
+      top: 60px;
+      bottom: 0;
+      left: 30px;
+      background-color: #999;
+    }
+  }
+  
+  .children-nodes {
+    padding: 10px 0 0 67px;
+    position: relative;
+    .vertical-line-bottom {
+      width: 2px;
+      position: absolute;
+      background-color: #999;
+      top: 0;
+      left: 30px;
+      bottom: 0;
+    }
+  }
+  .hide-more-line {
+    width: 10px;
+    position: absolute;
+    background-color: #fff;
+    left: -40px;
+    bottom: 0;
+    top: 44px;
+    z-index: 9;
+  }
+}
+
+.need-line {
+  border-bottom: 1px solid #DDDFE8;
+  margin-bottom: 20px;
+  &:nth-last-child(1) {
+    border-bottom: 0;
+  }
+}

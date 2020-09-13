@@ -90,7 +90,11 @@ class App extends Component {
       {
         "root": "packageB",
         "pages": [
-          "pages/create-post/index"
+          "pages/create-post/index",
+          "pages/my-post/index",
+          "pages/post-detail/index",
+          "pages/create-issue/index",
+          "pages/issue-detail/index"
         ]
       }
     ],

@@ -4,7 +4,7 @@ const req = new Request()
 
 export default {
   async getTags(cid) {
-    const ret = await req.post('post/getTag', { cid })
+    const ret = await req.post('question/getTag', { cid })
     const d = req.standardResponse(ret)
     if (d.code === 0 && d.data && d.data.items.length) {
       return d.data.items
@@ -21,8 +21,8 @@ export default {
     }
   },
 
-  async savePost(params) {
-    const ret = await req.postWithToken('/post/submit', params)
+  async saveIssue(params) {
+    const ret = await req.postWithToken('/question/submit', params)
     const d = req.standardResponse(ret)
     return d.code === 0 && d.data
   }

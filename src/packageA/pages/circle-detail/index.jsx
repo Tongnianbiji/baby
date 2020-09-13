@@ -64,7 +64,7 @@ class CircleDetailView extends Presenter {
                 <Image src={ICON_POST} alt='' className='icon' />
                 <View className='txt'>我想发贴</View>
               </View>
-              <View className='btn-item'>
+              <View className='btn-item' onClick={this.toCreateIssue}>
                 <Image src={ICON_QA} alt='' className='icon' />
                 <View className='txt'>我想提问</View>
               </View>
