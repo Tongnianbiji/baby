@@ -1,8 +1,7 @@
 import Taro from '@tarojs/taro'
 import { View, Input, Textarea, ScrollView, Image } from '@tarojs/components'
+import MediaPicker from '@components/photo-picker'
 import Presenter from './presenter'
-
-import PhotoPicker from './components/photoPicker'
 
 import './index.scss'
 
@@ -33,7 +32,7 @@ export default class CreatePostView extends Presenter {
           }
         </View>
         <View className='photo-picker-wrapper'>
-          <PhotoPicker />
+          <MediaPicker />
         </View>
         <View className='tag-tips'>＋添加至少一个帖子类别，可以确保问题被及时回复</View>
         <View className='tag-wrapper'>

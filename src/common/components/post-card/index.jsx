@@ -21,17 +21,20 @@ export default class UserInfoItem extends Taro.Component {
     closeRelease: false,
     // 是否为问答 卡
     isAnwser: false,
-    onClick: () => {}
+    // 是否只显示发布时间, 不显示发贴人信息
+    onlyReleaseTime: false,
+
+    onClick: () => { }
   }
 
   cardClick = () => {
     this.props.onClick(this.model)
   }
-  
+
   render() {
     return (
       <View className='ui-user-info-item' onClick={this.cardClick}>
-        { this.props.children }
+        {this.props.children}
         <View className='main-wrapper'>
           {
             !this.props.closeRelease &&
@@ -47,40 +50,46 @@ export default class UserInfoItem extends Taro.Component {
               </View>
             </View>
           }
-          <View className='user-info'>
-            {
-              this.props.showOrder &&
+          {
+            !this.props.onlyReleaseTime &&
+            <View className='user-info'>
+              {
+                this.props.showOrder &&
                 <View className='order'>
                   <Image className='icon-order' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/ranking.png' />
                   <Text>1</Text>
                 </View>
-            }
-            <View className='avatar'></View>
-            <View className='infos'>
-              <View className='name-area'>
-                <Text className='name'>李庭语妈妈</Text>
-                <Image className='sex' src={ICONS.FEMALE_ICON}></Image>
-                <Text className='years-old'>3岁9个月</Text>
-                {
-                  this.props.closeRelease && this.props.needShared &&
-                  <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
-                }
+              }
+              <View className='avatar'></View>
+              <View className='infos'>
+                <View className='name-area'>
+                  <Text className='name'>李庭语妈妈</Text>
+                  <Image className='sex' src={ICONS.FEMALE_ICON}></Image>
+                  <Text className='years-old'>3岁9个月</Text>
+                  {
+                    this.props.closeRelease && this.props.needShared &&
+                    <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
+                  }
+                </View>
+                <Text className='times'>2020-03-29 21:29:00</Text>
               </View>
-              <Text className='times'>2020-03-29 21:29:00</Text>
             </View>
-          </View>
+          }
+          {
+            this.props.onlyReleaseTime && <View className='release-time'>2020-03-29 21:29:00</View>
+          }
           {
             this.props.isAnwser ?
-            <View className='content answer-wrapper'>
-              <View className='answer'>
-                <View className='icon'>问</View>
-                <View className='txt'>济阳三村最近可以交娃的社保了吗？</View>
-              </View>
-              <View className='answer'>
-                <View className='icon'>答</View>
-                <View className='txt'>可以了，11月以后就可以交了</View>
-              </View>
-            </View> : <Text className='content'>济阳三村幼儿园怎么样，算比较好的幼儿园吗？</Text>
+              <View className='content answer-wrapper'>
+                <View className='answer'>
+                  <View className='icon'>问</View>
+                  <View className='txt'>济阳三村最近可以交娃的社保了吗？</View>
+                </View>
+                <View className='answer'>
+                  <View className='icon'>答</View>
+                  <View className='txt'>可以了，11月以后就可以交了</View>
+                </View>
+              </View> : <Text className='content'>济阳三村幼儿园怎么样，算比较好的幼儿园吗？</Text>
           }
           <View className='tags'>
             {
