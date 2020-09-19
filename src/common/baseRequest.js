@@ -117,6 +117,8 @@ export default class BaseRequest {
 
   okMsg = 'request:ok'
 
+  errCode = -1;
+
   standardResponse(wxResponse) {
     if (wxResponse.errMsg === 'request:ok') {
       return wxResponse.data

@@ -185,7 +185,8 @@ export default class CharacterA extends Presenter {
             }
             {/* calc end */}
 
-            <View className='item-content'>
+            {/* 去掉 begin */}
+            {/* <View className='item-content'>
               <RadioGroup className='width-100 radio-group'>
                 {
                   babyList.map((item, index) => {
@@ -193,7 +194,8 @@ export default class CharacterA extends Presenter {
                   })
                 }
               </RadioGroup>
-            </View>
+            </View> */}
+            {/* 去掉 end */}
           </View>
         </View>
       </View>
