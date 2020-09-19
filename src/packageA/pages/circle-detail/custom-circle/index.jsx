@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import React, { Component } from 'react'
 import {View, Switch, Image} from '@tarojs/components'
 import './index.scss'
 
@@ -11,8 +12,9 @@ const mock = [
   { data: [{title: '初中一年级'}, {title: '初中二年级'}, {title: '初中三年级'}, {title: '商中一年级'}, {title: '高中二年级'}] }
 ]
 
-export default class CustomCircle extends Taro.Component {
-  constructor() {
+export default class CustomCircle extends Component {
+  constructor(props) {
+    super(props)
     this.state = {
       openArea: false,
       openFeature: false

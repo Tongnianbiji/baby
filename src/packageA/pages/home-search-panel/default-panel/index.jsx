@@ -1,9 +1,10 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import { ICONS } from '../../../../common/constant'
 import './styles.scss'
 
-export default class DefaultPanel extends Taro.Component {
+export default class DefaultPanel extends Component {
   constructor(props) {
     super(props)
   }

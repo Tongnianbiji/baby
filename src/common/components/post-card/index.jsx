@@ -1,9 +1,10 @@
 import Taro from '@tarojs/taro'
+import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { ICONS } from '../../constant'
 import './styles.scss'
 
-export default class UserInfoItem extends Taro.Component {
+export default class UserInfoItem extends Component {
   static defaultProps = {
     // 数据
     model: {},

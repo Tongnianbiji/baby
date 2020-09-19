@@ -1,3 +1,4 @@
+import React from 'react'
 import Taro from '@tarojs/taro'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import { View } from '@tarojs/components'

@@ -1,3 +1,4 @@
+import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Input, Image, Text, ScrollView, Button } from '@tarojs/components'
 import UITabs from '../../../common/components/ui-tabs'

@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import React from 'react'
 import { View, Text, Button, Input, Image } from '@tarojs/components'
 import Presenter from './presenter'
 import './style.scss'

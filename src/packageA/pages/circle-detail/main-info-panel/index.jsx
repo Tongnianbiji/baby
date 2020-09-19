@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image, Swiper, SwiperItem } from '@tarojs/components'
 import './styles.scss'
@@ -5,7 +6,7 @@ import './styles.scss'
 const ShareIconUrl = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/share-c.png'
 const DetailIconUrl = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/expand.png'
 
-export default class MainInfoPanel extends Taro.Component {
+export default class MainInfoPanel extends Component {
 
   toDesc = () => {
     Taro.navigateTo({

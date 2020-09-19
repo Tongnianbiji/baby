@@ -1,13 +1,16 @@
 import Taro from '@tarojs/taro'
+import React, { Component } from 'react'
 import { View } from '@tarojs/components'
 import './index.scss'
 
-export default class CircleDescriptionView extends Taro.Component {
+export default class CircleDescriptionView extends Component {
   config = {
     navigationBarTitleText: '圈子描述'
   }
 
-  constructor() {}
+  constructor(props) {
+    super(props)
+  }
 
   componentDidMount() {
     Taro.setNavigationBarTitle({

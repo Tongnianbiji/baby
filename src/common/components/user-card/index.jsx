@@ -1,9 +1,10 @@
 import Taro from '@tarojs/taro'
+import React, { Component } from 'react'
 import {View, Text, Image} from '@tarojs/components'
 import { ICONS } from '../../constant'
 import './styles.scss'
 
-export default class UserInfoCard extends Taro.Component {
+export default class UserInfoCard extends Component {
   constructor(props) {
     super(props)
   }

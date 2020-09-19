@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import React, { Component } from 'react'
 import { View, ScrollView, Image, Text } from '@tarojs/components'
 // import UserInfoItem from './user-info-item'
 import UserInfoItem from '../../../common/components/post-card'
@@ -71,7 +72,7 @@ const tags = [
   { title: '医院' }
 ]
 
-export default class AttentionCircle extends Taro.Component {
+export default class AttentionCircle extends Component {
   constructor(props) {
     super(props)
   }

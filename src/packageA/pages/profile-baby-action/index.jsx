@@ -1,6 +1,7 @@
-import Taro, { Component } from '@tarojs/taro'
+import React, { Component } from 'react'
+import Taro from '@tarojs/taro'
 import { AtTabs, AtTabsPane } from 'taro-ui'
-import { View, Image } from '@tarojs/components'
+import { View, Image, RadioGroup, Radio } from '@tarojs/components'
 import { GENDER_LIST } from '../../../common/enums';
 import Presenter from './presenter'
 import './index.scss'

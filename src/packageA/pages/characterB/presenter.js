@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import React from 'react'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
 

@@ -1,4 +1,5 @@
-import Taro, { Component } from '@tarojs/taro'
+import React, { Component } from 'react'
+import Taro from '@tarojs/taro'
 import { View, Image, RadioGroup, Radio } from '@tarojs/components'
 import { GENDER_LIST } from '../../../common/enums';
 import Presenter from './presenter'

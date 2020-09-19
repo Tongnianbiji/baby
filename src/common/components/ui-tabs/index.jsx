@@ -1,8 +1,9 @@
 import Taro from '@tarojs/taro'
+import React, { Component } from 'react'
 import { View } from '@tarojs/components'
 import './styles.scss'
 
-export default class UITabs extends Taro.Component {
+export default class UITabs extends Component {
   static defaultProps = {
     tabList: [],
     current: 0,
@@ -11,7 +12,8 @@ export default class UITabs extends Taro.Component {
     itemColor: ''
   }
 
-  constructor() {
+  constructor(props) {
+    super(props)
     this.state = {
       cur: this.props.current
     }

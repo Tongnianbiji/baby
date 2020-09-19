@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import {View, Image} from '@tarojs/components'
 import {ICONS} from '../../../../common/constant'
@@ -5,7 +6,7 @@ import './search-bar.scss'
 
 const ICON_CLEARN = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/cancel-a.png'
 
-export default class SearchBarComponent extends Taro.Component {
+export default class SearchBarComponent extends Component {
   onSearch = kw => {
 
   }

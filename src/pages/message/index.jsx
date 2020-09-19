@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import React from 'react'
 import { View, Image, Text } from '@tarojs/components'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import { ICONS } from '../../common/constant'
