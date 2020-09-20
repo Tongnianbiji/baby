@@ -1,8 +1,9 @@
 import Taro from '@tarojs/taro'
+import React, { Component } from 'react'
 import { View } from '@tarojs/components'
 import './styles.scss'
 
-export default class NoticeCard extends Taro.Component {
+export default class NoticeCard extends Component {
   static defaultProps = {
     data: {},
     type: 'post' //post|qa

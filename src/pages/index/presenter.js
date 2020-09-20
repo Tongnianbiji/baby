@@ -1,6 +1,6 @@
 import BaseComponent from '../../common/baseComponent'
+import React from 'react'
 import Model from './model'
-
 export default class HomePage extends BaseComponent {
   constructor(props) {
     super(props)
@@ -46,7 +46,7 @@ export default class HomePage extends BaseComponent {
     this.setState({ hotTabType })
   }
 
-  goSearch() {
+  goSearch = () => {
     this.navto({url: '/packageA/pages/home-search-panel/index'})
   }
 

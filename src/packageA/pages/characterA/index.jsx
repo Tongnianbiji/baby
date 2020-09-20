@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import React from 'react'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import { View, Input, RadioGroup, Radio } from '@tarojs/components'
 import Presenter from './presenter'

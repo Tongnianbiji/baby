@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import { ICONS } from '@common/constant'
@@ -5,7 +6,7 @@ import CommentItem from '../comment-item'
 
 import './index.scss'
 
-export default class CommentsView extends Taro.Component {
+export default class CommentsView extends Component {
   static defaultProps = {
     dataList: []
   }

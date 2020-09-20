@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import {View, ScrollView, Image} from '@tarojs/components'
 import UITabs from '../../../../common/components/ui-tabs'
@@ -20,9 +21,9 @@ const mock = [
   { title: '灌水' }
 ]
 
-export default class CircleTabs extends Taro.Component {
-  constructor() {
-    super()
+export default class CircleTabs extends Component {
+  constructor(props) {
+    super(props)
     this.state = {
       current: 0
     }

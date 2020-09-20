@@ -1,6 +1,7 @@
+import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
-import { inject, observer } from '@tarojs/mobx'
+import { observer, inject } from 'mobx-react'
 import Presenter from './presenter'
 import MainInfoPanel from './main-info-panel'
 import TypeTabs from './type-tabs'
@@ -46,9 +47,9 @@ class CircleDetailView extends Presenter {
           {
             dataList.map(num => {
               return [0, 1, 3].includes(listType) ?
-                <PostCard showOrder={listType===3} key={num} countryAble={false} closeRelease needShared /> :
-                listType === 2 ? <QACard /> : 
-                listType === 4 ? <UserCard /> : null
+                <PostCard showOrder={listType === 3} key={num} countryAble={false} closeRelease needShared /> :
+                listType === 2 ? <QACard /> :
+                  listType === 4 ? <UserCard /> : null
             })
           }
         </View>

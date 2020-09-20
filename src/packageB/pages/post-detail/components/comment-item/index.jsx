@@ -1,9 +1,10 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import { ICONS } from '@common/constant'
 import './index.scss'
 
-export default class CommentItem extends Taro.Component {
+export default class CommentItem extends Component {
   static defaultProps = {
     model: {},
     needLine: false,

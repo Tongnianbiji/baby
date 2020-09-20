@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import React from 'react'
 import { View, Image, ScrollView, Text } from '@tarojs/components'
 import Presenter from './presenter'
 import { ICONS } from '../../common/constant'

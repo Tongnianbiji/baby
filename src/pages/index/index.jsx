@@ -1,7 +1,8 @@
 import Taro from '@tarojs/taro'
+import React from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { AtBadge, AtTabs, AtTabsPane } from 'taro-ui'
-import Presenter from './presenter'
+import HomePage from './presenter'
 // import UserInfoItem from './components/user-info-item'
 import UserInfoItem from '../../common/components/post-card'
 import AttentionCircle from './components/attention-circle'
@@ -14,7 +15,7 @@ import iconSearch from '../../assets/img/icon-search.png'
 import arrowDown from '../../assets/img/arrow-down.png'
 import iconRing from '../../assets/img/icon-ring.png'
 
-export default class Index extends Presenter {
+export default class Index extends HomePage {
 
   config = {
     navigationBarTitleText: '童年'

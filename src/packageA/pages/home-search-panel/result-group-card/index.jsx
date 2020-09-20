@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import { SearchResultType } from '../../../../common/enums'
@@ -10,7 +11,7 @@ const typeMap = {
   [SearchResultType.POST]: '帖子'
 }
 
-export default class SearchResultGroupCard extends Taro.Component {
+export default class SearchResultGroupCard extends Component {
   static defaultProps = {
     type: SearchResultType.CIRCLE,
     kw: '浏阳'

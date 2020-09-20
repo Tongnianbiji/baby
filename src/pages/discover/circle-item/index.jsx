@@ -1,8 +1,9 @@
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
+import React, { Component } from 'react'
 import './style.scss'
 
-export default class CircleItem extends Taro.Component {
+export default class CircleItem extends Component {
   static defaultProps = {
 
   }
@@ -34,7 +35,7 @@ export default class CircleItem extends Taro.Component {
           </View>
           <View className='infos'>
             <View className='title'>{name}</View>
-            <View className='subtitle'>简介:{descript}</View>
+            <View className='subtitle'>简介:</View>
           </View>
         </View>
         <View className='numbers'>

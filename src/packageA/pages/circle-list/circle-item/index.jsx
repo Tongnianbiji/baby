@@ -1,8 +1,9 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import {View} from '@tarojs/components'
 import './circle-item.scss'
 
-export default class CircleItem extends Taro.Component {
+export default class CircleItem extends Component {
   render() {
     return (
       <View className='comp-circle-item'>

@@ -1,11 +1,13 @@
-import Taro from '@tarojs/taro'
+import Taro, {getCurrentInstance} from '@tarojs/taro'
+import React, { Component } from 'react'
 import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY } from '../common/constant'
 import Dto from '../common/localStorage'
+
 /**
  * 所有 页面视图 都应该继承自这个类
  * 提供一些基础动作和封装
  */
-export default class BaseComponent extends Taro.Component {
+export default class BaseComponent extends Component {
 
   constructor(props) {
     super(props)
@@ -91,7 +93,7 @@ export default class BaseComponent extends Taro.Component {
    * @param {*} options 
    */
   login() {
-    const { path } = this.$router
+    const { path } = getCurrentInstance().router
     this.navto({
       url: `/pages/login/index?from=${path}`
     })
@@ -123,6 +125,7 @@ export default class BaseComponent extends Taro.Component {
    * 导航
    */
   navto(obj) {
+    console.log(1111)
     Taro.navigateTo(obj)
   }
 

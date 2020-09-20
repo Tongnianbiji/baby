@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import Request from '@common/baseRequest'
@@ -6,7 +7,7 @@ import './index.scss'
 const Btn_remove = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/cancel-a.png'
 const req = new Request()
 
-export default class PhotoItemView extends Taro.Component {
+export default class PhotoItemView extends Component {
   static defaultProps = {
     model: {},
     onRemove: () => { }
@@ -64,7 +65,7 @@ export default class PhotoItemView extends Taro.Component {
     return (
       <View className='img-item' key={key}>
         <Image src={path} className='img' />
-        { status !== 'uploading' && <Image src={Btn_remove} className='btn-remove' onClick={this.removePhoto} /> }
+        { status !== 'uploading' && <Image src={Btn_remove} className='btn-remove' onClick={this.removePhoto} />}
       </View>
     )
   }

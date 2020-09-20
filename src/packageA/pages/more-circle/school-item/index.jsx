@@ -1,8 +1,9 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import {View, Image} from '@tarojs/components'
 import './styles.scss'
 
-export default class SchoolItem extends Taro.Component {
+export default class SchoolItem extends Component {
   constructor(props) {
     super(props)
   }

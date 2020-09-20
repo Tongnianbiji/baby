@@ -12,7 +12,7 @@ export default class Presenter extends BaseComponent {
   appBars = ['/pages/index/index', '/pages/discover/index', '/pages/message/index', '/pages/profile/index']
 
   constructor() {
-    super()
+    super();
 
     this.state = {
       canUseLogin: this.canIUse('button.open-type.contact'),
@@ -164,7 +164,7 @@ export default class Presenter extends BaseComponent {
 
   return2caller() {
     // jump to caller page.
-    const { from } = this.$router.params
+    const { from } = this.$router.params;
     const reg = /^\//
     console.log(from, 'from..')
     if (from) {

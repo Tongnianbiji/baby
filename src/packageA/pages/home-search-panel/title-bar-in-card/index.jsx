@@ -1,8 +1,9 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import './styles.scss'
 
-export default class PostTitleBar extends Taro.Component {
+export default class PostTitleBar extends Component {
   static defaultProps = {
     title: '帖子列表'
   }

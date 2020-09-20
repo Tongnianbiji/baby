@@ -1,9 +1,10 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 
 import './index.scss'
 
-export default class PhotoPickerView extends Taro.Component {
+export default class PhotoPickerView extends Component {
 
   constructor() {
     super()
@@ -42,7 +43,7 @@ export default class PhotoPickerView extends Taro.Component {
         }
         <View className='btn-add' onClick={this.choosePhoto}>
           <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/add-c.png' className='plus-img' />
-          {photoCount && <View className='btn-tip'>还能选{9-photoCount}张</View>}
+          {photoCount && <View className='btn-tip'>还能选{9 - photoCount}张</View>}
         </View>
         {!photoCount && <View className='tips'>最多可上传九个照片或视频</View>}
       </View>

@@ -1,5 +1,6 @@
 
-import Taro, { Component } from '@tarojs/taro'
+import React, { Component } from 'react'
+import Taro from '@tarojs/taro'
 import { View, Image, Textarea, ScrollView } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'

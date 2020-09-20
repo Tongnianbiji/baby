@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtTabs, AtTabsPane } from 'taro-ui'
@@ -14,7 +15,7 @@ const TypeTabs = [
   { title: '用户' },
   { title: '定制圈子' }
 ]
-export default class TypeTabsView extends Taro.Component {
+export default class TypeTabsView extends Component {
   static defaultProps = {
     onTypeChange: () => ({})
   }

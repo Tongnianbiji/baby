@@ -1,5 +1,6 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-import { inject, observer } from '@tarojs/mobx'
+import { observer, inject } from 'mobx-react'
 import { View, Image, Swiper, SwiperItem } from '@tarojs/components'
 import DTO from '../../../../common/localStorage'
 
@@ -12,7 +13,7 @@ const DetailIconUrl = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/expan
 
 @inject('circleDetailStore')
 @observer
-class MainInfoPanel extends Taro.Component {
+class MainInfoPanel extends Component {
   static defaultProps = {
     cid: ''
   }
