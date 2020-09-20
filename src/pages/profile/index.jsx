@@ -9,15 +9,16 @@ export default class Profile extends Presenter {
   }
 
   render() {
+    const { profileInfo } = this.state;
     const ICON_ARROW = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png';
     return (
       <View className='profile-viewport'>
         <View className='profile-top'>
           <View className='top-wrapper'>
             <View className='left-container'>
-              <View className='avatar'></View>
-              <View className='heart'></View>
-              <View className='avatar'></View>
+              <View >
+                <Image className='avatar' src={profileInfo.headImg} />
+              </View>
             </View>
             <View className='right-container' onClick={this.onClickNavTo.bind(this, 'profile-home')}>
               <View className='right-txt'>个人主页</View>
@@ -26,26 +27,26 @@ export default class Profile extends Presenter {
           </View>
           <View className='number-wrapper'>
             <View className='number' onClick={this.onClickNavTo.bind(this, 'fans')}>
-              <View className='number-value'>42</View>
+              <View className='number-value'>{profileInfo.funs || 0}</View>
               <View className='number-title'>粉丝</View>
             </View>
             <View className='number' onClick={this.onClickNavTo.bind(this, 'circle')}>
-              <View className='number-value'>20</View>
+              <View className='number-value'>{profileInfo.circle || 0}</View>
               <View className='number-title'>圈子</View>
             </View>
             <View className='number' onClick={this.onClickNavTo.bind(this, 'focus')}>
-              <View className='number-value'>73</View>
+              <View className='number-value'>{profileInfo.flow || 0}</View>
               <View className='number-title'>关注</View>
             </View>
-            <View className='number' onClick={this.onClickNavTo.bind(this, 'collects')}>
-              <View className='number-value'>200</View>
+            <View className='number'>
+              <View className='number-value'>{`${profileInfo.marked || 0}/${profileInfo.stared || 0}`}</View>
               <View className='number-title'>收赞/获赞</View>
             </View>
           </View>
         </View>
         <View className='profile-body'>
           <View className='entry-wrapper'>
-            <View className='entry'>
+            <View className='entry' onClick={this.onClickNavTo.bind(this, 'collects')}>
               <Image className='entry-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-favorite.png' />
               <View className='entry-txt'>收藏点赞</View>
             </View>
@@ -53,11 +54,11 @@ export default class Profile extends Presenter {
               <Image className='entry-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-posts.png' />
               <View className='entry-txt'>我的帖子</View>
             </View>
-            <View className='entry'>
+            <View className='entry' onClick={this.onClickNavTo.bind(this, 'question')}>
               <Image className='entry-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-question.png' />
               <View className='entry-txt'>我的提问</View>
             </View>
-            <View className='entry'>
+            <View className='entry' onClick={this.onClickNavTo.bind(this, 'family')}>
               <Image className='entry-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-home.png' />
               <View className='entry-txt'>我的家</View>
             </View>

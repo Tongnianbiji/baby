@@ -75,6 +75,7 @@ class App extends Component {
           "pages/profile-about-agreements/index",
           "pages/profile-about-privacy/index",
           "pages/profile-contact/index",
+          "pages/profile-family/index",
           "pages/fans/index",
           "pages/postReply/index",
           "pages/qa-list/index",

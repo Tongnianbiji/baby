@@ -9,15 +9,14 @@ export default {
   childCreate() {
     const data = {
       officeName: '刘德华',
-      infantName: '华华',
       birthday: '2020-01-01',
-      sex: '男',
-      yearState: 'PREPARED',//状态, PREPARED, PREGNANCY, BRINGUP
-      yearDesc: '备孕',
-      grade: '',
-      school: '',
+      sex: 'male',
+      yearState: 'BRINGUP',//状态, PREPARED, PREGNANCY, BRINGUP
+      yearDesc: '育儿',
+      grade: '幼儿园小班',
+      // school: '济阳一村',
     }
-    return request.post('/child/create', data).then(ret => ret
+    return request.postWithToken('/child/create', data).then(ret => ret
       //   {
       //   if (ret.errMsg === request.okMsg) {
       //     return ret.data

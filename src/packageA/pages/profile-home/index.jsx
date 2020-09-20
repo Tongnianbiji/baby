@@ -49,7 +49,7 @@ export default class ProfileHome extends Presenter {
                 ? <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/female.png' className='gender' />
                 : <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png' className='gender' />
             }
-            <View className='family'>3位家庭成员</View>
+            {/* <View className='family'>3位家庭成员</View>
             <View className='member-container'>
               <View className='member'>
                 <View className='member-avatar'></View>
@@ -63,7 +63,7 @@ export default class ProfileHome extends Presenter {
                 <View className='member-avatar'></View>
                 <View className='member-named'>爷爷</View>
               </View>
-            </View>
+            </View> */}
           </View>
           <View className='label-wrapper'>
             <View className='label'>上海浦东</View>
@@ -87,7 +87,7 @@ export default class ProfileHome extends Presenter {
               <View className='number-title'>关注</View>
             </View>
             <View className='number'>
-              <View className='number-value'>200</View>
+              <View className='number-value'>200/50</View>
               <View className='number-title'>收赞/获赞</View>
             </View>
           </View>
