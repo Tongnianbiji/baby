@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro'
 import BaseComponent from '../../common/baseComponent'
 import Utils from '../../common/utils'
 import Model from './model'
@@ -164,7 +165,7 @@ export default class Presenter extends BaseComponent {
 
   return2caller() {
     // jump to caller page.
-    const { from } = this.$router.params;
+    const { from } = Taro.getCurrentInstance().router.params;
     const reg = /^\//
     console.log(from, 'from..')
     if (from) {
