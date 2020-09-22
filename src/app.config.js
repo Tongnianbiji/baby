@@ -37,6 +37,7 @@ export default {
         "pages/profile-about-agreements/index",
         "pages/profile-about-privacy/index",
         "pages/profile-contact/index",
+        "pages/profile-family/index",
         "pages/fans/index",
         "pages/postReply/index",
         "pages/qa-list/index",
@@ -53,7 +54,12 @@ export default {
       "root": "packageB",
       "pages": [
         "pages/index/index",
-        "pages/discover/index"
+        "pages/discover/index",
+        "pages/create-post/index",
+        "pages/my-post/index",
+        "pages/post-detail/index",
+        "pages/create-issue/index",
+        "pages/issue-detail/index"
       ]
     }
   ],
