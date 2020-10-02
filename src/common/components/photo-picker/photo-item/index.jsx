@@ -29,6 +29,7 @@ export default class PhotoItemView extends Component {
       header: req._get_header(),
       filePath: this.props.model.file,
       success(res) {
+        console.log('上传成功',res)
         if (res.statusCode === 200 && res.data) {
           const d = JSON.parse(res.data)
           d.code === 0 ? scope.checkResult(d.data) : scope.setState({ status: 'failed' })
@@ -39,16 +40,35 @@ export default class PhotoItemView extends Component {
 
   checkResult = (ticket, time = 1) => {
     req.post('/upload/result', { ticket }).then(res => {
-      // console.log(ticket, 'ticket..');
+       console.log(res, 'ticket..');
       const d = res.data
-      if (d.code === 0 && d.data && d.data.length) {
-        if (d.data[0].originalFileName && d.data[0].newFileName) {
-          this.setState({ status: 'success' })
+      /**原来的检查上传逻辑 */
+      // if (d.code === 0 && d.data && d.data.length) {
+      //   if (d.data[0].originalFileName && d.data[0].newFileName) {
+      //     this.setState({ status: 'success' })
+      //   } else {
+      //     if (time < 10) {
+      //       setTimeout(() => {
+      //         this.checkResult(ticket, time + 1)
+      //       }, 500)
+      //     }
+      //   }
+      // }
+
+      if (d.code === 0) {
+        if (d.data && d.data.length) {
+          if (!d.data.refuse) {
+            this.setState({ status: 'success' })
+          } else {
+            this.setState({ status: 'failed' })
+          }
         } else {
           if (time < 10) {
             setTimeout(() => {
               this.checkResult(ticket, time + 1)
-            }, 500)
+            }, 1e3)
+          } else {
+            this.setState({ status: 'failed' })
           }
         }
       }

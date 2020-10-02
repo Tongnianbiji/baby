@@ -33,6 +33,7 @@ export default class UserInfoItem extends Component {
   }
 
   render() {
+    const { model } = this.props;
     return (
       <View className='ui-user-info-item' onClick={this.cardClick}>
         {this.props.children}

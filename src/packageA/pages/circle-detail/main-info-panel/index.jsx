@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Taro from '@tarojs/taro'
+import Taro, {getCurrentInstance} from '@tarojs/taro'
 import { observer, inject } from 'mobx-react'
 import { View, Image, Swiper, SwiperItem } from '@tarojs/components'
 import DTO from '../../../../common/localStorage'
@@ -18,7 +18,8 @@ class MainInfoPanel extends Component {
     cid: ''
   }
 
-  constructor() {
+  constructor(props) {
+    super(props)
     this.$store = this.props.circleDetailStore
   }
 
@@ -45,12 +46,13 @@ class MainInfoPanel extends Component {
 
   render() {
     const {
-      detailInfo: { description, name, imgUrl, subscribe, posts, questions },
+      detailInfo: {description, name, imgUrl, subscribe, posts, questions },
       parentCircles,
       childCircles,
       topPosts,
       isAttentioned
     } = this.$store
+    
     return (
       <View className='main-info-panel'>
         { /* 头像, 名称, 按钮 */}

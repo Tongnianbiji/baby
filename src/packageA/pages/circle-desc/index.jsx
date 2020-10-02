@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import Taro, {getCurrentInstance} from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View } from '@tarojs/components'
 import DTO from '../../../common/localStorage'
@@ -8,14 +8,15 @@ export default class CircleDescriptionView extends Component {
   config = {
     navigationBarTitleText: '圈子描述'
   }
-  constructor() {
+  constructor(props) {
+    super(props)
     this.state = {
-      content: DTO.getInstance().getValue(this.$router.path)
+      content: DTO.getInstance().getValue(getCurrentInstance().router.path)
     }
   }
 
   componentDidMount() {
-    const { name } = this.$router.params
+    const { name } = getCurrentInstance().router.params
     Taro.setNavigationBarTitle({
       title: name
     })

@@ -1,14 +1,18 @@
 @import '../../../app.scss';
 @import "~taro-ui/dist/style/components/tabs.scss";
+@import "@ass/scss/common.scss";
 
 page {
   @extend .page100;
 }
 
-.circle-detail-viewport {
+.circle-detail-viewport, .fix-tab {
   padding: 26px 32px 0;
   height: 100%;
   position: relative;
+  // &>.fix-tab,>.normal-tab{
+   
+  // }
   .tabs {
     &>.at-tabs__header {
       padding-right: 20px;
@@ -32,6 +36,7 @@ page {
   .card-wrapper {
     padding: 20px 0 0;
   }
+  
   .fixed-btns {
     position: fixed;
     right: 14px;

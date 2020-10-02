@@ -1,0 +1,24 @@
+@import '../../../app.scss';
+.flex-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.preloading{
+  &-img{
+    width: 30px;
+    height: 30px;
+  }
+  &-text{
+    font-size: 28px;
+    color:#999999;
+  }
+}
+.is{
+  &-to{
+    &-bottom{
+      font-size: 28px;
+      color:#999999;
+    }
+  }
+}

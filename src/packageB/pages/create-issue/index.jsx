@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Textarea, ScrollView, Image } from '@tarojs/components'
 import PhotoPicker from '@components/photo-picker'

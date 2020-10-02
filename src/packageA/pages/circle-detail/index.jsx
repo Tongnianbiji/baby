@@ -1,12 +1,13 @@
 import React from 'react'
-import Taro from '@tarojs/taro'
-import { View, Image } from '@tarojs/components'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
+import { View, Image, ScrollView } from '@tarojs/components'
 import { observer, inject } from 'mobx-react'
 import Presenter from './presenter'
 import MainInfoPanel from './main-info-panel'
 import TypeTabs from './type-tabs'
 import PostCard from '../../../common/components/post-card'
 import UserCard from '../../../common/components/user-card'
+import Preloading from '@components/preloading'
 import QACard from './qa-card'
 import './styles.scss'
 
@@ -19,8 +20,15 @@ const ICON_QA = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/question.pn
 @inject('circleDetailStore')
 @observer
 class CircleDetailView extends Presenter {
+  
   config = {
     navigationBarTitleText: '圈子'
+  }
+
+
+  constructor(props) {
+    super(props)
+    
   }
 
   loadingRender() {
@@ -35,27 +43,47 @@ class CircleDetailView extends Presenter {
     )
   }
 
+  
+  onReachBottom() {
+    console.log('到底了')
+  }
+
   render() {
-    const { listType, dataList, showOpPanel } = this.state
-    const { loading, noData } = this.$store
+    const { centerHeight, listType, showOpPanel, cid, fixed } = this.state
+    const { loading, noData, circlePosts } = this.$store
+    const scrollStyle = {
+      height: centerHeight
+    }
+    const scrollTop = 0
+    const Threshold = 20
 
     return loading ? this.loadingRender() : noData ? this.noDataRender() : (
-      <View className='circle-detail-viewport'>
-        <MainInfoPanel cid={this.$router.params.cid} />
-        <TypeTabs onTypeChange={this.typeChange} key='123' />
-        <View className='card-wrapper'>
-          {
-            dataList.map(num => {
-              return [0, 1, 3].includes(listType) ?
-                <PostCard showOrder={listType === 3} key={num} countryAble={false} closeRelease needShared /> :
-                listType === 2 ? <QACard /> :
-                  listType === 4 ? <UserCard /> : null
-            })
-          }
+      <View className={[fixed ? 'fix-tab' : 'circle-detail-viewport']}>
+        <MainInfoPanel cid={getCurrentInstance().router.params.cid} />
+        <View>
+          <TypeTabs onTypeChange={this.typeChange} key='123' onSubTabChangeGetData={this.getCirclePostsList.bind(this)} onDoubleClickTab={this.getCirclePostsList.bind(this)} />
+          <ScrollView
+            scrollY
+            scrollWithAnimation
+            className="card-wrapper"
+            style={fixed ? scrollStyle : null}
+          >
+            {
+              circlePosts.map((num, item) => {
+                return [0, 1, 3].includes(listType) ?
+                  <PostCard showOrder={listType === 3} key={num} countryAble={false} model={item} closeRelease needShared /> :
+                  listType === 2 ? <QACard /> :
+                    listType === 4 ? <UserCard /> : null
+              })
+            }
+            <Preloading showLoading="true"></Preloading>
+          </ScrollView>
+
+          
         </View>
         <View className='fixed-btns'>
           <Image className='btn' src={ICON_ADD} onClick={this.troggleOpPanel} />
-          <Image className='btn' src={ICON_FRESH} />
+          <Image className='btn' src={ICON_FRESH} onClick={this.getCirclePostsList.bind(this, cid)} />
         </View>
         {
           showOpPanel &&

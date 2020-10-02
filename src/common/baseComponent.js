@@ -12,9 +12,11 @@ export default class BaseComponent extends Component {
   constructor(props) {
     super(props)
 
-    this.__local_dto = Dto.getInstance()
+    this.__local_dto = Dto.getInstance();
 
-    this.taro = Taro
+    this.taro = Taro;
+
+    this.$router = getCurrentInstance().router;
   }
 
   /**

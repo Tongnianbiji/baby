@@ -1,5 +1,7 @@
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
+import React, { Component } from 'react'
+import Taro from '@tarojs/taro'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -93,7 +95,7 @@ export default class Presenter extends BaseComponent {
     if (pid) {
       this.showToast('恭喜您, 提交成功')
       setTimeout(() => {
-        // 跳哪去?
+        Taro.navigateBack()
       }, 2000)
     } else {
       this.showToast('保存失败, 请稍候再试')

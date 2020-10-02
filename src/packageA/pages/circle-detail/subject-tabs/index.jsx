@@ -22,19 +22,27 @@ const mock = [
 ]
 
 export default class CircleTabs extends Component {
+  static defaultProps = {
+    onSubTabChangeGetData: () => ({})
+  }
   constructor(props) {
     super(props)
     this.state = {
-      current: 0
+      current: 0,
+      currentSubTab:0
     }
   }
 
   onTabChange = num => {
     this.setState({ current: num })
   }
+  onSubTabChange = (num, item) => {
+    this.setState({ currentSubTab: num });
+    this.props.onSubTabChangeGetData(item)
+  }
 
   render() {
-    const {current} = this.state
+    const {current, currentSubTab} = this.state
     return (
       <View className='circle-tabs-view'>
         <View className='header'>
@@ -54,7 +62,7 @@ export default class CircleTabs extends Component {
             <View className='tag-list'>
             {
               mock.map((item, index) => (
-                <View key={index} className={`tag-item${!index ? ' all': ''}`}>{item.title}</View>
+                <View key={index} className={[`tag-item${!index ? ' all': ''}`,currentSubTab == index ? 'tag-item-active' : '']} onClick={this.onSubTabChange.bind(this,index,item)}>{item.title}</View>
               ))
             }
             </View>

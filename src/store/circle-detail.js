@@ -16,7 +16,10 @@ const state = {
 
   // 相关圈子
   parentCircles: [],
-  childCircles: []
+  childCircles: [],
+
+  //对应圈子帖子列表
+  circlePosts:[1,2,3,4,5,6,7,8]
 }
 
 const actions = {
@@ -74,6 +77,20 @@ const actions = {
     const d = req.standardResponse(ret)
     if (d.code === 0) {
       this.childCircles = d.data.items || []
+    }
+  },
+
+  //获取圈子对应的帖子列表
+  async getCirclePosts(cid,pageNum=1) {
+    let params = {
+      cid:cid,
+      pageNum:pageNum,
+      pageSize: 10
+    }
+    const ret = await req.postWithToken('/search/circle/post', params)
+    const d = req.standardResponse(ret)
+    if (d.code === 0) {
+      this.circlePosts = d.data.items || []
     }
   },
 
