@@ -13,9 +13,8 @@ export default class Presenter extends BaseComponent {
       photos: '',
       canSave: false,
       showTip: true,
-
       selectedTag: [],
-
+      files:[],
       tagList: []
     }
   }
@@ -72,8 +71,14 @@ export default class Presenter extends BaseComponent {
     }))
   }
 
+  getFiles = (file) => {
+    this.setState(prev => ({
+      files: prev.files.concat([file])
+    }))
+  }
+
   async doSubmit() {
-    const { canSave, selectedTag, name, content } = this.state
+    const { canSave, selectedTag, name, content,files } = this.state
     const { cid } = this.$router.params
     if (!canSave) {
       return false
@@ -85,7 +90,8 @@ export default class Presenter extends BaseComponent {
       cid,
       title: name,
       content,
-      tagIds: selectedTag
+      tagIds: selectedTag,
+      files
     }
 
     const pid = await Model.savePost(params)
@@ -97,8 +103,9 @@ export default class Presenter extends BaseComponent {
       setTimeout(() => {
         Taro.navigateBack()
       }, 2000)
-    } else {
-      this.showToast('保存失败, 请稍候再试')
     }
+    // else {
+    //   this.showToast('保存失败, 请稍候再试')
+    // }
   }
 }

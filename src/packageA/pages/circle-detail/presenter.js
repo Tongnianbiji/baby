@@ -15,7 +15,9 @@ export default class Presenter extends BaseComponent {
       cid: '',
       centerHeight: '',
       fixed: false,
-      tempHeight:0
+      tempHeight: 0,
+      pageNum: 1,
+      isFresh: false
     }
 
     this.$store = this.props.circleDetailStore
@@ -25,7 +27,7 @@ export default class Presenter extends BaseComponent {
     const { cid, cname = '' } = getCurrentInstance().router.params;
     const info = Taro.getSystemInfoSync();
     const { windowHeight, statusBarHeight, titleBarHeight } = info
-    const tempHeight = (windowHeight - 196) + 'px'
+    const tempHeight = (windowHeight - 170) + 'px'
    
     this.setState({
       cid: cid,
@@ -40,7 +42,7 @@ export default class Presenter extends BaseComponent {
     console.log('已移动距离', e.scrollTop);
     let { tempHeight } = this.state;
     let scrollTop = e.scrollTop;
-    if (scrollTop >= 180) {
+    if (scrollTop >= 230) {
       this.setState({
         fixed: true,
         centerHeight: tempHeight
@@ -49,7 +51,7 @@ export default class Presenter extends BaseComponent {
   }
 
   async initData(cid) {
-    console.log('cid',cid)
+    console.log('cid', cid)
     const { leaf } = await this.$store.getDetail(cid);
     await this.$store.getAttentionState(cid);
     await this.$store.getTopPost(cid);
@@ -63,11 +65,54 @@ export default class Presenter extends BaseComponent {
     this.hideLoading()
   }
 
-  async getCirclePostsList(cid) {
-    await this.$store.getCirclePosts(cid);
-    this.setState({
-      fixed: false
+  async getCirclePostsList() {
+    const { pageNum,cid,isFresh } = this.state;
+    await this.$store.getCirclePosts(cid, pageNum);
+    if (isFresh) {
+      this.setState({
+        fixed: false
+      })
+    }
+    
+  }
+
+  //刷新列表
+  freshList = () => {
+    this.setState(pre => ({
+      isFresh: true
+    }), () => {
+        this.$store.setCirclePostsEmpty();
+        this.getCirclePostsList();
+        this.$store.setIsToBottom(false);
     })
+  }
+
+  //点击子tab获取帖子数据
+  getSubTabList = () => {
+    this.setState(pre => ({
+      pageNum: 1,
+      isFresh: false
+    }), () => {
+      this.$store.setCirclePostsEmpty();
+      this.getCirclePostsList();
+    })
+  }
+
+  onScrollToLower = () => {
+    if (!this.$store.isToBottom) {
+      this.setState(pre => ({
+        pageNum: pre.pageNum++,
+        isFresh: false
+      }), () => {
+        this.getCirclePostsList();
+      })
+    }
+    
+  }
+
+  //收藏
+  onHandleFavorite = (item) => {
+    this.$store.updateCirclePostsByFavorite(item.pid)
   }
 
   typeChange = (index, data) => {

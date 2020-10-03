@@ -7,6 +7,10 @@ import './index.scss'
 
 export default class PhotoPickerView extends Component {
 
+  static defaultProps = {
+    onGetFiles: () => ({}),
+  }
+
   constructor(props) {
     super(props)
 
@@ -38,6 +42,9 @@ export default class PhotoPickerView extends Component {
       medias: prevState.medias.filter(item => item.path != media.path)
     }))
   }
+  onGetFile = (file) => {
+      this.props.onGetFiles(file)
+  }
 
   render() {
     const photoCount = this.state.medias.length
@@ -45,7 +52,7 @@ export default class PhotoPickerView extends Component {
       <View className='photo-picker-view'>
         {
           this.state.medias.map(media => (
-            <PhotoItem model={media} key={media.key} onRemove={this.removePhoto.bind(this)} />
+            <PhotoItem model={media} key={media.key} onRemove={this.removePhoto.bind(this)} onGetFile={this.onGetFile}/>
           ))
         }
         <View className='btn-add' onClick={this.choosePhoto}>

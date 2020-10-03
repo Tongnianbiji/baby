@@ -44,6 +44,11 @@ class MainInfoPanel extends Component {
     }
   }
 
+  //查看更多父圈子
+  viewMoreParentCircles() {
+    Taro.navigateTo({ url: '/packageA/pages/more-circle/index' })
+  }
+
   render() {
     const {
       detailInfo: {description, name, imgUrl, subscribe, posts, questions },
@@ -99,7 +104,7 @@ class MainInfoPanel extends Component {
           }
           {
             parentCircles.length > 0 &&
-            <View className='circle-item last-parent-one'>
+            <View className='circle-item last-parent-one' onClick={this.viewMoreParentCircles}>
               <View className='avatar'>{parentCircles.length}</View>
               <View className='name'>父圈子</View>
             </View>

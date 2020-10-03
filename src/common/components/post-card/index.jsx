@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { ICONS } from '../../constant'
 import './styles.scss'
+import ISFAVORITED from '@ass/img/favorited.png'
 
 export default class UserInfoItem extends Component {
   static defaultProps = {
@@ -25,15 +26,22 @@ export default class UserInfoItem extends Component {
     // 是否只显示发布时间, 不显示发贴人信息
     onlyReleaseTime: false,
 
-    onClick: () => { }
+    onClick: () => { },
+    onHandleFavorite:() => {}
   }
 
   cardClick = () => {
     this.props.onClick(this.model)
   }
 
+  handleFavorite = (e) => {
+    e.stopPropagation()
+    this.props.onHandleFavorite()
+  }
+
   render() {
     const { model } = this.props;
+    // const { userSnapshot:{customLevel, headImg, nickName, } } = model;
     return (
       <View className='ui-user-info-item' onClick={this.cardClick}>
         {this.props.children}
@@ -62,18 +70,33 @@ export default class UserInfoItem extends Component {
                   <Text>1</Text>
                 </View>
               }
-              <View className='avatar'></View>
+              <View className='avatar'>
+                <Image src={model.userSnapshot && model.userSnapshot.headImg || '#'}></Image>
+              </View>
               <View className='infos'>
                 <View className='name-area'>
-                  <Text className='name'>李庭语妈妈</Text>
-                  <Image className='sex' src={ICONS.FEMALE_ICON}></Image>
-                  <Text className='years-old'>3岁9个月</Text>
+                  <Text className='name'>{(model.userSnapshot && model.userSnapshot.nickName) || '李庭语妈妈'}</Text>
+
+                  <Image className='sex' src={(model.userSnapshot && model.userSnapshot.sex) ? model.userSnapshot.sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON : ICONS.FEMALE_ICON}></Image>
+                  {
+                    model.userSnapshot && model.userSnapshot.city ? 
+                      <Text className='years-old'>{(model.userSnapshot && model.userSnapshot.city) + ' ' + (model.userSnapshot && model.userSnapshot.country)}</Text>
+                      : null
+                  }
+                  {
+                    model.userSnapshot && model.userSnapshot.customLevel.length ?
+                      model.userSnapshot.customLevel.map((item) => {
+                        return <Text className='years-old'>{item.desc}</Text>
+                    })
+                  : null
+                  }
+                  
                   {
                     this.props.closeRelease && this.props.needShared &&
                     <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
                   }
                 </View>
-                <Text className='times'>2020-03-29 21:29:00</Text>
+                <Text className='times'>{model.createTime || '2020-03-29 21:29:00'}</Text>
               </View>
             </View>
           }
@@ -91,7 +114,7 @@ export default class UserInfoItem extends Component {
                   <View className='icon'>答</View>
                   <View className='txt'>可以了，11月以后就可以交了</View>
                 </View>
-              </View> : <Text className='content'>济阳三村幼儿园怎么样，算比较好的幼儿园吗？</Text>
+              </View> : <Text className='content'>{model.title || '济阳三村幼儿园怎么样，算比较好的幼儿园吗?'}</Text>
           }
           <View className='tags'>
             {
@@ -103,15 +126,15 @@ export default class UserInfoItem extends Component {
             <View className='tips'>
               <View className='views'>
                 <Image className='img' src={ICONS.PREVIEW} />
-                <Text>12</Text>
+                <Text>{model.views || 0}</Text>
               </View>
               <View className='comment'>
                 <Image className='img' src={ICONS.COMMENT} />
-                <Text>12</Text>
+                <Text>{model.replys || 0}</Text>
               </View>
               <View className='favorite'>
-                <Image className='img' src={ICONS.FAVORITE} />
-                <Text>12</Text>
+                <Image className='img' onClick={this.handleFavorite} src={model.isMark ? ISFAVORITED : ICONS.FAVORITE} />
+                <Text>{model.markes || 0}</Text>
               </View>
             </View>
           </View>

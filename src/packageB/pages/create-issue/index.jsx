@@ -33,7 +33,7 @@ export default class CreateIssueView extends Presenter {
           }
         </View>
         <View className='photo-picker-wrapper'>
-          <PhotoPicker />
+          <PhotoPicker onGetFiles={this.getFiles.bind(this)}/>
         </View>
         <View className='tag-tips'>＋添加一个问题类别，可以确保问题被及时回复</View>
         <View className='tag-wrapper'>

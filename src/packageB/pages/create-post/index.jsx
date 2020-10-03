@@ -33,7 +33,7 @@ export default class CreatePostView extends Presenter {
           }
         </View>
         <View className='photo-picker-wrapper'>
-          <MediaPicker />
+          <MediaPicker onGetFiles={this.getFiles.bind(this)}/>
         </View>
         <View className='tag-tips'>＋添加至少一个帖子类别，可以确保问题被及时回复</View>
         <View className='tag-wrapper'>

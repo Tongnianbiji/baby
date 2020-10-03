@@ -10,6 +10,7 @@ const req = new Request()
 export default class PhotoItemView extends Component {
   static defaultProps = {
     model: {},
+    onGetFile:() => {},
     onRemove: () => { }
   }
   constructor(props) {
@@ -39,6 +40,9 @@ export default class PhotoItemView extends Component {
   }
 
   checkResult = (ticket, time = 1) => {
+    Taro.showLoading({
+      title:'上传中,请稍后'
+    });
     req.post('/upload/result', { ticket }).then(res => {
        console.log(res, 'ticket..');
       const d = res.data
@@ -57,18 +61,42 @@ export default class PhotoItemView extends Component {
 
       if (d.code === 0) {
         if (d.data && d.data.length) {
-          if (!d.data.refuse) {
-            this.setState({ status: 'success' })
+          if (!d.data[0].refuse) {
+            const { type, url, newFileName } = d.data;
+            this.props.file = {
+              type,
+              url,
+              fileName:newFileName
+            }
+            this.setState({ status: 'success' });
+            Taro.hideLoading();
+            Taro.showToast({
+              title:'上传成功',
+              icon: 'success',
+              duration:2e3
+            })
           } else {
-            this.setState({ status: 'failed' })
+            this.setState({ status: 'failed' });
+            Taro.hideLoading();
+            Taro.showToast({
+              title:'上传失败,未通过审核,请重新上传',
+              icon: 'none',
+              duration:2e3
+            })
           }
         } else {
           if (time < 10) {
             setTimeout(() => {
               this.checkResult(ticket, time + 1)
-            }, 1e3)
-          } else {
-            this.setState({ status: 'failed' })
+            }, 500)
+          } else { 
+            this.setState({ status: 'failed' });
+            Taro.hideLoading();
+            Taro.showToast({
+              title:'上传失败,未通过审核,请重新上传',
+              icon: 'none',
+              duration:2e3
+            })
           }
         }
       }

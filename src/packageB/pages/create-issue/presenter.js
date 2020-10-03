@@ -1,5 +1,6 @@
 import BaseComponent from '@common/baseComponent'
 import Model from './model'
+import Taro from '@tarojs/taro'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -10,7 +11,8 @@ export default class Presenter extends BaseComponent {
       showTip: true,
       canSave: false,
       tagList: [],
-      selectedTag: []
+      selectedTag: [],
+      files:[]
     }
   }
 
@@ -58,20 +60,28 @@ export default class Presenter extends BaseComponent {
       selectedTag
     }))
   }
+  getFiles = (file) => {
+    this.setState(prev => ({
+      files: prev.files.concat([file])
+    }))
+  }
 
   async doSubmit() {
-    const { canSave, selectedTag, name, content } = this.state
+    const { canSave, selectedTag, name, content, files } = this.state
     const { cid } = this.$router.params
     if (!canSave) {
       return false
     }
+    
 
     this.showNavLoading()
 
     const params = {
       cid,
-      title: name,
-      content,
+      // title: name,
+      // content,
+      files:files,
+      title:content,
       tagIds: selectedTag
     }
 
@@ -82,7 +92,7 @@ export default class Presenter extends BaseComponent {
     if (pid) {
       this.showToast('恭喜您, 提交成功')
       setTimeout(() => {
-        // 跳哪去?
+        Taro.navigateBack()
       }, 2000)
     } else {
       this.showToast('保存失败, 请稍候再试')

@@ -43,14 +43,10 @@ class CircleDetailView extends Presenter {
     )
   }
 
-  
-  onReachBottom() {
-    console.log('到底了')
-  }
 
   render() {
-    const { centerHeight, listType, showOpPanel, cid, fixed } = this.state
-    const { loading, noData, circlePosts } = this.$store
+    const { centerHeight, listType, showOpPanel, cid, fixed,isFresh } = this.state
+    const { loading, noData, circlePosts, isToBottom } = this.$store
     const scrollStyle = {
       height: centerHeight
     }
@@ -61,29 +57,30 @@ class CircleDetailView extends Presenter {
       <View className={[fixed ? 'fix-tab' : 'circle-detail-viewport']}>
         <MainInfoPanel cid={getCurrentInstance().router.params.cid} />
         <View>
-          <TypeTabs onTypeChange={this.typeChange} key='123' onSubTabChangeGetData={this.getCirclePostsList.bind(this)} onDoubleClickTab={this.getCirclePostsList.bind(this)} />
+          <TypeTabs onTypeChange={this.typeChange} key='123' onSubTabChangeGetData={this.getSubTabList.bind(this)} onDoubleClickTab={this.freshList.bind(this)} />
           <ScrollView
             scrollY
             scrollWithAnimation
+            onScrollToLower={this.onScrollToLower}
             className="card-wrapper"
             style={fixed ? scrollStyle : null}
           >
             {
-              circlePosts.map((num, item) => {
+              circlePosts.map((item, num) => {
                 return [0, 1, 3].includes(listType) ?
-                  <PostCard showOrder={listType === 3} key={num} countryAble={false} model={item} closeRelease needShared /> :
+                  <PostCard showOrder={listType === 3} key={num} countryAble={false} model={item} closeRelease needShared onHandleFavorite={this.onHandleFavorite.bind(this,item)} /> :
                   listType === 2 ? <QACard /> :
                     listType === 4 ? <UserCard /> : null
               })
             }
-            <Preloading showLoading="true"></Preloading>
+            <Preloading showLoading={!isToBottom} isToBottom={isToBottom}></Preloading>
           </ScrollView>
 
           
         </View>
         <View className='fixed-btns'>
           <Image className='btn' src={ICON_ADD} onClick={this.troggleOpPanel} />
-          <Image className='btn' src={ICON_FRESH} onClick={this.getCirclePostsList.bind(this, cid)} />
+          <Image className='btn' src={ICON_FRESH} onClick={this.freshList} />
         </View>
         {
           showOpPanel &&
