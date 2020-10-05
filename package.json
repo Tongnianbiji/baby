@@ -32,16 +32,17 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@tarojs/runtime": "3.0.11",
-    "@tarojs/taro": "3.0.11",
     "@tarojs/components": "3.0.11",
     "@tarojs/mobx": "^2.2.10",
     "@tarojs/react": "3.0.11",
+    "@tarojs/runtime": "3.0.11",
+    "@tarojs/taro": "3.0.11",
     "goeasy": "^1.0.17",
     "mobx": "^4.8.0",
     "mobx-react": "^6.1.4",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
+    "taro-dropdown": "^0.3.0",
     "taro-ui": "^3.0.0-alpha.3"
   },
   "devDependencies": {

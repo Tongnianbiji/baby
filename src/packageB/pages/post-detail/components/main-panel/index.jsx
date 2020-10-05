@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { getCurrentInstance } from '@tarojs/taro'
 import Taro from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import { ICONS } from '@common/constant'
@@ -16,27 +17,41 @@ export default class MainPanelComponent extends Component {
       content,
       views = 0,
       replys = 0,
-      markes = 0
+      markes = 0,
+      isMark = false,
+      createTime = '2020-03-29 21:29:00',
+      
+      userSnapshot: {
+        city,
+        country = '宝山',
+        headImg = '',
+        nickName = '昵称1',
+        sex = 'MALE',
+        customLevel : [{desc='3岁9个月'}]
+      }
     } = this.props.info
+    console.log('数据',this.props.info)
     return (
       <View className='main-panel-view'>
         <View className='user-info'>
           <View className='avatar'>
             {
-              avatar ?
-                <Image src={avatar} className='avatar-img' /> :
+              headImg ?
+                <Image src={headImg} className='avatar-img' /> :
                 null
             }
           </View>
           <View className='infos'>
-            <View className='name-area'>
-              <Text className='name'>李庭语妈妈</Text>
-              <Image className='sex' src={ICONS.FEMALE_ICON}></Image>
-              <Text className='years-old'>上海 嘉定</Text>
-              <Text className='years-old'>3岁9个月</Text>
-              <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
-            </View>
-            <Text className='times'>2020-03-29 21:29:00</Text>
+            {
+              <View className='name-area'>
+                <Text className='name'>{nickName}</Text>
+                <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
+                <Text className='years-old'>{ city + ' ' + country}</Text>
+                <Text className='years-old'>{desc}</Text>
+                <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
+              </View>
+            }
+            <Text className='times'>{createTime}</Text>
           </View>
         </View>
         <View className='title'>{title}</View>
@@ -52,7 +67,7 @@ export default class MainPanelComponent extends Component {
               <Text>{replys}</Text>
             </View>
             <View className='favorite'>
-              <Image className='img' src={ICONS.FAVORITE} />
+              <Image className='img' onClick={this.handleFavorite} src={isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
               <Text>{markes}</Text>
             </View>
           </View>

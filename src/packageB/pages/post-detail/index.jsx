@@ -1,8 +1,10 @@
 import Taro from '@tarojs/taro'
+import React from 'react'
 import { View, Input } from '@tarojs/components'
 import Presenter from './presenter'
 import MainPanel from './components/main-panel'
 import Comments from './components/comments'
+import ReplyTools from './components/reply-tools'
 
 import './index.scss'
 
@@ -12,14 +14,12 @@ export default class PostDetailView extends Presenter {
   }
 
   render() {
-    const { detailData, commentList } = this.state
+    const { detailData, commentList, isFocus } = this.state
     return (
       <View className='post-detail-view'>
         <MainPanel info={detailData} />
-        <Comments dataList={commentList} />
-        <View className='input-wrapper'>
-          <Input className='input' placeholder='我有话要说' />
-        </View>
+        <Comments dataList={commentList}  selectSortType={this.getReplyList.bind(this)} onReplyPost={this.replyPost.bind(this)}/>
+        <ReplyTools isFocus={isFocus} onFocus={this.onFocus.bind(this)} onBlur={this.onBlur.bind(this)}></ReplyTools>
       </View>
     )
   }

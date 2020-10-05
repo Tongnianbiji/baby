@@ -9,13 +9,26 @@ export default class CommentItem extends Component {
     model: {},
     needLine: false,
     hasChildren: false,
-    last: false
+    hasChildredSibling:false,
+    last: false,
+    onReplyPost:()=>{}
+  }
+  replyPost = (model) => {
+    console.log('******',model)
+    this.props.onReplyPost(model)
   }
   render() {
-    const { avatar, children, needLine, hasChildren, last } = this.props
+    const { avatar, children, needLine, hasChildren, hasChildredSibling, last, model, model: {
+      content,
+      createTime,
+      dislikes=0,
+      isDislikes,
+      isLikes,
+      likes=0
+    } } = this.props;
     return (
       <View className={`comment-item${needLine ? ' need-line' : ''}`}>
-        <View className='info-wrapper'>
+        <View className='info-wrapper' onClick={this.replyPost.bind(this,model)}>
           <View className='user-info'>
             <View className='avatar'>
               {
@@ -28,33 +41,33 @@ export default class CommentItem extends Component {
               <View className='name-area'>
                 <Text className='name'>李庭语妈妈</Text>
                 <Image className='sex' src={ICONS.FEMALE_ICON}></Image>
-                <Text className='years-old'>上海 嘉定</Text>
-                <Text className='years-old'>3岁9个月</Text>
+                <Text className='times'>贴主 2小时前</Text>
                 <View className='like-btns'>
                   <View className='btns-wrapper'>
                     <View className='like-btn'>
                       <Image src={ICONS.LIKE} className='like-btn-img' />
-                    18
+                    {likes}
                   </View>
-                    <View className='like-btn'>
+                    <View className='like-btn dis-like'>
                       <Image src={ICONS.DISLIKE} className='like-btn-img' />
-                    18
+                    {dislikes}
                   </View>
                   </View>
                 </View>
               </View>
-              <Text className='times'>贴主 2小时前</Text>
+              <Text className='years-old'>上海 嘉定</Text>
+              <Text className='years-old'>3岁9个月</Text>
             </View>
             {!needLine && <View className='line' />}
           </View>
-          <View className='contents'>求解答，在线等</View>
-          {hasChildren && <View className='vertical-line' />}
+          <View className='contents'>{content}</View>
+          {!!hasChildren && <View className='vertical-line' />}
         </View>
         <View className='children-nodes'>
           {children}
-          {hasChildren && <View className='vertical-line-bottom' />}
+          {!!hasChildren && <View className='vertical-line-bottom' />}
         </View>
-        {last && <View className='hide-more-line' />}
+        {!!last && <View className='hide-more-line' />}
       </View>
     )
   }

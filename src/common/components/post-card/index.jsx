@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { ICONS } from '../../constant'
 import './styles.scss'
-import ISFAVORITED from '@ass/img/favorited.png'
+//import ISFAVORITED from '@ass/img/favorited.png'
 
 export default class UserInfoItem extends Component {
   static defaultProps = {
@@ -26,12 +26,12 @@ export default class UserInfoItem extends Component {
     // 是否只显示发布时间, 不显示发贴人信息
     onlyReleaseTime: false,
 
-    onClick: () => { },
+    cardClick: () => { },
     onHandleFavorite:() => {}
   }
 
   cardClick = () => {
-    this.props.onClick(this.model)
+    this.props.cardClick(this.model)
   }
 
   handleFavorite = (e) => {
@@ -133,7 +133,7 @@ export default class UserInfoItem extends Component {
                 <Text>{model.replys || 0}</Text>
               </View>
               <View className='favorite'>
-                <Image className='img' onClick={this.handleFavorite} src={model.isMark ? ISFAVORITED : ICONS.FAVORITE} />
+                <Image className='img' onClick={this.handleFavorite} src={model.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
                 <Text>{model.markes || 0}</Text>
               </View>
             </View>

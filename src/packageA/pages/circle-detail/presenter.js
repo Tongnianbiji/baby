@@ -115,6 +115,13 @@ export default class Presenter extends BaseComponent {
     this.$store.updateCirclePostsByFavorite(item.pid)
   }
 
+  //点击帖子详情
+  handlePostDetail(pid) {
+    Taro.navigateTo({
+      url:'/packageB/pages/post-detail/index?pid='+pid
+    })
+  }
+
   typeChange = (index, data) => {
     this.setState({ listType: index })
   }

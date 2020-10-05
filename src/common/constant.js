@@ -1,7 +1,9 @@
 /**
  * 常量
  */
-
+import ISFAVORITED from '@ass/img/favorited.png';
+import COPY from '@ass/img/copy.png';
+import WARNING from '@ass/img/warning.png'
 export default {
 
 }
@@ -18,6 +20,10 @@ export const ICONS = {
   COMMENT: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/comment.png',
 
   FAVORITE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/favorite.png',
+
+  ISFAVORITED: ISFAVORITED,
+  COPY: COPY,
+  WARNING: WARNING,
 
   SEARCH: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/search.png',
 

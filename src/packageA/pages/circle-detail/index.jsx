@@ -68,7 +68,7 @@ class CircleDetailView extends Presenter {
             {
               circlePosts.map((item, num) => {
                 return [0, 1, 3].includes(listType) ?
-                  <PostCard showOrder={listType === 3} key={num} countryAble={false} model={item} closeRelease needShared onHandleFavorite={this.onHandleFavorite.bind(this,item)} /> :
+                  <PostCard showOrder={listType === 3} key={num} countryAble={false} model={item} closeRelease needShared cardClick={this.handlePostDetail.bind(this,item.pid)} onHandleFavorite={this.onHandleFavorite.bind(this,item)} /> :
                   listType === 2 ? <QACard /> :
                     listType === 4 ? <UserCard /> : null
               })

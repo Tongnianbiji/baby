@@ -1,0 +1,27 @@
+
+.drop{
+  &-down{
+    float: right;
+    position: relative;
+    font-size: 24px;
+    color: #666666;
+    &-btn{
+      .down-arrow {
+        width: 24px;
+        height: 14px;
+      }
+    }
+    &-list{
+      position: absolute;
+      right: 0;
+      border: 1rpx solid #f8f8f8;
+      box-shadow: 5rpx 5rpx 5rpx #e8e8e8;
+      min-width: 100%;
+      background-color: #ffffff;
+      z-index: 99;
+      padding:10px;
+      box-sizing: border-box;
+      margin-top:10px;
+    }
+  }
+} 
