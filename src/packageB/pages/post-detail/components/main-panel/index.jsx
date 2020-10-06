@@ -3,13 +3,36 @@ import { getCurrentInstance } from '@tarojs/taro'
 import Taro from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import { ICONS } from '@common/constant'
-import './index.scss'
+import { observer, inject } from 'mobx-react'
+import Model from '../../model'
 
+import './index.scss'
+@inject('postDetail')
+@observer
 export default class MainPanelComponent extends Component {
   static defaultProps = {
     info: {}
   }
 
+  handleFavorite = async() => {
+    const {updatePostFavoriteMarks, detailData} = this.props.postDetail;
+    const { isMark, pid } = detailData;
+    let params = {
+      markes: 1,
+      isMark:true
+    }
+    
+    if (isMark) {
+      params.markes = -1;
+      params.isMark = false;
+      const d = await Model.postMarkCancel(pid);
+    } else {
+      const d = await Model.postMark(pid);
+    }
+    Taro.vibrateShort();
+    updatePostFavoriteMarks(params)
+    
+  }
   render() {
     const {
       imgprofile: avatar,
@@ -29,8 +52,7 @@ export default class MainPanelComponent extends Component {
         sex = 'MALE',
         customLevel : [{desc='3岁9个月'}]
       }
-    } = this.props.info
-    console.log('数据',this.props.info)
+    } = this.props.postDetail.detailData
     return (
       <View className='main-panel-view'>
         <View className='user-info'>

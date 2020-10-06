@@ -4,6 +4,8 @@
 import ISFAVORITED from '@ass/img/favorited.png';
 import COPY from '@ass/img/copy.png';
 import WARNING from '@ass/img/warning.png'
+import FULLLIKE from '@ass/img/full-like.png'
+import FULLDISLIKE from '@ass/img/full-dislike.png'
 export default {
 
 }
@@ -21,10 +23,6 @@ export const ICONS = {
 
   FAVORITE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/favorite.png',
 
-  ISFAVORITED: ISFAVORITED,
-  COPY: COPY,
-  WARNING: WARNING,
-
   SEARCH: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/search.png',
 
   ARROW_DOWN: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/down.png',
@@ -41,7 +39,13 @@ export const ICONS = {
 
   DISLIKE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/dislike.png',
 
-  LIKE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/like.png'
+  LIKE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/like.png',
+  
+  ISFAVORITED: ISFAVORITED,
+  COPY: COPY,
+  WARNING: WARNING,
+  FULLLIKE: FULLLIKE,
+  FULLDISLIKE:FULLDISLIKE,
 }
 
 

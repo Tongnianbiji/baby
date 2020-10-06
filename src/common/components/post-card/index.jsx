@@ -43,9 +43,10 @@ export default class UserInfoItem extends Component {
     const { model } = this.props;
     // const { userSnapshot:{customLevel, headImg, nickName, } } = model;
     return (
-      <View className='ui-user-info-item' onClick={this.cardClick}>
+      <View className='ui-user-info-item'>
         {this.props.children}
         <View className='main-wrapper'>
+          <View onClick={this.cardClick}>
           {
             !this.props.closeRelease &&
             <View className='release-info'>
@@ -115,7 +116,8 @@ export default class UserInfoItem extends Component {
                   <View className='txt'>可以了，11月以后就可以交了</View>
                 </View>
               </View> : <Text className='content'>{model.title || '济阳三村幼儿园怎么样，算比较好的幼儿园吗?'}</Text>
-          }
+            }
+            </View>
           <View className='tags'>
             {
               this.props.countryAble &&

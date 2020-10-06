@@ -1,33 +1,19 @@
 import BaseComponent from '@common/baseComponent'
 import React from 'react'
 import Model from './model'
+import Taro from '@tarojs/taro'
+import postDetail from './store/post-detail'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
     super(props)
 
     this.state = {
-      detailData: {
-        userSnapshot: {
-          city: '',
-          country: '',
-          headImg: '',
-          nickName: '',
-          sex: '',
-          customLevel: [{ desc: '3岁9个月' }]
-        }
-      },
-      commentList: [
-        {
-          key: 1,
-          list: [{ key: 3, list: [{ key: 4, list: [{ key: 5, list: [{ key: 6, list: [{ key: 7, list: [{ key: 8 ,list: [{ key: 9,list: [{ key: 10,list: [{ key: 11 }] }] }]}] }] }] }] }] }, { key: 16 }, { key: 26 }]
-        },
-        {
-          key: 2
-        }
-      ],
-      isFocus:false
+      currentModel: {},
+      replys: 0,
+      postDetail:postDetail
     }
+    
   }
   componentDidMount() {
     this.showNavLoading()
@@ -37,41 +23,78 @@ export default class Presenter extends BaseComponent {
 
   //回复帖子
   replyPost = (model) => {
-    console.log('回帖', model)
-    this.setState({
-      isFocus:true
-    })
+    const { postDetail:{getCurrentReplyPostData,updateCurrentplaceholder,updateFocusStatus,updateActiveFocusStatus,updateIsToPostOwnerStatus} } = this.state;
+    console.log('回帖', model);
+    getCurrentReplyPostData(model);
+    updateCurrentplaceholder(`回复  李庭语妈妈: ${model.content}`);
+    updateFocusStatus(true);
+    updateActiveFocusStatus(true);
+    updateIsToPostOwnerStatus(false)
   }
-  onBlur = () => {
-    this.setState({
-      isFocus:false
-    })
-  }
-  onFocus = () => {
-    this.setState({
-      isFocus:true
+  
+  //复制帖子内容
+  copyContent = () => {
+    const { postDetail:{currentReplyPost:{content}} } = this.state;
+    Taro.setClipboardData({
+      data: content,
+      success: function (res) {
+        Taro.getClipboardData({
+          success: function (res) {
+            Taro.showToast({
+              title: '复制成功',
+              icon:'success'
+            })
+          }
+        })
+      }
     })
   }
 
+  //发帖回复输入
+  inputReply = (content) => {
+    this.setState((pre) => {
+      pre.currentModel.content = content
+    })
+  }
+  //发布回复
+  submitReply = async () => {
+    const { currentReplyPost: { pid, replyId },updateFocusStatus } = this.state.postDetail;
+    const {content} = this.state.currentModel
+    const d = await Model.subReply(pid, replyId, content);
+    Taro.showLoading();
+    if (d) {
+      this.getReplyList();
+      updateFocusStatus(false);
+     setTimeout(() => {
+       Taro.hideLoading()
+       Taro.showToast({
+        title: '回复成功',
+        icon: 'success',
+        duration:2e3
+      })
+     }, 1e3);
+      
+     
+      
+    }
+  }
+
+
   async getData(pid = this.$router.params.pid) {
-    const d = await Model.getDetail(pid)
-    console.log(d, 'dddd');
+    const { postDetail: { getDetail } } = this.state;
+    const d = await getDetail(pid);
     if (d) {
       this.setState({
-        detailData: JSON.parse(JSON.stringify(d))
+        replys: d.replys,
+        // currentModel:d
       })
     }
     this.hideNavLoading()
     this.setNavBarTitle(d ? d.cName : '查询失败')
   }
-  async getReplyList(sortType=1 ,pid = this.$router.params.pid) {
-    const d = await Model.getReplyList(pid,sortType)
-    console.log(d, 'dddd');
-    if (d) {
-      this.setState({
-        commentList:d.items
-     })
-    }
-    this.hideNavLoading()
+
+  getReplyList = async (sortType = 1, pid = this.$router.params.pid) => {
+    const { postDetail:{getReplyList} } = this.state;
+    await getReplyList(sortType, pid);
   }
 }
