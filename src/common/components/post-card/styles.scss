@@ -1,4 +1,8 @@
 @import '../../../app.scss';
+//text外层view
+.is-not-text{
+  display: flex;
+}
 .ui-user-info-item {
   background: #fff;
   border-radius: 16px;
@@ -64,6 +68,7 @@
             color: #3D3AFF;
             font-size: 28px;
             margin-right: 10px;
+            display: inline-block;
           }
           .sex {
             width: 26px;
@@ -78,6 +83,7 @@
             font-size: 24px;
             color: #666;
             margin-right: 12px;
+            display: inline-block;
           }
           .btn-share {
             width: 32px;

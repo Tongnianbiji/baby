@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import {View, ScrollView, Image} from '@tarojs/components'
 import UITabs from '../../../../common/components/ui-tabs'
 import './index.scss'
+import { observer, inject } from 'mobx-react'
 
 const tabList = [
   { title: '最热', useable: true },
@@ -10,17 +11,18 @@ const tabList = [
   { title: '最新回复', useable: true }
 ]
 
-const mock = [
-  { title: '全部' },
-  { title: '生活' },
-  { title: '灌水' },
-  { title: '学校' },
-  { title: '生活' },
-  { title: '灌水' },
-  { title: '生活' },
-  { title: '灌水' }
+let mock = [
+  { tagName: '生活1',tagId:1},
+  { tagName: '灌水1' ,tagId:2},
+  { tagName: '学校' ,tagId:3},
+  { tagName: '生活2' ,tagId:4},
+  { tagName: '灌水2' ,tagId:5},
+  { tagName: '生活3' ,tagId:6},
+  { tagName: '灌水3' ,tagId:7}
 ]
 
+@inject('staticDataStore','circleDetailStore')
+@observer
 export default class CircleTabs extends Component {
   static defaultProps = {
     onSubTabChangeGetData: () => ({})
@@ -29,20 +31,52 @@ export default class CircleTabs extends Component {
     super(props)
     this.state = {
       current: 0,
-      currentSubTab:0
+      currentSubTab: 0,
+      tags:[]
     }
+    this.circleDetailStore = this.props.circleDetailStore
+  }
+
+  componentDidMount() {
+    this.getTagList()
   }
 
   onTabChange = num => {
     this.setState({ current: num })
   }
-  onSubTabChange = (num, item) => {
-    this.setState({ currentSubTab: num });
-    this.props.onSubTabChangeGetData(item)
+  onSubTabChange = (item) => {
+    this.circleDetailStore.updateActiveTags(item);
+    this.props.onSubTabChangeGetData();
+  }
+  onSubTabAll = () => {
+    const { postLock, listType } = this.circleDetailStore;
+    this.circleDetailStore.clearActiveTags();
+    this.circleDetailStore.resetTabListStatus(listType);
+    if (!this.circleDetailStore.isToBottom()&&!postLock) {
+      this.circleDetailStore.typeTabPost();
+    }
+    
+  }
+
+  //获取taglist
+  getTagList = async () => {
+    const { getTagList} = this.props.staticDataStore;
+    const { cid } = this.props.circleDetailStore;
+    let res = await getTagList(cid);
+    if (res && res.items.length) {
+      this.setState({
+        tags : res.items 
+      })
+    } else {
+      this.setState({
+        tags : mock 
+      })
+    }
   }
 
   render() {
-    const {current, currentSubTab} = this.state
+    const { current, currentSubTab,tags } = this.state;
+    const { activeTags } = this.props.circleDetailStore;
     return (
       <View className='circle-tabs-view'>
         <View className='header'>
@@ -61,8 +95,11 @@ export default class CircleTabs extends Component {
           <ScrollView scrollX>
             <View className='tag-list'>
             {
-              mock.map((item, index) => (
-                <View key={index} className={[`tag-item${!index ? ' all': ''}`,currentSubTab == index ? 'tag-item-active' : '']} onClick={this.onSubTabChange.bind(this,index,item)}>{item.title}</View>
+              <View className='tag-item all' onClick={this.onSubTabAll}>全部</View>
+            }
+            {
+              tags.map((item, index) => (
+                <View key={index} className={['tag-item',activeTags.has(item.tagName) ? 'tag-item-active' : '']} onClick={this.onSubTabChange.bind(this,item)}>{item.tagName}</View>
               ))
             }
             </View>

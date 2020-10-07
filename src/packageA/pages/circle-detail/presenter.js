@@ -4,11 +4,12 @@ import BaseComponent from '../../../common/baseComponent'
 import Taro, {getCurrentInstance} from '@tarojs/taro'
 
 export default class Presenter extends BaseComponent {
+
   constructor(props) {
     super(props)
 
     this.state = {
-      listType: 0,
+      // listType: 0,
       //dataList: [1, 2, 3, 4,5,6,7],
       //circlePostsDataList:[],
       showOpPanel: false,
@@ -29,24 +30,27 @@ export default class Presenter extends BaseComponent {
     const { windowHeight, statusBarHeight, titleBarHeight } = info
     const tempHeight = (windowHeight - 170) + 'px'
    
+    this.$store.updateCircleId(cid);
     this.setState({
       cid: cid,
       tempHeight:tempHeight
-      //centerHeight: tempHeight
     })
     this.setNavBarTitle(cname)
     this.showLoading()
     this.initData(cid)
   }
+
+  onPullDownRefresh() {
+    this.freshList()
+  }
+
   onPageScroll(e) {
     console.log('已移动距离', e.scrollTop);
     let { tempHeight } = this.state;
     let scrollTop = e.scrollTop;
     if (scrollTop >= 230) {
-      this.setState({
-        fixed: true,
-        centerHeight: tempHeight
-      })
+      this.$store.updateCenterHeight(tempHeight)
+      this.$store.updateIsFiexd(true)
     } 
   }
 
@@ -69,22 +73,21 @@ export default class Presenter extends BaseComponent {
     const { pageNum,cid,isFresh } = this.state;
     await this.$store.getCirclePosts(cid, pageNum);
     if (isFresh) {
-      this.setState({
-        fixed: false
-      })
+      this.$store.updateIsFiexd(false)
     }
     
   }
 
   //刷新列表
-  freshList = () => {
-    this.setState(pre => ({
-      isFresh: true
-    }), () => {
-        this.$store.setCirclePostsEmpty();
-        this.getCirclePostsList();
-        this.$store.setIsToBottom(false);
-    })
+  freshList = async () => {
+    const { postLock, listType } = this.$store;
+    this.$store.resetTabListStatus(listType);
+    this.$store.updateIsFiexd(false);
+    if (!this.$store.isToBottom()&&!postLock) {
+      await this.$store.typeTabPost();
+      Taro.stopPullDownRefresh()
+    }
+    Taro.vibrateShort();
   }
 
   //点击子tab获取帖子数据

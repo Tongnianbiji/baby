@@ -26,8 +26,11 @@ export default class UserInfoItem extends Component {
     // 是否只显示发布时间, 不显示发贴人信息
     onlyReleaseTime: false,
 
+    //排名临时
+    sortNum:1,
+
     cardClick: () => { },
-    onHandleFavorite:() => {}
+    onHandleFavorite: () => { }
   }
 
   cardClick = () => {
@@ -40,84 +43,89 @@ export default class UserInfoItem extends Component {
   }
 
   render() {
-    const { model } = this.props;
+    const { model,sortNum } = this.props;
     // const { userSnapshot:{customLevel, headImg, nickName, } } = model;
     return (
       <View className='ui-user-info-item'>
         {this.props.children}
         <View className='main-wrapper'>
           <View onClick={this.cardClick}>
-          {
-            !this.props.closeRelease &&
-            <View className='release-info'>
-              <Text className='release'>李庭语妈妈发布了贴子 | 2小时前</Text>
-              <View className='info'>
-                {
-                  this.props.needDistance && <View className='distance-info'>0.9km</View>
-                }
-                {
-                  this.props.needShared && <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
-                }
-              </View>
-            </View>
-          }
-          {
-            !this.props.onlyReleaseTime &&
-            <View className='user-info'>
-              {
-                this.props.showOrder &&
-                <View className='order'>
-                  <Image className='icon-order' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/ranking.png' />
-                  <Text>1</Text>
-                </View>
-              }
-              <View className='avatar'>
-                <Image src={model.userSnapshot && model.userSnapshot.headImg || '#'}></Image>
-              </View>
-              <View className='infos'>
-                <View className='name-area'>
-                  <Text className='name'>{(model.userSnapshot && model.userSnapshot.nickName) || '李庭语妈妈'}</Text>
-
-                  <Image className='sex' src={(model.userSnapshot && model.userSnapshot.sex) ? model.userSnapshot.sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON : ICONS.FEMALE_ICON}></Image>
+            {
+              !this.props.closeRelease &&
+              <View className='release-info'>
+                <Text className='release'>李庭语妈妈发布了贴子 | 2小时前</Text>
+                <View className='info'>
                   {
-                    model.userSnapshot && model.userSnapshot.city ? 
-                      <Text className='years-old'>{(model.userSnapshot && model.userSnapshot.city) + ' ' + (model.userSnapshot && model.userSnapshot.country)}</Text>
-                      : null
+                    this.props.needDistance && <View className='distance-info'>0.9km</View>
                   }
                   {
-                    model.userSnapshot && model.userSnapshot.customLevel.length ?
-                      model.userSnapshot.customLevel.map((item) => {
-                        return <Text className='years-old'>{item.desc}</Text>
-                    })
-                  : null
-                  }
-                  
-                  {
-                    this.props.closeRelease && this.props.needShared &&
-                    <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
+                    this.props.needShared && <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
                   }
                 </View>
-                <Text className='times'>{model.createTime || '2020-03-29 21:29:00'}</Text>
               </View>
-            </View>
-          }
-          {
-            this.props.onlyReleaseTime && <View className='release-time'>2020-03-29 21:29:00</View>
-          }
-          {
-            this.props.isAnwser ?
-              <View className='content answer-wrapper'>
-                <View className='answer'>
-                  <View className='icon'>问</View>
-                  <View className='txt'>济阳三村最近可以交娃的社保了吗？</View>
-                </View>
-                <View className='answer'>
-                  <View className='icon'>答</View>
-                  <View className='txt'>可以了，11月以后就可以交了</View>
-                </View>
-              </View> : <Text className='content'>{model.title || '济阳三村幼儿园怎么样，算比较好的幼儿园吗?'}</Text>
             }
-            </View>
+            {
+              !this.props.onlyReleaseTime &&
+              <View className='user-info'>
+                {
+                  this.props.showOrder &&
+                  <View className='order'>
+                    <Image className='icon-order' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/ranking.png' />
+                    <Text>{sortNum}</Text>
+                  </View>
+                }
+                <View className='avatar'>
+                  <Image src={model.userSnapshot && model.userSnapshot.headImg || '#'}></Image>
+                </View>
+                <View className='infos'>
+                  <View className='name-area'>
+                    <View className='is-not-text'>
+                      <View className='name'>{(model.userSnapshot && model.userSnapshot.nickName) || '李庭语妈妈'}</View>
+                    </View>
+
+                    <Image className='sex' src={(model.userSnapshot && model.userSnapshot.sex) ? model.userSnapshot.sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON : ICONS.FEMALE_ICON}></Image>
+                    <View className='is-not-text'>
+                      {
+                        model.userSnapshot && model.userSnapshot.city ?
+                          <View className='years-old'>{(model.userSnapshot && model.userSnapshot.city) + ' ' + (model.userSnapshot && model.userSnapshot.country)}</View>
+                          : null
+                      }
+                    </View>
+                    <View className='is-not-text'>
+                      {
+                        model.userSnapshot && model.userSnapshot.customLevel.length ?
+                          model.userSnapshot.customLevel.map((item) => {
+                            return <View className='years-old'>{item.desc}</View>
+                          })
+                          : null
+                      }
+                    </View>
+                    {
+                      this.props.closeRelease && this.props.needShared &&
+                      <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
+                    }
+                  </View>
+                  <Text className='times'>{model.createTime || '2020-03-29 21:29:00'}</Text>
+                </View>
+              </View>
+            }
+            {
+              this.props.onlyReleaseTime && <View className='release-time'>2020-03-29 21:29:00</View>
+            }
+            {
+              this.props.isAnwser ?
+                <View className='content answer-wrapper'>
+                  <View className='answer'>
+                    <View className='icon'>问</View>
+                    <View className='txt'>济阳三村最近可以交娃的社保了吗？</View>
+                  </View>
+                  <View className='answer'>
+                    <View className='icon'>答</View>
+                    <View className='txt'>可以了，11月以后就可以交了</View>
+                  </View>
+                </View> : <Text className='content'>{model.title || '济阳三村幼儿园怎么样，算比较好的幼儿园吗?'}</Text>
+            }
+          </View>
           <View className='tags'>
             {
               this.props.countryAble &&

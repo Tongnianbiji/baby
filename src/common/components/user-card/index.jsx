@@ -5,11 +5,17 @@ import { ICONS } from '../../constant'
 import './styles.scss'
 
 export default class UserInfoCard extends Component {
+
+  static defaultProps = {
+    model:{},
+  }
+
   constructor(props) {
     super(props)
   }
 
   render() {
+    const { circle ,flow, funs,marked,stared} = this.props.model;
     return (
       <View className='ui-user-info-card'>
         <View className='avatar-wrapper'>
@@ -26,9 +32,9 @@ export default class UserInfoCard extends Component {
           </View>
           <View className='sub-title'>上海 浦东 | 家有碎钞机</View>
           <View className='nubmers'>
-            <View className='num'>粉丝: 20</View>
-            <View className='num'>发布: 20</View>
-            <View className='num'>收藏: 20</View>
+            <View className='num'>粉丝: {funs}</View>
+            <View className='num'>发布: {circle}</View>
+            <View className='num'>收藏: {flow}</View>
           </View>
         </View>
       </View>

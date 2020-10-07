@@ -6,6 +6,7 @@ import { setGlobalData } from './global_data'
 import GoEasy from './libs/goeasy-1.0.17'
 // store(s)
 import circleDetailStore from './store/circle-detail'
+import staticDataStore from './store/common/static-data'
 
 import './app.scss'
 
@@ -16,7 +17,8 @@ import './app.scss'
 // }
 
 const store = {
-  circleDetailStore
+  circleDetailStore,
+  staticDataStore
 }
 
 class App extends Component {
