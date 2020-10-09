@@ -43,7 +43,7 @@ export default class QACardView extends Component {
             <Text>{views}</Text>
           </View>
           <View className='comment'>
-            <Image className='img' src={ICONS.COMMENT} />
+            <Image className='img' src={ICONS.EDIT} />
             <Text>{replys}</Text>
           </View>
           <View className='favorite'>

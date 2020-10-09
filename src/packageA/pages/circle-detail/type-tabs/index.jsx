@@ -8,7 +8,7 @@ import CustomCircle from '../custom-circle'
 import { Provider } from 'mobx-react'
 import './type-tabs.scss'
 import { observer, inject } from 'mobx-react'
-import ScrollViewList from '@components/scrollViewList'
+import ScrollViewList from '@common/components/scrollViewList'
 import PostCard from '@common/components/post-card'
 import UserCard from '@common/components/user-card'
 import QACard from '../qa-card'
@@ -109,6 +109,24 @@ export default class TypeTabsView extends Component {
     }
   }
 
+  //到顶取消冻结
+  onScrollToUpper(){
+    this.circleDetailStore.updateIsFiexd(false);
+  }
+
+   //点击帖子详情
+   handlePostDetail(pid) {
+    console.log('查看帖子详情')
+    Taro.navigateTo({
+      url:'/packageB/pages/post-detail/index?pid='+pid
+    })
+  }
+
+  //帖子收藏与取消收藏
+  handleFavorite= (pid)=>{
+    this.circleDetailStore.updateCirclePostsByFavorite(pid)
+  }
+
   render() {
     const { circlePosts, circleEssence, circleQuestion,circleUser, listType, fixed, centerHeight, loadingPosts, loadingEssence, loadingQuestion, loadingUser, isToBottomPosts, isToBottomEssence, isToBottomQuestion, isToBottomUser} = this.circleDetailStore;
     return (
@@ -116,11 +134,11 @@ export default class TypeTabsView extends Component {
         <AtTabs animated={false} className='tabs' tabList={TypeTabs} current={listType} onClick={this.typeTabChange}>
           <AtTabsPane index={0} current={listType}>
             <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} />
-            <ScrollViewList onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingEssence} isToBottom={isToBottomEssence}>
+            <ScrollViewList onScrollToUpper={this.onScrollToUpper.bind(this)} onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingEssence} isToBottom={isToBottomEssence}>
               {
                 circleEssence.map((item, num) => {
                   return (
-                    <PostCard key={num} countryAble={false} model={item} closeRelease needShared  />
+                    <PostCard key={num} countryAble={false} model={item} closeRelease needShared onCardClick={this.handlePostDetail.bind(this,item.pid)} onHandleFavorite={this.handleFavorite.bind(this)} />
                   )
                 })
               }
@@ -128,11 +146,11 @@ export default class TypeTabsView extends Component {
           </AtTabsPane>
           <AtTabsPane index={1} current={listType}>
             <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)}/>
-            <ScrollViewList onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingPosts} isToBottom={isToBottomPosts}>
+            <ScrollViewList onScrollToUpper={this.onScrollToUpper.bind(this)} onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingPosts} isToBottom={isToBottomPosts}>
             {
               circlePosts.map((item, num) => {
                 return (
-                  <PostCard key={num} countryAble={false} model={item} closeRelease needShared  />
+                  <PostCard key={num} countryAble={false} model={item} closeRelease needShared onCardClick={this.handlePostDetail.bind(this,item.pid)} onHandleFavorite={this.handleFavorite.bind(this)}/>
                 )
               })
             }

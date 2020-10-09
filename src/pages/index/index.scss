@@ -12,11 +12,12 @@ page {
   height: 100%;
   .search-bar {
     position: fixed;
-    height: 72px;
+    height: 82px;
     background: #fff;
     display: flex;
     padding: 12px 0;
     box-sizing: border-box;
+    align-items: center;
     top: 0;
     left: 0;
     right: 0;
@@ -48,6 +49,7 @@ page {
         display: flex;
         align-items: center;
         justify-content: center;
+        padding:10px 0;
         .icon-search {
           width: 27px;
           height: 27px;

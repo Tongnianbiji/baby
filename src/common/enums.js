@@ -13,7 +13,8 @@ export const EnvType = {
 export const SearchResultType = {
   CIRCLE: 'circle',
   ANSWER: 'answer',
-  POST: 'post'
+  POST: 'post',
+  ESSENCE:'essence'
 }
 
 /**

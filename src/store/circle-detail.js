@@ -429,54 +429,57 @@ const actions = {
   setCirclePostsEmpty() {
     this.circlePosts = []
   },
-  // updateCirclePostsByFavorite(pid) {
-  //   Taro.showLoading();
-  //   let circlePosts = this.circlePosts;
-  //   circlePosts.forEach(async item => {
-  //     if (item.pid === pid) {
-  //       if (item.isMark) {
-  //         let code = await this.cancelFavoritePost(pid);
-  //         Taro.hideLoading();
-  //         if (code === 0) {
-  //           item.isMark = false;
-  //           item.markes -= 1;
-  //           this.circlePosts = JSON.parse(JSON.stringify(circlePosts));
-  //           Taro.showToast({
-  //             title:'取消收藏',
-  //             icon: 'none',
-  //             duration:2e3
-  //           })
-  //         } else {
-  //           Taro.showToast({
-  //             title:'取消失败',
-  //             icon: 'none',
-  //             duration:2e3
-  //           })
-  //         }
-  //       } else {
-  //         let code = await this.favoritePost(pid);
-  //         Taro.hideLoading();
-  //         if (code === 0) {
-  //           item.isMark = true;
-  //           item.markes += 1;
-  //           this.circlePosts = JSON.parse(JSON.stringify(circlePosts));
-  //           Taro.showToast({
-  //             title:'已收藏',
-  //             icon: 'success',
-  //             duration:2e3
-  //           })
-  //         } else {
-  //           Taro.showToast({
-  //             title:'收藏失败',
-  //             icon: 'none',
-  //             duration:2e3
-  //           })
-  //         }
-  //       }
-  //     }
-  //   })
+  updateCirclePostsByFavorite(pid) {
+    Taro.showLoading();
+    let circlePosts = this.circlePosts;
+    this.postLock = true;
+    circlePosts.forEach(async item => {
+      if (item.pid === pid) {
+        if (item.isMark) {
+          let code = await this.cancelFavoritePost(pid);
+          this.postLock = false;
+          Taro.hideLoading();
+          if (code === 0) {
+            item.isMark = false;
+            item.markes -= 1;
+            this.circlePosts = JSON.parse(JSON.stringify(circlePosts));
+            Taro.showToast({
+              title:'取消收藏',
+              icon: 'none',
+              duration:2e3
+            })
+          } else {
+            Taro.showToast({
+              title:'取消失败',
+              icon: 'none',
+              duration:2e3
+            })
+          }
+        } else {
+          let code = await this.favoritePost(pid);
+          this.postLock = false;
+          Taro.hideLoading();
+          if (code === 0) {
+            item.isMark = true;
+            item.markes += 1;
+            this.circlePosts = JSON.parse(JSON.stringify(circlePosts));
+            Taro.showToast({
+              title:'已收藏',
+              icon: 'success',
+              duration:2e3
+            })
+          } else {
+            Taro.showToast({
+              title:'收藏失败',
+              icon: 'none',
+              duration:2e3
+            })
+          }
+        }
+      }
+    })
 
-  // }
+  }
 
 }
 

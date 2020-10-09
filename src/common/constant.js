@@ -6,6 +6,8 @@ import COPY from '@ass/img/copy.png';
 import WARNING from '@ass/img/warning.png'
 import FULLLIKE from '@ass/img/full-like.png'
 import FULLDISLIKE from '@ass/img/full-dislike.png'
+import EDIT from '@ass/img/edit.png'
+import IMG from '@ass/img/img.png'
 export default {
 
 }
@@ -46,6 +48,8 @@ export const ICONS = {
   WARNING: WARNING,
   FULLLIKE: FULLLIKE,
   FULLDISLIKE:FULLDISLIKE,
+  EDIT:EDIT,
+  IMG:IMG
 }
 
 

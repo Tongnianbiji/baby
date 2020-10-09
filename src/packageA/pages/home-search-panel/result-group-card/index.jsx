@@ -8,7 +8,8 @@ import './styles.scss'
 const typeMap = {
   [SearchResultType.ANSWER]: '问答',
   [SearchResultType.CIRCLE]: '圈子',
-  [SearchResultType.POST]: '帖子'
+  [SearchResultType.POST]: '帖子',
+  [SearchResultType.ESSENCE]: '精华'
 }
 
 export default class SearchResultGroupCard extends Component {

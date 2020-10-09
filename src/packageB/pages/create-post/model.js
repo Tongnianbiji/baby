@@ -27,7 +27,7 @@ export default {
     const d = req.standardResponse(ret);
     if (d.code) {
       Taro.showToast({
-        title:d.message,
+        title:'今天已发布过多未通过审核的内容，麻烦明天再试',
         icon: 'none',
         duration:2e3
       })

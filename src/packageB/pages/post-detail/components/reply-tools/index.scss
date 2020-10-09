@@ -50,6 +50,16 @@
   }
   &-btn-wrap{
     padding:0 24px;
+    display: flex;
+    justify-content: space-between;
+    padding:0 20px;
+    align-items: center;
+    margin-bottom: 24px;
+    image{
+      width: 44px;
+      height: 41px;
+      text-align: left;
+    }
   }
   &-btn{
     width: 120px;
@@ -59,8 +69,8 @@
     border-color:#ffffff;
     font-size: 32px;
     text-align: right;
+    margin:0;
     float: right;
-    margin-bottom: 24px;
   }
  
 }

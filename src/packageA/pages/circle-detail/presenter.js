@@ -28,7 +28,7 @@ export default class Presenter extends BaseComponent {
     const { cid, cname = '' } = getCurrentInstance().router.params;
     const info = Taro.getSystemInfoSync();
     const { windowHeight, statusBarHeight, titleBarHeight } = info
-    const tempHeight = (windowHeight - 170) + 'px'
+    const tempHeight = (windowHeight - 140) + 'px'
    
     this.$store.updateCircleId(cid);
     this.setState({
@@ -51,7 +51,10 @@ export default class Presenter extends BaseComponent {
     if (scrollTop >= 230) {
       this.$store.updateCenterHeight(tempHeight)
       this.$store.updateIsFiexd(true)
-    } 
+    }else{
+      this.$store.updateCenterHeight('')
+      this.$store.updateIsFiexd(false)
+    }
   }
 
   async initData(cid) {
@@ -90,6 +93,21 @@ export default class Presenter extends BaseComponent {
     Taro.vibrateShort();
   }
 
+  //全局刷新
+  overallFreshList = () => {
+    const { postLock, listType } = this.$store;
+    this.$store.resetTabListStatus(listType);
+    this.$store.updateIsFiexd(false);
+    Taro.vibrateShort();
+    setTimeout(async() => {
+      if (!this.$store.isToBottom()&&!postLock) {
+        await this.$store.typeTabPost();
+        Taro.stopPullDownRefresh()
+      }
+    }, 500);
+    
+  }
+
   //点击子tab获取帖子数据
   getSubTabList = () => {
     this.setState(pre => ({
@@ -115,15 +133,14 @@ export default class Presenter extends BaseComponent {
 
   //收藏
   onHandleFavorite = (item) => {
-    this.$store.updateCirclePostsByFavorite(item.pid)
+    const { postLock } = this.$store;
+    if(!postLock){
+      this.$store.updateCirclePostsByFavorite(item.pid)
+    }
+    
   }
 
-  //点击帖子详情
-  handlePostDetail(pid) {
-    Taro.navigateTo({
-      url:'/packageB/pages/post-detail/index?pid='+pid
-    })
-  }
+ 
 
   typeChange = (index, data) => {
     this.setState({ listType: index })

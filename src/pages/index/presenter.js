@@ -47,7 +47,7 @@ export default class HomePage extends BaseComponent {
   }
 
   goSearch = () => {
-    this.navto({url: '/packageA/pages/home-search-panel/index'})
+    this.navto({url: '/packageA/pages/home-search-panel/index?searchScope=all'})
   }
 
   onLongPressForDebug(){

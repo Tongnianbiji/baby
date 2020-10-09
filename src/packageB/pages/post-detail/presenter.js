@@ -58,25 +58,32 @@ export default class Presenter extends BaseComponent {
   }
   //发布回复
   submitReply = async () => {
-    const { currentReplyPost: { pid, replyId },updateFocusStatus } = this.state.postDetail;
+    const { currentReplyPost,currentReplyPost: { pid, replyId },updateFocusStatus } = this.state.postDetail;
     const {content} = this.state.currentModel
+    console.log('content',currentReplyPost)
     const d = await Model.subReply(pid, replyId, content);
-    Taro.showLoading();
-    if (d) {
-      this.getReplyList();
-      updateFocusStatus(false);
-     setTimeout(() => {
-       Taro.hideLoading()
-       Taro.showToast({
-        title: '回复成功',
-        icon: 'success',
+    if(content){
+      Taro.showLoading();
+      if (d) {
+        this.getReplyList();
+        updateFocusStatus(false);
+       setTimeout(() => {
+         Taro.hideLoading()
+         Taro.showToast({
+          title: '回复成功',
+          icon: 'success',
+          duration:2e3
+        })
+       }, 1e3);
+      }
+    }else{
+      Taro.showToast({
+        title: '不能输入为空',
+        icon: 'none',
         duration:2e3
       })
-     }, 1e3);
-      
-     
-      
     }
+   
   }
 
 

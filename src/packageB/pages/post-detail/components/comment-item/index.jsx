@@ -12,66 +12,101 @@ export default class CommentItem extends Component {
     model: {},
     needLine: false,
     hasChildren: false,
-    hasChildredSibling:false,
+    hasChildredSibling: false,
     last: false,
-    onReplyPost:()=>{}
+    onReplyPost: () => { }
   }
   replyPost = (model, e) => {
     e.stopPropagation()
     this.props.onReplyPost(model)
   }
+  handleLike = (model,e) => {
+    const {getCurrentReplyPostData,handleLike,updateIsToPostOwnerStatus} = this.props.postDetail;
+    e.stopPropagation();
+    updateIsToPostOwnerStatus(false);
+    getCurrentReplyPostData(model);
+    handleLike()
+  }
+
+  handleDisLike = (model,e) => {
+    const {getCurrentReplyPostData,handleDisLike,updateIsToPostOwnerStatus} = this.props.postDetail;
+    e.stopPropagation();
+    updateIsToPostOwnerStatus(false);
+    getCurrentReplyPostData(model);
+    handleDisLike()
+  }
   render() {
     const { avatar, children, needLine, hasChildren, hasChildredSibling, last, model, model: {
       content,
       createTime,
-      dislikes=0,
+      dislikes = 0,
       isDislikes,
-      isLikes=true,
-      likes=0,
+      isLikes = true,
+      likes = 0,
       userSnapshot: {
-      city='上海',
-      country = '宝山',
-      headImg ='',
-      nickName ='昵称1',
-      sex ='MALE',
-      customLevel : [{desc='3岁9个月'}]
-    }
+        city = '上海',
+        country = '宝山',
+        headImg = '',
+        nickName = '昵称1',
+        sex = 'MALE',
+        customLevel = [{ desc: '3岁9个月' }]
+      }
     } } = this.props;
     return (
       <View className={`comment-item${needLine ? ' need-line' : ''}`}>
-        <View className='info-wrapper' onClick={this.replyPost.bind(this,model)}>
+        <View className='info-wrapper' onClick={this.replyPost.bind(this, model)}>
           <View className='user-info'>
-            <View className='avatar'>
-              {
-                avatar ?
-                  <Image src={avatar} className='avatar-img' /> :
-                  null
-              }
+            <View className="inline-block">
+              <View className='avatar'>
+                {
+                  avatar ?
+                    <Image src={avatar} className='avatar-img' /> :
+                    null
+                }
+              </View>
             </View>
+            
             <View className='infos'>
               <View className='name-area'>
-                <Text className='name'>{nickName}</Text>
-                <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON :  ICONS.FEMALE_ICON}></Image>
-                <Text className='times'>贴主 2小时前</Text>
-                <View className='like-btns'>
-                  <View className='btns-wrapper'>
-                    <View className='like-btn'>
-                      <Image src={isLikes ? ICONS.FULLLIKE : ICONS.LIKE} className='like-btn-img' />
-                    {likes}
-                  </View>
-                    <View className='like-btn dis-like'>
-                      <Image src={isDislikes ? ICONS.FULLDISLIKE : ICONS.DISLIKE} className='like-btn-img' />
-                    {dislikes}
-                  </View>
+                <View className="inline-block">
+                  <View className="inline-block">
+                    <Text className='name'>{nickName}</Text>
                   </View>
                 </View>
+
+                <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
+                <View className="inline-block">
+                  <View className="inline-block">
+                    <Text className='times'>贴主 2小时前</Text>
+                  </View>
+                </View>
+
               </View>
-              <Text className='years-old'>{`${city} ${country}`}</Text>
-              <Text className='years-old'>{desc}</Text>
+              <View className="inline-block">
+                <Text className='years-old'>{`${city} ${country}`}</Text>
+              </View>
+              <View className="inline-block">
+                <Text className='years-old'>{customLevel.length && customLevel[0].desc}</Text>
+              </View>
+            </View>
+
+            <View className='like-btns'>
+              <View className='btns-wrapper'>
+                <View className='like-btn' onClick={this.handleLike.bind(this,model)}>
+                  <Image src={isLikes ? ICONS.FULLLIKE : ICONS.LIKE} className='like-btn-img' />
+                  {likes}
+                </View>
+                <View className='like-btn dis-like' onClick={this.handleDisLike.bind(this,model)}>
+                  <Image src={isDislikes ? ICONS.FULLDISLIKE : ICONS.DISLIKE} className='like-btn-img' />
+                  {dislikes}
+                </View>
+              </View>
             </View>
             {!needLine && <View className='line' />}
           </View>
-          <View className='contents'>{content}</View>
+          <View className="inline-block">
+            <View className='contents'>{content}</View>
+          </View>
           {!!hasChildren && <View className='vertical-line' />}
         </View>
         <View className='children-nodes'>

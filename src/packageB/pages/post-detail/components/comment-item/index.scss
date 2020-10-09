@@ -1,4 +1,8 @@
 @import "~taro-ui/dist/style/components/button.scss";
+.inline-block{
+  display: inline-block;
+}
+
 .comment-item {
   //padding: 14px 0 10px;
   padding: 0;
@@ -50,34 +54,35 @@
             line-height: 24px;
             margin-right: 38px;
           }
-          .like-btns {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            .btns-wrapper {
-              display: flex;
-              align-items: center;
-              .like-btn {
-                font-size: 20px;
-                color: #999;
-                .like-btn-img {
-                  width: 24px;
-                  height: 24px;
-                  margin-right: 6px;
-                }
-                
-                &:nth-child(1) {
-                  margin-right: 20px;
-                }
-              }
-            }
-          }
-          .dis-like{
-            margin-right: 0 !important;
-          }
+         
         }
        
+      }
+      .like-btns {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        .btns-wrapper {
+          display: flex;
+          align-items: center;
+          .like-btn {
+            font-size: 20px;
+            color: #999;
+            .like-btn-img {
+              width: 24px;
+              height: 24px;
+              margin-right: 6px;
+            }
+            
+            &:nth-child(1) {
+              margin-right: 20px;
+            }
+          }
+        }
+      }
+      .dis-like{
+        margin-right: 0 !important;
       }
       .line {
         position: absolute;

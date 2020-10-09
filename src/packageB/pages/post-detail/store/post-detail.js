@@ -78,6 +78,55 @@ class postDetailStore{
     this.currentReplyPost.isDislikes = isDislikes;
   }
 
+  @action handleLike = async () => {
+    const { updateCurrentReplyLikes, currentReplyPost, isToPostOwner } = this;
+    const { pid, replyId, parentRid } = currentReplyPost;
+    let params = {
+      likes: 1,
+      isLikes:true
+    }
+    if (!currentReplyPost.isDislikes && !isToPostOwner) {
+      if (currentReplyPost.isLikes) {
+        params.likes = -1;
+        params.isLikes = false;
+        const d = await Model.postLikeCancel(pid, replyId, parentRid);
+      } else {
+        const d = await Model.postLike(pid, replyId, parentRid);
+      }
+      Taro.vibrateShort();
+      Taro.showToast({
+        title:`点赞${params.likes}`,
+        icon:'none'
+      })
+      updateCurrentReplyLikes(params)
+    }
+  }
+
+  @action handleDisLike = async () => {
+    const { updateCurrentReplyDisLikes, currentReplyPost, isToPostOwner } = this;
+    const { pid, replyId, parentRid } = currentReplyPost;
+    let params = {
+      dislikes: 1,
+      isDislikes:true
+    }
+    if (!currentReplyPost.isLikes && !isToPostOwner) {
+      if (currentReplyPost.isDislikes) {
+        params.dislikes = -1;
+        params.isDislikes = false;
+        const d = await Model.postDislikeCancel(pid, replyId, parentRid);
+      } else {
+        const d = await Model.postDislike(pid, replyId, parentRid);
+      }
+      Taro.vibrateShort();
+      Taro.showToast({
+        title:`点踩${params.dislikes}`,
+        icon:'none'
+      })
+      updateCurrentReplyDisLikes(params)
+    }
+    
+  }
+
   //递归寻找
   findCurrentReplyPost(commentList,params) {
     const { pid, parentRid, replyId } = params;

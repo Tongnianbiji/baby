@@ -40,7 +40,7 @@ export default class CustomCircle extends Component {
         <View className='poster-area-wrapper'>
           <View className='header'>
             <View className='title'>贴子发布者区域</View>
-            <View><Switch color='#FF473A' onChange={this.toggleArea}/></View>
+            <View><Switch color='#04BE02' className="switch-size" onChange={this.toggleArea}/></View>
           </View>
           {
             openArea &&
@@ -71,7 +71,7 @@ export default class CustomCircle extends Component {
         <View className='baby-feature-wrapper'>
           <View className='header'>
             <View className='title'>宝宝年龄段选择</View>
-            <View><Switch color='#FF473A' onChange={this.toggleFeature}/></View>
+            <View><Switch color='#04BE02' className="switch-size" onChange={this.toggleFeature}/></View>
           </View>
           {
             openFeature &&

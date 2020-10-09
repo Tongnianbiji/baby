@@ -20,6 +20,10 @@ export default class ScrollViewList extends Component {
     this.props.onScrollToLower()
   }
 
+  scrollToUpper = () =>{
+    this.props.onScrollToUpper()
+  }
+
   render() {
     const { showLoading, isToBottom, fixed,centerHeight } = this.props;
     const scrollStyle = {
@@ -31,7 +35,8 @@ export default class ScrollViewList extends Component {
           scrollY
           scrollWithAnimation
           onScrollToLower={this.scrollToLower}
-          className="card-wrapper"
+          onScrollToUpper={this.scrollToUpper}
+          className="scroll-view"
           style={fixed ? scrollStyle : null}
         >
           {

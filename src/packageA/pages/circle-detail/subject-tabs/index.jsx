@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import {View, ScrollView, Image} from '@tarojs/components'
-import UITabs from '../../../../common/components/ui-tabs'
+import UITabs2 from '../../../../common/components/ui-tabs2'
 import './index.scss'
 import { observer, inject } from 'mobx-react'
+import { AtIcon } from 'taro-ui'
 
 const tabList = [
   { title: '最热', useable: true },
@@ -74,6 +75,14 @@ export default class CircleTabs extends Component {
     }
   }
 
+  //搜索
+  onSearch = () =>{
+    const {listType} = this.props.circleDetailStore;
+    Taro.navigateTo({
+      url:'/packageA/pages/home-search-panel/index?searchScope=circle&tab=' + (listType+1)
+    })
+  }
+
   render() {
     const { current, currentSubTab,tags } = this.state;
     const { activeTags } = this.props.circleDetailStore;
@@ -81,8 +90,11 @@ export default class CircleTabs extends Component {
       <View className='circle-tabs-view'>
         <View className='header'>
           <View className='title'>话题列表</View>
+          <View className="search" onClick={this.onSearch.bind(this)}>
+            <AtIcon value='search' size='15' color='#333333'></AtIcon>
+          </View>
           <View className='tabs-wrapper'>
-            <UITabs
+            <UITabs2
               itemColor='#999'
               tabList={tabList}
               size='small'

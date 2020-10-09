@@ -34,12 +34,12 @@ export default class UserInfoItem extends Component {
   }
 
   cardClick = () => {
-    this.props.cardClick(this.model)
+    this.props.onCardClick(this.model)
   }
 
-  handleFavorite = (e) => {
+  handleFavorite = (pid,e) => {
     e.stopPropagation()
-    this.props.onHandleFavorite()
+    this.props.onHandleFavorite(pid)
   }
 
   render() {
@@ -143,7 +143,7 @@ export default class UserInfoItem extends Component {
                 <Text>{model.replys || 0}</Text>
               </View>
               <View className='favorite'>
-                <Image className='img' onClick={this.handleFavorite} src={model.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
+                <Image className='img' onClick={this.handleFavorite.bind(this,model.pid)} src={model.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
                 <Text>{model.markes || 0}</Text>
               </View>
             </View>

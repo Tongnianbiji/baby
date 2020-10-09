@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro'
+import Taro, {useShareAppMessage} from '@tarojs/taro'
 import React from 'react'
 import { Provider } from 'mobx-react'
 import { View, Input } from '@tarojs/components'
@@ -10,7 +10,17 @@ import './index.scss'
 
 export default class PostDetailView extends Presenter {
   config = {
-    navigationBarTitleText: '加载中...'
+    navigationBarTitleText: '加载中...',
+    enableShareAppMessage: true
+  }
+
+  
+
+  share = (pid)=>{
+    Taro.showShareMenu({
+      withShareTicket: true,
+      showShareItems:['wechatFriends','wechatMoment']
+    })
   }
 
   render() {
@@ -21,7 +31,7 @@ export default class PostDetailView extends Presenter {
     return (
       <Provider {...store}>
         <View className='post-detail-view'>
-          <MainPanel/>
+          <MainPanel onShare={this.share.bind(this)}/>
           <Comments replys={replys} selectSortType={this.getReplyList.bind(this)} onReplyPost={this.replyPost.bind(this)} />
           <ReplyTools onCopyContent={this.copyContent} onInputReply={this.inputReply.bind(this)} onSubmitReply={this.submitReply}></ReplyTools>
         </View>

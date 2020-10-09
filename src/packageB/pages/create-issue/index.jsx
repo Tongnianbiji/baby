@@ -26,7 +26,7 @@ export default class CreateIssueView extends Presenter {
             showTip &&
             <View className='tip'>
               <View>1.请尽量保持文字简洁</View>
-              <View>2.高质量的提问，有利于尽快被解答</View>
+              <View>2.高质量的提问，会提高问题的回答率</View>
               <View>3.确保问题没有被重复提问过</View>
               <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/cancel-a.png' className='btn-close' onClick={this.hideTip} />
             </View>
@@ -35,7 +35,7 @@ export default class CreateIssueView extends Presenter {
         <View className='photo-picker-wrapper'>
           <PhotoPicker onGetFiles={this.getFiles.bind(this)}/>
         </View>
-        <View className='tag-tips'>＋添加一个问题类别，可以确保问题被及时回复</View>
+        <View className='tag-tips'>＋添加一个合适的问题类别，可以提高问题的回答率哦</View>
         <View className='tag-wrapper'>
           <View className='scroll-wrapper'>
             <View className='scroll-wrapper'>

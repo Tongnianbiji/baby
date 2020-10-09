@@ -20,6 +20,11 @@ export default class ReplyTools extends Component {
   }
   constructor(props) {
     super(props)
+    this.state = {
+      showMax:false,
+      autoHeight:true,
+      cursorSpacing:348
+    }
   }
 
   inputReply = (e) => {
@@ -38,52 +43,13 @@ export default class ReplyTools extends Component {
   }
 
   handleLike = async () => {
-    const { updateCurrentReplyLikes, currentReplyPost, isToPostOwner } = this.props.postDetail;
-    const { pid, replyId, parentRid } = currentReplyPost;
-    let params = {
-      likes: 1,
-      isLikes:true
-    }
-    if (!currentReplyPost.isDislikes && !isToPostOwner) {
-      if (currentReplyPost.isLikes) {
-        params.likes = -1;
-        params.isLikes = false;
-        const d = await Model.postLikeCancel(pid, replyId, parentRid);
-      } else {
-        const d = await Model.postLike(pid, replyId, parentRid);
-      }
-      Taro.vibrateShort();
-      Taro.showToast({
-        title:`点赞${params.likes}`,
-        icon:'none'
-      })
-      updateCurrentReplyLikes(params)
-    }
-   
+    const { handleLike } = this.props.postDetail;
+    handleLike()
   }
 
   handleDisLike = async () => {
-    const { updateCurrentReplyDisLikes, currentReplyPost, isToPostOwner } = this.props.postDetail;
-    const { pid, replyId, parentRid } = currentReplyPost;
-    let params = {
-      dislikes: 1,
-      isDislikes:true
-    }
-    if (!currentReplyPost.isLikes && !isToPostOwner) {
-      if (currentReplyPost.isDislikes) {
-        params.dislikes = -1;
-        params.isDislikes = false;
-        const d = await Model.postDislikeCancel(pid, replyId, parentRid);
-      } else {
-        const d = await Model.postDislike(pid, replyId, parentRid);
-      }
-      Taro.vibrateShort();
-      Taro.showToast({
-        title:`点踩${params.dislikes}`,
-        icon:'none'
-      })
-      updateCurrentReplyDisLikes(params)
-    }
+    const { handleDisLike } = this.props.postDetail;
+    handleDisLike()
     
   }
 
@@ -96,11 +62,12 @@ export default class ReplyTools extends Component {
 
   clickInput = () => {
     const { getCurrentReplyPostData, detailData,updateCurrentplaceholder,updateFocusStatus,updateActiveFocusStatus,isToPostOwner } = this.props.postDetail;
-    getCurrentReplyPostData(detailData);
+    
     updateActiveFocusStatus(true);
     updateFocusStatus(true);
     if(isToPostOwner){
       updateCurrentplaceholder('我有话要说');
+      getCurrentReplyPostData(detailData);
     }
   }
 
@@ -113,11 +80,12 @@ export default class ReplyTools extends Component {
   }
 
   render() {
+    const {showMax, autoHeight, cursorSpacing} = this.state;
     const { replyContent } = this.props;
     const { placeholder, isFocus, activeFocus } = this.props.postDetail;
     return (
       <View>
-        <View className="reply">
+        <View className="reply" style={{height:showMax ? '100%':null}}>
           {
             activeFocus ?
               <View className="reply-tools">
@@ -143,7 +111,7 @@ export default class ReplyTools extends Component {
 
           { 
               <View onClick={this.clickInput} className='input-wrapper'>
-                <Textarea value={replyContent} onInput={this.inputReply} focus={isFocus} onBlur={this.onBlur} cursorSpacing="48" maxlength="-1" holdKeyboard className='input' placeholder={placeholder} autoHeight />
+                <Textarea style={{height:!autoHeight ? '200px' : null}} value={replyContent} onInput={this.inputReply} showConfirmBar={false} focus={isFocus} onBlur={this.onBlur} cursorSpacing={cursorSpacing} maxlength="-1" holdKeyboard className='input' placeholder={placeholder} autoHeight={autoHeight} />
               </View>
               
           }
@@ -151,6 +119,7 @@ export default class ReplyTools extends Component {
           {
             activeFocus ?
               <View className="reply-btn-wrap">
+                <Image src={ICONS.IMG}></Image>
                 <AtButton onClick={this.submitReply} className="reply-btn" type='primary' size='small' circle="true">发布</AtButton>
               </View> : null
           }

@@ -50,15 +50,15 @@ class CircleDetailView extends Presenter {
     }
     const scrollTop = 0
     const Threshold = 20
-
+    // className={[fixed ? 'fix-tab' : 'circle-detail-viewport']}
     return loading ? this.loadingRender() : noData ? this.noDataRender() : (
-      <View className={[fixed ? 'fix-tab' : 'circle-detail-viewport']}>
+      <View className={['circle-detail-viewport']}>
         <MainInfoPanel cid={getCurrentInstance().router.params.cid} />
         <View>
           <TypeTabs/>
         </View>
         <View className='fixed-btns'>
-          <Image className='btn' src={ICON_FRESH} onClick={this.freshList} />
+          <Image className='btn' src={ICON_FRESH} onClick={this.overallFreshList} />
           <Image className='btn' src={ICON_ADD} onClick={this.troggleOpPanel} />
         </View>
         {

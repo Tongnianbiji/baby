@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { getCurrentInstance } from '@tarojs/taro'
 import Taro from '@tarojs/taro'
-import { View, Image, Text } from '@tarojs/components'
+import { View, Image, Text, Button } from '@tarojs/components'
 import { ICONS } from '@common/constant'
 import { observer, inject } from 'mobx-react'
 import Model from '../../model'
@@ -11,7 +11,12 @@ import './index.scss'
 @observer
 export default class MainPanelComponent extends Component {
   static defaultProps = {
-    info: {}
+    info: {},
+    onShare:()=>{}
+  }
+
+  share = (pid)=>{
+    this.props.onShare(pid)
   }
 
   handleFavorite = async() => {
@@ -31,11 +36,11 @@ export default class MainPanelComponent extends Component {
     }
     Taro.vibrateShort();
     updatePostFavoriteMarks(params)
-    
   }
   render() {
     const {
       imgprofile: avatar,
+      pid,
       title,
       content,
       views = 0,
@@ -70,7 +75,10 @@ export default class MainPanelComponent extends Component {
                 <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
                 <Text className='years-old'>{ city + ' ' + country}</Text>
                 <Text className='years-old'>{desc}</Text>
-                <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
+                <Button className='btn-share' open-type='share' onClick={this.share.bind(this,pid)}>
+                  <Image src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
+                </Button>
+                
               </View>
             }
             <Text className='times'>{createTime}</Text>

@@ -40,14 +40,14 @@ export default class Presenter extends BaseComponent {
   nameInput = ({ detail }) => {
     this.setState(prev => ({
       name: detail.value,
-      canSave: prev.content.length > 4 && detail.value.length > 4 && prev.selectedTag.length
+      canSave: prev.content.length > 4 && detail.value.length > 4 
     }))
   }
 
   contentInput = ({ detail }) => {
     this.setState(prev => ({
       content: detail.value,
-      canSave: prev.name.length > 4 && detail.value.length > 4 && prev.selectedTag.length
+      canSave: prev.name.length > 4 && detail.value.length > 4
     }))
   }
 
@@ -66,7 +66,7 @@ export default class Presenter extends BaseComponent {
     }
 
     this.setState(prev => ({
-      canSave: prev.name.length > 4 && prev.content.length > 4 && selectedTag.length,
+      canSave: prev.name.length > 4 && prev.content.length > 4,
       selectedTag
     }))
   }
@@ -94,7 +94,7 @@ export default class Presenter extends BaseComponent {
       files
     }
 
-    const pid = await Model.savePost(params)
+    const pid = await Model.savePost(params);
 
     this.hideNavLoading()
 
