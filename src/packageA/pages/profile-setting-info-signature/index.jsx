@@ -25,13 +25,13 @@ export default class ProfileSettingInfoSignature extends Presenter {
     return (
       <View className='profile-setting-info-signature-viewport'>
         <View className='item-input-wrapper'>
-          <Textarea className='item-input width-100' placeholderClass='item-input-placeholder' placeholder='家有两只吞金兽'></Textarea>
+          <Textarea className='item-input width-100' placeholderClass='item-input-placeholder' placeholder='家有两只吞金兽' onInput={this.inputValue.bind(this)}></Textarea>
         </View>
         {/* <View className='item-label-wrapper'>
           一个月只能修改一次昵称，请谨慎修改
         </View> */}
         <View className='btn-wrapper'>
-          <View className='btn flex-center'>提交</View>
+          <View className='btn flex-center' onClick={this.submit.bind(this)}>提交</View>
         </View>
       </View>
     )

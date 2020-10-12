@@ -55,7 +55,7 @@ export default class MainPanelComponent extends Component {
         headImg = '',
         nickName = '昵称1',
         sex = 'MALE',
-        customLevel : [{desc='3岁9个月'}]
+        customLevel = [{desc:'3岁9个月'}]
       }
     } = this.props.postDetail.detailData
     return (
@@ -74,7 +74,7 @@ export default class MainPanelComponent extends Component {
                 <Text className='name'>{nickName}</Text>
                 <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
                 <Text className='years-old'>{ city + ' ' + country}</Text>
-                <Text className='years-old'>{desc}</Text>
+                <Text className='years-old'>{customLevel.length && customLevel[0].desc}</Text>
                 <Button className='btn-share' open-type='share' onClick={this.share.bind(this,pid)}>
                   <Image src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
                 </Button>

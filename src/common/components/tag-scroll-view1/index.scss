@@ -1,0 +1,73 @@
+.tag-wrapper {
+  position: relative;
+  padding-right: 30px;
+  .right-arrow {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .arrow-icon {
+      width: 14px;
+      height: 28px;
+      margin-left: 25px;
+    }
+  }
+  .tag-list {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 23px 0;
+    position: relative;
+    .tag-item {
+      border-radius: 30px;
+      padding: 0 25px;
+      background: #FAD4D1;
+      margin-right: 10px;
+      font-size: 28px;
+      color: #999;
+      white-space: nowrap;
+      &.all {
+        color: #fff;
+      }
+      &-active{
+        background-color: #FF473A;
+        color:#ffffff;          ;
+      }
+    }
+  }
+  .tags-unfold{
+    position: absolute;
+    width: 400px;
+    height: 200px;
+    right: 0;
+    top: 80px;
+    border:1px solid #f8f8f8;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #ffffff;
+    padding:0 10px;
+    .tag-item {
+      border-radius: 30px;
+      padding: 0 25px;
+      background: #FAD4D1;
+      margin-right: 10px;
+      font-size: 28px;
+      color: #999;
+      white-space: nowrap;
+      &.all {
+        color: #fff;
+      }
+      &-active{
+        background-color: #FF473A;
+        color:#ffffff;          ;
+      }
+    }
+  }
+}

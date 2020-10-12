@@ -64,7 +64,7 @@ export default class Presenter extends BaseComponent {
       mobile: phone,
       iv
     }).then(({ errMsg: msg, data }) => {
-      // console.log(data, 'data...')
+      //console.log(data, 'data...')
       this.setState({ loging: false })
       const { data: ret, code: status } = data
       if (msg === 'request:ok' && status === 0) {

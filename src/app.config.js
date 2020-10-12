@@ -14,6 +14,7 @@ export default {
     {
       "root": "packageA",
       "pages": [
+        "pages/attentions/index",
         "pages/characterA/index",
         "pages/characterB/index",
         "pages/characterX/index",
@@ -42,12 +43,14 @@ export default {
         "pages/postReply/index",
         "pages/qa-list/index",
         "pages/collects/index",
+        "pages/collects-message/index",
         "pages/message-system/index",
         "pages/message-im/index",
         "pages/city-picker/index",
         "pages/circle-detail/index",
         "pages/circle-desc/index",
-        "pages/circle-list/index"
+        "pages/circle-list/index",
+        "pages/user-circles/index"
       ]
     },
     {

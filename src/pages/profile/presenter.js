@@ -39,19 +39,19 @@ export default class ProfilePresenter extends BaseComponent {
         this.navto({ url: '/packageA/pages/fans/index' })
         break;
       case 'circle'://圈子
-        this.showToast('圈子跳转链接未设置');
-        // this.navto({ url: '/packageA/pages/profile-baby/index' })
+         this.navto({ url: '/packageA/pages/user-circles/index' })
         break;
       case 'focus'://关注
-        this.showToast('关注跳转链接未设置');
-        // this.navto({ url: '/packageA/pages/profile-baby/index' })
+         this.navto({ url: '/packageA/pages/attentions/index' })
         break;
       case 'collects'://收赞/获赞
         this.navto({ url: '/packageA/pages/collects/index' })
         break;
+      case 'collects-message'://收赞/点赞
+        this.navto({ url: '/packageA/pages/collects-message/index' })
+        break;
       case 'post'://帖子
-        this.showToast('帖子跳转链接未设置');
-        // this.navto({ url: '/packageA/pages/post/index' })
+        this.navto({ url: '/packageA/pages/post/index' })
         break;
       case 'question'://问答
         this.navto({ url: '/packageA/pages/qa-list/index' })

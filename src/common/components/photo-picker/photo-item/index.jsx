@@ -62,12 +62,14 @@ export default class PhotoItemView extends Component {
       if (d.code === 0) {
         if (d.data && d.data.length) {
           if (!d.data[0].refuse) {
-            const { type, url, newFileName } = d.data;
-            this.props.file = {
+            const { type, url, newFileName } = d.data[0];
+            let file = {
               type,
               url,
               fileName:newFileName
             }
+            console.log('成功',file)
+            this.props.onGetFile(file)
             this.setState({ status: 'success' });
             Taro.hideLoading();
             Taro.showToast({

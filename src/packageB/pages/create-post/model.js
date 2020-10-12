@@ -11,13 +11,13 @@ export default {
       return d.data.items
     } else {
       return [
-        { tagName: '这是', tagId: '1' },
-        { tagName: '测试的', tagId: '2' },
-        { tagName: '数据', tagId: '3' },
-        { tagName: '生活', tagId: '4' },
-        { tagName: '灌水', tagId: '5' },
-        { tagName: '生活', tagId: '6' },
-        { tagName: '灌水', tagId: '7' }
+        { tagName: '这是', tagId: '1' ,scrollId:'A'},
+        { tagName: '测试的', tagId: '2',scrollId:'B' },
+        { tagName: '数据', tagId: '3' ,scrollId:'C'},
+        { tagName: '生活1', tagId: '4',scrollId:'D' },
+        { tagName: '灌水1', tagId: '5',scrollId:'E' },
+        { tagName: '生活', tagId: '6',scrollId:'F' },
+        { tagName: '灌水', tagId: '7' ,scrollId:'G'}
       ]
     }
   },

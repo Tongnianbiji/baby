@@ -82,7 +82,7 @@ export default class BaseComponent extends Component {
    * 用户是否登录
    */
   isLogin() {
-    const token = this.__local_dto.getToken()
+    const token = this.__local_dto.getToken();
     return token
   }
 

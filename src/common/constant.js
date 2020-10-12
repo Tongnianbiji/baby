@@ -8,9 +8,7 @@ import FULLLIKE from '@ass/img/full-like.png'
 import FULLDISLIKE from '@ass/img/full-dislike.png'
 import EDIT from '@ass/img/edit.png'
 import IMG from '@ass/img/img.png'
-export default {
-
-}
+import NODATA from '@ass/img/no-data.png'
 
 export const ICONS = {
   SHARE_BTN_GRAY: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/share-c.png',
@@ -49,7 +47,8 @@ export const ICONS = {
   FULLLIKE: FULLLIKE,
   FULLDISLIKE:FULLDISLIKE,
   EDIT:EDIT,
-  IMG:IMG
+  IMG:IMG,
+  NODATA:NODATA
 }
 
 

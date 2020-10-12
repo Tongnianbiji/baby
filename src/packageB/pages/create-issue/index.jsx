@@ -3,9 +3,13 @@ import Taro from '@tarojs/taro'
 import { View, Textarea, ScrollView, Image } from '@tarojs/components'
 import PhotoPicker from '@components/photo-picker'
 import Presenter from './presenter'
-
+import TagScrollView from '@components/tag-scroll-view1'
+import { observer, inject } from 'mobx-react'
 import './index.scss'
 
+
+@inject('circleDetailStore')
+@observer
 export default class CreateIssueView extends Presenter {
   config = {
     navigationBarTitleText: ''
@@ -33,26 +37,35 @@ export default class CreateIssueView extends Presenter {
           }
         </View>
         <View className='photo-picker-wrapper'>
-          <PhotoPicker onGetFiles={this.getFiles.bind(this)}/>
+          <PhotoPicker onGetFiles={this.getFiles.bind(this)} />
         </View>
         <View className='tag-tips'>＋添加一个合适的问题类别，可以提高问题的回答率哦</View>
         <View className='tag-wrapper'>
-          <View className='scroll-wrapper'>
+          {/* <View className='scroll-wrapper'>
             <View className='scroll-wrapper'>
-            <ScrollView scrollX>
-              <View className='tag-list'>
+              <ScrollView scrollX>
+                <View className='tag-list'>
+                  {
+                    tagList.map(item => (
+                      <View key={item.tagId} className={`tag-item${selectedTag.includes(item.tagId) ? ' actived' : ''}`} onClick={this.tagClick.bind(this, item.tagId)}>{item.tagName}</View>
+                    ))
+                  }
+                </View>
+              </ScrollView>
+              <View className='right-arrow'>
+                <Image className='arrow-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-b.png' />
+              </View>
+            </View>
+          </View> */}
+        <TagScrollView tags={tagList} activeTags={selectedTag} onSelectTag={this.tagClick.bind(this)}>
+            <View className='tag-list'>
                 {
                   tagList.map(item => (
-                    <View key={item.tagId} className={`tag-item${selectedTag.includes(item.tagId) ? ' actived' : ''}`} onClick={this.tagClick.bind(this, item.tagId)}>{item.tagName}</View>
+                    <View id={item.scrollId} key={item.tagId} className={`tag-item${selectedTag.includes(item.tagId) ? ' tag-item-active' : ''}`} onClick={this.tagClick.bind(this, item)}>{item.tagName}</View>
                   ))
                 }
-              </View>
-            </ScrollView>
-            <View className='right-arrow'>
-              <Image className='arrow-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-b.png' />
             </View>
-          </View>
-          </View>
+        </TagScrollView>
         </View>
         <View className='btn-wrapper'>
           <View className={`btn-save${canSave ? '' : ' can-not-save'}`} onClick={this.doSubmit.bind(this)}>提交</View>

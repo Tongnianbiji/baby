@@ -25,15 +25,17 @@ export default class ProfileHome extends Presenter {
   }
 
   render() {
-    const { tabs, tabsCurrent } = this.state;
+    const { tabs, tabsCurrent,userInfo:{nickName,headImg,sex,flow,funs,circle,marked,stared} } = this.state;
     return (
       <View className='profile-home-viewport'>
         <View className='profile-header'>
           <View className='top-wrapper'>
             <View className='left-container'>
-              <View className='avatar'></View>
-              <View className='heart'></View>
-              <View className='avatar'></View>
+              <View className='avatar'>
+                <Image src={headImg}></Image>
+              </View>
+              {/* <View className='heart'></View>
+              <View className='avatar'></View> */}
             </View>
             <View className='right-container'>
               <View className='ops focus'>关注</View>
@@ -44,9 +46,9 @@ export default class ProfileHome extends Presenter {
             </View>
           </View>
           <View className='member-wrapper'>
-            <View className='nick'>小红妈妈</View>
+    <View className='nick'>{nickName}</View>
             {
-              true
+              sex === 'FEMALE'
                 ? <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/female.png' className='gender' />
                 : <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png' className='gender' />
             }
@@ -76,19 +78,19 @@ export default class ProfileHome extends Presenter {
           </View>
           <View className='number-wrapper'>
             <View className='number'>
-              <View className='number-value'>42</View>
+              <View className='number-value'>{funs}</View>
               <View className='number-title'>粉丝</View>
             </View>
             <View className='number'>
-              <View className='number-value'>20</View>
+          <View className='number-value'>{circle}</View>
               <View className='number-title'>圈子</View>
             </View>
             <View className='number'>
-              <View className='number-value'>73</View>
+          <View className='number-value'>{flow}</View>
               <View className='number-title'>关注</View>
             </View>
             <View className='number'>
-              <View className='number-value'>200/50</View>
+          <View className='number-value'>{marked}/{stared}</View>
               <View className='number-title'>收赞/获赞</View>
             </View>
           </View>

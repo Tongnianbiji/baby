@@ -1,0 +1,34 @@
+.photo-picker-view {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100px;
+  .btn-add {
+    width: 120px;
+    height: 120px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 20px;
+    .plus-img {
+      width: 32px;
+      height: 32px;
+    }
+    .btn-tip {
+      font-size: 24px;
+      color: #ccc;
+      text-align: center;
+      margin-top: 10px;
+    }
+  }
+  .tips {
+    display: inline-block;
+    font-size: 28px;
+    color: #999;
+    line-height: 120px;
+    height: 120px;
+    padding-left: 20px;
+    padding: 20px;
+  }
+}

@@ -43,8 +43,8 @@ class CircleDetailView extends Presenter {
 
 
   render() {
-    const { centerHeight, showOpPanel, cid, isFresh } = this.state
-    const { loading, noData, fixed} = this.$store
+    const { centerHeight, cid, isFresh } = this.state
+    const { loading, noData, fixed,showOpPanel} = this.$store
     const scrollStyle = {
       height: centerHeight
     }

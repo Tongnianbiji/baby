@@ -12,7 +12,7 @@ export default class Presenter extends BaseComponent {
       // listType: 0,
       //dataList: [1, 2, 3, 4,5,6,7],
       //circlePostsDataList:[],
-      showOpPanel: false,
+      // showOpPanel: false,
       cid: '',
       centerHeight: '',
       fixed: false,
@@ -27,8 +27,8 @@ export default class Presenter extends BaseComponent {
   componentDidMount() {
     const { cid, cname = '' } = getCurrentInstance().router.params;
     const info = Taro.getSystemInfoSync();
-    const { windowHeight, statusBarHeight, titleBarHeight } = info
-    const tempHeight = (windowHeight - 140) + 'px'
+    const { windowHeight, statusBarHeight, titleBarHeight } = info;
+    const tempHeight = (windowHeight - 140) + 'px';
    
     this.$store.updateCircleId(cid);
     this.setState({
@@ -147,9 +147,8 @@ export default class Presenter extends BaseComponent {
   }
 
   troggleOpPanel = () => {
-    this.setState(prevState => ({
-      showOpPanel: !prevState.showOpPanel
-    }))
+    const {showOpPanel} = this.$store;
+    this.$store.updateOpPanel(!showOpPanel)
   }
 
   toCreatePost = () => {

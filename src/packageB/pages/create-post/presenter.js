@@ -15,8 +15,14 @@ export default class Presenter extends BaseComponent {
       showTip: true,
       selectedTag: [],
       files:[],
-      tagList: []
+      tagList: [],
+      scrollLeft:0,
+      isManual:false,
+      startPageX:null,
+      movePageX:null,
+      tagListWidth:null
     }
+    this.$store = this.props.circleDetailStore
   }
 
   componentDidMount() {
@@ -24,8 +30,11 @@ export default class Presenter extends BaseComponent {
 
     this.setNavBarTitle(cname)
     this.showNavLoading()
-
     this.init(cid)
+  }
+
+  componentWillUnmount(){
+    this.$store.updateOpPanel(false)
   }
 
   async init(cid) {
@@ -57,12 +66,12 @@ export default class Presenter extends BaseComponent {
 
   tagClick = tag => {
     const { selectedTag } = this.state
-    const index = selectedTag.indexOf(tag)
+    const index = selectedTag.indexOf(tag.tagId)
 
     if (index > -1) {
       selectedTag.splice(index, 1)
     } else {
-      selectedTag.push(tag)
+      selectedTag.push(tag.tagId)
     }
 
     this.setState(prev => ({
@@ -72,6 +81,7 @@ export default class Presenter extends BaseComponent {
   }
 
   getFiles = (file) => {
+    console.log('上传文件',file)
     this.setState(prev => ({
       files: prev.files.concat([file])
     }))

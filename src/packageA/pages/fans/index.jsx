@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
+import NoData from '@components/no-data'
 
 export default class FansView extends Presenter {
   config = {
@@ -10,23 +11,25 @@ export default class FansView extends Presenter {
   }
 
   render() {
+    const {fansList} = this.state;
     return (
       <View className='fans-vewport'>
         {
-          [{ name: '张三', attention: false }, { name: '李四', attention: true }, { name: '王二麻子', attention: false }].map(n => {
+          fansList.length ?
+          fansList.map((item,n) => {
             return (
-              <View key={n.name} className='fans-card'>
+              <View key={n.userId} className='fans-card'>
                 <View className='avatar-wrapper'>
                   <View className='avatar'></View>
                 </View>
                 <View className='contents'>
-                  <View className='title'>{n.name}</View>
-                  <View className='msg'>01/24 关注了你</View>
+                  <View className='title'>{n.nickName}</View>
+            <View className='msg'>{item.createDt}关注了你</View>
                 </View>
-                <View className={`btn-attention${n.attention ? ' attentioned' : ''}`}>{n.attention ? '已关注' : '关注'}</View>
+                <View className={`btn-attention${item.isSubscr ? ' attentioned' : ''}`}>{n.attention ? '已关注' : '关注'}</View>
               </View>
             )
-          })
+          }) : <NoData></NoData>
         }
       </View>
     )

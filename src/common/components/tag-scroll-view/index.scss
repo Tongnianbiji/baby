@@ -1,0 +1,28 @@
+.scroll-wrapper {
+  position: relative;
+  .right-arrow {
+    width: 20px;
+    height: 36px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0;
+    .arrow-icon {
+      width: 14px;
+      height: 28px;
+    }
+  }
+  .tag-list-wrap{
+    position: relative;
+    height: 80px;
+    overflow: hidden;
+  }
+  .tag-list {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 23px 0;
+    left: 0;
+    position: absolute;
+  }
+}

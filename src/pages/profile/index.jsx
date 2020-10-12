@@ -39,7 +39,7 @@ export default class Profile extends Presenter {
               <View className='number-value'>{profileInfo.flow || 0}</View>
               <View className='number-title'>关注</View>
             </View>
-            <View className='number'>
+            <View className='number' onClick={this.onClickNavTo.bind(this, 'collects-message')}>
               <View className='number-value'>{`${profileInfo.marked || 0}/${profileInfo.stared || 0}`}</View>
               <View className='number-title'>收赞/获赞</View>
             </View>
@@ -49,7 +49,7 @@ export default class Profile extends Presenter {
           <View className='entry-wrapper'>
             <View className='entry' onClick={this.onClickNavTo.bind(this, 'collects')}>
               <Image className='entry-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-favorite.png' />
-              <View className='entry-txt'>收藏点赞</View>
+              <View className='entry-txt'>收藏/点赞</View>
             </View>
             <View className='entry' onClick={this.onClickNavTo.bind(this, 'mypost')}>
               <Image className='entry-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-posts.png' />

@@ -16,6 +16,7 @@ const state = {
   centerHeight: '',
   fixed: false,
   postLock: false,
+  showOpPanel:false,
 
   //子tab active tags
   activeTags: new Set(),
@@ -273,6 +274,10 @@ const actions = {
     return ok
   },
 
+  updateOpPanel(status){
+    this.showOpPanel = status;
+  },
+
   //收藏帖子
   async favoritePost(pid) {
     const ret = await req.postWithToken('/post/mark', { pid })
@@ -296,10 +301,10 @@ const actions = {
 
   //切换子tag关键词数组
   updateActiveTags(tag) {
-    if (this.activeTags.has(tag.tagName)) {
-      this.activeTags.delete(tag.tagName)
+    if (this.activeTags.has(tag.tag)) {
+      this.activeTags.delete(tag.tagId)
     } else {
-      this.activeTags.add(tag.tagName)
+      this.activeTags.add(tag.tagId)
     }
     if (this.activeTagsId.has(tag.tagId)) {
       this.activeTagsId.delete(tag.tagId)

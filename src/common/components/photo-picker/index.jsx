@@ -52,7 +52,7 @@ export default class PhotoPickerView extends Component {
       <View className='photo-picker-view'>
         {
           this.state.medias.map(media => (
-            <PhotoItem model={media} key={media.key} onRemove={this.removePhoto.bind(this)} onGetFile={this.onGetFile}/>
+            <PhotoItem model={media} key={media.key} onRemove={this.removePhoto.bind(this)} onGetFile={this.onGetFile.bind(this)}/>
           ))
         }
         <View className='btn-add' onClick={this.choosePhoto}>
