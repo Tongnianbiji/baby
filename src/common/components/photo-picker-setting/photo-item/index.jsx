@@ -94,7 +94,7 @@ export default class PhotoItemView extends Component {
   render() {
     const { key, path } = this.props.model
     return (
-      <View className='img-item' key={key}>
+      <View>
         {/* <Image src={path} className='img' /> */}
       </View>
     )

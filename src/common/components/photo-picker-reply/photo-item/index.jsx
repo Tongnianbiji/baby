@@ -3,7 +3,6 @@ import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import Request from '@common/baseRequest'
 import './index.scss'
-import { ICONS } from '@common/constant'
 
 const Btn_remove = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/cancel-a.png'
 const req = new Request()
@@ -107,16 +106,39 @@ export default class PhotoItemView extends Component {
   }
 
   removePhoto = () => {
-    this.props.onRemove(this.props.model)
+    Taro.showModal({
+      title: '提示',
+      content: '是否要删除',
+      success: (res) =>{
+        if (res.confirm) {
+          this.props.onRemove(this.props.model)
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+    
+  }
+  onLongPressEdit = () =>{
+    Taro.showActionSheet({
+      itemList: ['删除'],
+      success: (res) =>{
+        // console.log(res.tapIndex)
+        this.removePhoto()
+      },
+      fail: (res) =>{
+        console.log(res.errMsg)
+      }
+    })
   }
 
   render() {
     const { key, path } = this.props.model
     const { status } = this.state
     return (
-      <View className='img-item' key={key}>
+      <View className='img-item' key={key} onLongPress={this.onLongPressEdit.bind(this)}>
         <Image src={path} className='img' />
-        { status !== 'uploading' && <Image src={ICONS.DELETE} className='btn-remove' onClick={this.removePhoto} />}
+        {/* { status !== 'uploading' && <Image src={Btn_remove} className='btn-remove' onClick={this.removePhoto} />} */}
       </View>
     )
   }

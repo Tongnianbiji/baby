@@ -1,29 +1,27 @@
 @import "../../../app.scss";
 @import "../../../assets/scss/theme.scss";
+@import "~taro-ui/dist/style/components/checkbox.scss";
+@import "~taro-ui/dist/style/components/icon.scss";
 
 .profile-setting-info-viewport {
   background: $sys-page-bg;
   min-height: 100vh;
-  padding: 24px 32px;
+  padding-top:5px;
+  position: relative;
 
   .item {
-    @extend .flex-between;
-    @extend .flex-direction-row;
-    padding: 0 24px;
-    margin: 24px 0;
+    padding: 35px 32px;
     min-height: 100px;
     background: rgba(255, 255, 255, 1);
-    border-radius: 16px;
-
     .item-txt {
-      font-size: 28px;
+      font-size: 32px;
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
-      color: rgba(51, 51, 51, 1);
+      color: #333333;
+      font-weight: 500;
     }
 
     .item-value {
-      @extend .flex-center;
       .item-txt {
         color: rgba(153, 153, 153, 1);
         margin-right: 36px;
@@ -56,20 +54,20 @@
     }
   }
 }
-
 .next-btn-wrapper {
-  padding: 70px 56px 45px 56px;
+  position: absolute;
+  top:26px;
+  right:32px;
   .active {
     background:$sys-active-bg !important;
     color: rgba(255, 255, 255, 1);
   }
   .next-btn {
     @extend .flex-center;
-    margin-bottom: 24px;
-    height: 72px;
+    height: 60px;
+    width: 120px;
     background: $sys-linear-active;
-    border-radius: 36px;
-    opacity: 0.49;
+    border-radius: 30px;
     font-size: 32px;
     font-family: PingFangSC-Regular, PingFang SC;
     font-weight: 400;
@@ -82,4 +80,33 @@
     font-weight: 400;
     color: rgba(153, 153, 153, 1);
   }
+}
+.text-area{
+  background:#ffffff;
+  width:100%;
+  min-height:270px;
+  font-size: 32px;
+}
+
+.at-checkbox__option{
+  padding:0
+}
+
+.at-checkbox__option-wrap{
+  padding:18px 0;
+}
+
+.at-checkbox__icon-cnt{
+  border-radius: 0;
+}
+
+.at-checkbox__option--selected .at-checkbox__icon-cnt{
+  background: linear-gradient(270deg, #FF473A 0%, #FF8A63 100%);
+}
+.at-checkbox::before,.at-checkbox::after,.at-checkbox__option + .at-checkbox__option .at-checkbox__option-wrap::after{
+  border:none
+}
+.at-checkbox__title{
+  color:#666666;
+  font-size: 32px;
 }

@@ -1,5 +1,7 @@
 @import "~taro-ui/dist/style/components/article.scss";
-
+.at-article__h1 {
+  text-align: center;
+}
 .at-article__p {
   margin: 25rpx 30rpx;
 }

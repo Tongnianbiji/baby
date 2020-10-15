@@ -2,14 +2,15 @@
   display: flex;
   flex-wrap: wrap;
   .btn-add {
-    width: 140px;
-    height: 140px;
+    width: 60px;
+    height: 60px;
     background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    // padding: 20px;
+    margin: 0;
+    margin-left: 10px;
     .plus-img {
       width: 32px;
       height: 32px;
@@ -23,11 +24,11 @@
   }
   .tips {
     display: inline-block;
-    font-size: 28px;
+    font-size: 22px;
     color: #999;
-    line-height: 140px;
-    height: 140px;
+    line-height: 60px;
+    height: 60px;
+    padding: 0;
     padding-left: 20px;
-    padding: 20px;
   }
 }

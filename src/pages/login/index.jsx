@@ -35,6 +35,7 @@ export default class Login extends Presenter {
                 </View>
               </View>
               <Button className='confirm-btn' loading={this.state.loging} onClick={this.doLogin.bind(this)}>确认</Button>
+              <Button className='confirm-btn' onClick={this.changeLoginType.bind(this)}>返回</Button>
             </View>
         }
       </View>

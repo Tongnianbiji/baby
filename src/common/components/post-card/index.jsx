@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { ICONS } from '../../constant'
 import './styles.scss'
-//import ISFAVORITED from '@ass/img/favorited.png'
+import FormaDate from '@common/formaDate'
 
 export default class UserInfoItem extends Component {
   static defaultProps = {
@@ -53,7 +53,7 @@ export default class UserInfoItem extends Component {
             {
               !this.props.closeRelease &&
               <View className='release-info'>
-                <Text className='release'>李庭语妈妈发布了贴子 | 2小时前</Text>
+                <Text className='release'>李庭语妈妈发布了贴子 | 2天前</Text>
                 <View className='info'>
                   {
                     this.props.needDistance && <View className='distance-info'>0.9km</View>
@@ -105,7 +105,7 @@ export default class UserInfoItem extends Component {
                       <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
                     }
                   </View>
-                  <Text className='times'>{model.createTime || '2020-03-29 21:29:00'}</Text>
+                  <Text className='times'>{(model.createTime && FormaDate(model.createTime)) || '2020-03-29 21:29:00'}</Text>
                 </View>
               </View>
             }

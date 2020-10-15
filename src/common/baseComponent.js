@@ -2,6 +2,7 @@ import Taro, {getCurrentInstance} from '@tarojs/taro'
 import React, { Component } from 'react'
 import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY } from '../common/constant'
 import Dto from '../common/localStorage'
+import { View, Button } from '@tarojs/components'
 
 /**
  * 所有 页面视图 都应该继承自这个类
@@ -194,5 +195,25 @@ export default class BaseComponent extends Component {
    */
   getUserInfo() {
     return this.__local_dto.getValue(USER_INFO_KEY)
+  }
+
+  registe = ()=>{
+    Taro.navigateTo({
+      url:'/pages/login/index'
+    })
+  }
+
+  //全局引导
+  guide(){
+    console.log('渲染')
+    return(
+      <View>
+        {
+          <View className='guide-button' onClick={this.registe.bind(this)}>
+            <Button>登陆注册</Button>
+          </View>
+        }
+      </View>
+    )
   }
 }

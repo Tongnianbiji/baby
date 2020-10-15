@@ -127,6 +127,9 @@ export default class ProfileBabyAction extends Presenter {
         <View className='btn-wrapper'>
           <View className='btn flex-center'>切换状态</View>
         </View>
+        <View className='btn-wrapper'>
+          <View className='btn flex-center'>确认修改</View>
+        </View>
       </View>
     )
   }
@@ -153,6 +156,9 @@ export default class ProfileBabyAction extends Presenter {
         </View>
         <View className='btn-wrapper'>
           <View className='btn flex-center'>切换状态</View>
+        </View>
+        <View className='btn-wrapper'>
+          <View className='btn flex-center'>确认修改</View>
         </View>
       </View>
     )

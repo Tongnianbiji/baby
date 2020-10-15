@@ -5,6 +5,7 @@ import { View, Image, Text, Button } from '@tarojs/components'
 import { ICONS } from '@common/constant'
 import { observer, inject } from 'mobx-react'
 import Model from '../../model'
+import  FormaDate from '@common/formaDate'
 
 import './index.scss'
 @inject('postDetail')
@@ -50,7 +51,7 @@ export default class MainPanelComponent extends Component {
       createTime = '2020-03-29 21:29:00',
       
       userSnapshot: {
-        city,
+        city='上海',
         country = '宝山',
         headImg = '',
         nickName = '昵称1',
@@ -81,7 +82,7 @@ export default class MainPanelComponent extends Component {
                 
               </View>
             }
-            <Text className='times'>{createTime}</Text>
+            <Text className='times'>{FormaDate(createTime)}</Text>
           </View>
         </View>
         <View className='title'>{title}</View>

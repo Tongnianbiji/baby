@@ -3,6 +3,7 @@ import React from 'react'
 import Model from './model'
 import Taro from '@tarojs/taro'
 import postDetail from './store/post-detail'
+import staticDataStore from '@src/store/common/static-data.js'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -17,19 +18,32 @@ export default class Presenter extends BaseComponent {
   }
   componentDidMount() {
     this.showNavLoading()
+  }
+  
+  componentDidShow(){
     this.getData()
     this.getReplyList()
   }
-
+  
   //回复帖子
   replyPost = (model) => {
     const { postDetail:{getCurrentReplyPostData,updateCurrentplaceholder,updateFocusStatus,updateActiveFocusStatus,updateIsToPostOwnerStatus} } = this.state;
-    console.log('回帖', model);
-    getCurrentReplyPostData(model);
-    updateCurrentplaceholder(`回复  李庭语妈妈: ${model.content}`);
-    updateFocusStatus(true);
-    updateActiveFocusStatus(true);
-    updateIsToPostOwnerStatus(false)
+    const {isRegiste} = staticDataStore;
+    if(isRegiste){
+      getCurrentReplyPostData(model);
+      updateCurrentplaceholder(`回复  ${model.userSnapshot && model.userSnapshot.nickName || '李语婷妈妈'}: ${model.content}`);
+      // updateFocusStatus(true);
+      // updateActiveFocusStatus(true);
+      updateIsToPostOwnerStatus(false)
+      Taro.navigateTo({
+        url:'/packageB/pages/reply-post/index'
+      })
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
+    
   }
   
   //复制帖子内容
@@ -58,17 +72,18 @@ export default class Presenter extends BaseComponent {
   }
   //发布回复
   submitReply = async () => {
-    const { currentReplyPost,currentReplyPost: { pid, replyId },updateFocusStatus } = this.state.postDetail;
+    const { currentReplyPost,currentReplyPost: { pid, replyId },updateFocusStatus,updateActiveFocusStatus,files } = this.state.postDetail;
     const {content} = this.state.currentModel
     console.log('content',currentReplyPost)
-    const d = await Model.subReply(pid, replyId, content);
+    const d = await Model.subReply(pid, replyId, content,files);
     if(content){
       Taro.showLoading();
       if (d) {
         this.getReplyList();
         updateFocusStatus(false);
+        updateActiveFocusStatus(false)
        setTimeout(() => {
-         Taro.hideLoading()
+         Taro.hideLoading();
          Taro.showToast({
           title: '回复成功',
           icon: 'success',

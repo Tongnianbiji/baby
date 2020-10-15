@@ -19,11 +19,12 @@ export default {
     const d = req.standardResponse(ret)
     return d.code === 0 && d.data || null
   },
-  async subReply(pid, replyId, content) {
+  async subReply(pid, replyId, content,files) {
     let params = {
       pid,
       replyId,
-      content
+      content,
+      files
     }
     const ret = await req.postWithToken('/post/reply', params)
     const d = req.standardResponse(ret)
@@ -33,7 +34,7 @@ export default {
     let params = {
       pid,
       replyId,
-      parentRid
+      parentRid,
     }
     const ret = await req.postWithToken('/post/like', params)
     const d = req.standardResponse(ret)

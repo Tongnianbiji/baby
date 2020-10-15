@@ -7,6 +7,22 @@ const req = new Request()
 
 class Data {
   //获取帖子标签列表
+  @observable currentCity = '浦东区';
+  @observable isGuide = false;
+  @observable isRegiste = false;
+
+  @action updateCurrentCity = (currentCity)=>{
+    this.currentCity = currentCity
+  }
+
+  @action updateIsRegisteStatus = (status)=>{
+    this.isRegiste = status
+  }
+
+  @action updateGuideStatus = (status)=>{
+    this.isGuide = status
+  }
+
   @action getTagList = async (cid) => {
     const ret = await req.postWithToken('post/getTag', { cid })
     const d = req.standardResponse(ret)

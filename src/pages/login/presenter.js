@@ -5,6 +5,7 @@ import Model from './model'
 import Storage from '../../common/localStorage'
 import { setGlobalData, getGlobalData } from '../../global_data'
 import { USER_INFO_KEY } from '../../common/constant'
+import staticDataStore from '@src/store/common/static-data'
 
 export default class Presenter extends BaseComponent {
 
@@ -28,15 +29,19 @@ export default class Presenter extends BaseComponent {
   }
 
   componentDidMount() {
-    if (this.isLogin()) {
-      this.showToast('登录成功, 即将跳转')
-      setTimeout(() => {
-        this.return2caller()
-      }, 2000)
+    const {isRegiste} = staticDataStore;
+    if(isRegiste){
+      if (this.isLogin()) {
+        this.showToast('登录成功, 即将跳转')
+        setTimeout(() => {
+          this.return2caller()
+        }, 2000)
+      }
     }
   }
 
   onGetPhoneNumber = ({ detail }) => {
+    console.log('号码',detail)
     const { errMsg: phoneStatus, encryptedData, iv } = detail || {}
     if (phoneStatus === 'getPhoneNumber:ok' && encryptedData) {
       // app 启动时, 如果login失败, 这里要有补偿的~! 现在没有
@@ -58,6 +63,7 @@ export default class Presenter extends BaseComponent {
   }
 
   authLogin(code, phone, iv) {
+    const {isRegiste} = staticDataStore;
     this.setState({ loging: true })
     Model.getToken({
       oauthCode: code,
@@ -70,7 +76,14 @@ export default class Presenter extends BaseComponent {
       if (msg === 'request:ok' && status === 0) {
         this.storage.setToken(ret.token)
         this.storage.setValue(USER_INFO_KEY, ret.profile)
-        this.return2caller()
+        if(isRegiste){
+          this.return2caller()
+        }else{
+          Taro.navigateTo({
+            url:'/packageA/pages/characterA/index'
+          })
+        }
+        
       } else {
         this.showToast('登录失败, 请稍候再试.')
       }
@@ -112,6 +125,7 @@ export default class Presenter extends BaseComponent {
   }
 
   doLogin = () => {
+    const {isRegiste} = staticDataStore;
     const { phoneNum, verifyCode, loging } = this.state
     if (this.verifyCodeLogin() && !loging) {
       Model.getToken({
@@ -124,7 +138,13 @@ export default class Presenter extends BaseComponent {
         if (msg === 'request:ok' && status === 0) {
           this.storage.setToken(ret.token)
           this.storage.setValue(USER_INFO_KEY, ret.profile)
-          this.return2caller()
+          if(isRegiste){
+            this.return2caller()
+          }else{
+            Taro.navigateTo({
+              url:'/packageA/pages/characterA/index'
+            })
+          }
         } else if (status === 3) {
           this.showToast('验证码错误')
         } else {

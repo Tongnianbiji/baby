@@ -4,14 +4,18 @@ import { View, Image, ScrollView, Text } from '@tarojs/components'
 import Presenter from './presenter'
 import { ICONS } from '../../common/constant'
 import CircleItem from './circle-item'
+import { observer, inject } from 'mobx-react'
 import './index.scss'
 
+@inject('staticDataStore')
+@observer
 export default class Index extends Presenter {
   config = {
     navigationBarTitleText: '发现'
   }
 
   render() {
+    const {isGuide} = this.props.staticDataStore
     return (
       <View className='discover-viewport'>
         <View className='search-box'>
@@ -67,6 +71,10 @@ export default class Index extends Presenter {
             </View>
           </View>
         </View>
+        {
+          isGuide ?
+          this.guide() : null
+        }
       </View>
     )
   }

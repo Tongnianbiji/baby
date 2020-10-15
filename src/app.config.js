@@ -62,7 +62,9 @@ export default {
         "pages/my-post/index",
         "pages/post-detail/index",
         "pages/create-issue/index",
-        "pages/issue-detail/index"
+        "pages/issue-detail/index",
+        "pages/reply-post/index",
+        "pages/report/index"
       ]
     }
   ],

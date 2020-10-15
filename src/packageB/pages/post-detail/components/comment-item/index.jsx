@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import { ICONS } from '@common/constant'
 import { observer, inject } from 'mobx-react'
+import FormaDate from '@common/formaDate'
 
 import './index.scss'
 @inject('postDetail')
@@ -38,11 +39,12 @@ export default class CommentItem extends Component {
   render() {
     const { avatar, children, needLine, hasChildren, hasChildredSibling, last, model, model: {
       content,
-      createTime,
+      createTime='2020-03-29 21:29:00',
       dislikes = 0,
       isDislikes,
       isLikes = true,
       likes = 0,
+      files=[],
       userSnapshot: {
         city = '上海',
         country = '宝山',
@@ -77,7 +79,7 @@ export default class CommentItem extends Component {
                 <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
                 <View className="inline-block">
                   <View className="inline-block">
-                    <Text className='times'>贴主 2小时前</Text>
+              <Text className='times'>{FormaDate(createTime)}</Text>
                   </View>
                 </View>
 
@@ -106,6 +108,14 @@ export default class CommentItem extends Component {
           </View>
           <View className="inline-block">
             <View className='contents'>{content}</View>
+            <View className='contents'>
+              {
+                files.map(item=>{
+                  return <Image mode={'aspectFit'} src={item.url}></Image>
+                })
+              }
+            </View>
+           
           </View>
           {!!hasChildren && <View className='vertical-line' />}
         </View>

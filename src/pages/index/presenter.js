@@ -1,6 +1,7 @@
 import BaseComponent from '../../common/baseComponent'
 import React from 'react'
 import Model from './model'
+import staticData from '../../store/common/static-data'
 export default class HomePage extends BaseComponent {
   constructor(props) {
     super(props)
@@ -10,26 +11,27 @@ export default class HomePage extends BaseComponent {
       currentTopTab: 1,
       attentionType: 1, //1: 关注的用户   2: 关注的圈子
       hotTabType: 1, //1: 24小时   2: 7天
-      currentCity: '定位中'
+      currentCity: staticData.currentCity
     }
   }
 
   componentDidShow() {
-    this.getLocation().then(info => {
-      const city = this.getCurrentCity()
-      if (!city) {
-        Model.getCityInfo(info.longitude, info.latitude).then(data => {
-          const c = data.district || data.city
-          this.setState({ currentCity: this.getSubCityName(c) })
-          this.setCurrentCity(c)
-        })
-      } else {
-        this.setState({ currentCity: this.getSubCityName() })
-      }
+    // this.getLocation().then(info => {
+    //   const city = this.getCurrentCity()
+    //   if (!city) {
+    //     Model.getCityInfo(info.longitude, info.latitude).then(data => {
+    //       const c = data.district || data.city
+    //       console.log('c',c)
+    //       this.setState({ currentCity: this.getSubCityName(c) })
+    //       this.setCurrentCity(c)
+    //     })
+    //   } else {
+    //     this.setState({ currentCity: this.getSubCityName() })
+    //   }
       
-    }).catch(() => {
-      this.setState({ currentCity: '请选择' })
-    })
+    // }).catch(() => {
+    //   this.setState({ currentCity: '请选择' })
+    // })
   }
 
   topTabChange = (current) => {

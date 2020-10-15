@@ -1,8 +1,9 @@
 import Taro from '@tarojs/taro'
 import React from 'react'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image, Button } from '@tarojs/components'
 import { AtBadge, AtTabs, AtTabsPane } from 'taro-ui'
 import HomePage from './presenter'
+import { observer, inject } from 'mobx-react'
 // import UserInfoItem from './components/user-info-item'
 import UserInfoItem from '../../common/components/post-card'
 import AttentionCircle from './components/attention-circle'
@@ -15,6 +16,8 @@ import iconSearch from '../../assets/img/icon-search.png'
 import arrowDown from '../../assets/img/arrow-down.png'
 import iconRing from '../../assets/img/icon-ring.png'
 
+@inject('staticDataStore')
+@observer
 export default class Index extends HomePage {
 
   config = {
@@ -22,7 +25,8 @@ export default class Index extends HomePage {
   }
 
   render() {
-    const { topTabs, currentTopTab, attentionType, hotTabType, currentCity } = this.state;
+    const { topTabs, currentTopTab, attentionType, hotTabType } = this.state;
+    const {currentCity, isGuide} = this.props.staticDataStore
     return (
       <View className='home-page-viewport'>
         <View className='search-bar'>
@@ -106,6 +110,11 @@ export default class Index extends HomePage {
             </AtTabsPane>
           </AtTabs>
         </View>
+        {
+          isGuide ?
+          this.guide() : null
+        }
+        
       </View>
     )
   }

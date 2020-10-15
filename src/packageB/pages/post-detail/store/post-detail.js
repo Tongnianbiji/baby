@@ -22,7 +22,8 @@ class postDetailStore{
       sex :'MALE',
       customLevel : [{desc:'3岁9个月'}]
     }
-  }
+  };
+  @observable files = [];
 
   @action getReplyList = async (sortType=1,pid) => {
     const d = await Model.getReplyList(pid,sortType)
@@ -38,6 +39,10 @@ class postDetailStore{
       this.detailData = d;
     }
     return d;
+  }
+
+  @action getFilesData = (file) => {
+    this.files.push(file);
   }
 
   @action getCurrentReplyPostData = (model) => {

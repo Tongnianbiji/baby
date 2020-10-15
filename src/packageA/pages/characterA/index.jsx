@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import React from 'react'
-import { AtTabs, AtTabsPane } from 'taro-ui'
-import { View, Input, RadioGroup, Radio } from '@tarojs/components'
+import { AtTabs, AtTabsPane, AtList, AtListItem, AtSwipeAction } from 'taro-ui'
+import { View, Input, RadioGroup, Radio, Picker } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
 
@@ -11,6 +11,7 @@ export default class CharacterA extends Presenter {
   }
 
   render() {
+    const {canSave} = this.state;
     return (
       <View className='characterA-viewport'>
         <View className='banner-wrapper' />
@@ -20,7 +21,7 @@ export default class CharacterA extends Presenter {
         </View>
 
         <View className='next-btn-wrapper'>
-          <View className='next-btn'>下一步</View>
+          <View className={['next-btn',canSave ? 'active' : null]} onClick={this.nextStep.bind(this)}>下一步</View>
           <View className='next-tips'>完善宝宝信息，结识同道家长，获取更精准的优质内容</View>
         </View>
       </View >
@@ -73,10 +74,10 @@ export default class CharacterA extends Presenter {
    * 育儿
    */
   renderParenting() {
-    const { showCharacterSpecial } = this.state;
+    const { showCharacterSpecial, babyList } = this.state;
     return (
       <View>
-        {
+        {/* {
           showCharacterSpecial &&
           <View className='baby-item-special'>
             <View className='item-group-special'>
@@ -86,50 +87,64 @@ export default class CharacterA extends Presenter {
               </View>
             </View>
           </View>
+        } */}
+        {
+          babyList.map(item => (
+            <View>
+              <AtSwipeAction
+                key={item.id}
+                onClick={this.handleDeleteBaby.bind(this, item.id)}
+                options={[
+                  {
+                    text: '删除',
+                    style: {
+                      backgroundColor: '#FF4949'
+                    }
+                  }
+                ]}
+              >
+
+                <View className='baby-item'>
+                  <View className='item-group'>
+                    <View className='item-title'>宝宝性别</View>
+                    <View className='item-content flex-around'>
+                      <View className={['content-item', item.babySex === 1 ? 'active' : null]} onClick={this.selectSex.bind(this, item, 1)}>小王子</View>
+                      <View className={['content-item', item.babySex === 2 ? 'active' : null]} onClick={this.selectSex.bind(this, item, 2)}>小公举</View>
+                    </View>
+                  </View>
+                  <View className='item-group'>
+                    <View className='item-title'>宝宝出生日期</View>
+                    <View className='item-content'>
+                      {/* <View className='content-item width-100'>请选择时间</View> */}
+                      <Picker mode='date' value={item.bornDate} onChange={this.onDateChange.bind(this,item)} className='content-item width-100'>
+                        <AtList>
+                          <AtListItem title={item.bornDate} extraText={this.state.dateSel} />
+                        </AtList>
+                      </Picker>
+                    </View>
+                  </View>
+                  <View className='item-group'>
+                    <View className='item-title'>宝宝小名</View>
+                    <View className='item-content'>
+                      <Input className='content-item width-100 text-align-center' onInput={this.onInputBabyName.bind(this,item)} value={item.babyName} placeholder='请填写宝宝小名' />
+                    </View>
+                  </View>
+
+                  <View className='item-group'>
+                    <View className='item-title'>宝宝学校</View>
+                    <View className='item-content'>
+                      <Input className='content-item width-100 text-align-center' onInput={this.onInputBabySchool.bind(this,item)} value={item.babySchool} placeholder='请填写宝宝学校' />
+                    </View>
+                  </View>
+                </View>
+              </AtSwipeAction>
+            </View>
+
+
+          ))
         }
-        <View className='baby-item'>
-          <View className='item-group'>
-            <View className='item-title'>宝宝性别</View>
-            <View className='item-content flex-around'>
-              <View className='content-item active'>小王子</View>
-              <View className='content-item'>小公举</View>
-            </View>
-          </View>
-          <View className='item-group'>
-            <View className='item-title'>宝宝出生日期</View>
-            <View className='item-content'>
-              <View className='content-item width-100'>请选择时间</View>
-            </View>
-          </View>
-          <View className='item-group'>
-            <View className='item-title'>宝宝小名</View>
-            <View className='item-content'>
-              <Input className='content-item width-100 text-align-center' placeholder='请填写宝宝小名' />
-            </View>
-          </View>
-        </View>
-        <View className='baby-item'>
-          <View className='item-group'>
-            <View className='item-title'>宝宝性别</View>
-            <View className='item-content flex-around'>
-              <View className='content-item active'>小王子</View>
-              <View className='content-item'>小公举</View>
-            </View>
-          </View>
-          <View className='item-group'>
-            <View className='item-title'>宝宝出生日期</View>
-            <View className='item-content'>
-              <View className='content-item width-100'>请选择时间</View>
-            </View>
-          </View>
-          <View className='item-group'>
-            <View className='item-title'>宝宝小名</View>
-            <View className='item-content'>
-              <Input className='content-item width-100 text-align-center' placeholder='请填写宝宝小名' />
-            </View>
-          </View>
-        </View>
-        <View className='baby-item-btn'>+家有多宝</View>
+
+        <View className='baby-item-btn' onClick={this.addBaby.bind(this)}>+家有多宝</View>
       </View>
     )
   }
@@ -138,14 +153,26 @@ export default class CharacterA extends Presenter {
    * 孕育、备孕
    */
   renderPregnancy() {
-    const { babyList, showCalc, showCalcPartOne, showCalcPartTwo } = this.state;
+    const { pregnancyBornDate, lastMenstruation, showCalc, showCalcPartOne, showCalcPartTwo,preHospital } = this.state;
     return (
       <View>
         <View className='baby-item'>
           <View className='item-group'>
             <View className='item-title'>宝宝预计出生日期</View>
             <View className='item-content'>
-              <View className='content-item width-100'>请选择时间</View>
+              <Picker mode='date' onChange={this.onPreBornDateChange.bind(this)} className='content-item width-100'>
+                <AtList>
+                  <AtListItem title={pregnancyBornDate} extraText={this.state.dateSel} />
+                </AtList>
+              </Picker>
+            </View>
+            <View className='item-group'>
+              <View className='item-title'>计划生产医院</View>
+              <View>
+                <View className='item-content'>
+                  <Input className='content-item width-100 text-align-center' onInput={this.onInputPreHospital.bind(this)} value={preHospital} placeholder='请填计划生产医院' />
+                </View>
+              </View>
             </View>
           </View>
 
@@ -155,7 +182,14 @@ export default class CharacterA extends Presenter {
             <View className='item-group'>
               <View className='item-title'>末次月经时间</View>
               <View className='item-content'>
-                <View className='content-item width-100'>2020-03-29</View>
+                <Picker mode='date' onChange={this.onLastMenstruationDateChange.bind(this)} className='content-item width-100'>
+                  <AtList>
+                    <AtListItem title={lastMenstruation} extraText={this.state.dateSel} />
+                  </AtList>
+                </Picker>
+              </View>
+              <View className='item-content'>
+                <View className='content-item width-100 content-calc' onClick={this.calcPreBornDate.bind(this)}>计算</View>
               </View>
             </View>
           }
@@ -163,7 +197,7 @@ export default class CharacterA extends Presenter {
 
           <View className='item-group'>
             {/* calc part two begin */}
-            {
+            {/* {
               showCalcPartTwo &&
               <View>
                 <View className='item-title'>末次月经时间</View>
@@ -174,7 +208,7 @@ export default class CharacterA extends Presenter {
                   <View className='content-item width-100 content-calc'>计算</View>
                 </View>
               </View>
-            }
+            } */}
             {/* calc part two end */}
 
             {/* calc begin */}

@@ -1,6 +1,8 @@
 @import "../../../app.scss";
 @import "../../../assets/scss/theme.scss";
 @import "~taro-ui/dist/style/components/tabs.scss";
+@import "~taro-ui/dist/style/components/list.scss";
+@import "~taro-ui/dist/style/components/swipe-action.scss";
 
 .characterA-viewport {
   background: $sys-page-bg;
@@ -172,6 +174,10 @@
   //next
   .next-btn-wrapper {
     padding: 70px 56px 45px 56px;
+    .active {
+      background:$sys-active-bg !important;
+      color: rgba(255, 255, 255, 1);
+    }
     .next-btn {
       @extend .flex-center;
       margin-bottom: 24px;
@@ -192,4 +198,22 @@
       color: rgba(153, 153, 153, 1);
     }
   }
+}
+
+.at-list__item{
+  padding:0;
+  .item-content{
+    padding:0 !important;
+    margin:0;
+    color:#666666;
+    font-size: 28px;
+    font-family: PingFangSC-Regular, PingFang SC;
+  }
+}
+.at-list{
+  background: none;
+}
+
+.at-swipe-action{
+  overflow: visible;
 }

@@ -22,7 +22,7 @@ export default class Interest extends Presenter {
   }
 
   render() {
-    const { typeList, subTypeList } = this.state;
+    const { typeList,typeIndex, subTypeList, subTypeIndex } = this.state;
     return (
       <View className='interest-viewport'>
         <View className='body-wrapper flex-direction-row'>
@@ -30,8 +30,8 @@ export default class Interest extends Presenter {
             {
               typeList.map((item, index) => {
                 return (
-                  index !== 2
-                    ? <View key={`left_item_${item.value}`} className='left-item flex-center'>{item.title}</View>
+                  index !== typeIndex
+                    ? <View onClick={this.selectTypeTab.bind(this,index)} key={`left_item_${item.value}`} className='left-item flex-center'>{item.title}</View>
                     : <View key={`left_item_${item.value}`} className='left-item flex-center active'>
                       <View className='left-item-active flex-center'></View>
                       <View>{item.title}</View>
@@ -44,8 +44,8 @@ export default class Interest extends Presenter {
             {
               subTypeList.map((item, index) => {
                 return (
-                  index !== 2
-                    ? <View key={`right_item_${item.value}`} className='right-item flex-center'>{item.title}</View>
+                  index !== subTypeIndex
+                    ? <View onClick={this.selectSubTypeTab.bind(this,index)} key={`right_item_${item.value}`} className='right-item flex-center'>{item.title}</View>
                     : <View key={`right_item_${item.value}`} className='right-item flex-center active'>{item.title}</View>
                 )
               })
@@ -54,7 +54,7 @@ export default class Interest extends Presenter {
         </View>
         <View className='footer-wrapper'>
           <View className='footer-btn-wrapper'>
-            <View className='footer-btn flex-center'>开启美好童年</View>
+            <View className='footer-btn flex-center' onClick={this.submit.bind(this)}>开启美好童年</View>
           </View>
 
           <View className='footer-skip-wrapper flex-center'>

@@ -7,15 +7,15 @@ import PhotoPickerSetting from '@components/photo-picker-setting'
 
 export default class ProfileSettingInfo extends Presenter {
 
-  componentWillMount() { }
+  // componentWillMount() { }
 
-  componentDidMount() { }
+  // componentDidMount() { }
 
-  componentWillUnmount() { }
+  // componentWillUnmount() { }
 
-  componentDidShow() { }
+  // componentDidShow() { this.getProfileInfo()}
 
-  componentDidHide() { }
+  // componentDidHide() { }
 
   config = {
     navigationBarTitleText: '设置',
@@ -24,12 +24,13 @@ export default class ProfileSettingInfo extends Presenter {
 
   constructor(props){
     super(props);
-    this.state = {
-      nickName:'',
-      signature:'',
-      headImg:'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png',
-      theme:'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png'
-    }
+    // this.state = {
+    //   nickName:'小净妈妈',
+    //   signature:'家有两只吞金兽',
+    //   headImg:'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png',
+    //   theme:'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png',
+    //   canSave:false
+    // }
   }
 
   getHeadFile = (file)=>{
@@ -45,7 +46,7 @@ export default class ProfileSettingInfo extends Presenter {
   }
 
   render() {
-    const {headImg, theme, nickName, signature} = this.state;
+    const {headImg, theme, nickName, signature,canSave} = this.state;
     return (
       <View className='profile-setting-info-viewport'>
         <View className='item'>
@@ -70,10 +71,10 @@ export default class ProfileSettingInfo extends Presenter {
         </View>
         <View className='item' onClick={this.onClickNavTo.bind(this, 'signature')}>
           <View className='item-label'>
-              <View className='item-txt'>{signature}</View>
+              <View className='item-txt'>签名</View>
           </View>
           <View className='item-value'>
-            <View className='item-txt'>家有两只吞金兽</View>
+            <View className='item-txt'>{signature}</View>
             <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>
@@ -86,6 +87,10 @@ export default class ProfileSettingInfo extends Presenter {
               <PhotoPickerSetting onGetFiles={this.getThemeFile.bind(this)}></PhotoPickerSetting>
             </View>
           </View>
+        </View>
+
+        <View className='next-btn-wrapper'>
+          <View className={['next-btn','active']} onClick={this.nextStep.bind(this)}>下一步</View>
         </View>
       </View>
     )

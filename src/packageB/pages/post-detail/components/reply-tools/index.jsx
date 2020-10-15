@@ -7,8 +7,9 @@ import { ICONS } from '@common/constant'
 import './index.scss'
 import { observer, inject } from 'mobx-react'
 import Model from '../../model'
+import PhotoPickerReply from '@components/photo-picker-reply'
 
-@inject('postDetail')
+@inject('postDetail','staticDataStore')
 @observer
 export default class ReplyTools extends Component {
   static defaultProps = {
@@ -61,22 +62,50 @@ export default class ReplyTools extends Component {
   }
 
   clickInput = () => {
-    const { getCurrentReplyPostData, detailData,updateCurrentplaceholder,updateFocusStatus,updateActiveFocusStatus,isToPostOwner } = this.props.postDetail;
-    
-    updateActiveFocusStatus(true);
-    updateFocusStatus(true);
-    if(isToPostOwner){
+    const { getCurrentReplyPostData, detailData,updateCurrentplaceholder,updateFocusStatus,updateActiveFocusStatus,isToPostOwner,updateIsToPostOwnerStatus } = this.props.postDetail;
+    const {isRegiste} = this.props.staticDataStore;
+    if(isRegiste){
+      // updateActiveFocusStatus(true);
+      // updateFocusStatus(true);
+      Taro.navigateTo({
+        url:'/packageB/pages/reply-post/index'
+      })
+      updateIsToPostOwnerStatus(true);
       updateCurrentplaceholder('我有话要说');
       getCurrentReplyPostData(detailData);
+      // if(isToPostOwner){
+      //   updateCurrentplaceholder('我有话要说');
+      //   getCurrentReplyPostData(detailData);
+      // }
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
     }
+    
+    
   }
 
   onBlur = () => {
+    const { updateFocusStatus ,updateActiveFocusStatus, updateCurrentplaceholder,updateIsToPostOwnerStatus} = this.props.postDetail;
+    //updateFocusStatus(false);
+    //updateActiveFocusStatus(false);
+    //updateCurrentplaceholder('我有话要说');
+    updateIsToPostOwnerStatus(true)
+  }
+
+  colseReply = ()=>{
     const { updateFocusStatus ,updateActiveFocusStatus, updateCurrentplaceholder,updateIsToPostOwnerStatus} = this.props.postDetail;
     updateFocusStatus(false);
     updateActiveFocusStatus(false);
     updateCurrentplaceholder('我有话要说');
     updateIsToPostOwnerStatus(true)
+  }
+
+  getFiles = (file)=>{
+    console.log('file',file)
+    const {getFilesData} = this.props.postDetail;
+    getFilesData(file)
   }
 
   render() {
@@ -96,22 +125,9 @@ export default class ReplyTools extends Component {
               </View>
               : null
           }
-
-          {/**
-            activeFocus ? 
-              <View className='input-wrapper'>
-                <Textarea value={replyContent} onInput={this.inputReply} focus={isFocus} onBlur={this.onBlur} cursorSpacing="48" maxlength="-1" holdKeyboard className='input' placeholder={placeholder} autoHeight />
-              </View>
-              :
-              <View onClick={this.clickInput} className='input-wrapper'>
-                <Input maxlength="-1" className='input' placeholder='我有话要说' />
-              </View>
-               */
-          }
-
           { 
               <View onClick={this.clickInput} className='input-wrapper'>
-                <Textarea style={{height:!autoHeight ? '200px' : null}} value={replyContent} onInput={this.inputReply} showConfirmBar={false} focus={isFocus} onBlur={this.onBlur} cursorSpacing={cursorSpacing} maxlength="-1" holdKeyboard className='input' placeholder={placeholder} autoHeight={autoHeight} />
+                <Textarea disabled value={replyContent} showConfirmBar={false} focus={isFocus} onBlur={this.onBlur} cursorSpacing={cursorSpacing} maxlength="-1" holdKeyboard className='input' placeholder={'我有话要说'} autoHeight={autoHeight} />
               </View>
               
           }
@@ -119,7 +135,12 @@ export default class ReplyTools extends Component {
           {
             activeFocus ?
               <View className="reply-btn-wrap">
-                <Image src={ICONS.IMG}></Image>
+                <View>
+                  <PhotoPickerReply onGetFiles={this.getFiles.bind(this)}>
+                    <Image src={ICONS.IMG}></Image>
+                  </PhotoPickerReply>
+                </View>
+               
                 <AtButton onClick={this.submitReply} className="reply-btn" type='primary' size='small' circle="true">发布</AtButton>
               </View> : null
           }
@@ -127,7 +148,7 @@ export default class ReplyTools extends Component {
         </View>
         {
           activeFocus ? 
-            <View className='reply-wrap'></View>
+            <View className='reply-wrap' onClick={this.colseReply.bind(this)}></View>
             : null
         }
         

@@ -6,16 +6,23 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
+      nickName:'小净妈妈',
+      signature:'家有两只吞金兽',
+      headImg:'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png',
+      theme:'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png',
+      canSave:false
     }
   }
 
   componentWillMount() { }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
   componentWillUnmount() { }
 
-  componentDidShow() { }
+  componentDidShow() { 
+    this.getProfileInfo()
+  }
 
   componentDidHide() { }
 
@@ -30,5 +37,25 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
       default:
         break;
     }
+  }
+
+  
+  getProfileInfo = async ()=>{
+    const uid = this.getUserInfo().userId;
+    const token = this.isLogin();
+    let res = await Model.getProfileInfo(token,uid);
+    if(res){
+      this.setState({
+        nickName:res.nickName,
+        signature:res.signature,
+        headImg:res.headImg,
+        theme:res.theme
+      })
+    }
+  }
+  nextStep = ()=>{
+    this.navto({
+      url:'/packageA/pages/interest/index'
+    })
   }
 }
