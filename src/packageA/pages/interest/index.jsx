@@ -6,21 +6,6 @@ import Presenter from './presenter'
 import './index.scss'
 
 export default class Interest extends Presenter {
-
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
-  config = {
-    navigationBarTitleText: '选择兴趣话题'
-  }
-
   render() {
     const { typeList,typeIndex, subTypeList, subTypeIndex } = this.state;
     return (
@@ -31,10 +16,13 @@ export default class Interest extends Presenter {
               typeList.map((item, index) => {
                 return (
                   index !== typeIndex
-                    ? <View onClick={this.selectTypeTab.bind(this,index)} key={`left_item_${item.value}`} className='left-item flex-center'>{item.title}</View>
-                    : <View key={`left_item_${item.value}`} className='left-item flex-center active'>
+
+                    ? <View><View onClick={this.selectTypeTab.bind(this,index)} key={`left_item_${item.sid}`} className='left-item flex-center'>{item.name}</View></View>
+                    : <View key={`left_item_${item.sid}`} className='left-item flex-center active'>
                       <View className='left-item-active flex-center'></View>
-                      <View>{item.title}</View>
+                      <View>
+                        <View>{item.name}</View>
+                      </View>
                     </View>
                 )
               })

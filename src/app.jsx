@@ -9,6 +9,8 @@ import BaseRequest from '@common/baseRequest'
 import { GMAP_API_KEY } from '@common/constant'
 import circleDetailStore from './store/circle-detail'
 import staticDataStore from './store/common/static-data'
+import { USER_INFO_KEY_USERID } from '@common/constant'
+import Storage from '@common/localStorage'
 import './app.scss'
 
 const request = new BaseRequest()
@@ -30,6 +32,7 @@ class App extends BaseComponent {
     this.state = {
       isGuide:false
     }
+    this.storage = Storage.getInstance()
   }
   componentDidMount() {
     // console.log('app did mounted')
@@ -69,9 +72,12 @@ class App extends BaseComponent {
     Taro.login().then(({ errMsg, code }) => {
       console.log('code', code);
       request.get('/user/checkregist',{code}).then((e)=>{
-        const regist = e.data.data.regist;
+        const {userId,token,regist} = e.data.data;
+        
         if(regist){
           updateIsRegisteStatus(true);
+          this.storage.setToken(token)
+          this.storage.setValue(USER_INFO_KEY_USERID, userId)
         }else{
           this.guideRegiste();
           updateIsRegisteStatus(false);

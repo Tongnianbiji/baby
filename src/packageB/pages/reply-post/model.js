@@ -13,6 +13,6 @@ export default {
     }
     const ret = await req.postWithToken('/post/reply', params)
     const d = req.standardResponse(ret)
-    return d.code === 0 && d.data || null
+    return d
   },
 }

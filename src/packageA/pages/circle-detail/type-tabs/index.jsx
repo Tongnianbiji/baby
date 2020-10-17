@@ -54,7 +54,7 @@ export default class TypeTabsView extends Component {
       }, 500)
     } else {
       if (e.timeStamp - touchStartTime < 350) {
-        this.circleDetailStore.resetTabListStatus(listType);
+        //this.circleDetailStore.resetTabListStatus(listType);
         this.circleDetailStore.updateIsFiexd(false);
         if (!this.isToBottom() && !postLock) {
           //this.typeTabPost()
@@ -130,7 +130,7 @@ export default class TypeTabsView extends Component {
   render() {
     const { circlePosts, circleEssence, circleQuestion,circleUser, listType, fixed, centerHeight, loadingPosts, loadingEssence, loadingQuestion, loadingUser, isToBottomPosts, isToBottomEssence, isToBottomQuestion, isToBottomUser} = this.circleDetailStore;
     return (
-      <View className='type-tabs-view' onTouchStart={this.touchStart}>
+      <View className='type-tabs-view' onTouchStart={this.touchStart.bind(this)}>
         <AtTabs animated={false} className='tabs' tabList={TypeTabs} current={listType} onClick={this.typeTabChange}>
           <AtTabsPane index={0} current={listType}>
             <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} />

@@ -10,13 +10,17 @@ export default class InterestPresenter extends BaseComponent {
       typeList: Model.typeList,
       subTypeList: Model.subTypeList,
       typeIndex:0,
-      subTypeIndex:1
+      subTypeIndex:1,
+      sid:1
     }
   }
 
   componentWillMount() { }
 
-  componentDidMount() { }
+  componentDidMount = async ()=> { 
+    await this.getFirstecondLeveData();
+    await this.getSecondLevelData();
+  }
 
   componentWillUnmount() { }
 
@@ -26,9 +30,35 @@ export default class InterestPresenter extends BaseComponent {
 
   onClickForSkip() {
     console.log('skip');
-
   }
-
+  //获取一级话题
+  getFirstecondLeveData = async ()=>{
+    let res = await Model.getFirstecondLeveData();
+    console.log('一级',res)
+    if(res && res.length){
+      this.setState({
+        typeList:res
+      })
+    }else{
+      this.showToast('系统异常')
+    }
+  }
+  //获取二级话题
+  getSecondLevelData = async ()=>{
+    const {sid} = this.state;
+    let res = await Model.getSecondLevelData(sid);
+    if(res && res.length){
+      this.setState({
+        subTypeList:res
+      })
+    }else{
+      this.showToast('系统异常')
+    }
+  }
+  //获取兴趣数据
+  getInterestList= async ()=>{
+    let res = await Model.getData();
+  }
   //主菜单
   selectTypeTab = (index)=>{
     this.setState({

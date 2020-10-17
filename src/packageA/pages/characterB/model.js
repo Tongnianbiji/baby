@@ -1,7 +1,7 @@
 export default {
   chatacterList: [
-    { title: '我是妈妈', value: 1 },
-    { title: '我是爸爸', value: 2 },
+    // { title: '我是妈妈', value: 1 },
+    // { title: '我是爸爸', value: 2 },
     { title: '我是爷爷', value: 3 },
     { title: '我是奶奶', value: 4 },
     { title: '我是外婆', value: 5 },

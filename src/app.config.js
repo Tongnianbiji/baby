@@ -50,7 +50,9 @@ export default {
         "pages/circle-detail/index",
         "pages/circle-desc/index",
         "pages/circle-list/index",
-        "pages/user-circles/index"
+        "pages/user-circles/index",
+        "pages/schools/index",
+        "pages/hospitals/index"
       ]
     },
     {

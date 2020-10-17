@@ -10,6 +10,7 @@ class Data {
   @observable currentCity = '浦东区';
   @observable isGuide = false;
   @observable isRegiste = false;
+  @observable role='';
 
   @action updateCurrentCity = (currentCity)=>{
     this.currentCity = currentCity
@@ -21,6 +22,11 @@ class Data {
 
   @action updateGuideStatus = (status)=>{
     this.isGuide = status
+  }
+
+  @action updateRole = (role)=>{
+    console.log('角色',role)
+    this.role = role
   }
 
   @action getTagList = async (cid) => {

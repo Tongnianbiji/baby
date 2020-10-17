@@ -86,7 +86,7 @@ export default class Presenter extends BaseComponent {
     const d = await Model.subReply(pid, replyId, content, files);
     if (content) {
       Taro.showLoading();
-      if (d) {
+      if (d.code === 0) {
         //this.getReplyList();
         // updateFocusStatus(false);
         // updateActiveFocusStatus(false)
@@ -101,6 +101,13 @@ export default class Presenter extends BaseComponent {
             duration: 2e3
           })
         }, 1e3);
+      }else{
+        Taro.hideLoading();
+        Taro.showToast({
+          title: `${d.message}`,
+          icon: 'none',
+          duration: 2e3
+        })
       }
     } else {
       Taro.showToast({

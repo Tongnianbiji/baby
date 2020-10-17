@@ -1,6 +1,6 @@
-import Taro from '@tarojs/taro'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
+import Taro, {getCurrentInstance} from '@tarojs/taro'
 
 export default class ProfileBabyActionPresenter extends BaseComponent {
   constructor(props) {
@@ -8,10 +8,22 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
     this.state = {
       tabs: Model.tabs,
       tabsCurrent: 0,
+      isHavebabyInfo:false
     }
   }
 
-  componentDidMount() { }
+  componentDidMount() { 
+    const {id} = getCurrentInstance().router.params;
+    if(id){
+      this.setState({
+        isHavebabyInfo:true
+      })
+    }else{
+      this.setState({
+        isHavebabyInfo:false
+      })
+    }
+  }
 
   onClickNavTo(id) {
     this.navto({ url: `/packageA/pages/profile-baby-detail/index?id=${id}` })

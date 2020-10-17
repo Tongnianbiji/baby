@@ -1,6 +1,6 @@
 import Taro, {getCurrentInstance} from '@tarojs/taro'
 import React, { Component } from 'react'
-import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY } from '../common/constant'
+import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY,USER_INFO_KEY_USERID } from '../common/constant'
 import Dto from '../common/localStorage'
 import { View, Button } from '@tarojs/components'
 
@@ -194,7 +194,12 @@ export default class BaseComponent extends Component {
    * 获取用户信息
    */
   getUserInfo() {
-    return this.__local_dto.getValue(USER_INFO_KEY)
+    if(!this.__local_dto.getValue(USER_INFO_KEY)){
+      return {userId:this.__local_dto.getValue(USER_INFO_KEY_USERID)}
+    }else{
+      return this.__local_dto.getValue(USER_INFO_KEY)
+    }
+    
   }
 
   registe = ()=>{

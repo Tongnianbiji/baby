@@ -82,8 +82,6 @@ export default class ReplyTools extends Component {
         url:'/pages/login/index'
       })
     }
-    
-    
   }
 
   onBlur = () => {

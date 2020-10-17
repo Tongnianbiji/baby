@@ -29,8 +29,8 @@ export default class Presenter extends BaseComponent {
   }
 
   componentDidMount() {
-    const {isRegiste} = staticDataStore;
-    if(isRegiste){
+    const { isRegiste } = staticDataStore;
+    if (isRegiste) {
       if (this.isLogin()) {
         this.showToast('登录成功, 即将跳转')
         setTimeout(() => {
@@ -41,29 +41,33 @@ export default class Presenter extends BaseComponent {
   }
 
   onGetPhoneNumber = ({ detail }) => {
-    console.log('号码',detail)
     const { errMsg: phoneStatus, encryptedData, iv } = detail || {}
-    if (phoneStatus === 'getPhoneNumber:ok' && encryptedData) {
-      // app 启动时, 如果login失败, 这里要有补偿的~! 现在没有
-      this.taro.checkSession().then(() => {
-        this.authLogin(getGlobalData('loginCode'), encryptedData, iv)
-      }, () => {
-        this.taro.login().then(({ errMsg, code }) => {
-          if (errMsg === 'login:ok') {
-            setGlobalData('loginCode', code)
-            this.authLogin(code, encryptedData, iv)
-          } else {
-            this.showToast('登录失败, 请重试.')
-          }
-        })
-      })
-    } else {
-      this.showToast('用户未授权, 登录失败.')
-    }
+    Taro.login().then(({ errMsg, code }) => {
+      if (errMsg === 'login:ok') {
+        setGlobalData('loginCode', code);
+        if (phoneStatus === 'getPhoneNumber:ok' && encryptedData) {
+          // app 启动时, 如果login失败, 这里要有补偿的~! 现在没有
+          this.taro.checkSession().then(() => {
+            this.authLogin(getGlobalData('loginCode'), encryptedData, iv)
+          }, () => {
+            this.taro.login().then(({ errMsg, code }) => {
+              if (errMsg === 'login:ok') {
+                setGlobalData('loginCode', code)
+                this.authLogin(code, encryptedData, iv)
+              } else {
+                this.showToast('登录失败, 请重试.')
+              }
+            })
+          })
+        } else {
+          this.showToast('用户未授权, 登录失败.')
+        }
+      }
+    })
   }
 
   authLogin(code, phone, iv) {
-    const {isRegiste} = staticDataStore;
+    const { isRegiste } = staticDataStore;
     this.setState({ loging: true })
     Model.getToken({
       oauthCode: code,
@@ -76,14 +80,14 @@ export default class Presenter extends BaseComponent {
       if (msg === 'request:ok' && status === 0) {
         this.storage.setToken(ret.token)
         this.storage.setValue(USER_INFO_KEY, ret.profile)
-        if(isRegiste){
+        if (isRegiste) {
           this.return2caller()
-        }else{
+        } else {
           Taro.navigateTo({
-            url:'/packageA/pages/characterA/index'
+            url: '/packageA/pages/characterA/index'
           })
         }
-        
+
       } else {
         this.showToast('登录失败, 请稍候再试.')
       }
@@ -125,7 +129,7 @@ export default class Presenter extends BaseComponent {
   }
 
   doLogin = () => {
-    const {isRegiste} = staticDataStore;
+    const { isRegiste } = staticDataStore;
     const { phoneNum, verifyCode, loging } = this.state
     if (this.verifyCodeLogin() && !loging) {
       Model.getToken({
@@ -138,11 +142,11 @@ export default class Presenter extends BaseComponent {
         if (msg === 'request:ok' && status === 0) {
           this.storage.setToken(ret.token)
           this.storage.setValue(USER_INFO_KEY, ret.profile)
-          if(isRegiste){
+          if (isRegiste) {
             this.return2caller()
-          }else{
+          } else {
             Taro.navigateTo({
-              url:'/packageA/pages/characterA/index'
+              url: '/packageA/pages/characterA/index'
             })
           }
         } else if (status === 3) {

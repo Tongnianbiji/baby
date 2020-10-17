@@ -1,3 +1,7 @@
+import BaseRequest from '@common/baseRequest'
+
+const request = new BaseRequest();
+
 export default {
   typeList: [
     { title: '情感交流', value: 1, },
@@ -34,5 +38,38 @@ export default {
     { type: 1, title: '情感交流', value: 14, },
     { type: 1, title: '情感交流', value: 15, },
     { type: 1, title: '情感交流', value: 16, },
-  ]
+  ],
+
+  async getFirstecondLeveData() {
+    const ret = await request.postWithToken('/subject/list')
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  },
+
+  async getSecondLevelData(sid=1) {
+    const ret = await request.postWithToken('/subject/lower',{sid:sid})
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  },
+
+  async getData(sids=['1']) {
+    let params = {
+      sids
+    }
+    const ret = await request.postWithToken('/subject/interest', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  }
 }

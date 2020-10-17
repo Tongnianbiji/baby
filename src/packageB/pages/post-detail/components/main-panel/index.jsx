@@ -8,7 +8,7 @@ import Model from '../../model'
 import  FormaDate from '@common/formaDate'
 
 import './index.scss'
-@inject('postDetail')
+@inject('postDetail','staticDataStore')
 @observer
 export default class MainPanelComponent extends Component {
   static defaultProps = {
@@ -38,6 +38,29 @@ export default class MainPanelComponent extends Component {
     Taro.vibrateShort();
     updatePostFavoriteMarks(params)
   }
+
+  reply = () => {
+    const { getCurrentReplyPostData, detailData,updateCurrentplaceholder,updateFocusStatus,updateActiveFocusStatus,isToPostOwner,updateIsToPostOwnerStatus } = this.props.postDetail;
+    const {isRegiste} = this.props.staticDataStore;
+    if(isRegiste){
+      // updateActiveFocusStatus(true);
+      // updateFocusStatus(true);
+      Taro.navigateTo({
+        url:'/packageB/pages/reply-post/index'
+      })
+      updateIsToPostOwnerStatus(true);
+      updateCurrentplaceholder('我有话要说');
+      getCurrentReplyPostData(detailData);
+      // if(isToPostOwner){
+      //   updateCurrentplaceholder('我有话要说');
+      //   getCurrentReplyPostData(detailData);
+      // }
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
+  }
   render() {
     const {
       imgprofile: avatar,
@@ -60,7 +83,7 @@ export default class MainPanelComponent extends Component {
       }
     } = this.props.postDetail.detailData
     return (
-      <View className='main-panel-view'>
+      <View className='main-panel-view' onClick={this.reply.bind(this)}>
         <View className='user-info'>
           <View className='avatar'>
             {

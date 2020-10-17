@@ -113,6 +113,11 @@
       .item-content {
         @extend .flex-direction-row;
         padding: 0 0 32px 0;
+        .right-a{
+          height: 22px;
+          width: 12px;
+          margin-left: 20px;
+        }
 
         .content-item {
           @extend .flex-center;
@@ -136,7 +141,6 @@
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
           color: rgba(51, 51, 51, 1);
-
           radio {
             margin-right: 12px;
           }
@@ -177,6 +181,7 @@
     .active {
       background:$sys-active-bg !important;
       color: rgba(255, 255, 255, 1);
+      opacity: 1 !important;
     }
     .next-btn {
       @extend .flex-center;
@@ -216,4 +221,27 @@
 
 .at-swipe-action{
   overflow: visible;
+}
+
+.btn-remove {
+  width: 44px;
+  height: 44px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 99;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,.4);
+  padding:10px;
+  box-sizing: border-box;
+}
+
+.select-item{
+  display: flex;
+  align-items: center;
+  border-top:1px solid #e8e8e8;
+  border-bottom:1px solid #e8e8e8;
+  justify-content: space-between;
+  padding:20px 0 !important;
+  margin-bottom: 20px;
 }

@@ -77,7 +77,7 @@ export default class ProfileBabyDetail extends Presenter {
           </View>
         </View>
         <View className='btn-wrapper'>
-          <View className='btn flex-center'>确认</View>
+          <View className='btn flex-center'>确认修改</View>
         </View>
       </View>
     )

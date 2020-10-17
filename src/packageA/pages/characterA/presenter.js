@@ -2,6 +2,7 @@ import Taro from '@tarojs/taro'
 import React from 'react'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
+import staticData from '@src/store/common/static-data.js'
 
 export default class CharacterAPresenter extends BaseComponent {
   constructor(props) {
@@ -9,7 +10,7 @@ export default class CharacterAPresenter extends BaseComponent {
     this.state = {
       topTabs: Model.topTabs,
       subTabs: Model.subTabs,
-      // babyList: Model.babyList,
+      babyRadioList: Model.babyList,
 
       topTabsCurrent: 0,
       subTabsCurrent: 0,
@@ -19,6 +20,7 @@ export default class CharacterAPresenter extends BaseComponent {
       showCharacterSpecial: false,//show sub tab1 character part
 
       //育儿宝宝信息
+      role:staticData.role,
       canSave:false,
       babyList:[
         {
@@ -32,7 +34,10 @@ export default class CharacterAPresenter extends BaseComponent {
       //孕育/备孕信息
       pregnancyBornDate:'请选择日期',
       lastMenstruation:'请选择日期',
-      preHospital:''
+      preHospital:'',
+      babyChecked:'',
+      menstruationPeriod:28,
+      menstruationLastingDays:7,
 
     }
   }
@@ -43,7 +48,13 @@ export default class CharacterAPresenter extends BaseComponent {
 
   componentWillUnmount() { }
 
-  componentDidShow() { }
+  componentDidShow() { 
+    const {role} = staticData;
+    this.setState({
+      role:role
+    })
+    this.isCanSave()
+  }
 
   componentDidHide() { }
 
@@ -58,6 +69,7 @@ export default class CharacterAPresenter extends BaseComponent {
       subTabsCurrent: 0, //sub tab default 0
       showCharacterSpecial: topTabsCurrent == 2,
     })
+    this.isCanSave();
   }
 
   /**
@@ -68,8 +80,7 @@ export default class CharacterAPresenter extends BaseComponent {
     this.setState({
       subTabsCurrent: value
     })
-    this.isCanSave()
-
+    this.isCanSave();
   }
 
   /**
@@ -78,7 +89,8 @@ export default class CharacterAPresenter extends BaseComponent {
   onClickForCalc() {
     this.setState({
       showCalcPartOne: true,
-      showCalcPartTwo: true
+      showCalcPartTwo: true,
+      showCalc:false
     })
   }
 
@@ -100,10 +112,8 @@ export default class CharacterAPresenter extends BaseComponent {
     babyList[preIndex].bornDate = date.detail.value;
     this.setState({
       babyList:babyList
-    },()=>{
-      console.log(this.state.babyList)
     })
-    this.isCanSave()
+    this.isCanSave();
   }
 
   //输入宝宝姓名
@@ -114,7 +124,7 @@ export default class CharacterAPresenter extends BaseComponent {
     this.setState({
       babyList:babyList
     })
-    this.isCanSave()
+    this.isCanSave();
   }
 
   //输入宝宝学校
@@ -125,7 +135,7 @@ export default class CharacterAPresenter extends BaseComponent {
     this.setState({
       babyList:babyList
     })
-    this.isCanSave()
+    // this.isCanSave()
   }
 
   //输入孕育的医院
@@ -133,7 +143,14 @@ export default class CharacterAPresenter extends BaseComponent {
     this.setState({
       preHospital:e.detail.value
     })
-    this.isCanSave()
+    this.isCanSave();
+  }
+
+  //输入月经持续天数
+  onInputMenstruationLastingDays =(e)=>{
+    this.setState({
+      menstruationLastingDays:e.detail.value
+    })
   }
   //添加宝宝
   addBaby = ()=>{
@@ -149,7 +166,7 @@ export default class CharacterAPresenter extends BaseComponent {
     this.setState({
       babyList:pre.babyList
     })
-    this.isCanSave()
+    this.isCanSave();
   })
   }
 
@@ -166,7 +183,7 @@ export default class CharacterAPresenter extends BaseComponent {
 
   //判断是否可以进入下一步
   isCanSave = ()=>{
-    const {subTabsCurrent,babyList,pregnancyBornDate,preHospital} =this.state;
+    const {subTabsCurrent,babyList,pregnancyBornDate,preHospital,topTabsCurrent,role,lastMenstruation} =this.state;
     switch(subTabsCurrent){
       case 0:
         if(!babyList.length){
@@ -176,17 +193,24 @@ export default class CharacterAPresenter extends BaseComponent {
             canSave:true
           })
           babyList.forEach(item=>{
-            if(!item.bornDate || !item.babyName || !item.babySchool){
+            if(item.bornDate === '请选择日期' || !item.babyName){
               this.setState({
                 canSave:false
               })
             }
           })
         }
+        if(topTabsCurrent === 2){
+          if(!role){
+            this.setState({
+              canSave:false
+            })
+          }
+        }
         return this.state.canSave
         break;
       case 1:
-        if(pregnancyBornDate !== '请选择日期' && preHospital){
+        if(pregnancyBornDate !== '请选择日期'){
           this.setState({
             canSave:true
           })
@@ -195,10 +219,17 @@ export default class CharacterAPresenter extends BaseComponent {
             canSave:false
           })
         }
+        if(topTabsCurrent === 2){
+          if(!role){
+            this.setState({
+              canSave:false
+            })
+          }
+        }
         return this.state.canSave;
         break;
         case 2:
-        if(pregnancyBornDate !== '请选择日期' && preHospital){
+        if(lastMenstruation !== '请选择日期'){
           this.setState({
             canSave:true
           })
@@ -217,6 +248,7 @@ export default class CharacterAPresenter extends BaseComponent {
     this.setState({
       pregnancyBornDate:e.detail.value
     })
+    this.isCanSave();
   }
 
   //最后一次月经时间
@@ -224,6 +256,7 @@ export default class CharacterAPresenter extends BaseComponent {
     this.setState({
       lastMenstruation:e.detail.value
     })
+    this.isCanSave()
   }
 
   //计算预产期
@@ -312,5 +345,62 @@ export default class CharacterAPresenter extends BaseComponent {
           break;
       }
     }
+  }
+  //选择孕育的孩子
+  selectPregnancyBaby= (value)=>{
+    this.setState({
+      babyChecked:value
+    })
+  }
+
+  //选择身份
+  selectRole=()=>{
+    this.navto({
+      url:'/packageA/pages/characterB/index'
+    })
+  }
+
+  //选择学校
+  selectSchool = ()=>{
+    this.navto({
+      url:'/packageA/pages/schools/index'
+    })
+  }
+
+  //选择医院
+  selectHospital = ()=>{
+    this.navto({
+      url:'/packageA/pages/hospitals/index'
+    })
+  }
+
+  reduceMenstruationPeriod = ()=>{
+    const {menstruationPeriod} = this.state;
+    if(menstruationPeriod>1){
+      this.setState((pre)=>({
+        menstruationPeriod:pre.menstruationPeriod -1
+      }))
+    }
+  }
+
+  addMenstruationPeriod = ()=>{
+    this.setState((pre)=>({
+      menstruationPeriod:pre.menstruationPeriod + 1
+    }))
+  }
+
+  reducemenstruationLastingDays = ()=>{
+    const {menstruationLastingDays} = this.state;
+    if(menstruationLastingDays>1){
+      this.setState((pre)=>({
+        menstruationLastingDays:pre.menstruationLastingDays -1
+      }))
+    }
+  }
+
+  addMenstruationLastingDays = ()=>{
+    this.setState((pre)=>({
+      menstruationLastingDays:pre.menstruationLastingDays + 1
+    }))
   }
 }

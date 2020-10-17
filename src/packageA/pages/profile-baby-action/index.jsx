@@ -35,6 +35,7 @@ export default class ProfileBabyAction extends Presenter {
   }
 
   renderParenting() {
+    const {isHavebabyInfo} = this.state;
     return (
       <View>
         <View className='item'>
@@ -87,14 +88,26 @@ export default class ProfileBabyAction extends Presenter {
             <Image className='item-search' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/search.png' />
           </View>
         </View>
-        <View className='btn-wrapper'>
+        {/* <View className='btn-wrapper'>
           <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认</View>
-        </View>
+        </View> */}
+        {
+          !isHavebabyInfo ?
+          <View>
+            <View className='btn-wrapper'>
+              <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认修改</View>
+            </View>
+          </View>
+          :  <View className='btn-wrapper'>
+              <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认</View>
+            </View>
+        }
       </View>
     )
   }
 
   renderPregnancy() {
+    const {isHavebabyInfo} = this.state;
     return (
       <View>
         <View className='item'>
@@ -124,17 +137,26 @@ export default class ProfileBabyAction extends Presenter {
             <Image className='item-search' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/search.png' />
           </View>
         </View>
-        <View className='btn-wrapper'>
-          <View className='btn flex-center'>切换状态</View>
-        </View>
-        <View className='btn-wrapper'>
-          <View className='btn flex-center'>确认修改</View>
-        </View>
+        {
+          !isHavebabyInfo ?
+          <View>
+            <View className='btn-wrapper'>
+              <View className='btn flex-center'>切换状态</View>
+            </View>
+            <View className='btn-wrapper'>
+              <View className='btn flex-center'>确认修改</View>
+            </View>
+          </View>
+          :  <View className='btn-wrapper'>
+              <View className='btn flex-center'>确认</View>
+            </View>
+        }
       </View>
     )
   }
 
   renderPlanPregnancy() {
+    const {isHavebabyInfo} = this.state;
     return (
       <View>
         <View className='item'>
@@ -154,12 +176,21 @@ export default class ProfileBabyAction extends Presenter {
             <View className='item-txt'>28天</View>
           </View>
         </View>
-        <View className='btn-wrapper'>
-          <View className='btn flex-center'>切换状态</View>
-        </View>
-        <View className='btn-wrapper'>
-          <View className='btn flex-center'>确认修改</View>
-        </View>
+        {
+          !isHavebabyInfo ?
+          <View>
+            <View className='btn-wrapper'>
+              <View className='btn flex-center'>切换状态</View>
+            </View>
+            <View className='btn-wrapper'>
+              <View className='btn flex-center'>确认修改</View>
+            </View>
+          </View>
+          :  <View className='btn-wrapper'>
+              <View className='btn flex-center'>确认</View>
+            </View>
+        }
+        
       </View>
     )
   }
