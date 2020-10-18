@@ -5,21 +5,6 @@ import Presenter from './presenter'
 import './index.scss'
 
 export default class CharacterB extends Presenter {
-
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
-  config = {
-    navigationBarTitleText: '选择身份'
-  }
-
   render() {
     const { chatacterList } = this.state;
     return (

@@ -31,6 +31,7 @@ export default class CharacterAPresenter extends BaseComponent {
           babySchool:''
         }
       ],
+      currentBabyId:1,
       //孕育/备孕信息
       pregnancyBornDate:'请选择日期',
       lastMenstruation:'请选择日期',
@@ -49,9 +50,14 @@ export default class CharacterAPresenter extends BaseComponent {
   componentWillUnmount() { }
 
   componentDidShow() { 
-    const {role} = staticData;
+    const {role,school,hospital} = staticData;
+    const {currentBabyId,babyList} = this.state;
+    let preIndex = babyList.findIndex(item=>item.id === currentBabyId);
+    babyList[preIndex].babySchool = school;
     this.setState({
-      role:role
+      role:role,
+      babyList:babyList,
+      preHospital:hospital
     })
     this.isCanSave()
   }
@@ -361,7 +367,10 @@ export default class CharacterAPresenter extends BaseComponent {
   }
 
   //选择学校
-  selectSchool = ()=>{
+  selectSchool = (id)=>{
+    this.setState({
+      currentBabyId:id
+    })
     this.navto({
       url:'/packageA/pages/schools/index'
     })

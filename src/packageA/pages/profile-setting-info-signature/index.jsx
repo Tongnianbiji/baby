@@ -31,7 +31,7 @@ export default class ProfileSettingInfoSignature extends Presenter {
           一个月只能修改一次昵称，请谨慎修改
         </View> */}
         <View className='btn-wrapper'>
-          <View className='btn flex-center' onClick={this.submit.bind(this)}>提交</View>
+          <View className='btn flex-center' onClick={this.submit.bind(this)}>确认</View>
         </View>
       </View>
     )

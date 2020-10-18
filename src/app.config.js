@@ -52,7 +52,8 @@ export default {
         "pages/circle-list/index",
         "pages/user-circles/index",
         "pages/schools/index",
-        "pages/hospitals/index"
+        "pages/hospitals/index",
+        "pages/profile-setting-baby-nickname/index"
       ]
     },
     {

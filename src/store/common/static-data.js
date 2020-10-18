@@ -11,6 +11,10 @@ class Data {
   @observable isGuide = false;
   @observable isRegiste = false;
   @observable role='';
+  @observable school='';
+  @observable hospital='';
+  @observable babyList='';
+  @observable babyNickname='';
 
   @action updateCurrentCity = (currentCity)=>{
     this.currentCity = currentCity
@@ -25,8 +29,23 @@ class Data {
   }
 
   @action updateRole = (role)=>{
-    console.log('角色',role)
     this.role = role
+  }
+
+  @action updateSchool = (school)=>{
+    this.school = school
+  }
+
+  @action updateHospital= (hospital)=>{
+    this.hospital = hospital
+  }
+
+  @action updateBabyList= (babyList)=>{
+    this.babyList = babyList
+  }
+
+  @action updateBabyNickname= (babyNickname)=>{
+    this.babyNickname = babyNickname
   }
 
   @action getTagList = async (cid) => {

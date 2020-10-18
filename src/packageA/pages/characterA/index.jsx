@@ -8,9 +8,6 @@ import { ICONS } from '@common/constant'
 
 
 export default class CharacterA extends Presenter {
-  config = {
-    navigationBarTitleText: '选择身份',
-  }
 
   render() {
     const { canSave, subTabsCurrent } = this.state;
@@ -137,13 +134,15 @@ export default class CharacterA extends Presenter {
 
                   <View className='item-group'>
                     <View className='item-title'>宝宝学校</View>
-                    <View className='item-content select-item' onClick={this.selectSchool.bind(this)}>
-                      {/* <Input className='content-item width-100 text-align-center' onInput={this.onInputBabySchool.bind(this,item)} value={item.babySchool} placeholder='请填写宝宝学校' /> */}
+                    <View className='item-content select-item' onClick={this.selectSchool.bind(this,item.id)}>
                       <View>
-                        <View className='width-100' style={{ fontSize: '14px' }}>请选择宝宝所在学校</View>
+                        { !item.babySchool ?
+                          <View className='width-100' style={{ fontSize: '14px' }}>请选择宝宝所在学校</View>
+                          :
+                          <View className='width-100' style={{ fontSize: '14px' }}>{item.babySchool}</View>
+                        }
                       </View>
                       <View>
-                        <Text style={{ fontSize: '14px' }}>{item.babySchool}</Text>
                         <Image className="right-a" src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-a.png'></Image>
                       </View>
                     </View>
@@ -273,15 +272,15 @@ export default class CharacterA extends Presenter {
               <View className='item-group' style="border-bottom:none">
                 <View className='item-title'>计划生产医院</View>
                 <View>
-                  {/* <View className='item-content'>
-                    <Input className='content-item width-100 text-align-center' onInput={this.onInputPreHospital.bind(this)} value={preHospital} placeholder='请填计划生产医院' />
-                  </View> */}
                   <View className='item-content select-item' onClick={this.selectHospital.bind(this)}>
                     <View>
-                      <View className='width-100' style={{ fontSize: '14px' }}>请选择计划生产医院</View>
+                      { !preHospital ?
+                        <View className='width-100' style={{ fontSize: '14px' }}>请选择计划生产医院</View>
+                        :
+                        <View className='width-100' style={{ fontSize: '14px' }}>{preHospital}</View>
+                      }
                     </View>
                     <View>
-                      <Text style={{ fontSize: '14px' }}>{preHospital}</Text>
                       <Image className="right-a" src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-a.png'></Image>
                     </View>
                   </View>

@@ -7,12 +7,26 @@ export default {
     let params = {
       keyword,
       page,
-      pageSize:10
+      pageSize:20
     }
     const ret = await request.postWithToken('/search/school', params)
     const data = request.standardResponse(ret)
     if (data.code === 0) {
       return data.data
+    } else {
+      return false
+    }
+  },
+
+  async addData(name,type='s') {
+    let params = {
+     name,
+     type
+    }
+    const ret = await request.getWithToken('/poi/save', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
     } else {
       return false
     }

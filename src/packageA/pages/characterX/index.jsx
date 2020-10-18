@@ -16,10 +16,6 @@ export default class CharacterX extends Presenter {
 
   componentDidHide() { }
 
-  config = {
-    navigationBarTitleText: '填写身份'
-  }
-
   render() {
     const {role} = this.state;
     return (
@@ -29,7 +25,7 @@ export default class CharacterX extends Presenter {
         </View>
 
         <View className='character-btn-wrapper' onClick={this.nextStep.bind(this)}>
-          <View className='character-btn flex-center'>下一步</View>
+          <View className='character-btn flex-center'>确认</View>
         </View>
       </View>
     )

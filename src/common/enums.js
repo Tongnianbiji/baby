@@ -22,9 +22,9 @@ export const SearchResultType = {
  */
 export const GENDER_LIST = [
   {
-    id: 0, name: '小王子'
+    id: 0, name: '小王子',value:'MALE'
   },
   {
-    id: 1, name: '小公举'
+    id: 1, name: '小公举',value:'FEMALE'
   }
 ]

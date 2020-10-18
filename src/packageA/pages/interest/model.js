@@ -51,7 +51,7 @@ export default {
   },
 
   async getSecondLevelData(sid=1) {
-    const ret = await request.postWithToken('/subject/lower',{sid:sid})
+    const ret = await request.getWithToken('/subject/lower',{sid:sid})
     const data = request.standardResponse(ret)
     if (data.code === 0) {
       return data.data
@@ -60,14 +60,14 @@ export default {
     }
   },
 
-  async getData(sids=['1']) {
+  async addData(sids=[2]) {
     let params = {
       sids
     }
     const ret = await request.postWithToken('/subject/interest', params)
     const data = request.standardResponse(ret)
     if (data.code === 0) {
-      return data.data
+      return true
     } else {
       return false
     }

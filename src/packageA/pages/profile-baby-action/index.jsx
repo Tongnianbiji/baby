@@ -1,16 +1,12 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { AtTabs, AtTabsPane } from 'taro-ui'
-import { View, Image, RadioGroup, Radio } from '@tarojs/components'
+import { View, Image, RadioGroup, Radio, Picker } from '@tarojs/components'
 import { GENDER_LIST } from '../../../common/enums';
 import Presenter from './presenter'
 import './index.scss'
 
 export default class ProfileBabyAction extends Presenter {
-  config = {
-    navigationBarTitleText: '新增宝宝',
-    navigationBarBackgroundColor: '#FFFFFF',
-  }
 
   render() {
     const { tabs, tabsCurrent } = this.state;
@@ -35,15 +31,15 @@ export default class ProfileBabyAction extends Presenter {
   }
 
   renderParenting() {
-    const {isHavebabyInfo} = this.state;
+    const {isHavebabyInfo, babyNickname, babySchool,babyBorn,sex} = this.state;
     return (
       <View>
-        <View className='item'>
+        <View className='item' onClick={this.createBabyNickname.bind(this)}>
           <View className='item-label'>
             <View className='item-txt'>宝宝小名</View>
           </View>
           <View className='item-value'>
-            <View className='item-txt'>小福</View>
+            <View className='item-txt'>{babyNickname}</View>
             <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>
@@ -55,7 +51,7 @@ export default class ProfileBabyAction extends Presenter {
             <RadioGroup className='width-100 radio-group'>
               {
                 GENDER_LIST.map((item, index) => {
-                  return <Radio key={index} color='#ff473a' checked={item.id} value={item.id}>{item.name}</Radio>
+                  return <Radio onClick={this.selectBabySex.bind(this,item.value)} key={index} color='#ff473a' checked={item.value === sex} value={item.id}>{item.name}</Radio>
                 })
               }
             </RadioGroup>
@@ -66,7 +62,11 @@ export default class ProfileBabyAction extends Presenter {
             <View className='item-txt'>宝宝出生年月</View>
           </View>
           <View className='item-value'>
-            <View className='item-txt'>2019-06-18</View>
+            <Picker mode='date' value={babyBorn} onChange={this.onBornDateChange.bind(this)} className='item-txt'>
+              <View>
+                {babyBorn}
+              </View>
+            </Picker>
             <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>
@@ -79,20 +79,23 @@ export default class ProfileBabyAction extends Presenter {
             <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>
-        <View className='item'>
+        <View className='item' onClick={this.selectBabySchool.bind(this)}>
           <View className='item-label'>
             <View className='item-txt'>宝宝所在学校</View>
           </View>
           <View className='item-value'>
-            <View className='item-txt'>请输入</View>
-            <Image className='item-search' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/search.png' />
+            {
+              babySchool ? <View className='item-txt'>{babySchool}</View>
+              : <View className='item-txt'>请选择</View>
+            }
+            <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>
         {/* <View className='btn-wrapper'>
           <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认</View>
         </View> */}
         {
-          !isHavebabyInfo ?
+          isHavebabyInfo ?
           <View>
             <View className='btn-wrapper'>
               <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认修改</View>
@@ -107,7 +110,7 @@ export default class ProfileBabyAction extends Presenter {
   }
 
   renderPregnancy() {
-    const {isHavebabyInfo} = this.state;
+    const {isHavebabyInfo,checkHospital,planHospital,preBornDate} = this.state;
     return (
       <View>
         <View className='item'>
@@ -115,30 +118,40 @@ export default class ProfileBabyAction extends Presenter {
             <View className='item-txt'>预产期</View>
           </View>
           <View className='item-value'>
-            <View className='item-txt'>2019-06-18</View>
+            <Picker mode='date' value={preBornDate} onChange={this.onPreBornDateChange.bind(this)} className='item-txt'>
+              <View>
+                {preBornDate}
+              </View>
+            </Picker>
             <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>
-        <View className='item'>
+        <View className='item' onClick={this.selectBabyHospital.bind(this,1)}>
           <View className='item-label'>
             <View className='item-txt'>产检医院</View>
           </View>
           <View className='item-value'>
-            <View className='item-txt'>请输入</View>
-            <Image className='item-search' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/search.png' />
+            {
+              checkHospital ? <View className='item-txt'>{checkHospital}</View>
+              : <View className='item-txt'>请选择</View>
+            }
+            <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>
-        <View className='item'>
+        <View className='item' onClick={this.selectBabyHospital.bind(this,2)}>
           <View className='item-label'>
             <View className='item-txt'>计划生产医院</View>
           </View>
           <View className='item-value'>
-            <View className='item-txt'>请输入</View>
-            <Image className='item-search' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/search.png' />
+            {
+              planHospital ? <View className='item-txt'>{planHospital}</View>
+              : <View className='item-txt'>请选择</View>
+            }
+            <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>
         {
-          !isHavebabyInfo ?
+          isHavebabyInfo ?
           <View>
             <View className='btn-wrapper'>
               <View className='btn flex-center'>切换状态</View>
@@ -148,7 +161,7 @@ export default class ProfileBabyAction extends Presenter {
             </View>
           </View>
           :  <View className='btn-wrapper'>
-              <View className='btn flex-center'>确认</View>
+              <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认</View>
             </View>
         }
       </View>
@@ -177,7 +190,7 @@ export default class ProfileBabyAction extends Presenter {
           </View>
         </View>
         {
-          !isHavebabyInfo ?
+          isHavebabyInfo ?
           <View>
             <View className='btn-wrapper'>
               <View className='btn flex-center'>切换状态</View>

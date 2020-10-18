@@ -10,8 +10,9 @@ export default class InterestPresenter extends BaseComponent {
       typeList: Model.typeList,
       subTypeList: Model.subTypeList,
       typeIndex:0,
-      subTypeIndex:1,
-      sid:1
+      subTypeIndex:0,
+      sid:1,
+      activeSids: new Set([2])
     }
   }
 
@@ -34,7 +35,6 @@ export default class InterestPresenter extends BaseComponent {
   //获取一级话题
   getFirstecondLeveData = async ()=>{
     let res = await Model.getFirstecondLeveData();
-    console.log('一级',res)
     if(res && res.length){
       this.setState({
         typeList:res
@@ -55,28 +55,42 @@ export default class InterestPresenter extends BaseComponent {
       this.showToast('系统异常')
     }
   }
-  //获取兴趣数据
-  getInterestList= async ()=>{
-    let res = await Model.getData();
-  }
+  
   //主菜单
-  selectTypeTab = (index)=>{
+  selectTypeTab = (index,sid)=>{
     this.setState({
-      typeIndex:index
+      typeIndex:index,
+      sid:sid
+    },()=>{
+      this.getSecondLevelData()
     })
   }
   //子菜单
-  selectSubTypeTab = (index)=>{
+  selectSubTypeTab = (sid)=>{
+    let {activeSids} = this.state;
+    if(activeSids.has(sid)){
+      activeSids.delete(sid);
+    }else{
+      activeSids.add(sid);
+    }
     this.setState({
-      subTypeIndex:index
+      activeSids:activeSids
     })
   }
   //提交
-  submit = ()=>{
+  submit = async ()=>{
     const {updateGuideStatus} = staticDataStore;
-    updateGuideStatus(false);
-    Taro.switchTab({
-      url: '/pages/index/index'
-    })
+    const {activeSids} = this.state;
+    
+    let newActiveSids = Array.from(activeSids);
+    if(newActiveSids.length){
+      await Model.addData(newActiveSids);
+      updateGuideStatus(false);
+      Taro.switchTab({
+        url: '/pages/index/index'
+      })
+    }else{
+      this.showToast('至少选择一项')
+    }
   }
 }

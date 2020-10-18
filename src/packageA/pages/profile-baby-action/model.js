@@ -33,5 +33,20 @@ export default {
       pageSize: 10
     }
     return request.post('/search/school', data).then(ret => ret)
+  },
+
+  async submit(officeName, yearState, yearDesc) {
+    let params = {
+      officeName,
+      yearState,
+      yearDesc
+    }
+    const ret = await request.postWithToken('/child/create', params)
+    const data = request.standardResponse(ret);
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
   }
 }

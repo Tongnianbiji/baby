@@ -27,4 +27,13 @@ export default class Presenter extends BaseComponent {
       this.showToast('请先登录')
     }
   }
+
+  //离开圈子
+  onLeaveCircle = async (cid)=>{
+    let res = await Model.leaveCircle(cid);
+    if(res){
+      this.showToast('已离开');
+      this.getCirclesList()
+    }
+  }
 }
