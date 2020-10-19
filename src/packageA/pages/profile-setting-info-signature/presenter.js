@@ -12,7 +12,12 @@ export default class ProfileSettingInfoSignaturePresenter extends BaseComponent 
 
   componentWillMount() { }
 
-  componentDidMount() { }
+  componentDidMount() { 
+    const {signature} = this.$router.params;
+    this.setState({
+      signature:signature
+    })
+  }
 
   componentWillUnmount() { }
 

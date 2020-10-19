@@ -11,7 +11,7 @@ import { ICONS } from '@common/constant'
 
 export default class SchoolsView extends Presenter {
   render() {
-    const {schoolsList,searchValue,showInput,inputValue,showLoading,isToBottom} = this.state;
+    const {schoolsList,searchValue,showInput,inputValue,showLoading,isToBottom,noResult} = this.state;
     return (
       <View className='school-vewport'>
         <View className='search-box'>
@@ -38,7 +38,7 @@ export default class SchoolsView extends Presenter {
           }
         </View>
         {
-           !!schoolsList.length && 
+           (!!schoolsList.length || noResult) && 
            <View className='submit-btn-wrap'>
             <View className={['submit-btn']} onClick={this.submitOtherSchool.bind(this)}>提交其他学校</View>
           </View>

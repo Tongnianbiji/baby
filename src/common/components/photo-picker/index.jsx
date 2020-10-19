@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import PhotoItem from './photo-item'
-
 import './index.scss'
 
 export default class PhotoPickerView extends Component {

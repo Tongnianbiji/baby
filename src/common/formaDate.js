@@ -2,8 +2,6 @@ export default function formatDate(date) {
   let newTime = Date.parse(new Date());//获得当前时间，转化时间戳
   let oldTime = Date.parse(date.replace(/-/g, '/'))
   let interval = (newTime - oldTime) / 1000;
-  console.log('new',newTime)
-  console.log('old',oldTime)
   if (interval < 0) {
     return "刚刚";
   }

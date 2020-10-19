@@ -27,12 +27,13 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
   componentDidHide() { }
 
   onClickNavTo(type) {
+    const {nickName,signature} = this.state;
     switch (type) {
       case 'nickname':
-        this.navto({ url: `/packageA/pages/profile-setting-info-nickname/index` })
+        this.navto({ url: `/packageA/pages/profile-setting-info-nickname/index?nickName=${nickName}` })
         break;
       case 'signature':
-        this.navto({ url: `/packageA/pages/profile-setting-info-signature/index` })
+        this.navto({ url: `/packageA/pages/profile-setting-info-signature/index?signature=${signature}` })
         break;
       default:
         break;

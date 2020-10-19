@@ -6,26 +6,12 @@ import './index.scss'
 
 export default class ProfileSettingInfoSignature extends Presenter {
 
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
-  config = {
-    navigationBarTitleText: '签名',
-    navigationBarBackgroundColor: '#FFFFFF',
-  }
-
   render() {
+    const {signature} = this.state;
     return (
       <View className='profile-setting-info-signature-viewport'>
         <View className='item-input-wrapper'>
-          <Textarea className='item-input width-100' placeholderClass='item-input-placeholder' placeholder='家有两只吞金兽' onInput={this.inputValue.bind(this)}></Textarea>
+          <Textarea className='item-input width-100' value={signature} placeholderClass='item-input-placeholder' placeholder='请输入' onInput={this.inputValue.bind(this)}></Textarea>
         </View>
         {/* <View className='item-label-wrapper'>
           一个月只能修改一次昵称，请谨慎修改

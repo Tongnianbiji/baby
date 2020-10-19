@@ -145,4 +145,11 @@ export default class Presenter extends BaseComponent {
       this.showToast('暂无我的回复')
     }
   }
+
+   //点击帖子详情
+   handlePostDetail(pid) {
+    this.navto({
+      url:'/packageB/pages/post-detail/index?pid='+pid
+    })
+  }
 }

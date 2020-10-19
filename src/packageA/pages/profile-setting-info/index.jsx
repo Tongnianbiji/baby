@@ -7,30 +7,8 @@ import PhotoPickerSetting from '@components/photo-picker-setting'
 
 export default class ProfileSettingInfo extends Presenter {
 
-  // componentWillMount() { }
-
-  // componentDidMount() { }
-
-  // componentWillUnmount() { }
-
-  // componentDidShow() { this.getProfileInfo()}
-
-  // componentDidHide() { }
-
-  config = {
-    navigationBarTitleText: '设置',
-    navigationBarBackgroundColor: '#FFFFFF',
-  }
-
   constructor(props){
     super(props);
-    // this.state = {
-    //   nickName:'小净妈妈',
-    //   signature:'家有两只吞金兽',
-    //   headImg:'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png',
-    //   theme:'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png',
-    //   canSave:false
-    // }
   }
 
   getHeadFile = (file)=>{

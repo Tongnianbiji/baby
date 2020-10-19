@@ -5,18 +5,16 @@ import { AtInput,AtModal, AtModalHeader, AtModalContent, AtModalAction} from 'ta
 import Preloading from '@components/preloading'
 import Presenter from './presenter'
 import './index.scss'
-import NoData from '@components/no-data'
 import { ICONS } from '@common/constant'
 
 
 export default class HospitalsView extends Presenter {
   render() {
-    const {hospitalsList,searchValue,showInput,inputValue,showLoading,isToBottom} = this.state;
+    const {hospitalsList,searchValue,showInput,inputValue,showLoading,isToBottom,noResult} = this.state;
     return (
       <View className='school-vewport'>
       <View className='search-box'>
         <View className='inp-wrapper'>
-          {/* <AtInput className='inp' autoFocus={true} clear={true} placeholder='请输入医院关键字' value={searchValue} onChange={this.handleChange.bind(this)} placeholderClass='placehoder' confirmType='search' onConfirm={this.doSearch.bind(this)} /> */}
           <Input className='inp' autoFocus={true} clear={true} placeholder='请输入医院关键字' value={searchValue} placeholderClass='placehoder' confirmType='search' onInput={this.doSearch.bind(this)} />
           <Image src={ICONS.SEARCH} className='search-icon' />
         </View>
@@ -39,7 +37,7 @@ export default class HospitalsView extends Presenter {
         }
       </View>
       {
-        !!hospitalsList.length &&
+        (!!hospitalsList.length || noResult) &&
         <View className='submit-btn-wrap'>
           <View className={['submit-btn']} onClick={this.submitOtherHospital.bind(this)}>提交其他医院</View>
         </View>

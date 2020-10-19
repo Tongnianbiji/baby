@@ -13,7 +13,8 @@ export default class Presenter extends BaseComponent {
       isToBottom:false,
       showLoading:true,
       postLock:false,
-      inputValue:''
+      inputValue:'',
+      noResult:false
     }
   }
   componentDidMount() {
@@ -51,7 +52,6 @@ export default class Presenter extends BaseComponent {
           hospitalsList:pre.hospitalsList.concat(items || [])
         }))
       }
-      console.log(total,this.state.hospitalsList.length)
       if (total <= this.state.hospitalsList.length) {
         this.setState({
           showLoading:false,
@@ -59,6 +59,9 @@ export default class Presenter extends BaseComponent {
         })
       }
     }else{
+      this.setState({
+        noResult:true
+      })
       this.showToast('没有查到相关医院')
     }
   }
@@ -82,6 +85,9 @@ export default class Presenter extends BaseComponent {
 
   async doSearch(e) {
     this.initList();
+    !e.target.value && this.setState({
+      noResult:false
+    })
     this.setState({
       searchValue:e.target.value
     })

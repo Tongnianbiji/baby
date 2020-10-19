@@ -26,6 +26,10 @@ export default class UserInfoItem extends Component {
     isAnwser: false,
     // 是否只显示发布时间, 不显示发贴人信息
     onlyReleaseTime: false,
+    // 是否为我的回复
+    isMyReply:false,
+    // 是否显示tools
+    isShowTools:true,
 
     //排名临时
     sortNum:1,
@@ -106,12 +110,12 @@ export default class UserInfoItem extends Component {
                       <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
                     }
                   </View>
-                  <Text className='times'>{(model.createTime && FormaDate(model.createTime)) || '2020-03-29 21:29:00'}</Text>
+                  <Text className='times'>{(model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</Text>
                 </View>
               </View>
             }
             {
-              this.props.onlyReleaseTime && <View className='release-time'>2020-03-29 21:29:00</View>
+              this.props.onlyReleaseTime && <View className='release-time'>{(model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</View>
             }
             {
               this.props.isAnwser ?
@@ -126,6 +130,9 @@ export default class UserInfoItem extends Component {
                   </View>
                 </View> : <Text className='content'>{model.title || '济阳三村幼儿园怎么样，算比较好的幼儿园吗?'}</Text>
             }
+            {
+              this.props.isMyReply && <View className='content'>原贴：{model.content || '济阳三村幼儿园怎么样，算比较好的幼儿园吗?'}</View>
+            }
           </View>
           <View className='tags'>
             {
@@ -134,20 +141,24 @@ export default class UserInfoItem extends Component {
                 <Text className='community-name'>{(model && model.userSnapshot && model.userSnapshot.city  && `${model.userSnapshot.city} ${model.userSnapshot.country}`) || '上海 新城'}</Text>
               </View>
             }
-            <View className='tips'>
-              <View className='views'>
-                <Image className='img' src={ICONS.PREVIEW} />
-                <Text>{model.views || 0}</Text>
+            {
+              this.props.isShowTools &&
+              <View className='tips'>
+                <View className='views'>
+                  <Image className='img' src={ICONS.PREVIEW} />
+                  <Text>{model.views || 0}</Text>
+                </View>
+                <View className='comment'>
+                  <Image className='img' src={ICONS.COMMENT} />
+                  <Text>{model.replys || 0}</Text>
+                </View>
+                <View className='favorite'>
+                  <Image className='img' onClick={this.handleFavorite.bind(this,model.pid)} src={model.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
+                  <Text>{model.markes || 0}</Text>
+                </View>
               </View>
-              <View className='comment'>
-                <Image className='img' src={ICONS.COMMENT} />
-                <Text>{model.replys || 0}</Text>
-              </View>
-              <View className='favorite'>
-                <Image className='img' onClick={this.handleFavorite.bind(this,model.pid)} src={model.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
-                <Text>{model.markes || 0}</Text>
-              </View>
-            </View>
+            }
+            
           </View>
         </View>
       </View>

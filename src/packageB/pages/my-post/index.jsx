@@ -3,8 +3,8 @@ import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import Presenter from './presenter'
-import PostItem from '@components/post-card'
 import Preloading from '@components/preloading'
+import PostItem from '@components/post-card'
 import NoData from '@components/no-data'
 
 import './index.scss'
@@ -26,7 +26,7 @@ export default class MyPostView extends Presenter {
               <View>
                 {
                   postData.map((item)=>{
-                    return (<PostItem model={item} closeRelease onlyReleaseTime />)
+                    return (<PostItem onCardClick={this.handlePostDetail.bind(this,item.pid)} model={item} closeRelease onlyReleaseTime />)
                   })
                 }
               <Preloading showLoading={showPostLoading} isToBottom={isPostToBottom}></Preloading>
@@ -39,7 +39,7 @@ export default class MyPostView extends Presenter {
              <View>
                {
                  replyData.map((item)=>{
-                   return (<PostItem model={item} closeRelease onlyReleaseTime />)
+                   return (<PostItem onCardClick={this.handlePostDetail.bind(this,item.entityId)} model={item} closeRelease onlyReleaseTime isMyReply isShowTools={false}/>)
                  })
                }
              <Preloading showLoading={showReplyLoading} isToBottom={isReplyToBottom}></Preloading>

@@ -12,7 +12,12 @@ export default class ProfileSettingInfoNickNamePresenter extends BaseComponent {
 
   componentWillMount() { }
 
-  componentDidMount() { }
+  componentDidMount() { 
+    const {nickName} = this.$router.params;
+    this.setState({
+      nickName:nickName
+    })
+  }
 
   componentWillUnmount() { }
 

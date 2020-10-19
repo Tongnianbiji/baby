@@ -71,7 +71,7 @@ export default class ProfilePresenter extends BaseComponent {
         break;
       case 'mypost'://帖子
         if(isLogin){
-          this.navto({ url: '/packageA/pages/post/index' })
+          this.navto({ url: '/packageB/pages/my-post/index' })
         }else{
           this.showToast('请先登录')
         }

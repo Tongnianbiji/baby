@@ -7,27 +7,13 @@ import staticDataStore from '@src/store/common/static-data'
 
 export default class ProfileSettingInfoNickName extends Presenter {
 
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
-  config = {
-    navigationBarTitleText: '昵称',
-    navigationBarBackgroundColor: '#FFFFFF',
-  }
-
   render() {
     const {isRegiste} = staticDataStore;
+    const {nickName} = this.state;
     return (
       <View className='profile-setting-info-nickname-viewport'>
         <View className='item-input-wrapper'>
-          <Input className='item-input width-100' placeholderClass='item-input-placeholder' placeholder='小静妈妈' onInput={this.inputValue.bind(this)}	
+          <Input className='item-input width-100' value={nickName} placeholderClass='item-input-placeholder' placeholder='请输入' onInput={this.inputValue.bind(this)}	
 ></Input>
         </View>
         {
