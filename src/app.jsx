@@ -68,7 +68,7 @@ class App extends BaseComponent {
 
   //判断是否是游客还是用户
   isRegiest = () => {
-    const {updateIsRegisteStatus} = staticDataStore;
+    const {updateIsRegisteStatus, updateIsLoginStatus} = staticDataStore;
     Taro.login().then(({ errMsg, code }) => {
       console.log('code', code);
       request.get('/user/checkregist',{code}).then((e)=>{
@@ -76,11 +76,13 @@ class App extends BaseComponent {
         
         if(regist){
           updateIsRegisteStatus(true);
-          this.storage.setToken(token)
+          updateIsLoginStatus(true);
+          this.storage.setToken(token);
           this.storage.setValue(USER_INFO_KEY_USERID, userId)
         }else{
           this.guideRegiste();
           updateIsRegisteStatus(false);
+          updateIsLoginStatus(false);
         }
       })
       //本地模拟

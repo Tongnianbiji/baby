@@ -1,11 +1,40 @@
 
 import BaseRequest from '../../../common/baseRequest'
 
-
 const request = new BaseRequest();
+import Taro, {getCurrentInstance} from '@tarojs/taro'
 export default {
   tabs: [{ title: '育儿' }, { title: '孕育' }, { title: '备孕' }],
-
+  gradeSelector:[
+    '幼儿园小班',
+    '幼儿园中班',
+    '幼儿园大班',
+    '小学一年级',
+    '小学二年级',
+    '小学三年级',
+    '小学四年级',
+    '小学五年级',
+    '小学六年级',
+    '初中一年级',
+    '初中二年级',
+    '初中三年级',
+    '高中一年级',
+    '高中二年级',
+    '高中三年级',
+    '大学一年级',
+    '大学二年级',
+    '大学三年级',
+    '大学四年级',
+    '研究生一年级',
+    '研究生二年级',
+    '研究生三年级',
+    '博士一年级',
+    '博士二年级',
+    '博士三年级',
+    '博士四年级',
+    '博士五年级',
+    '博士五年级以上'
+  ],
   childCreate() {
     const data = {
       officeName: '刘德华',
@@ -46,6 +75,11 @@ export default {
     if (data.code === 0) {
       return true
     } else {
+      Taro.showToast({
+        title:`${data.message}`,
+        icon:'none',
+        duration:2e3
+      })
       return false
     }
   }

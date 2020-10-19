@@ -42,7 +42,6 @@
     "mobx-react": "^6.1.4",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
-    "taro-dropdown": "^0.3.0",
     "taro-ui": "^3.0.0-alpha.3"
   },
   "devDependencies": {

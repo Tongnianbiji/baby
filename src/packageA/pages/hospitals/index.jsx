@@ -2,11 +2,12 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image, Button,Input } from '@tarojs/components'
 import { AtInput,AtModal, AtModalHeader, AtModalContent, AtModalAction} from 'taro-ui'
+import Preloading from '@components/preloading'
 import Presenter from './presenter'
 import './index.scss'
 import NoData from '@components/no-data'
 import { ICONS } from '@common/constant'
-import Preloading from '@components/preloading'
+
 
 export default class HospitalsView extends Presenter {
   render() {

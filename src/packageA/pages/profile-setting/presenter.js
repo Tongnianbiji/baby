@@ -1,12 +1,15 @@
 import Taro from '@tarojs/taro'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
+import Storage from '@common/localStorage'
+import staticData from '@src/store/common/static-data'
 
 export default class ProfileSettingPresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
     }
+    this.storage = Storage.getInstance()
   }
 
   componentWillMount() { }
@@ -20,9 +23,13 @@ export default class ProfileSettingPresenter extends BaseComponent {
   componentDidHide() { }
 
   onClickNavTo(type) {
+    const {updateIsLoginStatus} = staticData;
     switch (type) {
       case 'logout':
-        this.showToast('退出登陆')
+        this.storage.setToken('');
+        updateIsLoginStatus(false);
+        this.showToast('退出登陆');
+        this.navback();
         break;
       case 'edit':
         this.navto({ url: `/packageA/pages/profile-setting-info/index` })

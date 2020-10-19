@@ -14,9 +14,11 @@ export default class ProfileBabyDetailPresenter extends BaseComponent {
         yearDesc:{
           birthday: "2020-10-17",
           sex: "MALE",
-          school:'请选择'
+          school:'请选择',
+          grade:'请选择'
         }
-      }
+      },
+      gradeSelector:Model.gradeSelector
     }
   }
 
@@ -54,6 +56,14 @@ export default class ProfileBabyDetailPresenter extends BaseComponent {
       url:'/packageA/pages/profile-setting-baby-nickname/index?babyNickname=' + this.state.baby.officeName
     })
   }
+  //性别选择
+  selectBabySex =(sex)=>{
+    let {baby} = this.state;
+    baby.yearDesc.sex = sex;
+    this.setState({
+      baby:baby
+    })
+  }
 
   //选择学校
   selectBabySchool = ()=>{
@@ -66,6 +76,15 @@ export default class ProfileBabyDetailPresenter extends BaseComponent {
    onBornDateChange =(e)=>{
     let {baby} = this.state;
     baby.yearDesc.birthday = e.target.value;
+    this.setState({
+      baby:baby
+    })
+  }
+
+  //选择年级
+  onGradeChange = (e)=>{
+    let {baby,gradeSelector} = this.state;
+    baby.yearDesc.grade = gradeSelector[e.target.value];
     this.setState({
       baby:baby
     })

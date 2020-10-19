@@ -67,7 +67,7 @@ export default class Presenter extends BaseComponent {
   }
 
   authLogin(code, phone, iv) {
-    const { isRegiste } = staticDataStore;
+    const { isRegiste, updateIsLoginStatus } = staticDataStore;
     this.setState({ loging: true })
     Model.getToken({
       oauthCode: code,
@@ -81,6 +81,7 @@ export default class Presenter extends BaseComponent {
         this.storage.setToken(ret.token)
         this.storage.setValue(USER_INFO_KEY, ret.profile)
         if (isRegiste) {
+          updateIsLoginStatus(true)
           this.return2caller()
         } else {
           Taro.navigateTo({
@@ -129,7 +130,7 @@ export default class Presenter extends BaseComponent {
   }
 
   doLogin = () => {
-    const { isRegiste } = staticDataStore;
+    const { isRegiste, updateIsLoginStatus } = staticDataStore;
     const { phoneNum, verifyCode, loging } = this.state
     if (this.verifyCodeLogin() && !loging) {
       Model.getToken({
@@ -143,6 +144,7 @@ export default class Presenter extends BaseComponent {
           this.storage.setToken(ret.token)
           this.storage.setValue(USER_INFO_KEY, ret.profile)
           if (isRegiste) {
+            updateIsLoginStatus(true)
             this.return2caller()
           } else {
             Taro.navigateTo({

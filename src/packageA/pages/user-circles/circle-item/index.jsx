@@ -10,12 +10,12 @@ export default class CircleItem extends Component {
     onSubscribe:()=>{}
   }
 
-  subscribe =(cid)=>{
-    this.props.onSubscribe(cid)
+  subscribe =(model)=>{
+    this.props.onSubscribe(model)
   }
 
   render() {
-    const { model: { name, description, imgUrl, isSubscribe, subscribe, posts, questions,cid } } = this.props;
+    const {model, model: { name, description, imgUrl, isSubscribe, subscribe, posts, questions,cid } } = this.props;
     return (
       <View className='comp-circle-item'>
         <View className='infos'>
@@ -23,9 +23,9 @@ export default class CircleItem extends Component {
             <Image src={imgUrl}></Image>
           </View>
           <View className='title'>{name}</View>
-          <View className='btn' onClick={this.subscribe.bind(this,cid)}>
+          <View className='btn' onClick={this.subscribe.bind(this,model)}>
             {
-              isSubscribe ? <View className='btn-join' style="opacity:.5">已加入圈子</View> : <View className='btn-join'>加入圈子</View>
+              !isSubscribe ? <View className='btn-join' style="opacity:.5">加入圈子</View> : <View className='btn-join'>已加入圈子</View>
             }
           </View>
         </View>

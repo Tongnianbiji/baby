@@ -19,6 +19,8 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
       planHospital:'',
       preBornDate:'请选择',
       hType:1,
+      grade:'请选择',
+      gradeSelector:Model.gradeSelector
     }
   }
 
@@ -103,6 +105,14 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
     this.isCanSave();
   }
 
+   //选择年级
+   onGradeChange = (e)=>{
+    let {gradeSelector} = this.state;
+    this.setState({
+      grade:gradeSelector[e.target.value]
+    })
+  }
+
   //预产期
   onPreBornDateChange =(e)=>{
     this.setState({
@@ -132,20 +142,26 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
   }
   //确认提交
   onClickForCreate = async ()=>{
-    let {babyNickname,babySchool,babyBorn,sex,yearState,tabsCurrent, checkHospital,planHospital,preBornDate} = this.state;
+    let {babyNickname,babySchool,babyBorn,sex,yearState,tabsCurrent, checkHospital,planHospital,preBornDate,grade} = this.state;
     if(this.isCanSave()){
       switch(tabsCurrent){
         case 0:
-          await Model.submit(babyNickname,yearState,{sex,birthday:babyBorn,school:babySchool});
-          this.navback()
+          let res1 = await Model.submit(babyNickname,yearState,{sex,birthday:babyBorn,school:babySchool,grade});
+          if(res1){
+            this.navback()
+          }
           break;
         case 1:
-          await Model.submit(babyNickname='孕育',yearState,{birthday:preBornDate,checkHospital,planHospital});
-          this.navback()
+          let res2 = await Model.submit(babyNickname='孕育',yearState,{birthday:preBornDate,checkHospital,planHospital});
+          if(res2){
+            this.navback()
+          }
           break;
         case 2:
-          await Model.submit(babyNickname='备孕',yearState,{birthday:babyBorn});
-          this.navback()
+          let res3 = await Model.submit(babyNickname='备孕',yearState,{birthday:babyBorn});
+          if(res3){
+            this.navback()
+          }
           break;
       }
     } 

@@ -1,49 +1,60 @@
 import Taro, { Component } from '@tarojs/taro'
 import React from 'react'
-import { View, Image } from '@tarojs/components'
+import { View, Image, Text } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
+import { ICONS } from '@common/constant'
+
 
 export default class Profile extends Presenter {
-  config = {
-    navigationBarTitleText: '我的',
-  }
-
   render() {
-    const { profileInfo } = this.state;
+    const { profileInfo,isLogin } = this.state;
     const ICON_ARROW = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png';
     return (
       <View className='profile-viewport'>
         <View className='profile-top'>
-          <View className='top-wrapper'>
-            <View className='left-container'>
-              <View >
-                <Image className='avatar' src={profileInfo.headImg} />
+          {
+            isLogin ?
+            <View>
+                <View className='top-wrapper'>
+                <View className='left-container'>
+                  <View >
+                    <Image className='avatar' src={profileInfo.headImg} />
+                  </View>
+                </View>
+                <View className='right-container' onClick={this.onClickNavTo.bind(this, 'profile-home')}>
+                  <View className='right-txt'>个人主页</View>
+                  <View className='right-icon'></View>
+                </View>
+              </View>
+              <View className='number-wrapper'>
+                <View className='number' onClick={this.onClickNavTo.bind(this, 'fans')}>
+                  <View className='number-value'>{profileInfo.funs || 0}</View>
+                  <View className='number-title'>粉丝</View>
+                </View>
+                <View className='number' onClick={this.onClickNavTo.bind(this, 'circle')}>
+                  <View className='number-value'>{profileInfo.circle || 0}</View>
+                  <View className='number-title'>圈子</View>
+                </View>
+                <View className='number' onClick={this.onClickNavTo.bind(this, 'focus')}>
+                  <View className='number-value'>{profileInfo.flow || 0}</View>
+                  <View className='number-title'>关注</View>
+                </View>
+                <View className='number' onClick={this.onClickNavTo.bind(this, 'collects-message')}>
+                  <View className='number-value'>{`${profileInfo.marked || 0}/${profileInfo.stared || 0}`}</View>
+                  <View className='number-title'>收赞/获赞</View>
+                </View>
               </View>
             </View>
-            <View className='right-container' onClick={this.onClickNavTo.bind(this, 'profile-home')}>
-              <View className='right-txt'>个人主页</View>
-              <View className='right-icon'></View>
+            : 
+            <View>
+              <View className='login' onClick={this.login.bind(this)}>
+                <Image src={ICONS.USER}/>
+                <Text>请登录</Text>
+              </View>
             </View>
-          </View>
-          <View className='number-wrapper'>
-            <View className='number' onClick={this.onClickNavTo.bind(this, 'fans')}>
-              <View className='number-value'>{profileInfo.funs || 0}</View>
-              <View className='number-title'>粉丝</View>
-            </View>
-            <View className='number' onClick={this.onClickNavTo.bind(this, 'circle')}>
-              <View className='number-value'>{profileInfo.circle || 0}</View>
-              <View className='number-title'>圈子</View>
-            </View>
-            <View className='number' onClick={this.onClickNavTo.bind(this, 'focus')}>
-              <View className='number-value'>{profileInfo.flow || 0}</View>
-              <View className='number-title'>关注</View>
-            </View>
-            <View className='number' onClick={this.onClickNavTo.bind(this, 'collects-message')}>
-              <View className='number-value'>{`${profileInfo.marked || 0}/${profileInfo.stared || 0}`}</View>
-              <View className='number-title'>收赞/获赞</View>
-            </View>
-          </View>
+          }
+          
         </View>
         <View className='profile-body'>
           <View className='entry-wrapper'>

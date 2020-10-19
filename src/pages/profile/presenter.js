@@ -2,17 +2,25 @@ import Taro from '@tarojs/taro'
 import BaseComponent from '../../common/baseComponent'
 import Model from './model'
 import { ERR_MSG } from '../../common/constant';
+import staticData from '@src/store/common/static-data'
 
 export default class ProfilePresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      profileInfo: {}
+      profileInfo: {},
+      isLogin:false
     }
   }
 
   componentDidMount() {
     this.getProfile();
+  }
+  componentDidShow(){
+    const {isLogin} = staticData
+    this.setState({
+      isLogin:isLogin
+    })
   }
 
   getProfile() {
@@ -29,12 +37,18 @@ export default class ProfilePresenter extends BaseComponent {
     })
   }
 
+  login = ()=>{
+    this.navto({
+      url:'/pages/login/index'
+    })
+  }
+
   onClickNavTo(type) {
+    const {isLogin} = staticData
     switch (type) {
       case 'profile-home'://个人主页
         this.navto({ url: '/packageA/pages/profile-home/index' })
         break;
-
       case 'fans'://粉丝
         this.navto({ url: '/packageA/pages/fans/index' })
         break;
@@ -44,30 +58,55 @@ export default class ProfilePresenter extends BaseComponent {
       case 'focus'://关注
          this.navto({ url: '/packageA/pages/attentions/index' })
         break;
-      case 'collects'://收赞/获赞
-        this.navto({ url: '/packageA/pages/collects/index' })
-        break;
+     
       case 'collects-message'://收赞/点赞
         this.navto({ url: '/packageA/pages/collects-message/index' })
         break;
-      case 'post'://帖子
-        this.navto({ url: '/packageA/pages/post/index' })
+      case 'collects'://收赞/获赞
+        if(isLogin){
+          this.navto({ url: '/packageA/pages/collects/index' })
+        }else{
+          this.showToast('请先登录')
+        }
+        break;
+      case 'mypost'://帖子
+        if(isLogin){
+          this.navto({ url: '/packageA/pages/post/index' })
+        }else{
+          this.showToast('请先登录')
+        }
         break;
       case 'question'://问答
-        this.navto({ url: '/packageA/pages/qa-list/index' })
+        if(isLogin){
+          this.navto({ url: '/packageA/pages/qa-list/index' })
+        }else{
+          this.showToast('请先登录')
+        }
         break;
       case 'family'://我的家
-        this.navto({ url: '/packageA/pages/profile-family/index' })
+        if(isLogin){
+          this.navto({ url: '/packageA/pages/profile-family/index' })
+        }else{
+          this.showToast('请先登录')
+        }
         break;
 
       case 'baby'://宝宝信息
-        this.navto({ url: '/packageA/pages/profile-baby/index' })
+        if(isLogin){
+          this.navto({ url: '/packageA/pages/profile-baby/index' })
+        }else{
+          this.showToast('请先登录')
+        }
         break;
       case 'share'://分享
         this.navto({ url: '/packageA/pages/profile-share/index' })
         break;
       case 'setting'://设置
-        this.navto({ url: '/packageA/pages/profile-setting/index' })
+        if(isLogin){
+          this.navto({ url: '/packageA/pages/profile-setting/index' })
+        }else{
+          this.showToast('请先登录')
+        }
         break;
       case 'about'://关于我们
         this.navto({ url: '/packageA/pages/profile-about/index' })

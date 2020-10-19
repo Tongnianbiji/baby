@@ -15,6 +15,7 @@ class Data {
   @observable hospital='';
   @observable babyList='';
   @observable babyNickname='';
+  @observable isLogin=false;
 
   @action updateCurrentCity = (currentCity)=>{
     this.currentCity = currentCity
@@ -46,6 +47,10 @@ class Data {
 
   @action updateBabyNickname= (babyNickname)=>{
     this.babyNickname = babyNickname
+  }
+
+  @action updateIsLoginStatus= (status)=>{
+    this.isLogin = status
   }
 
   @action getTagList = async (cid) => {

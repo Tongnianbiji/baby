@@ -7,7 +7,7 @@ import './index.scss'
 
 export default class ProfileBabyDetail extends Presenter {
   render() {
-    const {baby:{officeName,yearDesc:{birthday,sex,school}}} = this.state;
+    const {baby:{officeName,yearDesc:{birthday,sex,school,grade='请选择'}},gradeSelector} = this.state;
     return (
       <View className='profile-baby-detail-viewport'>
         <View className='item' onClick={this.modifyBabyNickname.bind(this)}>
@@ -28,7 +28,7 @@ export default class ProfileBabyDetail extends Presenter {
             <RadioGroup className='width-100 radio-group'>
               {
                 GENDER_LIST.map((item, index) => {
-                  return <Radio key={index} color='#ff473a' checked={item.value === sex} value={item.id}>{item.name}</Radio>
+                  return <Radio onClick={this.selectBabySex.bind(this,item.value)} key={index} color='#ff473a' checked={item.value === sex} value={item.id}>{item.name}</Radio>
                 })
               }
             </RadioGroup>
@@ -39,7 +39,6 @@ export default class ProfileBabyDetail extends Presenter {
             <View className='item-txt'>宝宝出生年月</View>
           </View>
           <View className='item-value'>
-            {/* <View className='item-txt'>{birthday}</View> */}
             <Picker mode='date' value={birthday} onChange={this.onBornDateChange.bind(this)} className='item-txt'>
               <View>
                 {birthday}
@@ -53,7 +52,11 @@ export default class ProfileBabyDetail extends Presenter {
             <View className='item-txt'>宝宝所在年级</View>
           </View>
           <View className='item-value'>
-            <View className='item-txt'>请选择</View>
+            <Picker value={grade} range={gradeSelector} onChange={this.onGradeChange.bind(this)} className='item-txt'>
+              <View>
+                {grade}
+              </View>
+            </Picker>
             <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>

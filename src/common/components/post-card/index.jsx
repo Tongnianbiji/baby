@@ -1,9 +1,10 @@
 import Taro from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
+import FormaDate from '@common/formaDate'
 import { ICONS } from '../../constant'
 import './styles.scss'
-import FormaDate from '@common/formaDate'
+
 
 export default class UserInfoItem extends Component {
   static defaultProps = {
@@ -130,7 +131,7 @@ export default class UserInfoItem extends Component {
             {
               this.props.countryAble &&
               <View className='community-area'>
-                <Text className='community-name'>上海 新城</Text>
+                <Text className='community-name'>{(model && model.userSnapshot && model.userSnapshot.city  && `${model.userSnapshot.city} ${model.userSnapshot.country}`) || '上海 新城'}</Text>
               </View>
             }
             <View className='tips'>

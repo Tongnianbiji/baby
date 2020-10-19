@@ -7,14 +7,11 @@ import { observer, inject } from 'mobx-react'
 // import UserInfoItem from './components/user-info-item'
 import UserInfoItem from '../../common/components/post-card'
 import AttentionCircle from './components/attention-circle'
-
-// scss
-import './index.scss'
-
-// images
 import iconSearch from '../../assets/img/icon-search.png'
 import arrowDown from '../../assets/img/arrow-down.png'
 import iconRing from '../../assets/img/icon-ring.png'
+
+import './index.scss'
 
 @inject('staticDataStore')
 @observer

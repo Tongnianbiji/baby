@@ -6,12 +6,12 @@ import SubjectTabs from '../subject-tabs'
 import SliderTab from '../../../../common/components/ui-slider-tab'
 import CustomCircle from '../custom-circle'
 import { Provider } from 'mobx-react'
-import './type-tabs.scss'
 import { observer, inject } from 'mobx-react'
 import ScrollViewList from '@common/components/scrollViewList'
 import PostCard from '@common/components/post-card'
 import UserCard from '@common/components/user-card'
 import QACard from '../qa-card'
+import './type-tabs.scss'
 
 const TypeTabs = [
   { title: '精华' },

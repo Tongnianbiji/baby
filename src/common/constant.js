@@ -10,6 +10,7 @@ import EDIT from '@ass/img/edit.png'
 import IMG from '@ass/img/img.png'
 import NODATA from '@ass/img/no-data.png'
 import DELETE from '@ass/img/delete1.png'
+import USER from '@ass/img/user.png'
 
 export const ICONS = {
   SHARE_BTN_GRAY: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/share-c.png',
@@ -50,7 +51,8 @@ export const ICONS = {
   EDIT:EDIT,
   IMG:IMG,
   NODATA:NODATA,
-  DELETE:DELETE
+  DELETE:DELETE,
+  USER:USER
 }
 
 

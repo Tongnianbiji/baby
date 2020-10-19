@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component,Config } from 'react'
 import { View, Text, Button, Input, Image } from '@tarojs/components'
 import Presenter from './presenter'
 import './style.scss'
 
 export default class Login extends Presenter {
-  config = {
+  Config = {
     navigationBarTitleText: '登录'
   }
   render() {

@@ -31,7 +31,7 @@ export default class ProfileBabyAction extends Presenter {
   }
 
   renderParenting() {
-    const {isHavebabyInfo, babyNickname, babySchool,babyBorn,sex} = this.state;
+    const {isHavebabyInfo, babyNickname, babySchool,babyBorn,sex,grade,gradeSelector} = this.state;
     return (
       <View>
         <View className='item' onClick={this.createBabyNickname.bind(this)}>
@@ -75,7 +75,11 @@ export default class ProfileBabyAction extends Presenter {
             <View className='item-txt'>宝宝所在年级</View>
           </View>
           <View className='item-value'>
-            <View className='item-txt'>请选择</View>
+            <Picker value={grade} range={gradeSelector} onChange={this.onGradeChange.bind(this)} className='item-txt'>
+                <View>
+                  {grade}
+                </View>
+            </Picker>
             <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>
