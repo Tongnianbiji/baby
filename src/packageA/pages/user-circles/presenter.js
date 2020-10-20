@@ -62,4 +62,10 @@ export default class Presenter extends BaseComponent {
     circlesList:circlesList
    })
   }
+
+  getCircleDetail =(model)=>[
+    this.navto({
+      url:'/packageA/pages/circle-detail/index?cid=' + model.cid
+    })
+  ]
 }

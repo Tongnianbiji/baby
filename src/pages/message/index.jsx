@@ -25,7 +25,7 @@ export default class Index extends Presenter {
               </View>
               <View className='entry' onClick={this.toCollect}>
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-like.png' className='icon' />
-                <Text className='txt'>收藏/获赞</Text>
+                <Text className='txt'>被收藏/获赞</Text>
               </View>
               <View className='entry' onClick={this.toPostReply}>
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-posts.png' className='icon' />

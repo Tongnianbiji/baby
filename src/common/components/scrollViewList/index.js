@@ -30,7 +30,7 @@ export default class ScrollViewList extends Component {
       height: centerHeight
     }
     return (
-      <View style={{minHeight:'200px'}}>
+      <View style={{minHeight:'200px',backgroundColor:'#f5f5f5'}}>
         <ScrollView
           scrollY
           scrollWithAnimation

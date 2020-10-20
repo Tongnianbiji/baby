@@ -8,22 +8,35 @@ export default class UserInfoCard extends Component {
 
   static defaultProps = {
     model:{},
+    tip:'关注了你',
+    onSubscr:()=>{},
+    onGetUserDetail:()=>{},
   }
 
   constructor(props) {
     super(props)
   }
 
+  handleSubscr = (model,e)=>{
+    e.stopPropagation();
+    this.props.onSubscr(model)
+  }
+
+  handleGetUserDetail = (model)=>{
+    this.props.onGetUserDetail(model)
+  }
+
+
   render() {
-    const { circle ,flow, funs,marked,stared} = this.props.model;
+    const { tip,model,model:{circle ,flow, funs,marked,stared,createDt}} = this.props;
     return (
-      <View className='ui-user-info-card'>
+      <View className='ui-user-info-card' onClick={this.handleGetUserDetail.bind(this,model)}>
         <View className='avatar-wrapper'>
           <View className='avatar'></View>
         </View>
         <View className='info-wrapper'>
           <View className='name-area'>
-            <Text className='name'>张三李四王二</Text>
+            <Text className='name'>{model.userSnapshot && model.userSnapshot.nickName && model.userSnapshot.nickName || '张三'}</Text>
             <Image className='sex' src={ICONS.FEMALE_ICON}></Image>
             <View className='tags-warpper'>
               <View className='tag'>大宝:两岁一个月</View>
@@ -36,7 +49,9 @@ export default class UserInfoCard extends Component {
             <View className='num'>发布: {circle}</View>
             <View className='num'>收藏: {flow}</View>
           </View>
+          <View className='sub-title'>{`${createDt} ${tip}`}</View>
         </View>
+        <View onClick={this.handleSubscr.bind(this,model)} className={`btn-attention${!model.isSubscr ? ' attentioned' : ''}`}>{model.isSubscr  ? '已关注' : '关注'}</View>
       </View>
     )
   }

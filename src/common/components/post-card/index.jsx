@@ -30,12 +30,15 @@ export default class UserInfoItem extends Component {
     isMyReply:false,
     // 是否显示tools
     isShowTools:true,
+    //是否需要点赞
+    needLike:false,
 
     //排名临时
     sortNum:1,
 
     cardClick: () => { },
-    onHandleFavorite: () => { }
+    onHandleFavorite: () => { },
+    onHandleLike:()=>{}
   }
 
   cardClick = () => {
@@ -43,8 +46,13 @@ export default class UserInfoItem extends Component {
   }
 
   handleFavorite = (pid,e) => {
-    e.stopPropagation()
+    e.stopPropagation();
     this.props.onHandleFavorite(pid)
+  }
+
+  handleLike = (model,e)=>{
+    e.stopPropagation();
+    this.props.onHandleLike(model)
   }
 
   render() {
@@ -56,9 +64,9 @@ export default class UserInfoItem extends Component {
         <View className='main-wrapper'>
           <View onClick={this.cardClick}>
             {
-              !this.props.closeRelease &&
+              
               <View className='release-info'>
-                <Text className='release'>李庭语妈妈发布了贴子 | 2天前</Text>
+                 {!this.props.closeRelease && <Text className='release'>李庭语妈妈发布了贴子 | 2天前</Text>}
                 <View className='info'>
                   {
                     this.props.needDistance && <View className='distance-info'>0.9km</View>
@@ -98,20 +106,23 @@ export default class UserInfoItem extends Component {
                     </View>
                     <View className='is-not-text'>
                       {
-                        model.userSnapshot && model.userSnapshot.customLevel.length ?
+                        model.userSnapshot && model.userSnapshot.customLevel && model.userSnapshot.customLevel.length ?
                           model.userSnapshot.customLevel.map((item) => {
                             return <View className='years-old'>{item.desc}</View>
                           })
                           : null
                       }
                     </View>
-                    {
+                    {/* {
                       this.props.closeRelease && this.props.needShared &&
                       <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
-                    }
+                    } */}
                   </View>
                   <Text className='times'>{(model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</Text>
                 </View>
+                {
+                  this.props.needLike && <Image onClick={this.handleLike.bind(this,model)} className='btn-like' src={ICONS.LIKE} alt=''></Image>
+                }
               </View>
             }
             {

@@ -59,8 +59,9 @@ export default class ProfilePresenter extends BaseComponent {
          this.navto({ url: '/packageA/pages/attentions/index' })
         break;
      
-      case 'collects-message'://收赞/点赞
-        this.navto({ url: '/packageA/pages/collects-message/index' })
+      case 'collects-message'://被收赞/点赞
+        this.showToast('暂不支持跳转')
+        //this.navto({ url: '/packageA/pages/collects-message/index' })
         break;
       case 'collects'://收赞/获赞
         if(isLogin){

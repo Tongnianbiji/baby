@@ -14,9 +14,10 @@ export default class NoticeCard extends Component {
   }
 
   renderPost() {
+    const {data:{title}} = this.props
     return (
       <View>
-        <View className='content-txt'>同问</View>
+        <View className='content-txt'>{title}</View>
         <View className='refrence'>济阳三村幼儿园什么时候开学</View>
       </View>
     )
@@ -25,13 +26,13 @@ export default class NoticeCard extends Component {
   renderQA() {
     return (
       <View className='qa-wrapper'>
-        <View className='anwser'>
+        {/* <View className='anwser'>
           <View className='icon'>答</View>
           <View className='txt'>张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三</View>
-        </View>
+        </View> */}
         <View className='questions'>
           <View className='icon'>问</View>
-          <View className='txt'>济阳三村幼儿园什么时候开学</View>
+          <View className='txt'>{title}</View>
         </View>
       </View>
     )

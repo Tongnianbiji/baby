@@ -1,6 +1,4 @@
 import Request from '@common/baseRequest'
-import Taro, {getCurrentInstance} from '@tarojs/taro'
-
 const req = new Request()
 
 export default {

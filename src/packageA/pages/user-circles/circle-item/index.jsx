@@ -7,17 +7,22 @@ export default class CircleItem extends Component {
 
   static defaultProps = {
     model: {},
-    onSubscribe:()=>{}
+    onSubscribe:()=>{},
+    onGetCircleDetail:()=>{}
   }
 
-  subscribe =(model)=>{
+  subscribe =(model,e)=>{
+    e.stopPropagation();
     this.props.onSubscribe(model)
+  }
+  getCircleDetail = (model)=>{
+    this.props.onGetCircleDetail(model)
   }
 
   render() {
     const {model, model: { name, description, imgUrl, isSubscribe, subscribe, posts, questions,cid } } = this.props;
     return (
-      <View className='comp-circle-item'>
+      <View className='comp-circle-item' onClick={this.getCircleDetail.bind(this,model)}>
         <View className='infos'>
           <View className='avatar'>
             <Image src={imgUrl}></Image>

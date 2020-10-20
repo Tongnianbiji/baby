@@ -80,12 +80,12 @@ export default class Presenter extends BaseComponent {
 
   //获取我的帖子数据
   getMyPostData = async ()=>{
-    const {postData} = this.state;
+    const {postData,postPageNum} = this.state;
     const {userId} = this.getUserInfo();
     this.setState({
       postLock:true
     })
-    let res = await Model.getPostData(userId);
+    let res = await Model.getPostData(userId,postPageNum);
     this.setState({
       postLock:false
     })
@@ -114,12 +114,12 @@ export default class Presenter extends BaseComponent {
 
   //获取我的回复数据
   getMyReplyData = async ()=>{
-    const {replyData} = this.state;
+    const {replyData,replyPageNum} = this.state;
     const {userId} = this.getUserInfo();
     this.setState({
       postLock:true
     })
-    let res = await Model.getReplyData(userId);
+    let res = await Model.getReplyData(userId,replyPageNum);
     this.setState({
       postLock:false
     })

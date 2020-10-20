@@ -8,7 +8,8 @@
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  position: relative;
   .main-wrapper {
     padding: 24px;
     .release-info {
@@ -23,6 +24,9 @@
       .info {
         @extend .flex-center;
         .btn-share {
+          position: absolute;
+          right: 24px;
+          top:24px;
           width: 32px;
           height: 32px;
         }
@@ -36,6 +40,14 @@
     .user-info {
       display: flex;
       padding-bottom: 29px;
+      position: relative;
+      .btn-like{
+        position: absolute;
+        right: 0;
+        top:0;
+        width: 32px;
+        height: 32px;
+      }
       .order {
         width: 30px;
         padding-right: 16px;

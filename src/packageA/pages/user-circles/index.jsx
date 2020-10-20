@@ -19,7 +19,7 @@ export default class CirclesView extends Presenter {
           circlesList.length ?
           circlesList.map((item,n) => {
             return (
-             <CircleItem onSubscribe={this.onUpdateCircle.bind(this)} key={n} model={item}></CircleItem>
+             <CircleItem onGetCircleDetail={this.getCircleDetail.bind(this)} onSubscribe={this.onUpdateCircle.bind(this)} key={n} model={item}></CircleItem>
             )
           }) : <NoData></NoData>
         }
