@@ -35,7 +35,7 @@ export default class CollectsView extends Presenter {
              <View>
                {
                  likeData.map((item)=>{
-                   return (<PostCard onHandleLike={this.handleLike.bind(this)} onCardClick={this.handlePostDetail.bind(this,item.pid)} model={item} closeRelease needLike/>)
+                   return (<PostCard onHandleLike={this.handleLike.bind(this)} onCardClick={this.handlePostDetail.bind(this,item.pid)} model={item} isShowTools={false} isMyReply closeRelease needLike/>)
                  })
                }
              <Preloading showLoading={showLikeLoading} isToBottom={isLikeToBottom}></Preloading>

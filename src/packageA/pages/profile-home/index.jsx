@@ -9,7 +9,7 @@ import './index.scss'
 
 export default class ProfileHome extends Presenter {
   render() {
-    const { tabs, tabsCurrent,userInfo:{nickName,headImg,sex,district,child,signature,flow,funs,circle,marked,stared,subscr} } = this.state;
+    const { tabs, tabsCurrent,isMySelf,userInfo:{nickName,headImg,sex,district,child,signature,flow,funs,circle,marked,stared,subscr}, activeData, postData, questionData } = this.state;
     let isChildThanTwo = false;
     let childs = [];
     for (let a in child){
@@ -25,20 +25,29 @@ export default class ProfileHome extends Presenter {
                 <Image src={headImg}></Image>
               </View>
             </View>
-            <View className='right-container'>
-              <View onClick={this.onSubscr.bind(this)}>
-                {
-                  subscr ? <View className='ops focus' style="opacity:.5">已关注</View> : <View className='ops focus'>关注</View>
-                }
+            {
+              isMySelf ? 
+              <View className='right-container'>
+                <View className='ops msg' onClick={this.editProfile.bind(this)}>编辑资料</View>
               </View>
-             
-              <View className='ops msg' onClick={this.goToIM.bind(this)}>私信</View>
-              <View className='more' onClick={this.setProfile.bind(this)}>
-                更多
-                <Image src={ICONS.ARROW_RIGHT_C}></Image>
+              :
+              <View>
+                <View className='right-container'>
+                  <View onClick={this.onSubscr.bind(this)}>
+                    {
+                      subscr ? <View className='ops focus' style="opacity:.5">已关注</View> : <View className='ops focus'>关注</View>
+                    }
+                  </View>
+                
+                  <View className='ops msg' onClick={this.goToIM.bind(this)}>私信</View>
+                  <View className='more' onClick={this.setProfile.bind(this)}>
+                    更多
+                    <Image src={ICONS.ARROW_RIGHT_C}></Image>
+                  </View>
+                </View>
               </View>
-              
-            </View>
+            }
+            
           </View>
           <View className='member-wrapper'>
     <View className='nick'>{nickName}</View>
@@ -109,42 +118,51 @@ export default class ProfileHome extends Presenter {
             <AtTabs className='tabs' current={tabsCurrent} tabList={tabs} swipeable={false} onClick={this.onClickForTabs.bind(this)}>
 
               <AtTabsPane current={tabsCurrent} index={0}>
-                <View className='new-info'>
-                  共3条内容
-                </View>
+                {
+                  !!activeData.length && 
+                  <View className='new-info'>
+                    共{activeData.length}条内容
+                  </View>
+                }
                 <View>
                   {
-                    [1, 2, 3].map(key => {
+                    activeData.map((item,index) => {
                       return (
-                        <UserInfoItem key={key} />
+                        <UserInfoItem key={index} model={item}/>
                       )
                     })
                   }
                 </View>
               </AtTabsPane>
               <AtTabsPane current={tabsCurrent} index={1}>
-                <View className='new-info'>
-                  共5条内容
-                </View>
+                {
+                  !!postData.length && 
+                  <View className='new-info'>
+                    共{postData.length}条内容
+                  </View>
+                }
                 <View>
                   {
-                    [1, 2, 3, 4, 5].map(key => {
+                    postData.map((item,index) => {
                       return (
-                        <UserInfoItem key={key} />
+                        <UserInfoItem key={index} model={item}/>
                       )
                     })
                   }
                 </View>
               </AtTabsPane>
               <AtTabsPane current={tabsCurrent} index={2}>
-                <View className='new-info'>
-                  共2条内容
-                </View>
+                {
+                  !!questionData.length && 
+                  <View className='new-info'>
+                    共{questionData.length}条内容
+                  </View>
+                }
                 <View>
                   {
-                    [1, 2].map(key => {
+                    questionData.map((item,index) => {
                       return (
-                        <UserInfoItem key={key} />
+                        <UserInfoItem key={index} model={item}/>
                       )
                     })
                   }

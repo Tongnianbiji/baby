@@ -5,10 +5,29 @@ export default class Presenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tabList: [{ title: '提问' }, { title: '回答' }],
-      currentTab: 0,
+      tabList: [{ title: '我的提问' }, { title: '我的回答' }],
+      currentTab: 1,
       questionData:[],
-      answerData:[1],
+      answerData:[
+        {
+          cName: "备孕交流",
+          cid: 10397889,
+          createTime: "2020-10-19 11:21:42",
+          files: [],
+          isMark: false,
+          markes: 0,
+          qid: 8,
+          replys: 0,
+          tags: [],
+          title: "再测试一下",
+          uid: "4a836531a49cf9170ed75dd24b488f78",
+          unReads: 0,
+          userSnapshot:{
+            city: "上海",
+            country: "浦东",
+          }
+        }
+      ],
       postLock:false,
       isQuestionToBottom:false,
       isAnswerToBottom:false,
@@ -108,7 +127,7 @@ export default class Presenter extends BaseComponent {
         })
       }
     }else{
-      this.showToast('暂无我的提问')
+      // this.showToast('暂无我的提问')
     }
   }
 
@@ -142,7 +161,7 @@ export default class Presenter extends BaseComponent {
         })
       }
     }else{
-      this.showToast('暂无我的回答')
+      // this.showToast('暂无我的回答')
     }
   }
 

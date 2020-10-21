@@ -108,7 +108,7 @@ export default class Presenter extends BaseComponent {
         })
       }
     }else{
-      this.showToast('暂无我的帖子')
+      // this.showToast('暂无我的帖子')
     }
   }
 
@@ -142,7 +142,7 @@ export default class Presenter extends BaseComponent {
         })
       }
     }else{
-      this.showToast('暂无我的回复')
+      // this.showToast('暂无我的回复')
     }
   }
 

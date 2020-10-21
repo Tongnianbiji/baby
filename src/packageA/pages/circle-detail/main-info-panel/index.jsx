@@ -71,7 +71,7 @@ class MainInfoPanel extends Component {
           <View className='btn-share'>
             <Image className='img-share' src={ShareIconUrl} />
           </View>
-          <View className={`btn-attention${isAttentioned ? ' attentioned' : ''}`} onClick={this.doAttention}>
+          <View className={`btn-attention1${isAttentioned ? ' attentioned' : ''}`} onClick={this.doAttention}>
             {isAttentioned ? '已加入圈子' : '加入圈子'}
           </View>
         </View>

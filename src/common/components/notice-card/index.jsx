@@ -12,6 +12,10 @@ export default class NoticeCard extends Component {
     countryAble: true,
     isShowUserInfo: true,
     ishowAvatar: true,
+    isShowQuestion:true,
+    isShowAnswer:true,
+    isOldQuestion:false,
+    isShowTime:false,
     type: 'post', //post|qa,
     onHandleFavorite: () => { },
     onNoticeClick: ()=>{}
@@ -41,17 +45,42 @@ export default class NoticeCard extends Component {
   }
 
   renderQA() {
-    const { data, isShowTools } = this.props;
+    const { data, isShowTools,isShowQuestion,isShowAnswer,isOldQuestion,isShowTime } = this.props;
     return (
       <View className='qa-wrapper' onClick={this.handleNoticeClick.bind(this,data)}>
-        <View className='questions'>
-          <View className='icon'>问</View>
-          <View className='txt'>{data.title && data.title}</View>
+
+        {
+          isShowTime && 
+          <View className='questions'>
+            <View className='txt' style="padding:0;font-size:24rpx;color:#999999;margin-bottom:5px">{data && data.createTime && FormaDate(data.createTime) || '2019/03/02'}</View>
+          </View>
+        }
+        {
+          isShowQuestion && 
+          <View className='questions'>
+            <View className='icon'>问</View>
+            <View className='txt'>{data.title && data.title}</View>
+          </View>
+        }
+
+        {
+          isShowAnswer && 
+          <View className='anwser'>
+            <View className='icon'>答</View>
+            <View className='txt'>张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三</View>
+          </View>
+        }
+        <View>
+        {
+          isOldQuestion && 
+          <View className='anwser'>
+            <View className='txt no-active' style="padding:0">原问题：济阳三村幼儿园什么时候开学</View>
+          </View>
+        }
         </View>
-        <View className='anwser'>
-          <View className='icon'>答</View>
-          <View className='txt'>张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三</View>
-        </View>
+       
+       
+       
         <View className='tags'>
           {
             this.props.countryAble &&

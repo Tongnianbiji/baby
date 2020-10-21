@@ -122,7 +122,7 @@ export default class Presenter extends BaseComponent {
         })
       }
     } else {
-      this.showToast('暂无我的收藏')
+      // this.showToast('暂无我的收藏')
     }
   }
 
@@ -156,7 +156,7 @@ export default class Presenter extends BaseComponent {
         })
       }
     } else {
-      this.showToast('暂无我的点赞')
+      // this.showToast('暂无我的点赞')
     }
   }
 

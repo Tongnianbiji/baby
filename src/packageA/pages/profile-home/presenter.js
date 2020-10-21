@@ -19,17 +19,26 @@ export default class ProfileHomePresenter extends BaseComponent {
         stared: 0
       },
       userId: '',
-      postLock: false
+      postLock: false,
+      activeData:[],
+      postData:[],
+      questionData:[],
+      isMySelf:false
     }
   }
 
   componentWillMount() { }
 
-  componentDidMount() { this.getProfileInfo() }
+  componentDidMount() { 
+    
+  }
 
   componentWillUnmount() { }
 
-  componentDidShow() { }
+  componentDidShow() { 
+    this.getProfileInfo();
+    this.getActiveData()
+  }
 
   componentDidHide() { }
 
@@ -40,7 +49,18 @@ export default class ProfileHomePresenter extends BaseComponent {
   onClickForTabs(value) {
     this.setState({
       tabsCurrent: value,
-    })
+    });
+    switch(value){
+      case 0:
+        this.getActiveData();
+        break;
+      case 1:
+        this.getPostData();
+        break;
+      case 2:
+        this.getQuestionData();
+        break;
+    }
   }
 
   //获取个人信息
@@ -53,16 +73,88 @@ export default class ProfileHomePresenter extends BaseComponent {
     if (userId) {
       let res = await Model.getData(token, userId);
       this.setState({
-        userInfo: res
+        userInfo: res,
+        isMySelf:false
       })
     } else {
       let uid = this.getUserInfo().userId;
       let res = await Model.getData(token, uid);
       this.setState({
         userInfo: res,
-        userId: uid
+        userId: uid,
+        isMySelf:true
       })
     }
+  }
+
+  //获取动态数据
+  getActiveData = async ()=>{
+    const { userId } = getCurrentInstance().router.params;
+    if (userId) {
+      let res = await Model.getActiveData(userId);
+      if(res){
+        this.setState({
+          activeData: res
+        })
+      }
+    } else {
+      let uid = this.getUserInfo().userId;
+      let res = await Model.getActiveData(uid);
+      if(res){
+        this.setState({
+          activeData: res
+        })
+      }
+    }
+  }
+
+  //获取帖子数据
+  getPostData = async ()=>{
+    const { userId } = getCurrentInstance().router.params;
+    if (userId) {
+      let res = await Model.getPostData(userId);
+      if(res && res.items){
+        this.setState({
+          postData: res.items
+        })
+      }
+    } else {
+      let uid = this.getUserInfo().userId;
+      let res = await Model.getPostData(uid);
+      if(res && res.items){
+        this.setState({
+          postData: res.items
+        })
+      }
+    }
+  }
+
+  //获取问答数据
+  getQuestionData = async ()=>{
+    const { userId } = getCurrentInstance().router.params;
+    if (userId) {
+      let res = await Model.getQuestionData(userId);
+      if(res && res.items){
+        this.setState({
+          questionData: res.items
+        })
+      }
+    } else {
+      let uid = this.getUserInfo().userId;
+      let res = await Model.getQuestionData(uid);
+      if(res && res.items){
+        this.setState({
+          questionData: res.items
+        })
+      }
+    }
+  }
+
+  //个人页面编辑
+  editProfile =()=>{
+    this.navto({
+      url:'/packageA/pages/profile-setting-info/index'
+    })
   }
 
   //查看更多宝宝
@@ -88,7 +180,7 @@ export default class ProfileHomePresenter extends BaseComponent {
 
   //关注
   onSubscr = async() => {
-    let { postLock,userInfo, userInfo: { subscr } ,userId} = this.state;
+    let { postLock,userInfo, userInfo: { subscr } ,userId=1} = this.state;
     if (!postLock) {
       if (subscr) {
         this.setState({

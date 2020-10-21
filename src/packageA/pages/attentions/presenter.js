@@ -68,7 +68,7 @@ export default class Presenter extends BaseComponent {
         })
       }
     }else{
-      this.showToast('暂无我的粉丝')
+      // this.showToast('暂无我的粉丝')
     }
   }
 
@@ -109,9 +109,9 @@ export default class Presenter extends BaseComponent {
    }
 
    //跳转到个人主页
-   getUserDetail =()=>{
+   getUserDetail =(item)=>{
      this.navto({
-       url:'/packageA/pages/profile-home/index'
+       url:'/packageA/pages/profile-home/index?userId=' + item.userId
      })
    }
 

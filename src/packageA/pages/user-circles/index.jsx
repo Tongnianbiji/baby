@@ -7,9 +7,6 @@ import NoData from '@components/no-data'
 import CircleItem from './circle-item'
 
 export default class CirclesView extends Presenter {
-  config = {
-    navigationBarTitleText: '圈子'
-  }
 
   render() {
     const {circlesList} = this.state;

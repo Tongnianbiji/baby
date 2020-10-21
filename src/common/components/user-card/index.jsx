@@ -51,7 +51,7 @@ export default class UserInfoCard extends Component {
           </View>
           <View className='sub-title'>{`${createDt} ${tip}`}</View>
         </View>
-        <View onClick={this.handleSubscr.bind(this,model)} className={`btn-attention${!model.isSubscr ? ' attentioned' : ''}`}>{model.isSubscr  ? '已关注' : '关注'}</View>
+        <View onClick={this.handleSubscr.bind(this,model)} className={`btn-attention${model.isSubscr ? ' attentioned' : ''}`}>{model.isSubscr  ? '已关注' : '关注'}</View>
       </View>
     )
   }
