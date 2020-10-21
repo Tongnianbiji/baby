@@ -5,22 +5,6 @@ import Presenter from './presenter'
 import './index.scss'
 
 export default class ProfileSetting extends Presenter {
-
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
-  config = {
-    navigationBarTitleText: '设置',
-    navigationBarBackgroundColor: '#FFFFFF',
-  }
-
   render() {
     return (
       <View className='profile-setting-viewport'>

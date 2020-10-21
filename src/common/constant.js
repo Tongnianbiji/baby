@@ -39,6 +39,8 @@ export const ICONS = {
 
   ARROW_RIGHT_B: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-b.png',
 
+  ARROW_RIGHT_P: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png',
+
   DISLIKE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/dislike.png',
 
   LIKE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/like.png',

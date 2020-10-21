@@ -16,5 +16,30 @@ export default {
     } else {
       return false
     }
+  },
+  async cancelAttentionUser(userId) {
+    let params = {
+      userId
+    }
+    const ret = await request.postWithToken('/subscr/delete', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async attentionUser(userId) {
+    let params = {
+      userId
+    }
+    const ret = await request.postWithToken('/subscr/submit', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
   }
 }

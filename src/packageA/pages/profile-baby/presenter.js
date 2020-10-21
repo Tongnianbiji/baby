@@ -7,11 +7,18 @@ export default class ProfileBabyPresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      babyList: []
+      babyList: [],
+      isToFamily:false
     }
   }
 
   componentDidMount() {
+    const {isToFamily} = this.$router.params;
+    if(isToFamily){
+      this.setState({
+        isToFamily:true
+      })
+    }
   }
 
   componentDidShow() {
@@ -28,9 +35,15 @@ export default class ProfileBabyPresenter extends BaseComponent {
 
   onClickNavTo(item) {
     const {updateBabyNickname,updateSchool} = staticData;
-    updateBabyNickname(item.officeName);
-    updateSchool(item.yearDesc.school)
-    this.navto({ url: `/packageA/pages/profile-baby-detail/index?bid=${item.bid}&yearState=${item.yearState}` })
+    const {isToFamily} = this.state;
+    if(!isToFamily){
+      updateBabyNickname(item.officeName);
+      updateSchool(item.yearDesc.school)
+      this.navto({ url: `/packageA/pages/profile-baby-detail/index?bid=${item.bid}&yearState=${item.yearState}` })
+    }else{
+      this.navto({ url: '/packageA/pages/profile-family/index' })
+    }
+    
   }
 
   onClickNavToAction() {

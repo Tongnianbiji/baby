@@ -7,7 +7,7 @@ import './index.scss'
 export default class ProfileBaby extends Presenter {
 
   render() {
-    const { babyList } = this.state;
+    const { babyList,isToFamily } = this.state;
     return (
       <View className='profile-baby-viewport'>
         {
@@ -20,9 +20,13 @@ export default class ProfileBaby extends Presenter {
             )
           })
         }
-        <View className='btn-wrapper'>
-          <View className='btn flex-center' onClick={this.onClickNavToAction.bind(this)}>添加新宝宝</View>
-        </View>
+        {
+          !isToFamily &&
+          <View className='btn-wrapper'>
+            <View className='btn flex-center' onClick={this.onClickNavToAction.bind(this)}>添加新宝宝</View>
+          </View>
+        }
+        
       </View>
     )
   }

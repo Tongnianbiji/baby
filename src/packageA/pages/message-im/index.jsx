@@ -6,10 +6,6 @@ import './index.scss'
 
 export default class MessageIMView extends Presenter {
 
-  config = {
-    navigationBarTitleText: '聊天'
-  }
-
   render() {
     return (
       <View className='message-im-viewport'></View>

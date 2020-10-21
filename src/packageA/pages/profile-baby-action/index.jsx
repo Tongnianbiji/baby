@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { AtTabs, AtTabsPane } from 'taro-ui'
-import { View, Image, RadioGroup, Radio, Picker } from '@tarojs/components'
+import { View, Image, RadioGroup, Radio, Picker, Input, Text } from '@tarojs/components'
 import { GENDER_LIST } from '../../../common/enums';
 import Presenter from './presenter'
 import './index.scss'
@@ -181,8 +181,8 @@ export default class ProfileBabyAction extends Presenter {
             <View className='item-txt'>月经持续天数</View>
           </View>
           <View className='item-value'>
-            <View className='item-txt'>7天</View>
-
+            <Input className='item-txt' style="text-align:right" placeholder="请输入"></Input>
+            <Text className='item-txt'>天</Text>
           </View>
         </View>
         <View className='item'>
@@ -190,7 +190,8 @@ export default class ProfileBabyAction extends Presenter {
             <View className='item-txt'>月经周期</View>
           </View>
           <View className='item-value'>
-            <View className='item-txt'>28天</View>
+            <Input className='item-txt' style="text-align:right" placeholder="请输入"></Input>
+            <Text className='item-txt'>天</Text>
           </View>
         </View>
         {

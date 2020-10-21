@@ -4,28 +4,18 @@ import { AtTabs, AtTabsPane } from 'taro-ui'
 import { View, Image } from '@tarojs/components'
 import Presenter from './presenter'
 import UserInfoItem from '../../../common/components/post-card'
+import { ICONS } from '@common/constant'
 import './index.scss'
 
 export default class ProfileHome extends Presenter {
-
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
-  config = {
-    navigationBarTitleText: '我的',
-    navigationBarBackgroundColor: '#494949',
-    "navigationBarTextStyle": "white"
-  }
-
   render() {
-    const { tabs, tabsCurrent,userInfo:{nickName,headImg,sex,flow,funs,circle,marked,stared} } = this.state;
+    const { tabs, tabsCurrent,userInfo:{nickName,headImg,sex,district,child,signature,flow,funs,circle,marked,stared,subscr} } = this.state;
+    let isChildThanTwo = false;
+    let childs = [];
+    for (let a in child){
+      childs.push(child[a])
+    }
+    (childs.length > 2) && (isChildThanTwo = true,childs = childs.slice(0,2))
     return (
       <View className='profile-home-viewport'>
         <View className='profile-header'>
@@ -34,15 +24,20 @@ export default class ProfileHome extends Presenter {
               <View className='avatar'>
                 <Image src={headImg}></Image>
               </View>
-              {/* <View className='heart'></View>
-              <View className='avatar'></View> */}
             </View>
             <View className='right-container'>
-              <View className='ops focus'>关注</View>
-              <View className='ops msg'>私信</View>
-              <View className='more-item' />
-              <View className='more-item' />
-              <View className='more-item' />
+              <View onClick={this.onSubscr.bind(this)}>
+                {
+                  subscr ? <View className='ops focus' style="opacity:.5">已关注</View> : <View className='ops focus'>关注</View>
+                }
+              </View>
+             
+              <View className='ops msg' onClick={this.goToIM.bind(this)}>私信</View>
+              <View className='more' onClick={this.setProfile.bind(this)}>
+                更多
+                <Image src={ICONS.ARROW_RIGHT_C}></Image>
+              </View>
+              
             </View>
           </View>
           <View className='member-wrapper'>
@@ -69,12 +64,25 @@ export default class ProfileHome extends Presenter {
             </View> */}
           </View>
           <View className='label-wrapper'>
-            <View className='label'>上海浦东</View>
-            <View className='label'>大宝 5岁10个月</View>
-            <View className='label'>小宝 两岁1个月</View>
+            <View className='label'>{district}</View>
+            {
+              childs.map(item=>{
+                return(
+                  <View className='label'>{item}</View>
+                )
+              })
+            }
+            {
+              isChildThanTwo && 
+              <View className='more' onClick={this.viewMoreChild.bind(this)}>
+                更多
+                <Image src={ICONS.ARROW_RIGHT_C}></Image>
+              </View>
+              
+            }
           </View>
           <View className='signature-wrapper'>
-            家有两只可爱吞金兽
+            {signature}
           </View>
           <View className='number-wrapper'>
             <View className='number'>

@@ -23,6 +23,11 @@
           background: #ddd;
           margin-right: 4px;
           z-index: 98;
+          image{
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+          }
         }
         .heart {
           position: absolute;
@@ -57,6 +62,9 @@
         }
         .msg {
           border: 1px solid rgba(255, 255, 255, 1);
+        }
+        .more-item-wrap{
+          display: flex;
         }
         .more-item {
           width: 10px;
@@ -117,6 +125,7 @@
     .label-wrapper {
       @extend .flex-direction-row;
       margin-top: 20px;
+      align-items: center;
       .label {
         background: #737071;
         border-radius: 4px;
@@ -204,6 +213,15 @@
         font-weight: 400;
         color: rgba(153, 153, 153, 1);
       }
+    }
+  }
+  .more{
+    font-size: 24px;
+    margin-left:20px;
+    image{
+      margin-left:5px;
+      width: 20px;
+      height: 20px;
     }
   }
 }

@@ -85,8 +85,13 @@ export default class ProfilePresenter extends BaseComponent {
         }
         break;
       case 'family'://我的家
+        const {profileInfo} = this.state;
         if(isLogin){
-          this.navto({ url: '/packageA/pages/profile-family/index' })
+          if(profileInfo.child.length>1){
+            this.navto({ url: '/packageA/pages/profile-baby/index?isToFamily=true' })
+          }else{
+            this.navto({ url: '/packageA/pages/profile-family/index' })
+          }
         }else{
           this.showToast('请先登录')
         }

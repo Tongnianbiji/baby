@@ -22,6 +22,21 @@
       font-weight: 400;
       color: rgba(51, 51, 51, 1);
     }
+    .item-button{
+      padding: 20px 40px;
+      padding-right: 0;
+      background-color: #ffffff;
+      border-color: #ffffff;
+      margin: 0;
+      line-height: 1;
+      image{
+        width: 20px;
+        height: 20px;
+      }
+    }
+    button::after{
+      border:none !important;
+    }
 
     .item-value {
       @extend .flex-center;
@@ -67,5 +82,8 @@
   .item .item-value .at-switch {
     margin-left: 0;
     padding: 24rpx 0 24rpx 0;
+  }
+  .at-switch{
+    zoom: .85;
   }
 }

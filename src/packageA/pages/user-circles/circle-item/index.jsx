@@ -30,7 +30,7 @@ export default class CircleItem extends Component {
           <View className='title'>{name}</View>
           <View className='btn' onClick={this.subscribe.bind(this,model)}>
             {
-              !isSubscribe ? <View className='btn-join' style="opacity:.5">加入圈子</View> : <View className='btn-join'>已加入圈子</View>
+              isSubscribe ? <View className='btn-join' style="opacity:.5">加入圈子</View> : <View className='btn-join'>已加入圈子</View>
             }
           </View>
         </View>
