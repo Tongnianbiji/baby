@@ -16,7 +16,8 @@ export default class MainPanelComponent extends Component {
     onShare:()=>{}
   }
 
-  share = (pid)=>{
+  share = (pid,e)=>{
+    e.stopPropagation();
     this.props.onShare(pid)
   }
 
@@ -43,27 +44,36 @@ export default class MainPanelComponent extends Component {
     const { getCurrentReplyPostData, detailData,updateCurrentplaceholder,updateFocusStatus,updateActiveFocusStatus,isToPostOwner,updateIsToPostOwnerStatus } = this.props.postDetail;
     const {isRegiste} = this.props.staticDataStore;
     if(isRegiste){
-      // updateActiveFocusStatus(true);
-      // updateFocusStatus(true);
       Taro.navigateTo({
         url:'/packageB/pages/reply-post/index'
       })
       updateIsToPostOwnerStatus(true);
       updateCurrentplaceholder('我有话要说');
       getCurrentReplyPostData(detailData);
-      // if(isToPostOwner){
-      //   updateCurrentplaceholder('我有话要说');
-      //   getCurrentReplyPostData(detailData);
-      // }
     }else{
       Taro.navigateTo({
         url:'/pages/login/index'
       })
     }
   }
+
+  viewProfileInfo = (uid,e)=>{
+    e.stopPropagation();
+    Taro.navigateTo({
+      url:`/packageA/pages/profile-home/index?userId=${uid}`
+    })
+  }
+
+  getNickNameColor = (sex)=>{
+    if(sex === 'MALE'){
+      return '#027AFF'
+    }else{
+      return '#FF1493'
+    }
+  }
+  
   render() {
     const {
-      imgprofile: avatar,
       pid,
       title,
       content,
@@ -72,6 +82,7 @@ export default class MainPanelComponent extends Component {
       markes = 0,
       isMark = false,
       createTime = '2020-03-29 21:29:00',
+      uid,
       
       userSnapshot: {
         city='上海',
@@ -83,8 +94,8 @@ export default class MainPanelComponent extends Component {
       }
     } = this.props.postDetail.detailData
     return (
-      <View className='main-panel-view' onClick={this.reply.bind(this)}>
-        <View className='user-info'>
+      <View className='main-panel-view'>
+        <View className='user-info' onClick={this.viewProfileInfo.bind(this,uid)}>
           <View className='avatar'>
             {
               headImg ?
@@ -95,7 +106,7 @@ export default class MainPanelComponent extends Component {
           <View className='infos'>
             {
               <View className='name-area'>
-                <Text className='name'>{nickName}</Text>
+                <Text className='name' style={{color:this.getNickNameColor(sex || 'FEMALE')}}>{nickName}</Text>
                 <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
                 <Text className='years-old'>{ city + ' ' + country}</Text>
                 <Text className='years-old'>{customLevel.length && customLevel[0].desc}</Text>
@@ -108,8 +119,11 @@ export default class MainPanelComponent extends Component {
             <Text className='times'>{FormaDate(createTime)}</Text>
           </View>
         </View>
-        <View className='title'>{title}</View>
-        <View className='content'>{content}</View>
+        <View onClick={this.reply.bind(this)}>
+          <View className='title'>{title}</View>
+          <View className='content'>{content}</View>
+        </View>
+       
         <View className='tags'>
           <View className='tips'>
             <View className='views'>

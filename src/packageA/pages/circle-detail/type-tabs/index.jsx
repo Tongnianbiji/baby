@@ -13,7 +13,7 @@ import UserCard from '@common/components/user-card'
 import QACard from '../qa-card'
 import './type-tabs.scss'
 
-const TypeTabs = [
+let TypeTabs = [
   { title: '精华' },
   { title: '帖子' },
   { title: '问答' },
@@ -34,7 +34,8 @@ export default class TypeTabsView extends Component {
     super(props)
     this.state = {
       current: 1,
-      touchStartTime: 0
+      touchStartTime: 0,
+      doubleClickLock:false
     }
     this.circleDetailStore = this.props.circleDetailStore;
   }
@@ -54,14 +55,17 @@ export default class TypeTabsView extends Component {
       }, 500)
     } else {
       if (e.timeStamp - touchStartTime < 350) {
-        //this.circleDetailStore.resetTabListStatus(listType);
-        this.circleDetailStore.updateIsFiexd(false);
-        if (!this.isToBottom() && !postLock) {
-          //this.typeTabPost()
-        }
+        this.setState({
+          doubleClickLock:true
+        },async ()=>{
+          this.circleDetailStore.resetTabListStatus(listType);
+          this.circleDetailStore.updateIsFiexd(false);
+          if (!postLock) {
+            await this.typeTabPost();
+          }
+        })
         Taro.vibrateShort().then(() => {
           console.log('双击震动')
-          
         })
         this.setState({
           touchStartTime: 0
@@ -72,9 +76,12 @@ export default class TypeTabsView extends Component {
   }
 
   typeTabChange = index => {
-    console.log('切换',index)
+    const { doubleClickLock } = this.state;
     this.circleDetailStore.updateListType(index);
-    this.isTabCash(index) && this.typeTabPost()
+    !this.isTabCash(index) && !doubleClickLock && this.typeTabPost();
+    this.setState({
+      doubleClickLock:false
+    })
   }
 
   //判断是否有缓存
@@ -122,16 +129,18 @@ export default class TypeTabsView extends Component {
     })
   }
 
+
   //帖子收藏与取消收藏
   handleFavorite= (pid)=>{
     this.circleDetailStore.updateCirclePostsByFavorite(pid)
   }
 
   render() {
-    const { circlePosts, circleEssence, circleQuestion,circleUser, listType, fixed, centerHeight, loadingPosts, loadingEssence, loadingQuestion, loadingUser, isToBottomPosts, isToBottomEssence, isToBottomQuestion, isToBottomUser} = this.circleDetailStore;
+    const { circlePosts, circleEssence, circleQuestion,circleUser, listType, fixed, centerHeight, loadingPosts, loadingEssence, loadingQuestion, loadingUser, isToBottomPosts, isToBottomEssence, isToBottomQuestion, isToBottomUser,isCustomCircle} = this.circleDetailStore;
+    let newTypeTabs = isCustomCircle ? TypeTabs : TypeTabs.slice(0,5)
     return (
       <View className='type-tabs-view' onTouchStart={this.touchStart.bind(this)}>
-        <AtTabs animated={false} className='tabs' tabList={TypeTabs} current={listType} onClick={this.typeTabChange}>
+        <AtTabs animated={false} className='tabs' tabList={newTypeTabs} current={listType} onClick={this.typeTabChange}>
           <AtTabsPane index={0} current={listType}>
             <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} />
             <ScrollViewList onScrollToUpper={this.onScrollToUpper.bind(this)} onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingEssence} isToBottom={isToBottomEssence}>

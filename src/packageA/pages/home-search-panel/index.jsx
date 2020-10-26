@@ -15,17 +15,14 @@ import UserInfoCard from '../../../common/components/user-card'
 import './styles.scss'
 
 export default class HomeSearchView extends Presenter {
-  config = {
-    navigationBarTitleText: '搜索'
-  }
 
   render() {
-    const { searchScope, currentTopTab, searchData, searchValue, circleResult } = this.state;
+    const { searchScope, currentTopTab, searchData, searchValue, circleResult, postResult, questionResult, userResult  } = this.state;
     return (
       <View className={`home-search-viewport${searchData ? ' graybg' : ''}`}>
         <View className='search-box'>
           <View className='inp-wrapper'>
-            <AtInput className='inp' clear={true} placeholder='请输入关键字' value={searchValue} onChange={this.handleChange.bind(this)} placeholderClass='placehoder' confirmType='search' onConfirm={this.doSearch.bind(this)} />
+            <Input className='inp' placeholder='请输入关键字' value={searchValue} onInput={this.handleChange.bind(this)} placeholderClass='placehoder' confirmType='search' onConfirm={this.doSearch.bind(this)} />
             <Image src={ICONS.SEARCH} className='search-icon' />
           </View>
           <View className='cancel-btn' onClick={this.cancelSearch}>取消</View>
@@ -35,14 +32,14 @@ export default class HomeSearchView extends Presenter {
             <View>
               {
                 searchValue ?
-                  <AtTabs tabList={this.state.tabList} className='tabs' current={currentTopTab} swipeable={false} onClick={this.topTabChange}>
+                  <AtTabs tabList={this.state.tabList} className='tabs' current={currentTopTab} swipeable={false} onClick={this.topTabChange.bind(this)}>
                     <AtTabsPane index={0} className='tabs-pane' current={currentTopTab}>
                       {
                         currentTopTab === 0 &&
                         [
-                          { type: SearchResultType.CIRCLE, id: '12423' },
                           { type: SearchResultType.POST, id: '34234' },
                           { type: SearchResultType.ANSWER, id: '54334' },
+                          { type: SearchResultType.CIRCLE, id: '12423' },
                         ].map(item => {
                           return (<SearchResultCard type={item.type} key={item.id} onMore={this.onMore} />)
                         })
@@ -50,8 +47,8 @@ export default class HomeSearchView extends Presenter {
                     </AtTabsPane>
                     <AtTabsPane index={1} className='tabs-pane' current={currentTopTab}>
                       {
-                        currentTopTab === 1 &&
-                        circleResult.map((item, n) => {
+                        currentTopTab === 1 && !!postResult.length &&
+                        postResult.map((item, n) => {
                           return (
                             <PostCard closeRelease model={item} key={n}>
                               {
@@ -61,12 +58,12 @@ export default class HomeSearchView extends Presenter {
                           )
                         })
                       }
-                      <CreateCircle />
+                      {/* <CreateCircle /> */}
                     </AtTabsPane>
                     <AtTabsPane index={2} className='tabs-pane' current={currentTopTab}>
                       {
-                        currentTopTab === 2 &&
-                        [1, 2, 3, 4, 5, 6].map(n => {
+                        currentTopTab === 2 && !!questionResult.length &&
+                        questionResult.map(n => {
                           return (
                             <PostCard needShared closeRelease key={n} isAnwser>
                               {
@@ -76,19 +73,19 @@ export default class HomeSearchView extends Presenter {
                           )
                         })
                       }
-                      <CreateCircle />
+                      {/* <CreateCircle /> */}
                     </AtTabsPane>
                     <AtTabsPane index={3} className='tabs-pane' current={currentTopTab}>
                       {
-                        currentTopTab === 3 &&
-                        [1, 2, 3, 4, 5, 6].map(n => <CircleCard key={n} />)
+                        currentTopTab === 3 && !!circleResult.length &&
+                        circleResult.map((item,n) => <CircleCard data={item} key={n} />)
                       }
                       <CreateCircle />
                     </AtTabsPane>
                     <AtTabsPane index={4} className='tabs-pane' current={currentTopTab}>
                       {
-                        currentTopTab === 4 &&
-                        [1, 2, 3, 4, 5, 6].map(n => <UserInfoCard key={n} />)
+                        currentTopTab === 4 && !!userResult.length &&
+                        userResult.map(n => <UserInfoCard key={n} />)
                       }
                     </AtTabsPane>
                   </AtTabs> :
@@ -103,7 +100,7 @@ export default class HomeSearchView extends Presenter {
             <View>
               {
                 searchValue ?
-                  <AtTabs tabList={this.state.tabList} className='tabs' current={currentTopTab} swipeable={false} onClick={this.topTabChange}>
+                  <AtTabs tabList={this.state.tabList} className='tabs' current={currentTopTab} swipeable={false} onClick={this.topTabChange.bind(this)}>
                     <AtTabsPane index={0} className='tabs-pane' current={currentTopTab}>
                       {
                         currentTopTab === 0 &&
@@ -119,7 +116,7 @@ export default class HomeSearchView extends Presenter {
                     <AtTabsPane index={1} className='tabs-pane' current={currentTopTab}>
                       {
                         currentTopTab === 1 &&
-                        circleResult.map((item, n) => {
+                        postResult.map((item, n) => {
                           return (
                             <PostCard closeRelease model={item} key={n}>
                               {
@@ -129,12 +126,12 @@ export default class HomeSearchView extends Presenter {
                           )
                         })
                       }
-                      <CreateCircle />
+                      {/* <CreateCircle /> */}
                     </AtTabsPane>
                     <AtTabsPane index={2} className='tabs-pane' current={currentTopTab}>
                       {
                         currentTopTab === 2 &&
-                        [1, 2, 3, 4, 5, 6].map(n => {
+                        postResult.map(n => {
                           return (
                             <PostCard needShared closeRelease key={n} isAnwser>
                               {
@@ -144,14 +141,14 @@ export default class HomeSearchView extends Presenter {
                           )
                         })
                       }
-                      <CreateCircle />
+                      {/* <CreateCircle /> */}
                     </AtTabsPane>
                     <AtTabsPane index={3} className='tabs-pane' current={currentTopTab}>
                       {
                         currentTopTab === 3 &&
-                        [1, 2, 3, 4, 5, 6].map(n => <CircleCard key={n} />)
+                        questionResult.map(n => <CircleCard key={n} />)
                       }
-                      <CreateCircle />
+                      {/* <CreateCircle /> */}
                     </AtTabsPane>
                     <AtTabsPane index={4} className='tabs-pane' current={currentTopTab}>
                       {

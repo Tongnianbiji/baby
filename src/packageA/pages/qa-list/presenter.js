@@ -6,7 +6,7 @@ export default class Presenter extends BaseComponent {
     super(props);
     this.state = {
       tabList: [{ title: '我的提问' }, { title: '我的回答' }],
-      currentTab: 1,
+      currentTab: 0,
       questionData:[],
       answerData:[
         {
@@ -206,7 +206,7 @@ export default class Presenter extends BaseComponent {
    //点击帖子详情
    handlePostDetail(model) {
     this.navto({
-      url:'/packageB/pages/issue-detail/index?pid='+model.qid
+      url:'/packageB/pages/issue-detail/index?qid='+(model.qid || model.entityId)
     })
   }
 }

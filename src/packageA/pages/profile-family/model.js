@@ -58,7 +58,7 @@ export default {
     //   id: 11,
     //   role: '其他'
     // },
-  ]
+  ],
   // childMine() {
   //   return request.getWithToken('/child/mine', {}).then(ret => {
   //     if (ret.errMsg === request.okMsg) {
@@ -66,5 +66,23 @@ export default {
   //     }
   //     return { code: -1 }
   //   })
-  // }
+  // },
+
+  async getData(bid){
+    let params ={
+      bid
+    }
+    const ret = await request.getWithToken('/child/family', params)
+    const data = request.standardResponse(ret);
+    if (data.code === 0) {
+      return data
+    } else {
+      Taro.showToast({
+        title:`${data.message}`,
+        icon:'none',
+        duration:2e3
+      })
+      return false
+    }
+  }
 }

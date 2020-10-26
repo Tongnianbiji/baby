@@ -7,9 +7,10 @@
   font-family:PingFangSC-Regular,PingFang SC;
   font-weight:400;
   .icon-right {
-    width: 26px;
-    height: 13px;
-    transform: rotate(-90deg);
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    //transform: rotate(-90deg);
   }
   .head {
     display: flex;
@@ -67,11 +68,11 @@
       @extend .line1;
     }
     .btn {
-      padding: 0 0 9px 100px;
+      padding: 0 0 9px 10px;
       display: flex;
       align-items: center;
-      font-size: 24px;
-      color:rgba(61,58,255,.3);
+      font-size: 26px;
+      //color:rgba(61,58,255,.3);
     }
   }
   .num-s {

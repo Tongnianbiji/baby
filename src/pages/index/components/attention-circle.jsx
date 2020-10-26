@@ -122,7 +122,7 @@ export default class AttentionCircle extends Component {
             }
           </View>
         </ScrollView>
-        <View className='tabs-panel'>
+        {/* <View className='tabs-panel'>
             <View className='tn-ui-tabs'>
               {
                 tabsLv1.map((t, index) => {
@@ -174,7 +174,7 @@ export default class AttentionCircle extends Component {
               )
             })
           }
-        </View>
+        </View> */}
       </View>
     )
   }

@@ -25,5 +25,33 @@ export default {
     } else {
       return false
     }
+  },
+
+  async updateHeadImgInfo(headImg) {
+    let params = {
+      headImg
+    }
+    const ret = await request.postWithToken('/profile/update', params);
+    const data = request.standardResponse(ret)
+    console.log(data)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async updateThemeInfo(theme) {
+    let params = {
+      theme
+    }
+    const ret = await request.postWithToken('/profile/update', params);
+    const data = request.standardResponse(ret)
+    console.log(data)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
   }
 }

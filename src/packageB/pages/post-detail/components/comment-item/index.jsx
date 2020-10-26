@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Image, Text } from '@tarojs/components'
+import { View, Image, Text, Video } from '@tarojs/components'
 import { ICONS } from '@common/constant'
 import { observer, inject } from 'mobx-react'
 import FormaDate from '@common/formaDate'
@@ -15,36 +15,76 @@ export default class CommentItem extends Component {
     hasChildren: false,
     hasChildredSibling: false,
     last: false,
-    onReplyPost: () => { }
+    onReplyPost: () => { },
+    onHandleDelete:()=>{}
   }
   replyPost = (model, e) => {
-    e.stopPropagation()
+    e.stopPropagation();
     this.props.onReplyPost(model)
   }
-  handleLike = (model,e) => {
-    const {getCurrentReplyPostData,handleLike,updateIsToPostOwnerStatus} = this.props.postDetail;
+  viewProfileInfo = (uid,e)=>{
+    e.stopPropagation();
+    Taro.navigateTo({
+      url:`/packageA/pages/profile-home/index?userId=${uid}`
+    })
+  }
+  toggleInfo = (e)=>{
+    e.stopPropagation();
+    this.props.onToggleInfo();
+  }
+  handleLike = (model, e) => {
+    const { getCurrentReplyPostData, handleLike, updateIsToPostOwnerStatus } = this.props.postDetail;
     e.stopPropagation();
     updateIsToPostOwnerStatus(false);
     getCurrentReplyPostData(model);
     handleLike()
   }
 
-  handleDisLike = (model,e) => {
-    const {getCurrentReplyPostData,handleDisLike,updateIsToPostOwnerStatus} = this.props.postDetail;
+  handleDisLike = (model, e) => {
+    const { getCurrentReplyPostData, handleDisLike, updateIsToPostOwnerStatus } = this.props.postDetail;
     e.stopPropagation();
     updateIsToPostOwnerStatus(false);
     getCurrentReplyPostData(model);
     handleDisLike()
   }
+
+  handleDelete=(model)=>{
+    this.props.onHandleDelete(model)
+  }
+
+  preViewImage = (url,e)=>{
+    const {files} = this.props.model;
+    e.stopPropagation();
+    let newFiles = files.filter(item=>item.type == 1);
+    let urls = newFiles.map(item=>item.url);
+    Taro.previewImage({
+      current: url,
+      urls: urls
+    })
+  }
+
+  preViewVideo = (e)=>{
+    e.stopPropagation();
+  }
+
+  getNickNameColor = (sex)=>{
+    if(sex === 'MALE'){
+      return '#027AFF'
+    }else{
+      return '#FF1493'
+    }
+  }
+
   render() {
     const { avatar, children, needLine, hasChildren, hasChildredSibling, last, model, model: {
       content,
-      createTime='2020-03-29 21:29:00',
+      createTime = '2020-03-29 21:29:00',
       dislikes = 0,
       isDislikes,
       isLikes = true,
       likes = 0,
-      files=[],
+      files = [],
+      uid,
       userSnapshot: {
         city = '上海',
         country = '宝山',
@@ -56,33 +96,30 @@ export default class CommentItem extends Component {
     } } = this.props;
     return (
       <View className={`comment-item${needLine ? ' need-line' : ''}`}>
-        <View className='info-wrapper' onClick={this.replyPost.bind(this, model)}>
+        <View className='info-wrapper'>
           <View className='user-info'>
             <View className="inline-block">
-              <View className='avatar'>
+              <View className='avatar' onClick={this.viewProfileInfo.bind(this,uid)}>
                 {
-                  avatar ?
-                    <Image src={avatar} className='avatar-img' /> :
+                  headImg ?
+                    <Image src={headImg} className='avatar-img' /> :
                     null
                 }
               </View>
             </View>
-            
-            <View className='infos'>
+            <View className='infos' onClick={this.toggleInfo.bind(this)}>
               <View className='name-area'>
                 <View className="inline-block">
                   <View className="inline-block">
-                    <Text className='name'>{nickName}</Text>
+                    <Text className='name' style={{color:this.getNickNameColor(sex || 'FEMALE')}}>{nickName}</Text>
                   </View>
                 </View>
-
                 <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
                 <View className="inline-block">
                   <View className="inline-block">
-              <Text className='times'>{FormaDate(createTime)}</Text>
+                    <Text className='times'>{FormaDate(createTime)}</Text>
                   </View>
                 </View>
-
               </View>
               <View className="inline-block">
                 <Text className='years-old'>{`${city} ${country}`}</Text>
@@ -91,14 +128,13 @@ export default class CommentItem extends Component {
                 <Text className='years-old'>{customLevel.length && customLevel[0].desc}</Text>
               </View>
             </View>
-
             <View className='like-btns'>
               <View className='btns-wrapper'>
-                <View className='like-btn' onClick={this.handleLike.bind(this,model)}>
+                <View className='like-btn' onClick={this.handleLike.bind(this, model)}>
                   <Image src={isLikes ? ICONS.FULLLIKE : ICONS.LIKE} className='like-btn-img' />
                   {likes}
                 </View>
-                <View className='like-btn dis-like' onClick={this.handleDisLike.bind(this,model)}>
+                <View className='like-btn dis-like' onClick={this.handleDisLike.bind(this, model)}>
                   <Image src={isDislikes ? ICONS.FULLDISLIKE : ICONS.DISLIKE} className='like-btn-img' />
                   {dislikes}
                 </View>
@@ -106,16 +142,22 @@ export default class CommentItem extends Component {
             </View>
             {!needLine && <View className='line' />}
           </View>
-          <View className="inline-block">
+          <View onClick={this.replyPost.bind(this, model)} onLongPress={this.handleDelete.bind(this,model)}>
             <View className='contents'>{content}</View>
             <View className='contents'>
               {
-                files.map(item=>{
-                  return <Image mode={'aspectFit'} src={item.url}></Image>
+                files.map(item => {
+                  return <View>
+                    { item.type == 1 ?
+                      <Image onClick={this.preViewImage.bind(this,item.url)} mode={'aspectFit'} src={item.url}></Image>
+                      : <Video onClick={this.preViewVideo.bind(this)} src={item.url}></Video>
+                    }
+                    
+                    </View>
                 })
               }
             </View>
-           
+
           </View>
           {!!hasChildren && <View className='vertical-line' />}
         </View>

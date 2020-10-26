@@ -9,7 +9,7 @@ import './styles.scss'
 const dto = DTO.getInstance()
 
 const ShareIconUrl = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/share-c.png'
-const DetailIconUrl = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/expand.png'
+const DetailIconUrl = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-b.png'
 
 @inject('circleDetailStore')
 @observer

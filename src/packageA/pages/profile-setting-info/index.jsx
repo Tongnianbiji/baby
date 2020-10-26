@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Image } from '@tarojs/components'
+import { View, Image,Canvas } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
 import PhotoPickerSetting from '@components/photo-picker-setting'
@@ -11,20 +11,8 @@ export default class ProfileSettingInfo extends Presenter {
     super(props);
   }
 
-  getHeadFile = (file)=>{
-    this.setState({
-      headImg:file.url
-    })
-  }
-
-  getThemeFile = (file)=>{
-    this.setState({
-      theme:file.url
-    })
-  }
-
   render() {
-    const {headImg, theme, nickName, signature,canSave} = this.state;
+    const {headImg, theme, nickName, signature,canSave,isShowNext} = this.state;
     return (
       <View className='profile-setting-info-viewport'>
         <View className='item'>
@@ -67,9 +55,18 @@ export default class ProfileSettingInfo extends Presenter {
           </View>
         </View>
 
+      {
+        isShowNext ? 
         <View className='next-btn-wrapper'>
-          <View className={['next-btn','active']} onClick={this.nextStep.bind(this)}>下一步</View>
+          <View className={['next-btn','active']} style={{opacity:(nickName&&headImg) ? 1 : .49}} onClick={this.nextStep.bind(this)}>下一步</View>
         </View>
+
+        : 
+        <View className='next-btn-wrapper'>
+          <View className={['next-btn','active']} style={{opacity:(nickName&&headImg) ? 1 : .49}} onClick={this.confrim.bind(this)}>确认</View>
+        </View>
+      }
+        
       </View>
     )
   }

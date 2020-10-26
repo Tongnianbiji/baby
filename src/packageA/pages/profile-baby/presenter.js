@@ -41,7 +41,7 @@ export default class ProfileBabyPresenter extends BaseComponent {
       updateSchool(item.yearDesc.school)
       this.navto({ url: `/packageA/pages/profile-baby-detail/index?bid=${item.bid}&yearState=${item.yearState}` })
     }else{
-      this.navto({ url: '/packageA/pages/profile-family/index' })
+      this.navto({ url: `/packageA/pages/profile-family/index?bid=${item.bid}` })
     }
     
   }

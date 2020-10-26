@@ -86,4 +86,18 @@ export default {
     const d = req.standardResponse(ret)
     return d.code
   },
+  async deleteReply(pid,replyId) {
+    let params = {
+      pid,
+      replyId
+    }
+    const ret = await req.postWithToken('/post/reply/delete', params)
+    const d = req.standardResponse(ret);
+    if(d.code === 0){
+      return true
+    }else{
+      return false
+    }
+    
+  },
 }

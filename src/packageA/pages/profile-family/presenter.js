@@ -12,18 +12,21 @@ export default class ProfileBabyPresenter extends BaseComponent {
   }
 
   componentDidMount() {
-    // Model.childMine().then((res) => {
-    //   if (!res.code) {
-    //     this.setState({
-    //       babyList: res.data
-    //     })
-    //   }
-    // })
-    // 
+    this.getFamilyList()
   }
 
-  onClickNavTo(id) {
-    this.navto({ url: `/packageA/pages/profile-home/index?id=${id}` })
+  onClickNavTo(userId) {
+    this.navto({ url: `/packageA/pages/profile-home/index?userId=${userId}` })
   }
 
+  getFamilyList = async ()=>{
+    const { bid } = this.$router.params
+    let res = await Model.getData(bid);
+    if(res && res.data && res.data.family){
+      this.setState({
+        familyMember:res.data.family,
+        otherMember:res.data.emptyRoles
+      })
+    }
+  }
 }

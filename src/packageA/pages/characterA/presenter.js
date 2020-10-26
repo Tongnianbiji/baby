@@ -313,7 +313,7 @@ export default class CharacterAPresenter extends BaseComponent {
           })
           if(status){
             this.navto({
-              url: '/packageA/pages/profile-setting-info/index'
+              url: `/packageA/pages/profile-setting-info/index?newUser=true`
             })
           }else{
             this.showToast('系统异常')
@@ -329,7 +329,7 @@ export default class CharacterAPresenter extends BaseComponent {
           let res2 = await Model.submit(officeName,yearState,yearDesc);
           if(res2){
             this.navto({
-              url: '/packageA/pages/profile-setting-info/index'
+              url: `/packageA/pages/profile-setting-info/index?newUser=true`
             })
           }else{
             this.showToast('系统异常')
@@ -343,7 +343,7 @@ export default class CharacterAPresenter extends BaseComponent {
           let res3 = await Model.submit(officeName,yearState,yearDesc);
           if(res3){
             this.navto({
-              url: '/packageA/pages/profile-setting-info/index'
+              url: `/packageA/pages/profile-setting-info/index?newUser=true`
             })
           }else{
             this.showToast('系统异常')

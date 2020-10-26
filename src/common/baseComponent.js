@@ -215,7 +215,8 @@ export default class BaseComponent extends Component {
       <View>
         {
           <View className='guide-button' onClick={this.registe.bind(this)}>
-            <Button>登陆注册</Button>
+            <View>美好童年，翘首可及</View>
+            <View className="button">登陆/注册</View>
           </View>
         }
       </View>

@@ -5,7 +5,7 @@ import UITabs2 from '../../../../common/components/ui-tabs2'
 import './index.scss'
 import { observer, inject } from 'mobx-react'
 import { AtIcon } from 'taro-ui'
-import TagScrollView from '@components/tag-scroll-view1'
+// import TagScrollView from '@components/tag-scroll-view1'
 
 const tabList = [
   { title: '最热', useable: true },
@@ -48,6 +48,7 @@ export default class CircleTabs extends Component {
   }
   onSubTabChange = (item) => {
     this.circleDetailStore.updateActiveTags(item);
+    console.log('点击子tab')
     this.props.onSubTabChangeGetData();
   }
   onSubTabAll = () => {
@@ -104,12 +105,12 @@ export default class CircleTabs extends Component {
             />
           </View>
         </View>
-        {/* <View className='tag-wrapper'>
+        <View className='tag-wrapper'>
           <ScrollView scrollX>
             <View className='tag-list'>
-              {
+              {/* {
                 <View className='tag-item all' onClick={this.onSubTabAll}>全部</View>
-              }
+              } */}
               {
                 tags.map((item, index) => (
                   <View key={index} className={['tag-item', activeTags.has(item.tagId) ? 'tag-item-active' : '']} onClick={this.onSubTabChange.bind(this, item)}>{item.tagName}</View>
@@ -120,9 +121,9 @@ export default class CircleTabs extends Component {
           <View className='right-arrow'>
             <Image className='arrow-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-b.png' />
           </View>
-        </View> */}
+        </View>
 
-        <TagScrollView tags={tags} activeTags={activeTags} onSelectTag={this.onSubTabChange.bind(this)}>
+        {/* <TagScrollView tags={tags} activeTags={activeTags} onSelectTag={this.onSubTabChange.bind(this)}>
           <View className='tag-list'>
             {
               <View className='tag-item all' onClick={this.onSubTabAll}>全部</View>
@@ -133,7 +134,7 @@ export default class CircleTabs extends Component {
               ))
             }
           </View>
-        </TagScrollView>
+        </TagScrollView> */}
       </View>
     )
   }

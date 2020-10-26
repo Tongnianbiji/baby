@@ -9,9 +9,14 @@ export default class Presenter extends BaseComponent {
       menus: [],
       tags: [],
       circles: [],
-      activedMenu: null,
+      activedMenu: {sid:'r1'},
       activedTag: null,
       tagsOpen: false,
+      //推荐
+      r1Menu:{
+        sid:'r1'
+      },
+      r1Tag:[{}]
     }
   }
 
@@ -23,10 +28,12 @@ export default class Presenter extends BaseComponent {
    * 一级
    */
   getMenus() {
+    const {r1Menu} = this.state;
     Model.getMenus().then(ret => {
       this.setState({
         menus: ret.data,
-        activedMenu: ret.data && ret.data.length && ret.data[0]
+        //activedMenu: ret.data && ret.data.length && ret.data[0]
+        activedMenu:r1Menu
       }, () => { this.getTags() })
     })
   }
@@ -37,14 +44,22 @@ export default class Presenter extends BaseComponent {
    */
   getTags() {
     const { sid } = this.state.activedMenu;
-    Model.getTags({ sid }).then(ret => {
-      this.setState({
-        tags: ret.data,
-        activedTag: ret.data && ret.data.length && ret.data[0],
-      }, () => {
-        this.getCircles()
+    if(sid === 'r1'){
+      this.setState(pre=>({
+        activedTag:pre.r1Tag
+      }),()=>{
+        this.getR1Circles()
       })
-    })
+    }else{
+      Model.getTags({ sid }).then(ret => {
+        this.setState({
+          tags: ret.data,
+          activedTag: ret.data && ret.data.length && ret.data[0],
+        }, () => {
+          this.getCircles()
+        })
+      })
+    }
   }
 
   /**
@@ -54,6 +69,14 @@ export default class Presenter extends BaseComponent {
   getCircles() {
     const { activedMenu, activedTag } = this.state;
     const param = { psid: activedMenu.sid, sid: activedTag.sid, cid: 0 };
+    Model.getCircle(param).then(ret => {
+      this.setState({ circles: ret.data.circles })
+    })
+  }
+
+  //推荐二级列表
+  getR1Circles(){
+    const param = { psid:1 , sid:2 , cid: 0 };
     Model.getCircle(param).then(ret => {
       this.setState({ circles: ret.data.circles })
     })
@@ -77,7 +100,7 @@ export default class Presenter extends BaseComponent {
     }))
   }
 
-  toSearch() {
+  toSearch =()=> {
     this.navto({ url: '/packageA/pages/search-circle/index' })
   }
 }

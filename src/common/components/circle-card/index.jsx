@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro'
 import React, { Component } from 'react'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Image } from '@tarojs/components'
 import './styles.scss'
 
 export default class CircleItem extends Component {
@@ -19,8 +19,14 @@ export default class CircleItem extends Component {
   }
 
   componentWillMount() {
-    const originTxt = '济阳四村济阳幼儿园';
-    const reg = new RegExp(this.props.kw, 'gi');
+    
+  }
+
+  highLight = (originTxt,kw)=>{
+    if(!kw){
+      kw='济阳'
+    }
+    const reg = new RegExp(kw, 'gi');
     const contentReg = /^_#_([^_#_]+)_#_$/;
     const newList = [];
     let c = 1;
@@ -32,27 +38,38 @@ export default class CircleItem extends Component {
         value: isView ? t.match(contentReg)[1] : t
       })
     })
-    this.setState({
-      title: newList
-    })
+    return newList;
+  }
+
+  gotoCircleDetail = (data) => {
+    const { cid, name } = data
+    Taro.navigateTo({ url: `/packageA/pages/circle-detail/index?cid=${cid}&cname=${name}` })
+  }
+
+  findMore = ()=>{
+
   }
 
   render() {
+    const {data,data:{cid,description,leaf,imgUrl,name,posts,questions,subscribe},kw} = this.props;
+    let newTitle
     return (
-      <View className='search-circle-item'>
+      <View className='search-circle-item' onClick={this.gotoCircleDetail.bind(this,data)}>
         {
           this.props.recommand &&
           <View className='recommand-title'>可能感兴趣</View>
         }
         <View className='base-infos'>
           <View className='avatar-wrapper'>
-            <View className='avatar'></View>
+            <View className='avatar'>
+              <Image src={imgUrl || ''}></Image>
+            </View>
           </View>
           <View className='infos'>
             <View className='title'>
               <View className='txt'>
                 {
-                  this.state.title.map(t => {
+                  this.highLight(name,kw).map(t => {
                     return (
                       t.type === 'view' ?
                         <View className='matched-txt' key={t.id}>{t.value}</View> :
@@ -63,14 +80,17 @@ export default class CircleItem extends Component {
               </View>
               <View className='btn'>加入</View>
             </View>
-            <Text className='subtitle'>简介: 济阳三村幼儿园地址位于上海市浦东区耀华路550, 是一所公办幼儿园这是一条比较长的文案. 测试能不能正常截断</Text>
+              <Text className='subtitle'>简介: {description}</Text>
           </View>
         </View>
         <View className='numbers'>
-          <View className='num'>关注: 2001</View>
-          <View className='num'>帖子: 12535</View>
-          <View className='num'>问答: 123</View>
+              <View className='num'>关注: {subscribe}</View>
+              <View className='num'>帖子: {posts}</View>
+              <View className='num'>问答: {questions}</View>
         </View>
+        {
+          leaf && <View className='more' onClick={this.findMore.bind(this)}>发现更多&gt;</View>
+        }
       </View>
     )
   }

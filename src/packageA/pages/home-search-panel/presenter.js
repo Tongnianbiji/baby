@@ -14,11 +14,14 @@ export default class Presenter extends BaseComponent {
       searchValue:'',
       searchScope:'all',
       circleResult:[],
+      postResult:[],
+      questionResult:[],
+      userResult:[]
     }
   }
 
   componentDidMount(){
-    const { searchScope, tab=0 } = getCurrentInstance().router.params;
+    const { searchScope='all', tab=0 } = getCurrentInstance().router.params;
     this.getTabList(searchScope);
     this.topTabChange(tab);
     this.setState({
@@ -29,7 +32,7 @@ export default class Presenter extends BaseComponent {
   //获取不同的tabList
   getTabList = (searchScope)=>{
     switch(searchScope){
-      case 'all' || '':
+      case 'all':
         this.setState({
           tabList:Model.tabList1
         });
@@ -41,17 +44,26 @@ export default class Presenter extends BaseComponent {
     }
   }
 
-  async doSearch(e) {
-    const {type} = this.state;
-    let res = await Model.search();
-    this.setState({
-      searchData: e
-    })
-    if(res && res.circleResult && res.circleResult.items.length){
+  async doSearch() {
+    const {type,searchValue} = this.state;
+    let res = await Model.search(type,searchValue);
+    if(res){
       this.setState({
-        circleResult:res.circleResult.items
+        circleResult:this.objectToArr(res.circleResult.items),
+        postResult:this.objectToArr(res.postResult.items),
+        questionResult:this.objectToArr(res.questionResult.items),
+        userResult:this.objectToArr(res.userResult.items)
       })
     }
+  }
+
+  //对象转数组
+  objectToArr = (obj)=>{
+    let arr = [];
+    for(let o in obj){
+      arr.push(obj[o])
+    }
+    return arr;
   }
 
   onMore = t => {
@@ -82,15 +94,10 @@ export default class Presenter extends BaseComponent {
     })
   }
 
-  onSearch = val => {
-    this.setState({
-      searchData: val
-    })
-  }
-
   handleChange = (e)=>{
+    console.log(e.target.value)
     this.setState({
-      searchValue:e
+      searchValue:e.target.value
     })
   }
 

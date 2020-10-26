@@ -7,26 +7,31 @@ import './index.scss'
 export default class QACardView extends Component {
 
   static defaultProps = {
-    model: {}
+    model: {},
   }
   constructor(props) {
     super(props)
   }
 
+  cardClick = (qid)=>{
+    Taro.navigateTo({
+      url:`/packageB/pages/issue-detail/index?qid=${qid}`
+    })
+  }
+
   render() {
-    const { title, views, replys, markes } = this.props.model;
+    const { title, views, replys, markes,qid } = this.props.model;
     return (
-      <View className='qa-card-view'>
+      <View className='qa-card-view' onClick={this.cardClick.bind(this,qid)}>
         <View className='anwser'>
-          {/** 
+          { 
             <View>
             <View className='icon'>答</View>
             <View className='txt'>张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三</View>
             <View className='share-btn'>
-            <Image src={ICONS.SHARE_BTN_GRAY} alt='' className='share-icon' />
+            {/* <Image src={ICONS.SHARE_BTN_GRAY} alt='' className='share-icon' /> */}
           </View>
           </View>
-          */
           }
 
         </View>

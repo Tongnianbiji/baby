@@ -6,11 +6,12 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      nickName:'小净妈妈',
-      signature:'家有两只吞金兽',
-      headImg:'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png',
-      theme:'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png',
-      canSave:false
+      nickName:'',
+      signature:'',
+      headImg:'',
+      theme:'',
+      canSave:false,
+      isShowNext:false
     }
   }
 
@@ -21,7 +22,17 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
   componentWillUnmount() { }
 
   componentDidShow() { 
-    this.getProfileInfo()
+    const {newUser} = this.$router.params;
+    if(newUser){
+      this.setState({
+        isShowNext:true
+      })
+    }else{
+      this.setState({
+        isShowNext:false
+      })
+    }
+    this.getProfileInfo();
   }
 
   componentDidHide() { }
@@ -54,9 +65,38 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
       })
     }
   }
+
+  getHeadFile = async (file)=>{
+    this.setState({
+      headImg:file.url
+    })
+    let res = await Model.updateHeadImgInfo(file.url);
+    if(res){
+      this.showToast('更新成功');
+    }else{
+      this.showToast('系统异常');
+    }
+  }
+
+  getThemeFile = async (file)=>{
+    this.setState({
+      theme:file.url
+    });
+    let res = await Model.updateThemeInfo(file.url);
+    if(res){
+      this.showToast('更新成功');
+    }else{
+      this.showToast('系统异常');
+    }
+  }
+
   nextStep = ()=>{
     this.navto({
       url:'/packageA/pages/interest/index'
     })
+  }
+
+  confrim= ()=>{
+    this.navback()
   }
 }

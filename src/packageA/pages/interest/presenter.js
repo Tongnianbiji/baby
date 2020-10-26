@@ -79,13 +79,14 @@ export default class InterestPresenter extends BaseComponent {
   }
   //提交
   submit = async ()=>{
-    const {updateGuideStatus} = staticDataStore;
+    const {updateGuideStatus,updateIsLoginStatus} = staticDataStore;
     const {activeSids} = this.state;
     
     let newActiveSids = Array.from(activeSids);
     if(newActiveSids.length){
       await Model.addData(newActiveSids);
-      updateGuideStatus(false);
+      updateGuideStatus(false); 
+      updateIsLoginStatus(true);
       Taro.switchTab({
         url: '/pages/index/index'
       })

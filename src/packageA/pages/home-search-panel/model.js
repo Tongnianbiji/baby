@@ -30,4 +30,15 @@ export default {
       return false
     }
   },
+
+  //清除历史记录
+  async clearHistoryRecord(word='') {
+    const ret = await request.postWithToken('/h/clear',{word})
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  },
 }

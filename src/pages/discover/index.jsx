@@ -10,22 +10,23 @@ import './index.scss'
 @inject('staticDataStore')
 @observer
 export default class Index extends Presenter {
-  config = {
-    navigationBarTitleText: '发现'
-  }
-
   render() {
     const {isGuide} = this.props.staticDataStore
     return (
       <View className='discover-viewport'>
         <View className='search-box'>
-          <View className='search-inp' onClick={this.toSearch}>
+          <View className='search-inp' onClick={this.toSearch.bind(this)}>
             <Image src={ICONS.SEARCH} className='search-icon'></Image>
           </View>
         </View>
         <View className='content-box'>
           <View className='left-wrapper'>
             <ScrollView style={{ height: '100%' }} scrollY>
+
+              <View className={`menu-item${this.state.activedMenu.sid === 'r1' ? ' actived' : ''}`} onClick={this.menuClick.bind(this, this.state.r1Menu)}>
+                      {'推荐'}
+                      {this.state.activedMenu.sid === 'r1' ? <View className='actived-bar'></View> : null}
+              </View>
               {
                 this.state.menus.map(m => {
                   const isActived = m.sid === this.state.activedMenu.sid;
@@ -40,25 +41,27 @@ export default class Index extends Presenter {
             </ScrollView>
           </View>
           <View className='right-wrapper'>
-            <View className='tags-pane'>
-              <ScrollView scrollX >
-                <View className='targs-pane-view' >
-                  {
-                    this.state.tags.map(t => {
-                      const isActive = t.sid === this.state.activedTag.sid;
-                      return (
-                        <View key={t.sid} className={`tag-item${isActive ? ' tag-actived' : ''}`} onClick={this.tagsClick.bind(this, t)}>{t.name}</View>
-                      )
-                    })
-                  }
-                </View>
-              </ScrollView>
-              <Image className='arrow-right-icon' src={ICONS.ARROW_RIGHT_B} />
-            </View>
-
+            {
+              this.state.activedMenu.sid !== 'r1' && 
+              <View className='tags-pane'>
+                <ScrollView scrollX >
+                  <View className='targs-pane-view' >
+                    {
+                      this.state.tags.map(t => {
+                        const isActive = t.sid === this.state.activedTag.sid;
+                        return (
+                          <View key={t.sid} className={`tag-item${isActive ? ' tag-actived' : ''}`} onClick={this.tagsClick.bind(this, t)}>{t.name}</View>
+                        )
+                      })
+                    }
+                  </View>
+                </ScrollView>
+                <Image className='arrow-right-icon' src={ICONS.ARROW_RIGHT_B} />
+              </View>
+            }
             <View className='list-layout'>
               <View className='data-list'>
-                <ScrollView style={{ height: '100%' }}>
+                <ScrollView style={{ height: '100%' }} scrollY>
                   {
                     this.state.circles.map(n => {
                       return (

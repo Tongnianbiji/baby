@@ -16,15 +16,17 @@ export default class Presenter extends BaseComponent {
 
   //获取关注圈子列表
   getCirclesList = async ()=>{
-    let userInfo = this.getUserInfo();
-    if(userInfo.userId){
-      let res = await Model.getData(userInfo.userId);
-      this.setState({
-        circlesList:res.items
-      })
-    }else{
-      this.showToast('请先登录')
+    const { userId } = this.$router.params;
+    let uid = null;
+    if (userId) {
+      uid = userId;
+    } else {
+      uid = this.getUserInfo().userId;
     }
+    let res = await Model.getData(uid);
+    this.setState({
+      circlesList:res.items
+    })
   }
 
   //更新圈子状态

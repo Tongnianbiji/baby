@@ -52,7 +52,7 @@ export default class CityPickerView extends Presenter {
                 <View className='search-result'>
                   {
                     searchResult.map(s => (
-                      <View key={s.code} className='result-item'>
+                      <View key={s.code} className='result-item' onClick={this.selectedSearchCity.bind(this, s)}>
                         <View className='title'>{s.name}</View>
                         <View className='sub-title'>{s.address}</View>
                       </View>

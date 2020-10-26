@@ -174,4 +174,8 @@ export default class Presenter extends BaseComponent {
       }
     }
   }
+
+  selectedSearchCity = (e)=>{
+    this.pickCity(e.name)
+  }
 }

@@ -67,7 +67,8 @@ export default {
         "pages/create-issue/index",
         "pages/issue-detail/index",
         "pages/reply-post/index",
-        "pages/report/index"
+        "pages/report/index",
+        "pages/create-answer/index"
       ]
     }
   ],
@@ -96,12 +97,12 @@ export default {
         iconPath: "assets/img/tabbar/discovery.png",
         selectedIconPath: "assets/img/tabbar/discovery-actived.png"
       },
-      {
-        pagePath: "pages/message/index",
-        text: "消息",
-        iconPath: "assets/img/tabbar/message.png",
-        selectedIconPath: "assets/img/tabbar/message-actived.png"
-      },
+      // {
+      //   pagePath: "pages/message/index",
+      //   text: "消息",
+      //   iconPath: "assets/img/tabbar/message.png",
+      //   selectedIconPath: "assets/img/tabbar/message-actived.png"
+      // },
       {
         pagePath: "pages/profile/index",
         text: "我的",
@@ -112,7 +113,7 @@ export default {
   },
   "permission": {
     "scope.userLocation": {
-      "desc": "需要您的位置信息, 匹配附近的宝宝家长"
+      "desc": "位置信息将用于定位所在城市和提供相关的信息"
     }
   }
 }

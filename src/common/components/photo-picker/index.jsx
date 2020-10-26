@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import PhotoItem from './photo-item'
+import Cropper from '@components/cropper'
 import './index.scss'
 
 export default class PhotoPickerView extends Component {
@@ -14,7 +15,8 @@ export default class PhotoPickerView extends Component {
     super(props)
 
     this.state = {
-      medias: []
+      medias: [],
+      showCropper:false
     }
   }
  
@@ -23,7 +25,10 @@ export default class PhotoPickerView extends Component {
       count: 9,
       success: result => {
         console.log(result, 'tempFilePaths');
+        
         this.setState(prevState => ({
+          //showCropper:true,
+
           medias: prevState.medias.concat(result.tempFiles.map((media, index) => ({
             key: index + 1,
             type: result.type,
@@ -46,7 +51,8 @@ export default class PhotoPickerView extends Component {
   }
 
   render() {
-    const photoCount = this.state.medias.length
+    const photoCount = this.state.medias.length;
+    const {showCropper} =this.state;
     return (
       <View className='photo-picker-view'>
         {
@@ -59,6 +65,11 @@ export default class PhotoPickerView extends Component {
           {!!photoCount && <View className='btn-tip'>还能选{9 - photoCount}张</View>}
         </View>
         {!photoCount && <View className='tips'>最多可上传九个照片或视频</View>}
+
+        {
+          showCropper &&
+          <Cropper></Cropper>
+        }
       </View>
     )
   }

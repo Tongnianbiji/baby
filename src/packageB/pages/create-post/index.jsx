@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro'
 import { View, Input, Textarea, ScrollView, Image } from '@tarojs/components'
 import MediaPicker from '@components/photo-picker'
 import Presenter from './presenter'
-import TagScrollView from '@components/tag-scroll-view1'
+// import TagScrollView from '@components/tag-scroll-view1'
 import { observer, inject } from 'mobx-react'
 
 import './index.scss'
@@ -87,12 +87,12 @@ export default class CreatePostView extends Presenter {
         </View>
         <View className='tag-tips'>＋添加一个合适的帖子类别，可以提高帖子的点击率哦</View>
         {/* <View className='tag-wrapper'>
-          <View className='scroll-wrapper'>
+          <View >
             <View onTouchStart={this.onTouchStart.bind(this)} onTouchMove={this.onTouchMove.bind(this)} className="tag-list-wrap">
               <View className='tag-list' style={{ left: scrollLeft + 'px' }}>
                 {
                   tagList.map(item => (
-                    <View key={item.tagId} className={`tag-item${selectedTag.includes(item.tagId) ? ' actived' : ''}`} onClick={this.tagClick.bind(this, item.tagId)}>{item.tagName}</View>
+                    <View key={item.tagId} className={`tag-item${selectedTag.includes(item.tagId) ? ' tag-item-active' : ''}`} onClick={this.tagClick.bind(this, item)}>{item.tagName}</View>
                   ))
                 }
               </View>
@@ -103,7 +103,7 @@ export default class CreatePostView extends Presenter {
           </View>
         </View> */}
 
-        <TagScrollView tags={tagList} activeTags={selectedTag} onSelectTag={this.tagClick.bind(this)}>
+        {/* <TagScrollView tags={tagList} activeTags={selectedTag} onSelectTag={this.tagClick.bind(this)}>
             <View className='tag-list'>
                 {
                   tagList.map(item => (
@@ -111,7 +111,25 @@ export default class CreatePostView extends Presenter {
                   ))
                 }
             </View>
-        </TagScrollView>
+        </TagScrollView> */}
+        <View className='tag-wrapper'>
+          <View className='scroll-wrapper'>
+            <ScrollView scrollX>
+              <View className='tag-list'>
+                {
+                  tagList.map(item => (
+                    <View key={item.tagId} className={`tag-item${selectedTag.includes(item.tagId) ? ' actived' : ''}`} onClick={this.tagClick.bind(this, item)}>{item.tagName}</View>
+                  ))
+                }
+              </View>
+            </ScrollView>
+            <View className='right-arrow'>
+              <Image className='arrow-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-b.png' />
+            </View>
+          </View>
+        </View>
+
+
         <View className='btn-wrapper'>
           <View className={`btn-save${canSave ? '' : ' can-not-save'}`} onClick={this.doSubmit.bind(this)}>提交</View>
         </View>

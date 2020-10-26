@@ -67,14 +67,14 @@ export default class NoticeCard extends Component {
           isShowAnswer && 
           <View className='anwser'>
             <View className='icon'>答</View>
-            <View className='txt'>张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三</View>
+            <View className='txt'>{data.title}</View>
           </View>
         }
         <View>
         {
           isOldQuestion && 
           <View className='anwser'>
-            <View className='txt no-active' style="padding:0">原问题：济阳三村幼儿园什么时候开学</View>
+            <View className='txt no-active' style="padding:0">原问题：{data.entity && data.entity.title}</View>
           </View>
         }
         </View>

@@ -22,8 +22,8 @@ export default class Index extends HomePage {
   }
 
   render() {
-    const { topTabs, currentTopTab, attentionType, hotTabType } = this.state;
-    const {currentCity, isGuide} = this.props.staticDataStore
+    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity } = this.state;
+    const {isGuide} = this.props.staticDataStore
     return (
       <View className='home-page-viewport'>
         <View className='search-bar'>
@@ -76,7 +76,7 @@ export default class Index extends HomePage {
                 }
               </View>
             </AtTabsPane>
-            <AtTabsPane current={currentTopTab} index={2} className='attention-tabs-pane'>
+            {/* <AtTabsPane current={currentTopTab} index={2} className='attention-tabs-pane'>
               <View className='user-item-wrapper'>
                 {
                   [1, 2, 3, 4, 5].map(key => {
@@ -86,8 +86,8 @@ export default class Index extends HomePage {
                   })
                 }
               </View>
-            </AtTabsPane>
-            <AtTabsPane current={currentTopTab} index={3} className='attention-tabs-pane'>
+            </AtTabsPane> */}
+            <AtTabsPane current={currentTopTab} index={2} className='attention-tabs-pane'>
               <View className='attention-tabs'>
                 <View className={`slider-view${hotTabType === 2 ? ' left-status' : ''}`}></View>
                 <View className='tab-items'>
@@ -111,7 +111,6 @@ export default class Index extends HomePage {
           isGuide ?
           this.guide() : null
         }
-        
       </View>
     )
   }

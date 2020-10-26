@@ -128,7 +128,7 @@ export default class CharacterA extends Presenter {
                   <View className='item-group'>
                     <View className='item-title'>宝宝小名</View>
                     <View className='item-content'>
-                      <Input className='content-item width-100 text-align-center' onInput={this.onInputBabyName.bind(this, item)} value={item.babyName} placeholder='请填写宝宝小名' />
+                      <Input className='content-item width-100 text-align-center' style="text-align:center;" onInput={this.onInputBabyName.bind(this, item)} value={item.babyName} placeholder='请填写宝宝小名' />
                     </View>
                   </View>
 

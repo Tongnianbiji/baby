@@ -44,7 +44,7 @@ export default class CircleItem extends Component {
           <View className='number'>问答: {questions}</View>
         </View>
         {
-          leaf && <View className='more' onClick={this.findMore}>发现更多&gt;</View>
+          leaf && <View className='more' onClick={this.findMore.bind(this)}>发现更多&gt;</View>
         }
 
       </View>

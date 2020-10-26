@@ -65,6 +65,7 @@ export default class Presenter extends BaseComponent {
   }
 
   tagClick = tag => {
+    console.log('标签',tag)
     const { selectedTag } = this.state
     const index = selectedTag.indexOf(tag.tagId)
 

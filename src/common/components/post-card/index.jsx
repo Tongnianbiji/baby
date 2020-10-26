@@ -55,6 +55,14 @@ export default class UserInfoItem extends Component {
     this.props.onHandleLike(model)
   }
 
+  getNickNameColor = (sex)=>{
+    if(sex === 'MALE'){
+      return '#027AFF'
+    }else{
+      return '#FF1493'
+    }
+  }
+
   render() {
     const { model,sortNum } = this.props;
     // const { userSnapshot:{customLevel, headImg, nickName, } } = model;
@@ -93,7 +101,7 @@ export default class UserInfoItem extends Component {
                 <View className='infos'>
                   <View className='name-area'>
                     <View className='is-not-text'>
-                      <View className='name'>{(model.userSnapshot && model.userSnapshot.nickName) || '李庭语妈妈'}</View>
+                      <View className='name' style={{color:this.getNickNameColor(model.userSnapshot && model.userSnapshot.sex || 'FEMALE')}}>{(model.userSnapshot && model.userSnapshot.nickName) || '李庭语妈妈'}</View>
                     </View>
 
                     <Image className='sex' src={(model.userSnapshot && model.userSnapshot.sex) ? model.userSnapshot.sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON : ICONS.FEMALE_ICON}></Image>
@@ -108,7 +116,7 @@ export default class UserInfoItem extends Component {
                       {
                         model.userSnapshot && model.userSnapshot.customLevel && model.userSnapshot.customLevel.length ?
                           model.userSnapshot.customLevel.map((item) => {
-                            return <View className='years-old'>{item.desc}</View>
+                            return <View className='babys'>{item.desc}</View>
                           })
                           : null
                       }

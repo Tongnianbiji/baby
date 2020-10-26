@@ -17,13 +17,14 @@ page {
     padding: 14px 37px;
     box-sizing: border-box;
     .btn {
-      background-color: #FA9E97;
+      background-color: #FF473A;
       color: #fff;
       height: 72px;
       border-radius: 100px;
       flex: 1;
       line-height: 72px;
       margin-right: 25px;
+      font-family: PingFangSC-Regular, PingFang SC;
       &:nth-last-child(1) {
         margin: 0
       }

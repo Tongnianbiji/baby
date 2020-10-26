@@ -19,17 +19,26 @@ export default class DefaultPanel extends Component {
   }
 
   componentDidMount(){
-    Model.getHistoryRecord()
+    this.getHistoryRecord()
   }
 
   //获取历史记录
   getHistoryRecord= async ()=>{
     let res = await Model.getHistoryRecord();
-    if(res && res.length){
+    console.log('搜索历史',res)
+    if(res){
       this.setState({
         historyRecord:res
       })
     }
+  }
+
+  //删除历史记录
+  clearHistory = async ()=>{
+    await Model.clearHistoryRecord();
+    this.setState({
+      historyRecord:[]
+    })
   }
 
   render() {
@@ -41,7 +50,7 @@ export default class DefaultPanel extends Component {
           <View className='tags-panel'>
             <View className='tags-title'>
               <View className='title'>历史记录</View>
-              <View className='btn'><Image src={ICONS.DELETE} className='delete-icon' /></View>
+              <View className='btn' onClick={this.clearHistory.bind(this)}><Image src={ICONS.DELETE1} className='delete-icon' /></View>
             </View>
             <View className='tags-list'>
               {
@@ -53,7 +62,7 @@ export default class DefaultPanel extends Component {
           </View> : null
         }
         
-        <View className='tags-panel'>
+        {/* <View className='tags-panel'>
           <View className='tags-title'>
             <View className='title'>附近热搜</View>
           </View>
@@ -72,7 +81,7 @@ export default class DefaultPanel extends Component {
             <View className='tag-item'>宝宝双十一买什么</View>
             <View className='tag-item'>纸尿裤那些事儿</View>
           </View>
-        </View>
+        </View> */}
       </View>
     )
   }

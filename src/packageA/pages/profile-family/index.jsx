@@ -16,11 +16,11 @@ export default class ProfileBaby extends Presenter {
         {
           familyMember.map((item, index) => {
             return (
-              <View key={`item_${item.id}_${index}`} className='item' onClick={this.onClickNavTo.bind(this, item.id)}>
+              <View key={`item_${item.userId}_${index}`} className='item' onClick={this.onClickNavTo.bind(this, item.userId)}>
                 <Image className='item-avatar' src={item.avatar} />
                 <View className='item-txt'>
-                  <View>{item.role ? `${item.name}(${item.role})` : item.name}</View>
-                  <View>{item.joinTime}</View>
+                  <View>{item.roleText ? `${item.nickName}(${item.roleText})` : item.nickName}</View>
+                  <View>{item.createDt}</View>
                 </View>
                 <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
               </View>
@@ -33,7 +33,7 @@ export default class ProfileBaby extends Presenter {
             {
               otherMember.map((item, index) => {
                 return (
-                  <View className='other-item' key={`item_${item.id}_${index}`}>{item.role}</View>
+                  <View className='other-item' key={`item_${item.role}_${index}`}>{item.roleText || '其他'}</View>
                 )
               })
             }

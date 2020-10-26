@@ -37,7 +37,7 @@ export default class UITabs extends Component {
     const customItemStyle = {}
     itemColor && (customItemStyle.color = itemColor)
     return (
-      <View className='ui-tabs'>
+      <View className='ui-tabs1'>
         {
           tabList.map((tab, index) => (
             <View

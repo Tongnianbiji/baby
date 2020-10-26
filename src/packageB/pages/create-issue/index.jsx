@@ -41,23 +41,22 @@ export default class CreateIssueView extends Presenter {
         </View>
         <View className='tag-tips'>＋添加一个合适的问题类别，可以提高问题的回答率哦</View>
         <View className='tag-wrapper'>
-          {/* <View className='scroll-wrapper'>
-            <View className='scroll-wrapper'>
-              <ScrollView scrollX>
-                <View className='tag-list'>
-                  {
-                    tagList.map(item => (
-                      <View key={item.tagId} className={`tag-item${selectedTag.includes(item.tagId) ? ' actived' : ''}`} onClick={this.tagClick.bind(this, item.tagId)}>{item.tagName}</View>
-                    ))
-                  }
-                </View>
-              </ScrollView>
-              <View className='right-arrow'>
-                <Image className='arrow-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-b.png' />
+          <View className='scroll-wrapper'>
+            <ScrollView scrollX>
+              <View className='tag-list'>
+                {
+                  tagList.map(item => (
+                    <View key={item.tagId} className={`tag-item${selectedTag.includes(item.tagId) ? ' actived' : ''}`} onClick={this.tagClick.bind(this, item)}>{item.tagName}</View>
+                  ))
+                }
               </View>
+            </ScrollView>
+            <View className='right-arrow'>
+              <Image className='arrow-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-b.png' />
             </View>
-          </View> */}
-        <TagScrollView tags={tagList} activeTags={selectedTag} onSelectTag={this.tagClick.bind(this)}>
+          </View>
+          
+        {/* <TagScrollView tags={tagList} activeTags={selectedTag} onSelectTag={this.tagClick.bind(this)}>
             <View className='tag-list'>
                 {
                   tagList.map(item => (
@@ -65,7 +64,7 @@ export default class CreateIssueView extends Presenter {
                   ))
                 }
             </View>
-        </TagScrollView>
+        </TagScrollView> */}
         </View>
         <View className='btn-wrapper'>
           <View className={`btn-save${canSave ? '' : ' can-not-save'}`} onClick={this.doSubmit.bind(this)}>提交</View>

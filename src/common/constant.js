@@ -11,6 +11,7 @@ import IMG from '@ass/img/img.png'
 import NODATA from '@ass/img/no-data.png'
 import DELETE from '@ass/img/delete1.png'
 import USER from '@ass/img/user.png'
+import DROP from '@ass/img/drop.gif'
 
 export const ICONS = {
   SHARE_BTN_GRAY: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/share-c.png',
@@ -33,7 +34,7 @@ export const ICONS = {
 
   CLOSE_BTN: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/cancel-a.png',
 
-  DELETE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/delete.png',
+  DELETE1: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/delete.png',
 
   ARROW_RIGHT_C: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-a.png',
 
@@ -44,6 +45,8 @@ export const ICONS = {
   DISLIKE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/dislike.png',
 
   LIKE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/like.png',
+
+
   
   ISFAVORITED: ISFAVORITED,
   COPY: COPY,
@@ -54,7 +57,8 @@ export const ICONS = {
   IMG:IMG,
   NODATA:NODATA,
   DELETE:DELETE,
-  USER:USER
+  USER:USER,
+  DROP:DROP
 }
 
 

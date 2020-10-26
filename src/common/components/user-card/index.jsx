@@ -26,6 +26,14 @@ export default class UserInfoCard extends Component {
     this.props.onGetUserDetail(model)
   }
 
+  getNickNameColor = (sex)=>{
+    if(sex === 'MALE'){
+      return '#027AFF'
+    }else{
+      return '#FF1493'
+    }
+  }
+
 
   render() {
     const { tip,model,model:{circle ,flow, funs,marked,stared,createDt}} = this.props;
@@ -36,7 +44,7 @@ export default class UserInfoCard extends Component {
         </View>
         <View className='info-wrapper'>
           <View className='name-area'>
-            <Text className='name'>{model.userSnapshot && model.userSnapshot.nickName && model.userSnapshot.nickName || '张三'}</Text>
+            <Text className='name' style={{color:this.getNickNameColor(model.sex || 'FEMALE')}}>{model.userSnapshot && model.userSnapshot.nickName && model.userSnapshot.nickName || '张三'}</Text>
             <Image className='sex' src={ICONS.FEMALE_ICON}></Image>
             <View className='tags-warpper'>
               <View className='tag'>大宝:两岁一个月</View>

@@ -51,8 +51,8 @@ page {
       position: relative;
       padding-right: 30px;
       .right-arrow {
-        width: 20px;
-        height: 36px;
+        width: 50px;
+        height: 50px;
         position: absolute;
         right: 0;
         top: 50%;
@@ -63,22 +63,15 @@ page {
           height: 28px;
         }
       }
-      .tag-list-wrap{
-        position: relative;
-        height: 80px;
-        overflow: hidden;
-      }
       .tag-list {
-        display: flex;
-        flex-wrap: nowrap;
-        padding: 23px 0;
-        left: 0;
-        //position: relative;
-        position: absolute;
+        // display: flex;
+        // flex-wrap: nowrap;
+        // padding: 23px 0;
+        // position: relative;
         .tag-item {
           border-radius: 30px;
           padding: 0 25px;
-          background: #fff;
+          background: #FAD4D1ff;
           margin-right: 10px;
           font-size: 28px;
           color: #999;
@@ -107,4 +100,9 @@ page {
       }
     }
   }
+}
+.tag-list-wrap{
+  position: relative;
+  height: 80px;
+  overflow: hidden;
 }

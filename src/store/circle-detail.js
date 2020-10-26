@@ -17,6 +17,9 @@ const state = {
   fixed: false,
   postLock: false,
   showOpPanel:false,
+  //是否定制圈子
+  isCustomCircle:false,
+  customConfig:{},
 
   //子tab active tags
   activeTags: new Set(),
@@ -27,11 +30,11 @@ const state = {
 
   // 相关圈子
   parentCircles: [
-    {
-      cid: 1,
-      imgUrl: '#',
-      name: '父圈子1'
-    }
+    // {
+    //   cid: 1,
+    //   imgUrl: '#',
+    //   name: '父圈子1'
+    // }
   ],
   childCircles: [
     {
@@ -93,7 +96,6 @@ const actions = {
       return {}
     }
   },
-
   async getTopPost(cid) {
     const ret = await req.postWithToken('/circle/top/post', { cid })
     const d = req.standardResponse(ret)
@@ -115,28 +117,35 @@ const actions = {
   async getParentCircles(cid) {
     const ret = await req.postWithToken('/circle/parents/base', { cid })
     const d = req.standardResponse(ret)
-    // if (d.code === 0) {
-    //   //只显示一个父圈子多余的不显示
-    //   this.parentCircles = d.data.items.slice(0,1) || []
-    // }
+    if (d.code === 0) {
+      //只显示一个父圈子多余的不显示
+      if(d.data.items){
+        this.parentCircles = d.data.items.slice(0,1) || []
+      }
+    }
   },
 
   async getChildCircles(cid) {
     const ret = await req.postWithToken('/circle/children/base', { cid })
     const d = req.standardResponse(ret)
-    // if (d.code === 0) {
-    //   //只显示3个子圈子多余的不显示
-    //   this.childCircles = d.data.items.slice(0,3) || []
-    // }
+    if (d.code === 0) {
+      //只显示3个子圈子多余的不显示
+      if(d.data.items){
+        this.childCircles = d.data.items.slice(0,3) || []
+      }
+      
+    }
   },
 
   async getSiblingCircles(cid) {
     const ret = await req.postWithToken('/circle/sibling/base', { cid })
     const d = req.standardResponse(ret)
-    // if (d.code === 0) {
-    //   //只显示3个子圈子多余的不显示
-    //   this.childCircles = d.data.items.slice(0,3) || []
-    // }
+    if (d.code === 0) {
+      //只显示3个子圈子多余的不显示
+      if(d.data.items){
+        this.childCircles = d.data.items.slice(0,3) || []
+      }
+    }
   },
 
   //获取圈子对应的帖子列表
@@ -243,6 +252,17 @@ const actions = {
     }
   },
 
+  //获取定制圈子配置查询
+  async getCustomCircleConfig(cid){
+    let params = {
+      cid: cid
+    }
+    this.postLock = true;
+    const ret = await req.postWithToken('/circle/custom/query', params);
+    const d = req.standardResponse(ret)
+    this.postLock = false;
+  },
+
 
   async getAttentionState(cid) {
     const ret = await req.postWithToken('/relation/circle/isSubscribe', { cid })
@@ -294,6 +314,25 @@ const actions = {
     return d.code;
   },
 
+  //更新是否显示定制圈子
+  updateCustomStatus(status){
+    this.isCustomCircle = status
+  },
+
+  //保存定制圈子的配置
+  saveCustomConfig(config){
+    this.customConfig = config
+  },
+
+   //更新定制圈子区域配置
+   updateCustomRegionFlag(flag){
+    this.customConfig.defaultRegionFlag = flag;
+  },
+   //更新定制圈子年龄配置
+   updateCustomAgeGroupFlag(flag){
+    this.customConfig.defaultGroupFlag = flag;
+  },
+
   //获取获取圈子cid
   updateCircleId(cid) {
     this.cid = cid;
@@ -301,7 +340,7 @@ const actions = {
 
   //切换子tag关键词数组
   updateActiveTags(tag) {
-    if (this.activeTags.has(tag.tag)) {
+    if (this.activeTags.has(tag.tagId)) {
       this.activeTags.delete(tag.tagId)
     } else {
       this.activeTags.add(tag.tagId)
@@ -385,19 +424,18 @@ const actions = {
     const { circlePosts, circleEssence, circleQuestion, circleUser } = this
     switch (tab) {
       case 0:
-        return !circleEssence.length;
+        return !!circleEssence.length;
       case 1:
-        return !circlePosts.length;
+        return !!circlePosts.length;
       case 2:
-        return !circleQuestion.length;
+        return !!circleQuestion.length;
       case 4:
-        return !circleUser.length;
+        return !!circleUser.length;
     }
   },
 
   async typeTabPost() {
     const { cid, listType } = this;
-    console.log(listType)
     switch (listType) {
       case 0:
         await this.getCircleEssence(cid);
@@ -410,6 +448,9 @@ const actions = {
         break;
       case 4:
         await this.getCircleUser(cid);
+        break;
+      case 5:
+        await this.getCustomCircleConfig(cid);
         break;
     }
   },

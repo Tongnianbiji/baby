@@ -10,7 +10,7 @@ page {
   flex-direction: column;
   height: 100%;
   .search-box {
-    height: 84px;
+    height: 100px;
     padding: 12px 32px 24px;
     box-sizing: border-box;
     background: #fff;
@@ -20,6 +20,7 @@ page {
       border-radius: 29px;
       display: flex;
       align-items: center;
+      padding: 10px 0 10px 0;
       .search-icon {
         width: 27px;
         height: 27px;

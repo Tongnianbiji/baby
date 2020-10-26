@@ -3,43 +3,47 @@ import Taro from '@tarojs/taro'
 import { View, Input, Image } from '@tarojs/components'
 import { ICONS } from '../../../common/constant'
 import Presenter from './presenter'
+import Preloading from '@components/preloading'
 // import SearchCircleItem from './circle-item'
 import SearchCircleItem from '../../../common/components/circle-card'
 import './styles.scss'
 
 export default class SearchCircle extends Presenter {
-  config = {
-    navigationBarTitleText: '搜索'
-  }
 
   render() {
+    const {circlesList,kw,showLoading,isToBottom} = this.state;
     return (
       <View className='search-circle-viewport'>
         <View className='search-bar'>
           <View className='search-inp'>
-            <Input focus className='inp' onInput={this.onKwInput} value={this.state.kw} />
+            <Input focus className='inp' onInput={this.onKwInput.bind(this)} value={this.state.kw} />
             <Image src={ICONS.SEARCH} className='search-icon' />
-            {
+            {/* {
               this.state.showCleanBtn && <Image src={ICONS.CLOSE_BTN} className='clean-icon' onClick={this.cleanKw} />
-            }
+            } */}
           </View>
           <View className='search-btn'>取消</View>
         </View>
         <View className='item-wrapper'>
           {
-            [1,2,3,4,5,6].map(n => {
+            circlesList.map((item,n) => {
               return (
-                <SearchCircleItem key={n} recommand={n === 6} />
+                <SearchCircleItem data={item} kw={kw} key={n} recommand={n === 6} />
               )
             })
           }
+          <Preloading showLoading={showLoading} isToBottom={isToBottom}></Preloading>
         </View>
-        <View className='no-data'>
-          <View className='no-data-content'>
-            没有找到想要的圈子
-            <View className='create-circle'>创建圈子</View>
+        {
+          kw && 
+          <View className='no-data'>
+            <View className='no-data-content'>
+              没有找到想要的圈子
+              <View className='create-circle' onClick={this.createCircle.bind(this)}>创建圈子</View>
+            </View>
           </View>
-        </View>
+        }
+        
       </View>
     )
   }

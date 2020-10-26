@@ -20,27 +20,68 @@ export default class ProfileHomePresenter extends BaseComponent {
       },
       userId: '',
       postLock: false,
-      activeData:[],
-      postData:[],
-      questionData:[],
-      isMySelf:false
+      activeData: [],
+      postData: [],
+      questionData: [],
+      isMySelf: false,
+
+      isActiveToBottom: false,
+      isPostToBottom: false,
+      isQuestionToBottom: false,
+      showActiveLoading: true,
+      showPostLoading: true,
+      showQuestionLoading: true,
+      activePageNum: 1,
+      postPageNum: 1,
+      questionPageNum: 1,
     }
   }
 
   componentWillMount() { }
 
-  componentDidMount() { 
-    
+  componentDidMount() {
+    this.getActiveData()
   }
 
   componentWillUnmount() { }
 
-  componentDidShow() { 
+  componentDidShow() {
     this.getProfileInfo();
-    this.getActiveData()
+
   }
 
   componentDidHide() { }
+
+  onReachBottom() {
+    const { postLock, isPostToBottom, isActiveToBottom, isQuestionToBottom, tabsCurrent } = this.state;
+    if (tabsCurrent === 0) {
+      if (!postLock && !isActiveToBottom) {
+        this.setState((pre) => ({
+          activePageNum: pre.activePageNum + 1
+        }), () => {
+          this.getActiveData()
+        })
+      }
+    }
+    else if (tabsCurrent === 1) {
+      if (!postLock && !isPostToBottom) {
+        this.setState((pre) => ({
+          postPageNum: pre.postPageNum + 1
+        }), () => {
+          this.getPostData()
+        })
+      }
+    }
+    else if (tabsCurrent === 2) {
+      if (!postLock && !isQuestionToBottom) {
+        this.setState((pre) => ({
+          questionPageNum: pre.questionPageNum + 1
+        }), () => {
+          this.getQuestionData()
+        })
+      }
+    }
+  }
 
   /**
    * tab 点击
@@ -50,7 +91,8 @@ export default class ProfileHomePresenter extends BaseComponent {
     this.setState({
       tabsCurrent: value,
     });
-    switch(value){
+    this.initData();
+    switch (value) {
       case 0:
         this.getActiveData();
         break;
@@ -63,97 +105,205 @@ export default class ProfileHomePresenter extends BaseComponent {
     }
   }
 
+  //初始化参数
+  initData = () => {
+    const { tabsCurrent } = this.state;
+    switch (tabsCurrent) {
+      case 0:
+        this.setState({
+          activeData: [],
+          postLock: false,
+          isActiveToBottom: false,
+          showActiveLoading: true,
+          activePageNum: 1,
+        });
+        break;
+      case 1:
+        this.setState({
+          postData: [],
+          postLock: false,
+          isPostToBottom: false,
+          showPostLoading: true,
+          postPageNum: 1,
+        });
+        break;
+      case 2:
+        this.setState({
+          questionData: [],
+          postLock: false,
+          isQuestionToBottom: false,
+          showQuestionLoading: true,
+          questionPageNum: 1,
+        });
+        break;
+    }
+  }
+
   //获取个人信息
   getProfileInfo = async () => {
     const { userId } = getCurrentInstance().router.params;
+    const mySelfUserId = this.getUserInfo().userId;
     this.setState({
       userId: userId
     })
     let token = this.isLogin();
-    if (userId) {
+    if (userId && userId != mySelfUserId) {
+      this.setState({
+        isMySelf: false
+      })
       let res = await Model.getData(token, userId);
       this.setState({
         userInfo: res,
-        isMySelf:false
       })
     } else {
       let uid = this.getUserInfo().userId;
+      this.setState({
+        isMySelf: true
+      })
       let res = await Model.getData(token, uid);
       this.setState({
         userInfo: res,
         userId: uid,
-        isMySelf:true
       })
     }
   }
 
   //获取动态数据
-  getActiveData = async ()=>{
+  getActiveData = async () => {
+    const { activeData, activePageNum } = this.state;
     const { userId } = getCurrentInstance().router.params;
+    let uid = null;
     if (userId) {
-      let res = await Model.getActiveData(userId);
-      if(res){
-        this.setState({
-          activeData: res
-        })
-      }
+      uid = userId;
     } else {
-      let uid = this.getUserInfo().userId;
-      let res = await Model.getActiveData(uid);
-      if(res){
+      uid = this.getUserInfo().userId;
+    }
+
+    this.setState({
+      postLock: true
+    })
+    let res = await Model.getActiveData(uid, activePageNum);
+    this.setState({
+      postLock: false
+    })
+
+    if (res && res.items && res.items.length) {
+      const { total, items } = res;
+      if (!activeData.length) {
         this.setState({
-          activeData: res
+          activeData: items || []
+        })
+
+      } else {
+        this.setState((pre) => ({
+          activeData: pre.activeData.concat(items || [])
+        }))
+      }
+      if (total <= this.state.activeData.length) {
+        this.setState({
+          showActiveLoading: false,
+          isActiveToBottom: true
         })
       }
     }
+
   }
 
   //获取帖子数据
-  getPostData = async ()=>{
+  getPostData = async () => {
+    const { postData, postPageNum } = this.state;
     const { userId } = getCurrentInstance().router.params;
+    let uid = null;
     if (userId) {
-      let res = await Model.getPostData(userId);
-      if(res && res.items){
-        this.setState({
-          postData: res.items
-        })
-      }
+      uid = userId;
     } else {
-      let uid = this.getUserInfo().userId;
-      let res = await Model.getPostData(uid);
-      if(res && res.items){
+      uid = this.getUserInfo().userId;
+    }
+    this.setState({
+      postLock: true
+    })
+    let res = await Model.getPostData(uid, postPageNum);
+    this.setState({
+      postLock: false
+    })
+    if (res && res.items && res.items.length) {
+      const { total, items } = res;
+      if (!postData.length) {
         this.setState({
-          postData: res.items
+          postData: items || []
+        })
+
+      } else {
+        this.setState((pre) => ({
+          postData: pre.postData.concat(items || [])
+        }))
+      }
+      if (total <= this.state.postData.length) {
+        this.setState({
+          showPostLoading: false,
+          isPostToBottom: true
         })
       }
     }
   }
 
   //获取问答数据
-  getQuestionData = async ()=>{
+  getQuestionData = async () => {
+    const { questionData, questionPageNum } = this.state;
     const { userId } = getCurrentInstance().router.params;
+    let uid = null;
     if (userId) {
-      let res = await Model.getQuestionData(userId);
-      if(res && res.items){
-        this.setState({
-          questionData: res.items
-        })
-      }
+      uid = userId;
     } else {
-      let uid = this.getUserInfo().userId;
-      let res = await Model.getQuestionData(uid);
-      if(res && res.items){
+      uid = this.getUserInfo().userId;
+    }
+    this.setState({
+      postLock: true
+    })
+    let res = await Model.getQuestionData(uid, questionPageNum);
+    this.setState({
+      postLock: false
+    })
+    if (res && res.items && res.items.length) {
+      const { total, items } = res;
+      if (!questionData.length) {
         this.setState({
-          questionData: res.items
+          questionData: items || []
+        })
+
+      } else {
+        this.setState((pre) => ({
+          questionData: pre.questionData.concat(items || [])
+        }))
+      }
+      if (total <= this.state.questionData.length) {
+        this.setState({
+          showQuestionLoading: false,
+          isQuestionToBottom: true
         })
       }
     }
   }
 
+  onClickNavTo(type) {
+    const {userId} = this.state;
+    switch (type) {
+      case 'fans'://粉丝
+        this.navto({ url: `/packageA/pages/fans/index?userId=${userId}`})
+        break;
+      case 'circle'://圈子
+        this.navto({ url: `/packageA/pages/user-circles/index?userId=${userId}` })
+        break;
+      case 'focus'://关注
+        this.navto({ url: `/packageA/pages/attentions/index?userId=${userId}` })
+        break;
+    }
+  }
+
   //个人页面编辑
-  editProfile =()=>{
+  editProfile = () => {
     this.navto({
-      url:'/packageA/pages/profile-setting-info/index'
+      url: '/packageA/pages/profile-setting-info/index'
     })
   }
 
@@ -179,8 +329,8 @@ export default class ProfileHomePresenter extends BaseComponent {
   }
 
   //关注
-  onSubscr = async() => {
-    let { postLock,userInfo, userInfo: { subscr } ,userId=1} = this.state;
+  onSubscr = async () => {
+    let { postLock, userInfo, userInfo: { subscr }, userId = 1 } = this.state;
     if (!postLock) {
       if (subscr) {
         this.setState({
@@ -209,7 +359,15 @@ export default class ProfileHomePresenter extends BaseComponent {
       }
     }
     this.setState({
-      userInfo:userInfo
+      userInfo: userInfo
     })
+  }
+
+  getNickNameColor = (sex) => {
+    if (sex === 'MALE') {
+      return '#027AFF'
+    } else {
+      return '#FF1493'
+    }
   }
 }

@@ -12,6 +12,15 @@
         font-weight: 500;
       }
     }
+    .radio-list{
+      display: flex;
+      flex-direction: column;
+      .radio-list__label{
+        zoom:.85;
+        margin-bottom: 10px;
+        font-size: 18px;
+      }
+    }
     .items-wrapper {
       padding: 0 0 35px;
       .item-card {

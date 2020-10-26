@@ -41,11 +41,17 @@ export default class Presenter extends BaseComponent {
   //获取粉丝列表
   getListData = async ()=>{
     const {listData,pageNum} = this.state;
-    let userInfo = this.getUserInfo();
+    const { userId } = this.$router.params;
+    let uid = null;
+    if (userId) {
+      uid = userId;
+    } else {
+      uid = this.getUserInfo().userId;
+    }
     this.setState({
       postLock:true
     })
-    let res = await Model.getData(userInfo.userId,pageNum);
+    let res = await Model.getData(uid,pageNum);
     this.setState({
       postLock:false
     })

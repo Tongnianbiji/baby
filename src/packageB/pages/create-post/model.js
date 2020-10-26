@@ -34,7 +34,5 @@ export default {
     } else {
       return d.code === 0 && d.data
     }
-    
-    
   }
 }

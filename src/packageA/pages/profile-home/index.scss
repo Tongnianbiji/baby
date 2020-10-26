@@ -126,11 +126,14 @@
       @extend .flex-direction-row;
       margin-top: 20px;
       align-items: center;
+      flex-wrap: wrap;
+      text-align: left;
       .label {
         background: #737071;
         border-radius: 4px;
 
         margin-right: 10px;
+        margin-bottom: 10px;
         padding: 0 12px;
 
         font-size: 24px;
@@ -188,7 +191,8 @@
         .at-tabs__header .at-tabs__item--active .at-tabs__item-underline {
           width: 72px;
           height: 6px;
-          background: $sys-active-bg;
+          //background: $sys-active-bg;
+          background: #333333;
           border: unset;
           border-radius: 9px;
           left: 50%;

@@ -9,19 +9,20 @@ import ReplyTools from './components/reply-tools'
 import './index.scss'
 
 export default class PostDetailView extends Presenter {
-  config = {
-    navigationBarTitleText: '加载中...',
-    enableShareAppMessage: true
-  }
-
-  
-
   share = (pid)=>{
     Taro.showShareMenu({
       withShareTicket: true,
       showShareItems:['wechatFriends','wechatMoment']
     })
   }
+  // onShareTimeline(){
+	// 	return {
+	// 		title: '自定义标题',
+	// 		query: 'name=xxx&age=xxx',
+	// 		imageUrl: 'http://demo.png',
+	// 	}
+	// }
+
 
   render() {
     const { replys, postDetail } = this.state;

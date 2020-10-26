@@ -28,7 +28,7 @@ export default class Preloading extends Component {
         {
           isToBottom ?
             <View className='is-to-bottom flex-center'>
-              <Text className="is-to-bottom-text">~已经到底了~</Text>
+              <Text className="is-to-bottom-text">公平·真实·善良·美好</Text>
             </View>
             : null
         }

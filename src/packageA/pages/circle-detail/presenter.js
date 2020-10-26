@@ -1,18 +1,12 @@
 import React from 'react'
 import BaseComponent from '../../../common/baseComponent'
-// import Model from './model'
 import Taro, {getCurrentInstance} from '@tarojs/taro'
-
+import Model from './model'
 export default class Presenter extends BaseComponent {
 
   constructor(props) {
     super(props)
-
     this.state = {
-      // listType: 0,
-      //dataList: [1, 2, 3, 4,5,6,7],
-      //circlePostsDataList:[],
-      // showOpPanel: false,
       cid: '',
       centerHeight: '',
       fixed: false,
@@ -20,7 +14,6 @@ export default class Presenter extends BaseComponent {
       pageNum: 1,
       isFresh: false
     }
-
     this.$store = this.props.circleDetailStore
   }
 
@@ -29,7 +22,7 @@ export default class Presenter extends BaseComponent {
     const info = Taro.getSystemInfoSync();
     const { windowHeight, statusBarHeight, titleBarHeight } = info;
     const tempHeight = (windowHeight - 140) + 'px';
-   
+    
     this.$store.updateCircleId(cid);
     this.setState({
       cid: cid,
@@ -45,30 +38,26 @@ export default class Presenter extends BaseComponent {
   }
 
   onPageScroll(e) {
-    console.log('已移动距离', e.scrollTop);
     let { tempHeight } = this.state;
     let scrollTop = e.scrollTop;
     if (scrollTop >= 230) {
       this.$store.updateCenterHeight(tempHeight)
       this.$store.updateIsFiexd(true)
-    }else{
-      this.$store.updateCenterHeight('')
-      this.$store.updateIsFiexd(false)
     }
   }
 
   async initData(cid) {
-    console.log('cid', cid)
     const { leaf } = await this.$store.getDetail(cid);
     await this.$store.getAttentionState(cid);
     await this.$store.getTopPost(cid);
     await this.$store.getCirclePosts(cid);
-    
-    if (leaf) {
+    await this.$store.getParentCircles(cid);
+    if (!leaf) {
       await this.$store.getSiblingCircles(cid)
     } else {
       await this.$store.getChildCircles(cid)
     }
+    await this.getCustomConfig(cid);
     this.hideLoading()
   }
 
@@ -136,6 +125,20 @@ export default class Presenter extends BaseComponent {
     const { postLock } = this.$store;
     if(!postLock){
       this.$store.updateCirclePostsByFavorite(item.pid)
+    }
+  }
+
+  //获取定制圈子的配置信息
+  getCustomConfig = async (cid)=>{
+    let res = await Model.getCustomConfig(cid);
+    if(res){
+      this.$store.saveCustomConfig(res);
+      if(res.customAgeFlag || res.customRegionFlag){
+        this.$store.updateCustomStatus(true)
+      }else{
+        this.$store.updateCustomStatus(false)
+        
+      }
     }
     
   }

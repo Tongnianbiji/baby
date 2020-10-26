@@ -3,19 +3,33 @@ import Taro from '@tarojs/taro'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import { View, Image } from '@tarojs/components'
 import Presenter from './presenter'
+import Preloading from '@components/preloading'
 import UserInfoItem from '../../../common/components/post-card'
 import { ICONS } from '@common/constant'
 import './index.scss'
 
 export default class ProfileHome extends Presenter {
   render() {
-    const { tabs, tabsCurrent,isMySelf,userInfo:{nickName,headImg,sex,district,child,signature,flow,funs,circle,marked,stared,subscr}, activeData, postData, questionData } = this.state;
+    const { tabs, 
+      tabsCurrent,
+      isMySelf,
+      userInfo:{nickName,headImg,sex,district,child,signature,flow,funs,circle,marked,stared,subscr}, 
+      activeData, 
+      postData, 
+      questionData,
+      showActiveLoading,
+      showPostLoading,
+      showQuestionLoading,
+      isActiveToBottom,
+      isPostToBottom,
+      isQuestionToBottom
+    } = this.state;
     let isChildThanTwo = false;
     let childs = [];
     for (let a in child){
       childs.push(child[a])
     }
-    (childs.length > 2) && (isChildThanTwo = true,childs = childs.slice(0,2))
+    //(childs.length > 2) && (isChildThanTwo = true,childs = childs.slice(0,2))
     return (
       <View className='profile-home-viewport'>
         <View className='profile-header'>
@@ -28,7 +42,7 @@ export default class ProfileHome extends Presenter {
             {
               isMySelf ? 
               <View className='right-container'>
-                <View className='ops msg' onClick={this.editProfile.bind(this)}>编辑资料</View>
+                <View className='ops' style={{width:'auto'}} onClick={this.editProfile.bind(this)}>编辑资料</View>
               </View>
               :
               <View>
@@ -50,7 +64,7 @@ export default class ProfileHome extends Presenter {
             
           </View>
           <View className='member-wrapper'>
-    <View className='nick'>{nickName}</View>
+            <View style={{color:this.getNickNameColor(sex || 'MALE')}} className='nick'>{nickName}</View>
             {
               sex === 'FEMALE'
                 ? <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/female.png' className='gender' />
@@ -81,28 +95,28 @@ export default class ProfileHome extends Presenter {
                 )
               })
             }
-            {
+            {/* {
               isChildThanTwo && 
               <View className='more' onClick={this.viewMoreChild.bind(this)}>
                 更多
                 <Image src={ICONS.ARROW_RIGHT_C}></Image>
               </View>
               
-            }
+            } */}
           </View>
           <View className='signature-wrapper'>
             {signature}
           </View>
           <View className='number-wrapper'>
-            <View className='number'>
+            <View className='number' onClick={this.onClickNavTo.bind(this, 'fans')}>
               <View className='number-value'>{funs}</View>
               <View className='number-title'>粉丝</View>
             </View>
-            <View className='number'>
+            <View className='number' onClick={this.onClickNavTo.bind(this, 'circle')}>
           <View className='number-value'>{circle}</View>
               <View className='number-title'>圈子</View>
             </View>
-            <View className='number'>
+            <View className='number' onClick={this.onClickNavTo.bind(this, 'focus')}>
           <View className='number-value'>{flow}</View>
               <View className='number-title'>关注</View>
             </View>
@@ -132,6 +146,7 @@ export default class ProfileHome extends Presenter {
                       )
                     })
                   }
+                  <Preloading showLoading={showActiveLoading} isToBottom={isActiveToBottom}></Preloading>
                 </View>
               </AtTabsPane>
               <AtTabsPane current={tabsCurrent} index={1}>
@@ -148,7 +163,9 @@ export default class ProfileHome extends Presenter {
                         <UserInfoItem key={index} model={item}/>
                       )
                     })
+                    
                   }
+                  <Preloading showLoading={showPostLoading} isToBottom={isPostToBottom}></Preloading>
                 </View>
               </AtTabsPane>
               <AtTabsPane current={tabsCurrent} index={2}>
@@ -166,6 +183,7 @@ export default class ProfileHome extends Presenter {
                       )
                     })
                   }
+                   <Preloading showLoading={showQuestionLoading} isToBottom={isQuestionToBottom}></Preloading>
                 </View>
               </AtTabsPane>
             </AtTabs>

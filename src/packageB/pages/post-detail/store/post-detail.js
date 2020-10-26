@@ -28,8 +28,12 @@ class postDetailStore{
   @action getReplyList = async (sortType=1,pid) => {
     const d = await Model.getReplyList(pid,sortType)
     if (d) {
-      this.commentList = d.items
+      this.commentList = this.insertStatus( d.items);
     }
+  }
+
+  @action updateReplyList = (commentList) => {
+    this.commentList = commentList
   }
 
   @action getDetail = async (pid) => {
@@ -129,23 +133,43 @@ class postDetailStore{
       })
       updateCurrentReplyDisLikes(params)
     }
-    
   }
 
-  //递归寻找
-  findCurrentReplyPost(commentList,params) {
-    const { pid, parentRid, replyId } = params;
+   //递归插入状态位
+   @action insertStatus = (commentList)=>{
+    commentList.forEach(item => {
+      item.isShowSubInfo=true;
+      item.subLength=this.calcSubListLen(item.leafReplyList,item.leafReplyList.length);
+      this.insertStatus(item.leafReplyList)
+    })
+    return commentList;
+  }
+
+  //递归计算子元素list的长度
+  @action calcSubListLen = (list,total)=>{
+    list.forEach(item=>{
+      if(item.leafReplyList.length){
+        total += item.leafReplyList.length;
+      }
+      this.calcSubListLen(item.leafReplyList,total)
+    })
+    return total;
+  }
+
+  //递归更新回复列表状态
+  @action getUpdateReplyListStatus =(commentList,params) => {
+    const { pid, replyId } = params;
     commentList.forEach(item => {
       if (
         item.postReplyBo.pid === pid &&
-        item.postReplyBo.parentRid === parentRid && 
         item.postReplyBo.replyId === replyId
       ) {
-        this.currentReplyPost = item;
+        item.isShowSubInfo=!item.isShowSubInfo;
       } else {
-        this.findCurrentReplyPost(item.leafReplyList,params)
+        this.getUpdateReplyListStatus(item.leafReplyList,params)
       }
     })
+    return commentList
   }
 }
 
