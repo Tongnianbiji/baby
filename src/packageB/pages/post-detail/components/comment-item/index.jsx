@@ -6,6 +6,7 @@ import { observer, inject } from 'mobx-react'
 import FormaDate from '@common/formaDate'
 
 import './index.scss'
+let videoContext = null;
 @inject('postDetail')
 @observer
 export default class CommentItem extends Component {
@@ -18,6 +19,15 @@ export default class CommentItem extends Component {
     onReplyPost: () => { },
     onHandleDelete:()=>{}
   }
+
+  constructor(props){
+    super(props);
+    this.state = {
+      autoplay:false,
+      muted:true
+    }
+  }
+
   replyPost = (model, e) => {
     e.stopPropagation();
     this.props.onReplyPost(model)
@@ -63,8 +73,17 @@ export default class CommentItem extends Component {
     })
   }
 
-  preViewVideo = (e)=>{
+  preViewVideo = (id,e)=>{
     e.stopPropagation();
+    //videoContext = wx.createVideoContext(id);
+    //videoContext.requestFullScreen({ direction: 0 });
+    // this.setState({
+    //   muted:false
+    // })
+  }
+
+  screenChange = (e)=>{
+    console.log('****',e)
   }
 
   getNickNameColor = (sex)=>{
@@ -94,6 +113,7 @@ export default class CommentItem extends Component {
         customLevel = [{ desc: '3岁9个月' }]
       }
     } } = this.props;
+    const {autoplay,muted} = this.state;
     return (
       <View className={`comment-item${needLine ? ' need-line' : ''}`}>
         <View className='info-wrapper'>
@@ -150,9 +170,8 @@ export default class CommentItem extends Component {
                   return <View>
                     { item.type == 1 ?
                       <Image onClick={this.preViewImage.bind(this,item.url)} mode={'aspectFit'} src={item.url}></Image>
-                      : <Video onClick={this.preViewVideo.bind(this)} src={item.url}></Video>
+                      : <Video id={item.url} muted={muted} autoplay onFullscreenChange={this.screenChange.bind(this)} onClick={this.preViewVideo.bind(this,item.url)} src={item.url}></Video>
                     }
-                    
                     </View>
                 })
               }

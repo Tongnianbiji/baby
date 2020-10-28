@@ -18,7 +18,7 @@ export default class Profile extends Presenter {
             <View>
                 <View className='top-wrapper'>
                 <View className='left-container'>
-                  <View >
+                  <View onClick={this.viewProfileInfo.bind(this,profileInfo.userId)}>
                     <Image className='avatar' src={profileInfo.headImg} />
                   </View>
                 </View>
@@ -49,8 +49,8 @@ export default class Profile extends Presenter {
             : 
             <View>
               <View className='login' onClick={this.login.bind(this)}>
-                <Image src={ICONS.USER}/>
-                <Text>请登录</Text>
+                {/* <Image src={ICONS.USER}/> */}
+                <Text>请登录/注册</Text>
               </View>
             </View>
           }

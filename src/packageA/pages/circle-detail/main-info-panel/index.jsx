@@ -44,6 +44,11 @@ class MainInfoPanel extends Component {
     }
   }
 
+  //查看父圈子
+  viewParentCircle=(cid)=>{
+    Taro.navigateTo({ url: `/packageA/pages/circle-detail/index?cid=${cid}` })
+  }
+
   //查看更多父圈子
   viewMoreParentCircles() {
     Taro.navigateTo({ url: '/packageA/pages/more-circle/index' })
@@ -96,7 +101,7 @@ class MainInfoPanel extends Component {
         <View className='circle-list'>
           {
             parentCircles.map(circle => (
-              <View className='circle-item' key={circle.cid}>
+              <View className='circle-item' key={circle.cid} onClick={this.viewParentCircle.bind(this,circle.cid)}>
                 <View className='avatar'>{circle.imgUrl && <Image src={circle.imgUrl} className='avatar-img' />}</View>
                 <View className='name'>{circle.name}</View>
               </View>

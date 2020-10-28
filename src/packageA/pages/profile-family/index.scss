@@ -59,6 +59,11 @@
         margin-top: 20px;
         width: 142px;
         text-align: center;
+        padding:0;
+        background-color: #ffffff;
+      }
+      button::after{
+        border:none
       }
     }
     .other-items:after {

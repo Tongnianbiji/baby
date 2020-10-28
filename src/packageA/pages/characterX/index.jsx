@@ -5,17 +5,6 @@ import Presenter from './presenter'
 import './index.scss'
 
 export default class CharacterX extends Presenter {
-
-  componentWillMount() { }
-
-  componentDidMount() { }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
   render() {
     const {role} = this.state;
     return (

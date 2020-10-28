@@ -26,16 +26,17 @@ export default class CommentItemView extends Component {
     e.stopPropagation();
     let { answerList, updateAnswerListIsLike } = this.props.issueDetailStore;
     let {postLock} = this.state;
-    let preIndex = answerList.findIndex(item=>item.qid === model.qid && item.replyId === model.replyId);
+    let preIndex = answerList.findIndex(item=>item.questionReplyBo.qid === model.qid && item.questionReplyBo.replyId === model.replyId);
     let params = {
       likes: 1,
       isLikes:true,
       preIndex
     }
-    const { qid, replyId } = answerList[preIndex];
+    console.log()
+    const { qid, replyId } = answerList[preIndex].questionReplyBo;
     if(!postLock){
-      if (!answerList[preIndex].isDislikes) {
-        if (answerList[preIndex].isLikes) {
+      if (!answerList[preIndex].questionReplyBo.isDislikes) {
+        if (answerList[preIndex].questionReplyBo.isLikes) {
           params.likes = -1;
           params.isLikes = false;
           const d = await Model.questionLikeCancel(qid, replyId);
@@ -56,16 +57,16 @@ export default class CommentItemView extends Component {
     e.stopPropagation();
     let { answerList, updateAnswerListIsDislike } = this.props.issueDetailStore;
     let {postLock} = this.state;
-    let preIndex = answerList.findIndex(item=>item.qid === model.qid && item.replyId === model.replyId);
+    let preIndex = answerList.findIndex(item=>item.questionReplyBo.qid === model.qid && item.questionReplyBo.replyId === model.replyId);
     let params = {
       dislikes: 1,
       isDislikes:true,
       preIndex
     }
-    const { qid, replyId } = answerList[preIndex];
+    const { qid, replyId } = answerList[preIndex].questionReplyBo;
     if(!postLock){
-      if (!answerList[preIndex].isLikes) {
-        if (answerList[preIndex].isDislikes) {
+      if (!answerList[preIndex].questionReplyBo.isLikes) {
+        if (answerList[preIndex].questionReplyBo.isDislikes) {
           params.dislikes = -1;
           params.isDislikes = false;
           const d = await Model.questionDislikeCancel(qid, replyId);
@@ -91,6 +92,13 @@ export default class CommentItemView extends Component {
     }
   }
 
+  viewProfileInfo = (uid,e)=>{
+    e.stopPropagation();
+    Taro.navigateTo({
+      url:`/packageA/pages/profile-home/index?userId=${uid}`
+    })
+  }
+
   render() {
     const {  
       content,
@@ -101,6 +109,7 @@ export default class CommentItemView extends Component {
       likes = 0,
       files = [],
       qid,
+      uid,
       userSnapshot: {
         city = '上海',
         country = '宝山',
@@ -112,7 +121,7 @@ export default class CommentItemView extends Component {
     return (
       <View className='comment-item-view'>
         <View className='user-info'>
-          <View className='avatar'>
+          <View className='avatar' onClick={this.viewProfileInfo.bind(this,uid)}>
             {
               headImg ?
                 <Image src={headImg} className='avatar-img' /> :

@@ -63,6 +63,22 @@ export default class UserInfoItem extends Component {
     }
   }
 
+  viewProfileInfo = (uid,e)=>{
+    e.stopPropagation();
+    Taro.navigateTo({
+      url:`/packageA/pages/profile-home/index?userId=${uid}`
+    })
+  }
+
+  viewCircleDetail = cid => {
+    if(!cid){
+      cid='10397889'
+    }
+    Taro.navigateTo({
+      url: `/packageA/pages/circle-detail/index?cid=${cid}`
+    })
+  }
+
   render() {
     const { model,sortNum } = this.props;
     // const { userSnapshot:{customLevel, headImg, nickName, } } = model;
@@ -95,7 +111,7 @@ export default class UserInfoItem extends Component {
                     <Text>{sortNum}</Text>
                   </View>
                 }
-                <View className='avatar'>
+                <View className='avatar' onClick={this.viewProfileInfo.bind(this,model.uid)}>
                   <Image src={model.userSnapshot && model.userSnapshot.headImg || '#'}></Image>
                 </View>
                 <View className='infos'>
@@ -156,8 +172,9 @@ export default class UserInfoItem extends Component {
           <View className='tags'>
             {
               this.props.countryAble &&
-              <View className='community-area'>
-                <Text className='community-name'>{(model && model.userSnapshot && model.userSnapshot.city  && `${model.userSnapshot.city} ${model.userSnapshot.country}`) || '上海 新城'}</Text>
+              <View className='community-area' onClick={this.viewCircleDetail.bind(this,model.cid)}>
+                {/* <Text className='community-name'>{(model && model.userSnapshot && model.userSnapshot.city  && `${model.userSnapshot.city} ${model.userSnapshot.country}`) || '上海 新城'}</Text> */}
+                <Text className='community-name'>{(model && model.cid && `${model.cName}`) || '备孕交流'}</Text>
               </View>
             }
             {

@@ -116,4 +116,40 @@ export default class Presenter extends BaseComponent {
   createCircle = ()=>{
     this.showToast('即将开放，敬请期待')
   }
+
+  //加入/已加入
+  handleSubsrc= async (model)=>{
+    let {postLock,circlesList} = this.state;
+    let preIndex = circlesList.findIndex(item=>item.cid === model.cid)
+    if(!postLock){
+     if(model.isSubscribe){
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.leaveCircle(model.cid);
+       this.setState({
+         postLock:false
+       })
+       circlesList[preIndex].isSubscribe = false
+       if(res){
+         this.showToast('已取消');
+       }
+     }else{
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.joinCircle(model.cid);
+       this.setState({
+         postLock:false
+       })
+       circlesList[preIndex].isSubscribe = true
+       if(res){
+         this.showToast('已加入');
+       }
+     }
+    }
+    this.setState({
+      circlesList:circlesList
+    })
+  }
 }

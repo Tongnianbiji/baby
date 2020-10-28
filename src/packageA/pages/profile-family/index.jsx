@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import { View, Image } from '@tarojs/components'
+import { View, Image, Button } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
 
 export default class ProfileBaby extends Presenter {
-  config = {
-    navigationBarTitleText: '家',
-    navigationBarBackgroundColor: '#FFFFFF',
-  }
-
+ 
+  
   render() {
     const { familyMember, otherMember } = this.state;
     return (
@@ -33,7 +30,7 @@ export default class ProfileBaby extends Presenter {
             {
               otherMember.map((item, index) => {
                 return (
-                  <View className='other-item' key={`item_${item.role}_${index}`}>{item.roleText || '其他'}</View>
+                  <Button open-type="share" className='other-item' key={`item_${item.role}_${index}`}>{item.roleText || '其他'}</Button>
                 )
               })
             }

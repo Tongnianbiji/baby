@@ -8,7 +8,8 @@ export default class CircleItem extends Component {
     data: null,
     // 是否在最上方显示 [可能感兴趣] 一栏
     recommand: false,
-    kw: '济阳'
+    kw: '济阳',
+    onHandleSubscr:()=>{}
   }
 
   constructor(props) {
@@ -50,8 +51,13 @@ export default class CircleItem extends Component {
 
   }
 
+  handleSubscr = (model,e)=>{
+    e.stopPropagation();
+    this.props.onHandleSubscr(model)
+  }
+
   render() {
-    const {data,data:{cid,description,leaf,imgUrl,name,posts,questions,subscribe},kw} = this.props;
+    const {data,data:{cid,uid,description,leaf,imgUrl,name,posts,questions,subscribe,isSubscribe},kw} = this.props;
     let newTitle
     return (
       <View className='search-circle-item' onClick={this.gotoCircleDetail.bind(this,data)}>
@@ -78,7 +84,7 @@ export default class CircleItem extends Component {
                   })
                 }
               </View>
-              <View className='btn'>加入</View>
+              <View onClick={this.handleSubscr.bind(this,data)} className={`btn ${isSubscribe? 'btn-attentioned' : ''}`}>{isSubscribe  ? '已加入' : '加入'}</View>
             </View>
               <Text className='subtitle'>简介: {description}</Text>
           </View>

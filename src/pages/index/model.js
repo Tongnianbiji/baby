@@ -38,17 +38,25 @@ export default {
 
   //
   async getAttentionCircle(params) {
-    const ret = await request.post('/relation/user/circles', params)
+    const ret = await request.postWithToken('/relation/user/circles', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
     console.log(ret, 'ret')
   },
 
-  //获取关注的用户
-  async getAttentionUsers(userId,pn=1) {
+  //获取关注的用户动态
+  async getAttentionUsers(uid,pageNum=1) {
     let params = {
-      userId,
-      pn
+      uid,
+      pageNum,
+      pageSize:10
+
     }
-    const ret = await request.getWithToken('/subscr/get', params)
+    const ret = await request.postWithToken('/activity/subscribeUser', params)
     const data = request.standardResponse(ret)
     if (data.code === 0) {
       return data.data

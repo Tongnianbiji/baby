@@ -10,12 +10,14 @@ class Data {
   @observable currentCity = '浦东区';
   @observable isGuide = false;
   @observable isRegiste = false;
-  @observable role='';
+  @observable role='妈妈';
   @observable school='';
   @observable hospital='';
   @observable babyList='';
   @observable babyNickname='';
   @observable isLogin=false;
+  @observable sex='MALE';
+  @observable wxUserInfo={};
 
   @action updateCurrentCity = (currentCity)=>{
     this.currentCity = currentCity
@@ -31,6 +33,14 @@ class Data {
 
   @action updateRole = (role)=>{
     this.role = role
+  }
+
+  @action updateSex = (sex)=>{
+    this.sex = sex
+  }
+
+  @action updateWxUserInfo = (info)=>{
+    this.wxUserInfo = info
   }
 
   @action updateSchool = (school)=>{

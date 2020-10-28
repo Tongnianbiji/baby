@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
+import staticData from '@src/store/common/static-data'
 
 export default class ProfileSettingInfoPresenter extends BaseComponent {
   constructor(props) {
@@ -17,7 +18,9 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
 
   componentWillMount() { }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getWxProfileInfo()
+  }
 
   componentWillUnmount() { }
 
@@ -56,7 +59,7 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
     const uid = this.getUserInfo().userId;
     const token = this.isLogin();
     let res = await Model.getProfileInfo(token,uid);
-    if(res){
+    if(res&&res.nickName){
       this.setState({
         nickName:res.nickName,
         signature:res.signature,
@@ -65,6 +68,20 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
       })
     }
   }
+
+  getWxProfileInfo =()=>{
+    const {wxUserInfo} = staticData;
+    const {newUser} = this.$router.params;
+    if(wxUserInfo.nickName && newUser){
+      let res= wxUserInfo;
+      this.setState({
+        nickName:res.nickName,
+        headImg:res.avatarUrl,
+      })
+    }
+  }
+
+
 
   getHeadFile = async (file)=>{
     this.setState({

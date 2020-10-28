@@ -16,7 +16,8 @@ export default class Presenter extends BaseComponent {
       circleResult:[],
       postResult:[],
       questionResult:[],
-      userResult:[]
+      userResult:[],
+      postLock:false
     }
   }
 
@@ -103,5 +104,41 @@ export default class Presenter extends BaseComponent {
 
   cancelSearch = ()=>{
     Taro.navigateBack()
+  }
+
+   //加入/已加入
+   handleSubsrc= async (model)=>{
+    let {postLock,circleResult} = this.state;
+    let preIndex = circleResult.findIndex(item=>item.cid === model.cid)
+    if(!postLock){
+     if(model.isSubscribe){
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.leaveCircle(model.cid);
+       this.setState({
+         postLock:false
+       })
+       circleResult[preIndex].isSubscribe = false
+       if(res){
+         this.showToast('已取消');
+       }
+     }else{
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.joinCircle(model.cid);
+       this.setState({
+         postLock:false
+       })
+       circleResult[preIndex].isSubscribe = true
+       if(res){
+         this.showToast('已加入');
+       }
+     }
+    }
+    this.setState({
+      circleResult:circleResult
+    })
   }
 }

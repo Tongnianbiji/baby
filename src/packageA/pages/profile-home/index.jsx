@@ -13,7 +13,7 @@ export default class ProfileHome extends Presenter {
     const { tabs, 
       tabsCurrent,
       isMySelf,
-      userInfo:{nickName,headImg,sex,district,child,signature,flow,funs,circle,marked,stared,subscr}, 
+      userInfo:{nickName,headImg,sex,district,child,signature,flow,funs,circle,marked,stared,subscr,userId}, 
       activeData, 
       postData, 
       questionData,
@@ -35,7 +35,7 @@ export default class ProfileHome extends Presenter {
         <View className='profile-header'>
           <View className='top-wrapper'>
             <View className='left-container'>
-              <View className='avatar'>
+              <View className='avatar' onClick={this.viewProfileInfo.bind(this,userId)}>
                 <Image src={headImg}></Image>
               </View>
             </View>

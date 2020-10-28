@@ -1,6 +1,6 @@
 import Taro, {getCurrentInstance} from '@tarojs/taro'
 import React, { Component } from 'react'
-import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY,USER_INFO_KEY_USERID } from '../common/constant'
+import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY,USER_INFO_KEY_USERID,CURRENT_LOCATION_INFO } from '../common/constant'
 import Dto from '../common/localStorage'
 import { View, Button } from '@tarojs/components'
 
@@ -190,12 +190,28 @@ export default class BaseComponent extends Component {
     this.__local_dto.setValue(CURRENT_CITY_KEY, cityname)
   }
 
+
+   /**
+   * 获取当前定位信息
+   */
+  getCurrentLocation() {
+    return this.__local_dto.getValue(CURRENT_LOCATION_INFO)
+  }
+
+  /**
+   * 设置定位信息
+   * @param {*} location 定位信息
+   */
+  setCurrentLocation(location) {
+    this.__local_dto.setValue(CURRENT_LOCATION_INFO, location)
+  }
+
   /**
    * 获取用户信息
    */
   getUserInfo() {
     if(!this.__local_dto.getValue(USER_INFO_KEY)){
-      return {userId:this.__local_dto.getValue(USER_INFO_KEY_USERID)}
+      return this.__local_dto.getValue(USER_INFO_KEY_USERID)
     }else{
       return this.__local_dto.getValue(USER_INFO_KEY)
     }

@@ -8,13 +8,22 @@ export default class CharacterXPresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      role:''
+      role:'',
+      isInvite:false
     }
   }
 
   componentWillMount() { }
 
-  componentDidMount() { }
+  componentDidMount() { 
+    const {isInvite} = this.$router.params;
+    console.log('是否邀请',isInvite)
+    if(isInvite){
+      this.setState({
+        isInvite:isInvite
+      })
+    }
+  }
 
   componentWillUnmount() { }
 
@@ -28,14 +37,19 @@ export default class CharacterXPresenter extends BaseComponent {
     })
   }
   nextStep = ()=>{
-    const {role} = this.state;
+    const {role,isInvite} = this.state;
     const {updateRole} = staticData;
     if(role){
       updateRole(role);
-      this.navback(2)
+      if(!isInvite){
+        this.navback(2)
+      }else{
+        this.navto({
+          url:`/packageA/pages/characterA/index?isOther=true`
+        })
+      }
     }else{
       this.showToast('请输入身份')
     }
   }
-
 }

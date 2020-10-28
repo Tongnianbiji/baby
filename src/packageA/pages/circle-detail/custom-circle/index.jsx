@@ -110,10 +110,10 @@ export default class CustomCircle extends Component {
           </View>
           {
             defaultRegionFlag &&
-            <RadioGroup className='radio-list'>
+            <RadioGroup className='radio-list' style="flex-direction:row">
               {region.map((item, i) => {
                 return (
-                  <Label className='radio-list__label' for={i} key={i}>
+                  <Label className='radio-list__label' style="margin-right: 10px;" for={i} key={i}>
                     <Radio className='radio-list__radio' onClick={this.selectRegion.bind(this,item.value)} style="font-size:13px" color="#FF473A" value={item.value} checked={item.value === defaultRegion}>{item.text}</Radio>
                   </Label>
                 )

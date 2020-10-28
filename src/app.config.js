@@ -17,6 +17,7 @@ export default {
         "pages/attentions/index",
         "pages/characterA/index",
         "pages/characterB/index",
+        "pages/characterC/index",
         "pages/characterX/index",
         "pages/discover/index",
         "pages/home-search-panel/index",
@@ -77,7 +78,7 @@ export default {
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black',
-    "enablePullDownRefresh": true
+    // "enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "#CCC",

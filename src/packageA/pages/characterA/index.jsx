@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import React from 'react'
 import { AtTabs, AtTabsPane, AtList, AtListItem, AtSwipeAction } from 'taro-ui'
-import { View, Input, RadioGroup, Radio, Picker, Image, Text } from '@tarojs/components'
+import { View, Input, RadioGroup, Radio, Picker, Image, Text, Button } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
 import { ICONS } from '@common/constant'
@@ -20,11 +20,10 @@ export default class CharacterA extends Presenter {
         </View>
 
         <View className='next-btn-wrapper'>
-          <View className={['next-btn', canSave ? 'active' : null]} onClick={this.nextStep.bind(this)}>下一步</View>
+          <Button openType="getUserInfo" className={['next-btn', canSave ? 'active' : null]} onGetUserInfo={this.nextStep.bind(this)}>下一步</Button>
           {
             subTabsCurrent != 2 && <View className='next-tips'>完善宝宝信息，结识同道家长，获取更精准的优质内容</View>
           }
-
         </View>
       </View >
     )

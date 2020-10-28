@@ -143,8 +143,9 @@
 }
 
 .need-line {
-  border-bottom: 1px solid #DDDFE8;
+  border-bottom: 15px solid #f5f5f5;
   margin-bottom: 20px;
+  padding:0 32px;
   &:nth-last-child(1) {
     border-bottom: 0;
   }

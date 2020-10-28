@@ -3,9 +3,8 @@ import Taro from '@tarojs/taro'
 import { View, Input, Image } from '@tarojs/components'
 import { ICONS } from '../../../common/constant'
 import Presenter from './presenter'
-import Preloading from '@components/preloading'
-// import SearchCircleItem from './circle-item'
 import SearchCircleItem from '../../../common/components/circle-card'
+import Preloading from '@components/preloading'
 import './styles.scss'
 
 export default class SearchCircle extends Presenter {
@@ -28,7 +27,7 @@ export default class SearchCircle extends Presenter {
           {
             circlesList.map((item,n) => {
               return (
-                <SearchCircleItem data={item} kw={kw} key={n} recommand={n === 6} />
+                <SearchCircleItem data={item} kw={kw} key={n} onHandleSubscr={this.handleSubsrc.bind(this)} />
               )
             })
           }

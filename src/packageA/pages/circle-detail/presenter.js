@@ -40,7 +40,7 @@ export default class Presenter extends BaseComponent {
   onPageScroll(e) {
     let { tempHeight } = this.state;
     let scrollTop = e.scrollTop;
-    if (scrollTop >= 230) {
+    if (scrollTop >= 220) {
       this.$store.updateCenterHeight(tempHeight)
       this.$store.updateIsFiexd(true)
     }
@@ -52,6 +52,7 @@ export default class Presenter extends BaseComponent {
     await this.$store.getTopPost(cid);
     await this.$store.getCirclePosts(cid);
     await this.$store.getParentCircles(cid);
+    await this.$store.getChildCircles(cid)
     if (!leaf) {
       await this.$store.getSiblingCircles(cid)
     } else {

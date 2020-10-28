@@ -9,7 +9,8 @@ export default class ScrollViewList extends Component {
     isToBottom:false,
     fixed: false,
     centerHeight: '',
-    onScrollToLower:()=>{}
+    onScrollToLower:()=>{},
+    onScrollToUpper:()=>{}
   }
 
   constructor(props) {
@@ -34,8 +35,8 @@ export default class ScrollViewList extends Component {
         <ScrollView
           scrollY
           scrollWithAnimation
-          onScrollToLower={this.scrollToLower}
-          onScrollToUpper={this.scrollToUpper}
+          onScrollToLower={this.scrollToLower.bind(this)}
+          onScrollToUpper={this.scrollToUpper.bind(this)}
           className="scroll-view"
           style={fixed ? scrollStyle : null}
         >

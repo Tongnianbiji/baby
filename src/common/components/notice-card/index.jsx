@@ -34,6 +34,15 @@ export default class NoticeCard extends Component {
     this.props.onNoticeClick(data)
   }
 
+  viewCircleDetail = cid => {
+    if(!cid){
+      cid='10397889'
+    }
+    Taro.navigateTo({
+      url: `/packageA/pages/circle-detail/index?cid=${cid}`
+    })
+  }
+
   renderPost() {
     const { data } = this.props
     return (
@@ -85,7 +94,8 @@ export default class NoticeCard extends Component {
           {
             this.props.countryAble &&
             <View className='community-area'>
-              <Text className='community-name'>{(data && data.userSnapshot && data.userSnapshot.city && `${data.userSnapshot.city} ${data.userSnapshot.country}`) || '上海 新城'}</Text>
+              {/* <Text className='community-name'>{(data && data.userSnapshot && data.userSnapshot.city && `${data.userSnapshot.city} ${data.userSnapshot.country}`) || '上海 新城'}</Text> */}
+              <Text className='community-name'>{(data && data.cid && `${data.cName}`) || '备孕交流'}</Text>
             </View>
           }
           {

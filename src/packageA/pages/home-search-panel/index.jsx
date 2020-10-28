@@ -8,8 +8,8 @@ import { SearchResultType } from '../../../common/enums'
 import DefaultPanel from './default-panel'
 import SearchResultCard from './result-group-card'
 import CircleCard from '../../../common/components/circle-card'
-import PostCard from '../../../common/components/post-card'
 import TitleBarInCard from './title-bar-in-card'
+import PostCard from '../../../common/components/post-card'
 import CreateCircle from './no-data-card'
 import UserInfoCard from '../../../common/components/user-card'
 import './styles.scss'
@@ -78,7 +78,7 @@ export default class HomeSearchView extends Presenter {
                     <AtTabsPane index={3} className='tabs-pane' current={currentTopTab}>
                       {
                         currentTopTab === 3 && !!circleResult.length &&
-                        circleResult.map((item,n) => <CircleCard data={item} key={n} />)
+                        circleResult.map((item,n) => <CircleCard onHandleSubscr={this.handleSubsrc.bind(this)} data={item} key={n} />)
                       }
                       <CreateCircle />
                     </AtTabsPane>

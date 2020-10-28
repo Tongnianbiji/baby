@@ -1,5 +1,5 @@
 import BaseRequest from '@common/baseRequest'
-
+import Taro, { getCurrentInstance } from '@tarojs/taro'
 const request = new BaseRequest();
 
 export default {
@@ -13,6 +13,11 @@ export default {
     if (data.code === 0) {
       return true
     } else {
+      Taro.showToast({
+        title:`${data.message}`,
+        icon:'none',
+        duration:2e3
+      })
       return false
     }
   }

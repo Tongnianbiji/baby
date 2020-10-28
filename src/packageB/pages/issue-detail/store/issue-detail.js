@@ -66,14 +66,14 @@ class IssueDetailStore{
 
   @action updateAnswerListIsLike = (params)=>{
     const {preIndex,likes,isLikes} = params;
-    this.answerList[preIndex].likes += likes;
-    this.answerList[preIndex].isLikes = isLikes;
+    this.answerList[preIndex].questionReplyBo.likes += likes;
+    this.answerList[preIndex].questionReplyBo.isLikes = isLikes;
   }
 
   @action updateAnswerListIsDislike = (params)=>{
     const {preIndex,dislikes,isDislikes} = params;
-    this.answerList[preIndex].dislikes += dislikes;
-    this.answerList[preIndex].isDislikes = isDislikes;
+    this.answerList[preIndex].questionReplyBo.dislikes += dislikes;
+    this.answerList[preIndex].questionReplyBo.isDislikes = isDislikes;
   }
 
   @action getActiveSortType = (type)=>{

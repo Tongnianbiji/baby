@@ -84,5 +84,19 @@ export default {
       })
       return false
     }
+  },
+
+  async getInviteData(bid){
+    let params ={
+      bid
+    }
+    const ret = await request.getWithToken('/child/invite', params)
+    const data = request.standardResponse(ret);
+    if (data.code === 0) {
+      return data
+    } else {
+      return false
+    }
   }
+
 }

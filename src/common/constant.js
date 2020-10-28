@@ -12,6 +12,7 @@ import NODATA from '@ass/img/no-data.png'
 import DELETE from '@ass/img/delete1.png'
 import USER from '@ass/img/user.png'
 import DROP from '@ass/img/drop.gif'
+import ADD from '@ass/img/add.png'
 
 export const ICONS = {
   SHARE_BTN_GRAY: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/share-c.png',
@@ -58,7 +59,8 @@ export const ICONS = {
   NODATA:NODATA,
   DELETE:DELETE,
   USER:USER,
-  DROP:DROP
+  DROP:DROP,
+  ADD:ADD
 }
 
 
@@ -81,6 +83,7 @@ export const GMAP_API_KEY = 'ca2421a75ca2a312bbce4cdc9095e3d1'
  * 当前正被选中的城市, 在LocalStoreage中的Key
  */
 export const CURRENT_CITY_KEY = 'key_current_city'
+export const CURRENT_LOCATION_INFO = 'key_current_location'
 
 export const USER_INFO_KEY = '__TN_USER_INFO_'
 export const USER_INFO_KEY_USERID = '__TN_USER_INFO_USERID'

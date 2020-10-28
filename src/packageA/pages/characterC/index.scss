@@ -1,0 +1,39 @@
+@import "../../../app.scss";
+@import "../../../assets/scss/theme.scss";
+
+.characterB-viewport {
+  min-height: 100vh;
+  background: $sys-linear-active;
+  padding-bottom: 32px;
+
+  .header-wrapper {
+    font-size: 24px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    padding-top: 24px;
+    padding-bottom: 24px;
+    padding-left: 32px;
+  }
+  .body-wrapper {
+    margin: 0 32px;
+    background-color: $sys-white-bg;
+    border-radius: 20px;
+    .item {
+      height: 108px;
+      background: rgba(255, 255, 255, 1);
+      text-align: center;
+      margin: 0 24px;
+      image {
+        height: 22px;
+        width: 12px;
+      }
+    }
+    .item:last-child {
+      margin-bottom: 32px;
+    }
+    .item:not(:last-child) {
+      border-bottom: 1px solid #dddfe8;
+    }
+  }
+}

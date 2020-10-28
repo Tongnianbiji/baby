@@ -91,5 +91,12 @@
     background: linear-gradient(270deg, #ff473a 0%, #ff8a63 100%);
     text-align: center;
   }
-  
+}
+
+.at-tabs__header{
+  justify-content: space-around;
+  .at-tabs__item{
+    margin:0 20px;
+    flex:none
+  }
 }

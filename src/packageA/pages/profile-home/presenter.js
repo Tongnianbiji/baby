@@ -370,4 +370,11 @@ export default class ProfileHomePresenter extends BaseComponent {
       return '#FF1493'
     }
   }
+
+  viewProfileInfo = (uid,e)=>{
+    e.stopPropagation();
+    Taro.navigateTo({
+      url:`/packageA/pages/profile-home/index?userId=${uid}`
+    })
+  }
 }

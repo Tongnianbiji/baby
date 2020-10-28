@@ -1,9 +1,9 @@
 import Taro from '@tarojs/taro'
 import React, { Component } from 'react'
+import BaseComponent from '@common/baseComponent'
 import { View, ScrollView, Image, Text } from '@tarojs/components'
-// import UserInfoItem from './user-info-item'
-import UserInfoItem from '../../../common/components/post-card'
 import Model from '../model'
+import { ICONS } from '@common/constant'
 
 import './attention-circle.scss'
 
@@ -74,13 +74,14 @@ const tags = [
   { title: '医院' }
 ]
 
-export default class AttentionCircle extends Component {
+export default class AttentionCircle extends BaseComponent {
   constructor(props) {
     super(props)
 
-    this.config = {
+    this.state = {
       current: 1,
-      pageSize: 10
+      pageSize: 10,
+      circleList:[]
     }
   }
 
@@ -88,34 +89,52 @@ export default class AttentionCircle extends Component {
     this.getDatas()
   }
 
-  goToDetail = id => {
+  goToDetail = cid => {
     Taro.navigateTo({
-      url: `/packageA/pages/circle-detail/index?id=${id}`
+      url: `/packageA/pages/circle-detail/index?cid=${cid}`
     })
   }
 
-  getDatas() {
-    Model.getAttentionCircle({
-      uid: '7cd645ccffc41c4705a676c234fa957e',
-      pageNum: this.config.current,
-      pageSize: this.config.pageSize
+  goToMoreCircle = ()=>{
+    Taro.switchTab({
+      url: `/pages/discover/index`
     })
+  }
+
+  getDatas =async ()=> {
+    let res = await Model.getAttentionCircle({
+      uid: this.getUserInfo().userId,
+      pageNum: this.state.current,
+      pageSize: this.state.pageSize
+    })
+    if(res && res.items && res.items.length){
+      this.setState({
+        circleList:res.items
+      })
+    }
   }
 
   render() {
+    const {circleList} = this.state;
     return (
       <View>
         <ScrollView scrollX>
           <View className='community-wrapper'>
+          <View className='community-entry' onClick={this.goToMoreCircle.bind(this)}>
+            <View className='avatar'>
+              <Image src={ICONS.ADD} className='avatar-img'></Image>
+            </View>
+            <Text className='title'>更多圈子</Text>
+          </View>
             {
-              mockData.map(n => {
+              circleList.map(item => {
                 return (
-                  <View key={n} className='community-entry' onClick={this.goToDetail.bind(this, '1')}>
+                  <View key={item.cid} className='community-entry' onClick={this.goToDetail.bind(this, item.cid)}>
                     <View className='avatar'>
-                      { n.url ? <Image src={n.url} className='avatar-img'></Image> : '' }
+                      { item.imgUrl ? <Image src={item.imgUrl} className='avatar-img'></Image> : '' }
                     </View>
-                    <Text className='title'>{n.title}</Text>
-                    { n.actived && <View className='arrow-up'></View> }
+                    <Text className='title'>{item.name}</Text>
+                    {/* { item.isSubscribe && <View className='arrow-up'></View> } */}
                   </View>
                 )
               })

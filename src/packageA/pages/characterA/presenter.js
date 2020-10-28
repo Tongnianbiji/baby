@@ -2,7 +2,7 @@ import Taro from '@tarojs/taro'
 import React from 'react'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
-import staticData from '@src/store/common/static-data.js'
+import staticData from '@src/store/common/static-data'
 
 export default class CharacterAPresenter extends BaseComponent {
   constructor(props) {
@@ -45,7 +45,27 @@ export default class CharacterAPresenter extends BaseComponent {
 
   componentWillMount() { }
 
-  componentDidMount() { }
+  componentDidMount() { 
+    const {role} = staticData;
+    //const {isOther} = this.$router.params;
+    switch(role){
+      case '妈妈':
+        this.setState({
+          topTabsCurrent:0
+        });
+      break;
+      case '爸爸':
+        this.setState({
+          topTabsCurrent:1
+        });
+      break;
+      default:
+        this.setState({
+          topTabsCurrent:2
+        });
+      break;
+    }
+  }
 
   componentWillUnmount() { }
 
@@ -276,6 +296,7 @@ export default class CharacterAPresenter extends BaseComponent {
         pregnancyBornDate:this.formateTime(new Date((new Date(lastMenstruation)).getTime() + 60*60*24*1000*280))
       })
     }
+    this.isCanSave();
   }
 
   //时间格式化
@@ -286,18 +307,17 @@ export default class CharacterAPresenter extends BaseComponent {
     return `${year}-${mon}-${day}`
   }
   //下一步
-  nextStep= async ()=>{
+  nextStep= async (e)=>{
     let officeName = '宝宝',yearState=null,yearDesc=null;
     const {subTabsCurrent,babyList,pregnancyBornDate,preHospital} =this.state;
+    const {isRegiste,updateWxUserInfo} = staticData;
+    if(e&&e.detail&&e.detail.userInfo){
+      updateWxUserInfo(e.detail.userInfo)
+    }
     if(this.isCanSave()){
       switch(subTabsCurrent){
         case 0:
           yearState='BRINGUP';
-          // yearDesc={
-          //   sex:'MALE',
-          //   birthday:'2020-10-15',
-          //   school:'浦东一小'
-          // }
           let status = true;
           babyList.forEach(async (item)=>{
             yearDesc={

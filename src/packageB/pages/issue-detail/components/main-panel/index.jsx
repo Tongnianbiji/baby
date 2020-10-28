@@ -49,6 +49,13 @@ export default class MainPanelComponent extends Component {
     this.props.onShare(qid)
   }
 
+  viewProfileInfo = (uid,e)=>{
+    e.stopPropagation();
+    Taro.navigateTo({
+      url:`/packageA/pages/profile-home/index?userId=${uid}`
+    })
+  }
+
   render() {
     const {
       title,
@@ -59,7 +66,7 @@ export default class MainPanelComponent extends Component {
       isMark = false,
       createTime = '2020-03-29 21:29:00',
       qid=1,
-      
+      uid='',
       userSnapshot: {
         city='上海',
         country = '宝山',
@@ -71,7 +78,7 @@ export default class MainPanelComponent extends Component {
     return (
       <View className='main-panel-view'>
         <View className='user-info'>
-          <View className='avatar'>
+          <View className='avatar' onClick={this.viewProfileInfo.bind(this,uid)}>
             {
               headImg ?
                 <Image src={headImg} className='avatar-img' /> :

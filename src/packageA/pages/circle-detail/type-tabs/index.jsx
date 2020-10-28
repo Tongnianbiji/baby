@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Taro from '@tarojs/taro'
+import Taro, { switchTab } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import SubjectTabs from '../subject-tabs'
@@ -35,9 +35,19 @@ export default class TypeTabsView extends Component {
     this.state = {
       current: 1,
       touchStartTime: 0,
-      doubleClickLock:false
+      doubleClickLock:false,
+      tabId:140200,
+      hotTabType:1,
+      userTabType:1
     }
     this.circleDetailStore = this.props.circleDetailStore;
+  }
+
+  componentDidMount(){
+    const {tabId} = this.state;
+    getApp().sensors.registerApp({
+      tabId:tabId
+    })
   }
 
   touchStart = (e) => {
@@ -76,11 +86,89 @@ export default class TypeTabsView extends Component {
   }
 
   typeTabChange = index => {
-    const { doubleClickLock } = this.state;
+    let tabId = null;
+    const { doubleClickLock, hotTabType ,userTabType} = this.state;
     this.circleDetailStore.updateListType(index);
     !this.isTabCash(index) && !doubleClickLock && this.typeTabPost();
     this.setState({
       doubleClickLock:false
+    })
+    switch(index){
+      case 0:
+        tabId=140100;
+        break;
+      case 1:
+        tabId=140200;
+        break;
+      case 2:
+        tabId=140300;
+        break;
+      case 3:
+        if(hotTabType ===1){
+          tabId=140401;
+        }
+        else if(hotTabType ===2){
+          tabId=140402;
+        }
+        break;
+      case 4:
+        if(userTabType ===1){
+          tabId=140501;
+        }
+        else if(userTabType ===2){
+          tabId=140502;
+        }
+        break;
+    }
+    getApp().sensors.registerApp({
+      tabId:tabId,
+      eventType:2
+    })
+  }
+
+  //热榜切换
+  hotTabChange = type=>{
+    let tabId = null;
+    if(type ===0){
+      tabId=140401;
+      this.setState({
+        tabId:140401,
+        hotTabType:type+1
+      })
+    }
+    else if(type ===1){
+      tabId=140402;
+      this.setState({
+        tabId:140402,
+        hotTabType:type+1
+      })
+    }
+    getApp().sensors.registerApp({
+      tabId:tabId,
+      eventType:2
+    })
+  }
+
+   //用户切换
+   userTabChange = type=>{
+    let tabId = null;
+    if(type ===0){
+      tabId=140501;
+      this.setState({
+        tabId:140501,
+        userTabType:type+1
+      })
+    }
+    else if(type ===1){
+      tabId=140502;
+      this.setState({
+        tabId:140502,
+        userTabType:type+1
+      })
+    }
+    getApp().sensors.registerApp({
+      tabId:tabId,
+      eventType:2
     })
   }
 
@@ -117,7 +205,7 @@ export default class TypeTabsView extends Component {
   }
 
   //到顶取消冻结
-  onScrollToUpper(){
+  onScrollToUpper=()=>{
     this.circleDetailStore.updateIsFiexd(false);
   }
 
@@ -179,7 +267,7 @@ export default class TypeTabsView extends Component {
           </AtTabsPane>
           <AtTabsPane index={3} current={listType}>
             <View className='slider-tab-wrapper'>
-              <SliderTab tabList={[{ title: '24小时' }, { title: '近7天' }]} />
+              <SliderTab tabList={[{ title: '24小时' }, { title: '近7天' }]}  onChange={this.hotTabChange.bind(this)}/>
             </View>
             <ScrollViewList fixed={fixed} centerHeight={centerHeight}>
             {
@@ -193,7 +281,7 @@ export default class TypeTabsView extends Component {
           </AtTabsPane>
           <AtTabsPane index={4} current={listType}>
             <View className='slider-tab-wrapper'>
-              <SliderTab tabList={[{ title: '活跃度' }, { title: '距离' }]} />
+              <SliderTab tabList={[{ title: '活跃度' }, { title: '距离' }]} onChange={this.userTabChange.bind(this)}/>
             </View>
             <ScrollViewList onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingUser} isToBottom={isToBottomUser}>
             {

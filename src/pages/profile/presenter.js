@@ -3,6 +3,8 @@ import BaseComponent from '../../common/baseComponent'
 import Model from './model'
 import { ERR_MSG } from '../../common/constant';
 import staticData from '@src/store/common/static-data'
+import Storage from '@common/localStorage'
+import { USER_INFO_KEY_USERID } from '@common/constant'
 
 export default class ProfilePresenter extends BaseComponent {
   constructor(props) {
@@ -11,24 +13,26 @@ export default class ProfilePresenter extends BaseComponent {
       profileInfo: {},
       isLogin:false
     }
+    this.storage = Storage.getInstance()
   }
 
-  componentDidMount() {
-    this.getProfile();
-  }
+  componentDidMount() {}
   componentDidShow(){
     const {isLogin} = staticData
     this.setState({
       isLogin:isLogin
     })
+    this.getProfile();
   }
 
   getProfile() {
     this.showLoading();
-    Model.profile().then((ret) => {
+    let userId = this.getUserInfo().userId;
+    Model.profile(userId).then((ret) => {
       if (!ret.code) {
         this.hideLoading();
         this.setState({ profileInfo: ret.data });
+        this.storage.setValue(USER_INFO_KEY_USERID, ret.data)
       }
       else {
         this.hideLoading();
@@ -126,5 +130,12 @@ export default class ProfilePresenter extends BaseComponent {
       default:
         break;
     }
+  }
+
+  viewProfileInfo = (uid,e)=>{
+    e.stopPropagation();
+    Taro.navigateTo({
+      url:`/packageA/pages/profile-home/index?userId=${uid}`
+    })
   }
 }

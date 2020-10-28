@@ -9,8 +9,8 @@ import UITabs2 from '@components/ui-tabs2'
 import './index.scss'
 
 const tabList = [
-  { title: '热度排序', useable: true },
-  { title: '时间排序', useable: true },
+  { title: '热度', useable: true },
+  { title: '时间正序', useable: true },
   { title: '时间倒序', useable: true }
 ]
 

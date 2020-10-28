@@ -5,7 +5,7 @@ export default class Presenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tabList: [{ title: '我发布的' }, { title: '我回复的' }],
+      tabList: [{ title: '我的帖子' }, { title: '我的回复' }],
       currentTab: 0,
       postData:[],
       replyData:[],
