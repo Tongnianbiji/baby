@@ -8,41 +8,41 @@ const req = new Request();
 class IssueDetailStore{
   @observable qid = '';
   @observable answerList=[
-    {questionReplyBo:
-    {
-      content:'这是一个测试回答（模拟数据）',
-      createTime :'2020-03-29 21:29:00',
-      dislikes : 0,
-      isDislikes:false,
-      isLikes : false,
-      likes : 0,
-      files : [],
-      qid:6,
-      replyId:1,
-      userSnapshot: {
-        city : '上海',
-        country : '宝山',
-        headImg :'',
-        nickName:'昵称1',
-        sex :'MALE',
-        customLevel : [{ desc: '3岁9个月' }]
-      }
-    }
-  }
+  //   {questionReplyBo:
+  //   {
+  //     content:'',
+  //     createTime :'',
+  //     dislikes : 0,
+  //     isDislikes:false,
+  //     isLikes : false,
+  //     likes : 0,
+  //     files : [],
+  //     qid:6,
+  //     replyId:1,
+  //     userSnapshot: {
+  //       city : '',
+  //       country : '',
+  //       headImg :'',
+  //       nickName:'',
+  //       sex :'',
+  //       customLevel : [{ desc: '' }]
+  //     }
+  //   }
+  // }
   ];
   @observable activeSortType=1;
   @observable issueDetail = {
-    replys:18,
+    replys:0,
     isMark:false,
     qid:1,
     markes:0,
     userSnapshot: {
-      city:'上海',
-      country : '宝山',
+      city:'',
+      country : '',
       headImg :'',
-      nickName :'昵称1',
-      sex :'MALE',
-      customLevel : [{desc:'3岁9个月'}]
+      nickName :'',
+      sex :'',
+      customLevel : [{desc:''}]
     }
   };
   @action getQid=(qid)=>{
@@ -53,6 +53,24 @@ class IssueDetailStore{
     let res = await Model.getDetail(this.qid);
     if(res){
       this.issueDetail = res
+    }
+  }
+
+  @action initPageList = ()=>{
+    this.answerList = [],
+    this.issueDetail = {
+      replys:0,
+      isMark:false,
+      qid:1,
+      markes:0,
+      userSnapshot: {
+        city:'',
+        country : '',
+        headImg :'',
+        nickName :'',
+        sex :'',
+        customLevel : [{desc:''}]
+      }
     }
   }
 

@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
-import NoData from '@components/no-data'
+//import NoData from '@components/no-data'
 import CircleItem from './circle-item'
 
 export default class CirclesView extends Presenter {
@@ -18,7 +18,7 @@ export default class CirclesView extends Presenter {
             return (
              <CircleItem onGetCircleDetail={this.getCircleDetail.bind(this)} onSubscribe={this.onUpdateCircle.bind(this)} key={n} model={item}></CircleItem>
             )
-          }) : <NoData></NoData>
+          }) : null
         }
       </View>
     )

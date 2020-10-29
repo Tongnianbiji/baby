@@ -25,6 +25,18 @@ export default class ProfilePresenter extends BaseComponent {
     this.getProfile();
   }
 
+  onShareAppMessage (res){
+    const {profileInfo} = this.state;
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: `${profileInfo.nickName}邀请加入童年`,
+      path: `/pages/index/index`
+    }
+  }
+
   getProfile() {
     this.showLoading();
     let userId = this.getUserInfo().userId;

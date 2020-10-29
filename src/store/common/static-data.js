@@ -18,6 +18,7 @@ class Data {
   @observable isLogin=false;
   @observable sex='MALE';
   @observable wxUserInfo={};
+  @observable fromHomeMore=false;
 
   @action updateCurrentCity = (currentCity)=>{
     this.currentCity = currentCity
@@ -62,6 +63,11 @@ class Data {
   @action updateIsLoginStatus= (status)=>{
     this.isLogin = status
   }
+
+  @action updateFromHomeMoreStatus= (status)=>{
+    this.fromHomeMore = status
+  }
+
 
   @action getTagList = async (cid) => {
     const ret = await req.postWithToken('post/getTag', { cid })

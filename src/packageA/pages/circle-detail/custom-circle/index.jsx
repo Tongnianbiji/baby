@@ -110,7 +110,7 @@ export default class CustomCircle extends Component {
           </View>
           {
             defaultRegionFlag &&
-            <RadioGroup className='radio-list' style="flex-direction:row">
+            <RadioGroup className='radio-list'>
               {region.map((item, i) => {
                 return (
                   <Label className='radio-list__label' style="margin-right: 10px;" for={i} key={i}>
@@ -159,7 +159,7 @@ export default class CustomCircle extends Component {
             <RadioGroup className='radio-list'>
               {ageGroup.map((item, i) => {
                 return (
-                  <Label className='radio-list__label' for={i} key={i}>
+                  <Label className='radio-list__label' style="margin-right: 10px;" for={i} key={i}>
                     <Radio className='radio-list__radio' onClick={this.selectGroup.bind(this,item.value)} color="#FF473A" value={item.value} checked={item.value === defaultGroup}>{item.text}</Radio>
                   </Label>
                 )

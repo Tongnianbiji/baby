@@ -104,6 +104,7 @@ export default class CommentItem extends Component {
       likes = 0,
       files = [],
       uid,
+      replys,
       userSnapshot: {
         city = '上海',
         country = '宝山',
@@ -148,7 +149,7 @@ export default class CommentItem extends Component {
                 <Text className='years-old'>{customLevel.length && customLevel[0].desc}</Text>
               </View>
             </View>
-            <View className='like-btns'>
+            {/* <View className='like-btns'>
               <View className='btns-wrapper'>
                 <View className='like-btn' onClick={this.handleLike.bind(this, model)}>
                   <Image src={isLikes ? ICONS.FULLLIKE : ICONS.LIKE} className='like-btn-img' />
@@ -159,7 +160,7 @@ export default class CommentItem extends Component {
                   {dislikes}
                 </View>
               </View>
-            </View>
+            </View> */}
             {!needLine && <View className='line' />}
           </View>
           <View onClick={this.replyPost.bind(this, model)} onLongPress={this.handleDelete.bind(this,model)}>
@@ -176,8 +177,23 @@ export default class CommentItem extends Component {
                 })
               }
             </View>
-
           </View>
+
+          <View className='like-btns'>
+              <View className='btns-wrapper'>
+                <View className='like-btn' onClick={this.replyPost.bind(this, model)}>
+                    <Image src={ICONS.COMMENT} className='like-btn-img' />
+                </View>
+                <View className='like-btn' onClick={this.handleLike.bind(this, model)}>
+                  <Image src={isLikes ? ICONS.FULLLIKE : ICONS.LIKE} className='like-btn-img' />
+                  {likes}
+                </View>
+                <View className='like-btn dis-like' onClick={this.handleDisLike.bind(this, model)}>
+                  <Image src={isDislikes ? ICONS.FULLDISLIKE : ICONS.DISLIKE} className='like-btn-img' />
+                  {dislikes}
+                </View>
+              </View>
+            </View>
           {!!hasChildren && <View className='vertical-line' />}
         </View>
         <View className='children-nodes'>

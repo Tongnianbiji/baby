@@ -29,6 +29,13 @@ page {
       display: flex;
       align-items: center;
       justify-content: center;
+      &-text{
+        display: inline-block;
+        width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       .icon-arrow-down {
         width: 12px;
         height: 8px;

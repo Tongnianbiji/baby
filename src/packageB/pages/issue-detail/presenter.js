@@ -17,6 +17,11 @@ export default class Presenter extends BaseComponent {
     await getAnswerList()
   }
 
+  componentWillUnmount(){
+    const {initPageList} = issueDetailStore
+    initPageList()
+  }
+
   
 
   //去回答

@@ -118,7 +118,13 @@
       margin-top: 44px;
       background: rgba(255, 255, 255, 1);
       border-radius: 20px;
-
+      .other::after{
+        border:none
+      }
+      button{
+        background-color: #ffffff;
+        padding-right: 0;
+      }
       .other {
         @extend .flex-between;
         @extend .flex-direction-row;
@@ -129,6 +135,7 @@
         margin: 0 24px;
         .other-left {
           @extend .flex-direction-row;
+          align-items: center;
           .other-icon {
             min-width: 34px;
             max-width: 38px;

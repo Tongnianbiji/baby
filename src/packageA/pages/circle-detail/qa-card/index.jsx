@@ -20,7 +20,7 @@ export default class QACardView extends Component {
   }
 
   render() {
-    const { title, views, replys, markes,qid } = this.props.model;
+    const { title, views, replys, markes,qid,contnet } = this.props.model;
     return (
       <View className='qa-card-view' onClick={this.cardClick.bind(this,qid)}>
         
@@ -32,17 +32,14 @@ export default class QACardView extends Component {
           </View>
         </View>
 
-        <View className='anwser'>
-          { 
-            <View>
-            <View className='icon'>答</View>
-            <View className='txt'>张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三张三</View>
-            <View className='share-btn'>
-            {/* <Image src={ICONS.SHARE_BTN_GRAY} alt='' className='share-icon' /> */}
-          </View>
-          </View>
+       
+          { contnet && 
+            <View className='anwser'>
+              <View className='icon'>答</View>
+              <View className='txt' style="width:300px">{contnet}</View>
+            </View>
           }
-        </View>
+        
 
         <View className='tips'>
           <View className='views'>

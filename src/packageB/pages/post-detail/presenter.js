@@ -18,11 +18,17 @@ export default class Presenter extends BaseComponent {
 
   componentDidMount() {
     this.showNavLoading()
+    
   }
 
   componentDidShow() {
     this.getData()
     this.getReplyList()
+  }
+
+  componentWillUnmount(){
+    const {initPageList} = postDetail
+    initPageList()
   }
 
   //回复帖子

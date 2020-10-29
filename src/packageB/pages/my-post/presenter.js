@@ -152,4 +152,41 @@ export default class Presenter extends BaseComponent {
       url:'/packageB/pages/post-detail/index?pid='+pid
     })
   }
+
+  handleFavorite = async (model)=>{
+    let {postLock,postData} = this.state;
+    let preIndex = postData.findIndex(item=>item.pid === model.pid)
+    if(!postLock){
+     if(model.isMark){
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.cancelMarkPost(model.pid);
+       this.setState({
+         postLock:false
+       })
+       postData[preIndex].isMark = false;
+       postData[preIndex].markes -= 1;
+       if(res){
+         this.showToast('已取消');
+       }
+     }else{
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.markPost(model.pid);
+       this.setState({
+         postLock:false
+       })
+       postData[preIndex].isMark = true;
+       postData[preIndex].markes += 1;
+       if(res){
+         this.showToast('已收藏');
+       }
+     }
+    }
+    this.setState({
+      postData:postData
+    })
+  }
 }

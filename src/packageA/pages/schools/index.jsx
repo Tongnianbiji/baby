@@ -4,7 +4,7 @@ import { View, Image, Button,Input } from '@tarojs/components'
 import { AtInput,AtModal, AtModalHeader, AtModalContent, AtModalAction} from 'taro-ui'
 import Presenter from './presenter'
 import Preloading from '@components/preloading'
-import NoData from '@components/no-data'
+//import NoData from '@components/no-data'
 import { ICONS } from '@common/constant'
 import './index.scss'
 

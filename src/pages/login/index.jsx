@@ -14,9 +14,9 @@ export default class Login extends Presenter {
         <View className='logo-wrapp'>
           <Image className='img-logo' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/tn_logo.png' />
         </View>
-        <View className='invite-tip'>
+        {/* <View className='invite-tip'>
           <Text>小富爸爸邀请你一起使用“童年”，共同关注小福的成长</Text>
-        </View>
+        </View> */}
         {
           this.state.loginType === 1 ?
             <View>
@@ -35,7 +35,7 @@ export default class Login extends Presenter {
                 </View>
               </View>
               <Button className='confirm-btn' loading={this.state.loging} onClick={this.doLogin.bind(this)}>确认</Button>
-              <Button className='confirm-btn' onClick={this.changeLoginType.bind(this)}>返回</Button>
+              <Button className='confirm-btn back' onClick={this.changeLoginType.bind(this)}>返回</Button>
             </View>
         }
       </View>

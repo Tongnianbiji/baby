@@ -33,6 +33,10 @@ export default class Presenter extends BaseComponent {
     this.initData(cid)
   }
 
+  componentWillUnmount(){
+    this.$store.initData()
+  }
+
   onPullDownRefresh() {
     this.freshList()
   }

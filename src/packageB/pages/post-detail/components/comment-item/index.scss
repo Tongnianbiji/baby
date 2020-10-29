@@ -58,32 +58,6 @@
         }
        
       }
-      .like-btns {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        .btns-wrapper {
-          display: flex;
-          align-items: center;
-          .like-btn {
-            font-size: 20px;
-            color: #999;
-            .like-btn-img {
-              width: 24px;
-              height: 24px;
-              margin-right: 6px;
-            }
-            
-            &:nth-child(1) {
-              margin-right: 20px;
-            }
-          }
-        }
-      }
-      .dis-like{
-        margin-right: 0 !important;
-      }
       .line {
         position: absolute;
         height: 2px;
@@ -106,6 +80,36 @@
       video{
         width: 400px;
       }
+    }
+    .like-btns {
+      // position: absolute;
+      // right: 0;
+      // top: 50%;
+      overflow:auto;
+      transform: translateY(-50%);
+      .btns-wrapper {
+        display: flex;
+        align-items: center;
+        float: right;
+        width: 180px;
+        justify-content: space-between;
+        .like-btn {
+          font-size: 20px;
+          color: #999;
+          .like-btn-img {
+            width: 24px;
+            height: 24px;
+            margin-right: 6px;
+          }
+          
+          &:nth-child(1) {
+            margin-right: 20px;
+          }
+        }
+      }
+    }
+    .dis-like{
+      margin-right: 0 !important;
     }
     .vertical-line {
       width: 2px;

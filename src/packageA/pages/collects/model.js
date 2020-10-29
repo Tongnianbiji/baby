@@ -6,9 +6,9 @@ export default {
     { title: '收藏' },
     { title: '点赞' }
   ],
-  async getCollectData(userId, pageNum=1) {
+  async getCollectData(uid, pageNum=1) {
     let params = {
-      userId,
+      uid,
       pageNum,
       pageSize:10
     }
@@ -41,8 +41,8 @@ export default {
       pid,
       replyId
     }
-    const ret = await request.postWithToken('/post/like', params)
-    const data = request.standardResponse(ret)
+    const ret = await req.postWithToken('/post/like', params)
+    const data = req.standardResponse(ret)
     if (data.code === 0) {
       return true
     } else {
@@ -55,8 +55,34 @@ export default {
       pid,
       replyId
     }
-    const ret = await request.postWithToken('/post/like/cancel', params)
-    const data = request.standardResponse(ret)
+    const ret = await req.postWithToken('/post/like/cancel', params)
+    const data = req.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async markPost(pid) {
+    let params = {
+      pid
+    }
+    const ret = await req.postWithToken('/post/mark', params)
+    const data = req.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async cancelMarkPost(pid) {
+    let params = {
+      pid
+    }
+    const ret = await req.postWithToken('/post/mark/cancel', params)
+    const data = req.standardResponse(ret)
     if (data.code === 0) {
       return true
     } else {

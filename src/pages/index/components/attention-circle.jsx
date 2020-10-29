@@ -4,6 +4,7 @@ import BaseComponent from '@common/baseComponent'
 import { View, ScrollView, Image, Text } from '@tarojs/components'
 import Model from '../model'
 import { ICONS } from '@common/constant'
+import staticData from '@src/store/common/static-data'
 
 import './attention-circle.scss'
 
@@ -96,6 +97,8 @@ export default class AttentionCircle extends BaseComponent {
   }
 
   goToMoreCircle = ()=>{
+    const {updateFromHomeMoreStatus} = staticData;
+    updateFromHomeMoreStatus(true);
     Taro.switchTab({
       url: `/pages/discover/index`
     })

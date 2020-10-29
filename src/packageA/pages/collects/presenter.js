@@ -8,19 +8,19 @@ export default class Presenter extends BaseComponent {
       tabList: Model.tabList,
       currentTab: 0,
       collectData: [
-        {
-          createAt: "2020-10-14 15:23:21",
-          entityId: 23,
-          entityUid: "4a836531a49cf9170ed75dd24b488f78",
-          title: "1223",
-          type: 3008,
-          uid: "4a836531a49cf9170ed75dd24b488f78",
-          updateAt: "2020-10-14 15:23:21",
-          userSnapshot: {
-            headImg: "https://cdn.tongnian.world/head/20170710210234_y3Kf5.thumb.1000_0.jpeg",
-            nickName: "小景"
-          }
-        }
+        // {
+        //   createAt: "2020-10-14 15:23:21",
+        //   entityId: 23,
+        //   entityUid: "4a836531a49cf9170ed75dd24b488f78",
+        //   title: "1223",
+        //   type: 3008,
+        //   uid: "4a836531a49cf9170ed75dd24b488f78",
+        //   updateAt: "2020-10-14 15:23:21",
+        //   userSnapshot: {
+        //     headImg: "https://cdn.tongnian.world/head/20170710210234_y3Kf5.thumb.1000_0.jpeg",
+        //     nickName: "小景"
+        //   }
+        // }
       ],
       likeData: [],
       postLock: false,
@@ -160,13 +160,50 @@ export default class Presenter extends BaseComponent {
     }
   }
 
+  //收藏
+  handleFavorite = async (model)=>{
+    let {postLock,collectData} = this.state;
+    let preIndex = collectData.findIndex(item=>item.entity.pid === model.pid)
+    if(!postLock){
+     if(model.isMark){
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.cancelMarkPost(model.pid);
+       this.setState({
+         postLock:false
+       })
+       collectData[preIndex].entity.isMark = false;
+       collectData[preIndex].entity.markes -= 1;
+       if(res){
+         this.showToast('已取消');
+       }
+     }else{
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.markPost(model.pid);
+       this.setState({
+         postLock:false
+       })
+       collectData[preIndex].entity.isMark = true;
+       collectData[preIndex].entity.markes += 1;
+       if(res){
+         this.showToast('已收藏');
+       }
+     }
+    }
+    this.setState({
+      collectData:collectData
+    })
+  }
+
   //点赞
   handleLike =async (model)=>{
-    this.showToast('接口少数据')
     let {postLock,likeData} = this.state;
-    let preIndex = likeData.findIndex(item=>item.pid === model.pid && item.replyId === model.replyId)
+    let preIndex = likeData.findIndex(item=>item.entity.pid === model.pid && item.entity.replyId === model.replyId)
     if(!postLock){
-     if(model.isSubscr){
+     if(model.isLikes){
        this.setState({
          postLock:true
        })
@@ -174,7 +211,7 @@ export default class Presenter extends BaseComponent {
        this.setState({
          postLock:false
        })
-       likeData[preIndex].star = false
+       likeData[preIndex].entity.isLikes = false
        if(res){
          this.showToast('已取消');
        }
@@ -186,7 +223,7 @@ export default class Presenter extends BaseComponent {
        this.setState({
          postLock:false
        })
-       likeData[preIndex].star = true
+       likeData[preIndex].entity.isLikes = true
        if(res){
          this.showToast('已点赞');
        }

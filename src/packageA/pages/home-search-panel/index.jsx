@@ -17,7 +17,8 @@ import './styles.scss'
 export default class HomeSearchView extends Presenter {
 
   render() {
-    const { searchScope, currentTopTab, searchData, searchValue, circleResult, postResult, questionResult, userResult  } = this.state;
+    const { searchScope, currentTopTab, searchData, searchValue, circleResult, postResult, questionResult, userResult } = this.state;
+    console.log('9999',searchValue)
     return (
       <View className={`home-search-viewport${searchData ? ' graybg' : ''}`}>
         <View className='search-box'>
@@ -37,11 +38,11 @@ export default class HomeSearchView extends Presenter {
                       {
                         currentTopTab === 0 &&
                         [
-                          { type: SearchResultType.POST, id: '34234' },
-                          { type: SearchResultType.ANSWER, id: '54334' },
-                          { type: SearchResultType.CIRCLE, id: '12423' },
+                          { type: SearchResultType.POST, id: '34234' ,data:postResult},
+                          { type: SearchResultType.ANSWER, id: '54334',data: questionResult},
+                          { type: SearchResultType.CIRCLE, id: '12423' ,data:circleResult},
                         ].map(item => {
-                          return (<SearchResultCard type={item.type} key={item.id} onMore={this.onMore} />)
+                          return (<SearchResultCard type={item.type} kw={searchValue} model={item.data} key={item.id} onMore={this.onMore} />)
                         })
                       }
                     </AtTabsPane>
@@ -78,7 +79,7 @@ export default class HomeSearchView extends Presenter {
                     <AtTabsPane index={3} className='tabs-pane' current={currentTopTab}>
                       {
                         currentTopTab === 3 && !!circleResult.length &&
-                        circleResult.map((item,n) => <CircleCard onHandleSubscr={this.handleSubsrc.bind(this)} data={item} key={n} />)
+                        circleResult.map((item,n) => <CircleCard onHandleSubscr={this.handleSubsrc.bind(this)} kw={searchValue} data={item} key={n} />)
                       }
                       <CreateCircle />
                     </AtTabsPane>

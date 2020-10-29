@@ -15,12 +15,12 @@ class postDetailStore{
   @observable isToPostOwner = true;
   @observable detailData = {
     userSnapshot: {
-      city:'上海',
-      country : '宝山',
+      city:'',
+      country : '',
       headImg :'',
-      nickName :'昵称1',
-      sex :'MALE',
-      customLevel : [{desc:'3岁9个月'}]
+      nickName :'',
+      sex :'',
+      customLevel : [{desc:''}]
     }
   };
   @observable files = [];
@@ -34,6 +34,20 @@ class postDetailStore{
 
   @action updateReplyList = (commentList) => {
     this.commentList = commentList
+  }
+
+  @action initPageList = ()=>{
+    this.commentList = [];
+    this.detailData = {
+      userSnapshot: {
+        city:'',
+        country : '',
+        headImg :'',
+        nickName :'',
+        sex :'',
+        customLevel : [{desc:''}]
+      }
+    }
   }
 
   @action getDetail = async (pid) => {

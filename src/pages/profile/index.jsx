@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import React from 'react'
-import { View, Image, Text } from '@tarojs/components'
+import { View, Image, Text, Button } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
 import { ICONS } from '@common/constant'
@@ -84,13 +84,13 @@ export default class Profile extends Presenter {
               </View>
               <Image className='other-right' src={ICON_ARROW} />
             </View>
-            <View className='other' onClick={this.onClickNavTo.bind(this, 'share')}>
+            <Button className='other' open-type="share">
               <View className='other-left'>
                 <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-share.png' />
                 <View className='other-txt'>分享</View>
               </View>
               <Image className='other-right' src={ICON_ARROW} />
-            </View>
+            </Button>
             <View className='other' onClick={this.onClickNavTo.bind(this, 'setting')}>
               <View className='other-left'>
                 <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-setting.png' />

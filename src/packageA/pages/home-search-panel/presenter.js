@@ -96,9 +96,10 @@ export default class Presenter extends BaseComponent {
   }
 
   handleChange = (e)=>{
-    console.log(e.target.value)
     this.setState({
       searchValue:e.target.value
+    },()=>{
+      this.doSearch()
     })
   }
 

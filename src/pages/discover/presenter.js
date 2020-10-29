@@ -1,5 +1,6 @@
 import BaseComponent from '../../common/baseComponent'
 import Model from './model'
+import staticData from '@src/store/common/static-data'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -22,6 +23,19 @@ export default class Presenter extends BaseComponent {
 
   componentDidMount() {
     this.getMenus()
+  }
+
+  componentDidShow(){
+    const {fromHomeMore,updateFromHomeMoreStatus} = staticData;
+    let {activedMenu} = this.state;
+    if(fromHomeMore){
+      activedMenu = {sid:'r1'};
+      this.setState({
+        activedMenu:activedMenu
+      },()=>{
+        updateFromHomeMoreStatus(false)
+      })
+    }
   }
 
   /**

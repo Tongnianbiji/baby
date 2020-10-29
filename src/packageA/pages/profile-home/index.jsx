@@ -13,7 +13,7 @@ export default class ProfileHome extends Presenter {
     const { tabs, 
       tabsCurrent,
       isMySelf,
-      userInfo:{nickName,headImg,sex,district,child,signature,flow,funs,circle,marked,stared,subscr,userId}, 
+      userInfo:{nickName,headImg,sex,district,child,signature,flow,funs,circle,marked,stared,subscr,userId,theme}, 
       activeData, 
       postData, 
       questionData,
@@ -32,7 +32,7 @@ export default class ProfileHome extends Presenter {
     //(childs.length > 2) && (isChildThanTwo = true,childs = childs.slice(0,2))
     return (
       <View className='profile-home-viewport'>
-        <View className='profile-header'>
+        <View className='profile-header' style={{backgroundImage:`url(${theme})`}}>
           <View className='top-wrapper'>
             <View className='left-container'>
               <View className='avatar' onClick={this.viewProfileInfo.bind(this,userId)}>
@@ -87,7 +87,11 @@ export default class ProfileHome extends Presenter {
             </View> */}
           </View>
           <View className='label-wrapper'>
-            <View className='label'>{district}</View>
+            {
+              district && 
+              <View className='label'>{district}</View>
+            }
+          
             {
               childs.map(item=>{
                 return(
@@ -142,7 +146,7 @@ export default class ProfileHome extends Presenter {
                   {
                     activeData.map((item,index) => {
                       return (
-                        <UserInfoItem key={index} model={item}/>
+                        <UserInfoItem key={index} model={item.entity} activeModel={item}/>
                       )
                     })
                   }

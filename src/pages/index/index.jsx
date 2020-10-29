@@ -21,13 +21,13 @@ export default class Index extends HomePage {
   }
 
   render() {
-    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity } = this.state;
+    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers } = this.state;
     const {isGuide} = this.props.staticDataStore
     return (
       <View className='home-page-viewport'>
         <View className='search-bar'>
           <View className='location-info' onClick={this.selectCity}>
-            <Text>{currentCity}</Text>
+            <Text className="location-info-text">{currentCity}</Text>
             <Image src={arrowDown} className='icon-arrow-down'></Image>
           </View>
           <View className='search-info'>
@@ -55,7 +55,7 @@ export default class Index extends HomePage {
               <View className='user-item-wrapper'>
                 {
                   attentionType === 1 ?
-                    [1, 2, 3, 4, 5].map(key => {
+                    attentionUsers.map(key => {
                       return (
                         <UserInfoItem key={key} onClick={this.jump2circle} />
                       )

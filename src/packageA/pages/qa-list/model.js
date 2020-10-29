@@ -31,13 +31,13 @@ export default {
       return false
     }
   },
-
-  async leaveCircle(cid) {
+ 
+  async cancelMarkQuestion(qid) {
     let params = {
-     cid
+     qid
     }
-    const ret = await request.postWithToken('/relation/circle/leave', params)
-    const data = request.standardResponse(ret)
+    const ret = await req.postWithToken('/question/mark/cancel', params)
+    const data = req.standardResponse(ret)
     if (data.code === 0) {
       return true
     } else {
@@ -45,12 +45,12 @@ export default {
     }
   },
 
-  async joinCircle(cid) {
+  async markQuestion(qid) {
     let params = {
-     cid
+     qid
     }
-    const ret = await request.postWithToken('/relation/circle/join', params)
-    const data = request.standardResponse(ret)
+    const ret = await req.postWithToken('/question/mark', params)
+    const data = req.standardResponse(ret)
     if (data.code === 0) {
       return true
     } else {

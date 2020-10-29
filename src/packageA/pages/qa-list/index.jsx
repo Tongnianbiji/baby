@@ -5,7 +5,7 @@ import { AtTabs, AtTabsPane } from 'taro-ui'
 import Presenter from './presenter'
 import NoticeCard from '../../../common/components/notice-card'
 import Preloading from '@components/preloading'
-import NoData from '@components/no-data'
+//import NoData from '@components/no-data'
 import './index.scss'
 
 export default class QAListView extends Presenter {
@@ -22,11 +22,11 @@ export default class QAListView extends Presenter {
               <View>
                 {
                   questionData.map((item)=>{
-                    return (<NoticeCard isShowUserInfo={false} ishowAvatar={false} key={item.qid} data={item} type='qa' onHandleFavorite={this.handleFavorite.bind(this)} onNoticeClick={this.handlePostDetail.bind(this)} data={item} />)
+                    return (<NoticeCard isShowUserInfo={false} ishowAvatar={false} key={item.qid} data={item} type='qa' onHandleFavorite={this.handleFavoriteQuestion.bind(this)} onNoticeClick={this.handlePostDetail.bind(this)} data={item} />)
                   })
                 }
               <Preloading showLoading={showQuestionoading} isToBottom={isQuestionToBottom}></Preloading>
-              </View> :<NoData></NoData>
+              </View> :null
             }
           </AtTabsPane>
           <AtTabsPane className='i-reply-pane' index={1} current={currentTab}>
@@ -35,11 +35,11 @@ export default class QAListView extends Presenter {
              <View>
                {
                  answerData.map((item)=>{
-                   return (<NoticeCard isShowTime isShowUserInfo={false} ishowAvatar={false} isOldQuestion isShowQuestion={false} type='qa'  key={item.qid} onNoticeClick={this.handlePostDetail.bind(this)} data={item}/>)
+                   return (<NoticeCard isShowTime isShowUserInfo={false} ishowAvatar={false} isOldQuestion isShowQuestion={false} type='qa'  key={item.qid} onHandleFavorite={this.handleFavoriteAnswer.bind(this)} onNoticeClick={this.handlePostDetail.bind(this)} data={item.entity}/>)
                  })
                }
              <Preloading showLoading={showAnswerLoading} isToBottom={isAnswerToBottom}></Preloading>
-             </View> :<NoData></NoData>
+             </View> :null
            }
           </AtTabsPane>
         </AtTabs>

@@ -219,8 +219,8 @@ export default class TypeTabsView extends Component {
 
 
   //帖子收藏与取消收藏
-  handleFavorite= (pid)=>{
-    this.circleDetailStore.updateCirclePostsByFavorite(pid)
+  handleFavorite= (model)=>{
+    this.circleDetailStore.updateCirclePostsByFavorite(model.pid)
   }
 
   render() {

@@ -14,12 +14,15 @@
     }
     .radio-list{
       display: flex;
-      flex-direction: column;
+      //flex-direction: column;
       margin-bottom: 20px;
       .radio-list__label{
         zoom:.85;
         margin-bottom: 10px;
-        font-size: 18px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        flex:1;
       }
     }
     .items-wrapper {

@@ -5,7 +5,7 @@ import { View } from '@tarojs/components'
 import Presenter from './presenter'
 import Preloading from '@components/preloading'
 import PostCard from '@components/post-card'
-import NoData from '@components/no-data'
+// import NoData from '@components/no-data'
 import './index.scss'
 
 export default class CollectsView extends Presenter {
@@ -21,11 +21,11 @@ export default class CollectsView extends Presenter {
              <View>
                {
                  collectData.map((item)=>{
-                   return (<PostCard onCardClick={this.handlePostDetail.bind(this,item.pid)} model={item} closeRelease needShared/>)
+                   return (<PostCard onCardClick={this.handlePostDetail.bind(this,item.pid)} onHandleFavorite={this.handleFavorite.bind(this)} model={item.entity} closeRelease needShared/>)
                  })
                }
              <Preloading showLoading={showCollectLoading} isToBottom={isCollectToBottom}></Preloading>
-             </View> :<NoData></NoData>
+             </View> :null
            }
           </AtTabsPane>
           <AtTabsPane index={1} className='message-tabs-pane' current={currentTab}>
@@ -35,11 +35,11 @@ export default class CollectsView extends Presenter {
              <View>
                {
                  likeData.map((item)=>{
-                   return (<PostCard onHandleLike={this.handleLike.bind(this)} onCardClick={this.handlePostDetail.bind(this,item.pid)} model={item} isShowTools={false} isMyReply closeRelease needLike/>)
+                   return (<PostCard onHandleLike={this.handleLike.bind(this)} onCardClick={this.handlePostDetail.bind(this,item.pid)} model={item.entity} isShowTools={false} isMyReply closeRelease needLike/>)
                  })
                }
              <Preloading showLoading={showLikeLoading} isToBottom={isLikeToBottom}></Preloading>
-             </View> :<NoData></NoData>
+             </View> :null
            }
           </AtTabsPane>
         </AtTabs>

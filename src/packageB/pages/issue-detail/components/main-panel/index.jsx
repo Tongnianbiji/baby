@@ -56,6 +56,13 @@ export default class MainPanelComponent extends Component {
     })
   }
 
+   //去回答
+   goAnswer = (qid)=>{
+    Taro.navigateTo({
+      url:`/packageB/pages/create-answer/index?qid=${qid}`
+    })
+  }
+
   render() {
     const {
       title,
@@ -98,7 +105,7 @@ export default class MainPanelComponent extends Component {
             <Text className='times'>{FormaDate(createTime)}</Text>
           </View>
         </View>
-        <View className='issue'>
+        <View className='issue' onClick={this.goAnswer.bind(this,qid)}>
           <View className='icon'>问</View>
           <View className='txt'>{title}</View>
         </View>

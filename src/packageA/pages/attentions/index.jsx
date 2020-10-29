@@ -18,7 +18,7 @@ export default class AttentionsView extends Presenter {
               return (
                 <UserCard tip='关注' onGetUserDetail={this.getUserDetail.bind(this,item)} onSubscr={this.handleSubscr.bind(this)} model={item}></UserCard>
               )
-            }) : <NoData></NoData>
+            }) : null
         }
       </View>
     )

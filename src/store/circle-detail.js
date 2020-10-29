@@ -29,13 +29,7 @@ const state = {
   topPosts: [],
 
   // 相关圈子
-  parentCircles: [
-    // {
-    //   cid: 1,
-    //   imgUrl: '#',
-    //   name: '父圈子1'
-    // }
-  ],
+  parentCircles: [],
   childCircles: [
     {
       cid: 1,
@@ -82,6 +76,34 @@ const state = {
 }
 
 const actions = {
+
+  async initData(){
+    this.listType=1;
+    this.detailInfo={};
+    this.customConfig={};
+    this.activeTags=new Set();
+    this.activeTagsId=new Set();
+    this.topPosts=[];
+    this.parentCircles=[];
+    this.childCircles=[];
+    this.circlePosts=[];
+    this.circleEssence=[];
+    this.circleQuestion=[];
+    this.circleUser=[];
+    this.postsPageNum=1;
+    this.loadingPosts=true;
+    this.isToBottomPosts=false;
+    this.essencePageNum=1;
+    this.loadingEssence=true;
+    this.isToBottomEssence=false;
+    this.questionPageNum=1;
+    this.loadingQuestion=true;
+    this.isToBottomQuestion=false;
+    this.userPageNum=1;
+    this.loadingUser=true;
+    this.isToBottomUser=false;
+  },
+
   async getDetail(cid) {
     this.loading = true
     const ret = await req.postWithToken('/circle/visit', { cid })

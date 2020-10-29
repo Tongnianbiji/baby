@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import FormaDate from '@common/formaDate'
 import { ICONS } from '../../constant'
+import Behaviors from '@common/utils/behaviors'
 import './styles.scss'
 
 
@@ -10,6 +11,7 @@ export default class UserInfoItem extends Component {
   static defaultProps = {
     // 数据
     model: {},
+    activeModel:{},
     // 是否显示 [分享] 按钮
     needShared: false,
     // 是否显示 [距离]
@@ -45,9 +47,9 @@ export default class UserInfoItem extends Component {
     this.props.onCardClick(this.model)
   }
 
-  handleFavorite = (pid,e) => {
+  handleFavorite = (model,e) => {
     e.stopPropagation();
-    this.props.onHandleFavorite(pid)
+    this.props.onHandleFavorite(model)
   }
 
   handleLike = (model,e)=>{
@@ -80,7 +82,10 @@ export default class UserInfoItem extends Component {
   }
 
   render() {
-    const { model,sortNum } = this.props;
+    let { model,sortNum,activeModel,closeRelease } = this.props;
+    if(!activeModel.entity){
+      closeRelease = true
+    }
     // const { userSnapshot:{customLevel, headImg, nickName, } } = model;
     return (
       <View className='ui-user-info-item'>
@@ -90,7 +95,7 @@ export default class UserInfoItem extends Component {
             {
               
               <View className='release-info'>
-                 {!this.props.closeRelease && <Text className='release'>李庭语妈妈发布了贴子 | 2天前</Text>}
+                 {!closeRelease && <Text className='release'>{`${activeModel.userSnapshot ? activeModel.userSnapshot.nickName : ''}${ activeModel.type ? Behaviors(activeModel.type) : ''} | ${activeModel.createAt ?  FormaDate(activeModel.createAt) : ''}`}</Text>}
                 <View className='info'>
                   {
                     this.props.needDistance && <View className='distance-info'>0.9km</View>
@@ -145,7 +150,7 @@ export default class UserInfoItem extends Component {
                   <Text className='times'>{(model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</Text>
                 </View>
                 {
-                  this.props.needLike && <Image onClick={this.handleLike.bind(this,model)} className='btn-like' src={ICONS.LIKE} alt=''></Image>
+                  this.props.needLike && <Image onClick={this.handleLike.bind(this,model)} className='btn-like' src={model.isLikes ? ICONS.FULLLIKE : ICONS.LIKE} alt=''></Image>
                 }
               </View>
             }
@@ -174,7 +179,7 @@ export default class UserInfoItem extends Component {
               this.props.countryAble &&
               <View className='community-area' onClick={this.viewCircleDetail.bind(this,model.cid)}>
                 {/* <Text className='community-name'>{(model && model.userSnapshot && model.userSnapshot.city  && `${model.userSnapshot.city} ${model.userSnapshot.country}`) || '上海 新城'}</Text> */}
-                <Text className='community-name'>{(model && model.cid && `${model.cName}`) || '备孕交流'}</Text>
+                <Text className='community-name'>{(model && model.cName && `${model.cName}`) || '备孕交流'}</Text>
               </View>
             }
             {
@@ -189,7 +194,7 @@ export default class UserInfoItem extends Component {
                   <Text>{model.replys || 0}</Text>
                 </View>
                 <View className='favorite'>
-                  <Image className='img' onClick={this.handleFavorite.bind(this,model.pid)} src={model.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
+                  <Image className='img' onClick={this.handleFavorite.bind(this,model)} src={model.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
                   <Text>{model.markes || 0}</Text>
                 </View>
               </View>

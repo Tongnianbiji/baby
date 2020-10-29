@@ -12,7 +12,8 @@ export default class HomePage extends BaseComponent {
       attentionType: 1, //1: 关注的用户   2: 关注的圈子
       hotTabType: 1, //1: 24小时   2: 7天
       currentCity: this.getCurrentCity(),
-      tabId:110000
+      tabId:110000,
+      attentionUsers:[]
     }
   }
 
@@ -59,13 +60,13 @@ export default class HomePage extends BaseComponent {
   }
 
   topTabChange = (current) => {
-    console.log('当前',current)
     const { attentionType,hotTabType} =this.state;
     let tabId = null;
     switch(current){
       case 0:
         if(attentionType ===1){
           tabId=100100;
+          this.getAttentionUsers()
         }
         else if(attentionType ===2){
           tabId=100204;//目前关注圈子只有圈子（其他暂时隐藏）
@@ -163,8 +164,13 @@ export default class HomePage extends BaseComponent {
     this.navto({ url: '/packageA/pages/circle-detail/index' })
   }
 
-  getAttentionUsers = async()=>{
+  getAttentionUsers = async()=>{ 
     let userId = this.getUserInfo().userId;
-    await Model.getAttentionUsers(userId)
+    let res = await Model.getAttentionUsers(userId);
+    if(res){
+      this.setState({
+        attentionUsers:res.items
+      })
+    }
   }
 }

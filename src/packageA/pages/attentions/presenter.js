@@ -5,17 +5,19 @@ export default class Presenter extends BaseComponent {
   constructor(props) {
     super(props)
     this.state = {
-      listData:[{
-        userId:1,
-        nickName:'张三',
-        createDt:'2019/03/02',
-        isSubscr:true,
-        funs:10,
-        posts:10,
-        mark:10,
-        child:['大宝两岁一个月','二宝一岁一个月'],
-        sex:'MALE'
-      }],
+      listData:[
+      //   {
+      //   userId:1,
+      //   nickName:'张三',
+      //   createDt:'2019/03/02',
+      //   isSubscr:true,
+      //   funs:10,
+      //   posts:10,
+      //   mark:10,
+      //   child:['大宝两岁一个月','二宝一岁一个月'],
+      //   sex:'MALE'
+      // }
+    ],
       postLock:false,
       isToBottom:false,
       showLoading:true,
