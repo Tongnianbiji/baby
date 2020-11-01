@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Image, Text } from '@tarojs/components'
+import { View, Image, Text, Button } from '@tarojs/components'
 import { ICONS } from '../../../../common/constant'
 import './index.scss'
 
@@ -8,6 +8,7 @@ export default class QACardView extends Component {
 
   static defaultProps = {
     model: {},
+    onHandleFavorite:()=>{}
   }
   constructor(props) {
     super(props)
@@ -19,17 +20,27 @@ export default class QACardView extends Component {
     })
   }
 
+  handleFavorite = (model,e)=>{
+    e.stopPropagation();
+    this.props.onHandleFavorite(model)
+  }
+
+  share = (e)=>{
+    e.stopPropagation()
+  }
+
   render() {
     const { title, views, replys, markes,qid,contnet } = this.props.model;
+    const {model} = this.props;
     return (
       <View className='qa-card-view' onClick={this.cardClick.bind(this,qid)}>
         
         <View className='questions'>
           <View className='icon'>问</View>
           <View className='txt'>{title}</View>
-          <View className='share-btn'>
+          <Button className='share-btn' open-type="share" id={JSON.stringify(model)} onClick={this.share.bind(this)}>
             <Image src={ICONS.SHARE_BTN_GRAY} alt='' className='share-icon' />
-          </View>
+          </Button>
         </View>
 
        
@@ -51,7 +62,7 @@ export default class QACardView extends Component {
             <Text>{replys}</Text>
           </View>
           <View className='favorite'>
-            <Image className='img' src={ICONS.FAVORITE} />
+            <Image className='img' src={model.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} onClick={this.handleFavorite.bind(this,model)}/>
             <Text>{markes}</Text>
           </View>
         </View>

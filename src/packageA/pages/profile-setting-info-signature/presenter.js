@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
+import staticData from '@src/store/common/static-data'
 
 export default class ProfileSettingInfoSignaturePresenter extends BaseComponent {
   constructor(props) {
@@ -12,8 +13,8 @@ export default class ProfileSettingInfoSignaturePresenter extends BaseComponent 
 
   componentWillMount() { }
 
-  componentDidMount() { 
-    const {signature} = this.$router.params;
+  componentDidMount() {
+    const {signature} = staticData;
     this.setState({
       signature:signature
     })
@@ -27,8 +28,10 @@ export default class ProfileSettingInfoSignaturePresenter extends BaseComponent 
 
   submit = async () =>{
     const {signature} = this.state;
+    const {updateSignature} = staticData;
     let res = await Model.updateInfo(signature);
     if(res){
+      updateSignature(signature);
       this.navback();
       this.showToast('更新成功');
     }

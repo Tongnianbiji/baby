@@ -84,6 +84,7 @@ export const GMAP_API_KEY = 'ca2421a75ca2a312bbce4cdc9095e3d1'
  */
 export const CURRENT_CITY_KEY = 'key_current_city'
 export const CURRENT_LOCATION_INFO = 'key_current_location'
+export const IS_COLLECT_MINI = 'is_collent_mini'
 
 export const USER_INFO_KEY = '__TN_USER_INFO_'
 export const USER_INFO_KEY_USERID = '__TN_USER_INFO_USERID'

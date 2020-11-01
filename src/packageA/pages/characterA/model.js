@@ -1,5 +1,5 @@
 import Request from '@common/baseRequest'
-
+import Taro from '@tarojs/taro'
 const request = new Request()
 
 export default {
@@ -17,10 +17,14 @@ export default {
     }
     const ret = await request.postWithToken('/child/create', params)
     const data = request.standardResponse(ret);
-    console.log('*****',data)
     if (data.code === 0) {
       return true
     } else {
+      Taro.showToast({
+        title:data.message,
+        icon:"none",
+        duration:2e3
+      })
       return false
     }
   }

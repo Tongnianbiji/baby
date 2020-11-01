@@ -1,8 +1,9 @@
 import Taro, {getCurrentInstance} from '@tarojs/taro'
 import React, { Component } from 'react'
-import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY,USER_INFO_KEY_USERID,CURRENT_LOCATION_INFO } from '../common/constant'
+import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY,USER_INFO_KEY_USERID,CURRENT_LOCATION_INFO,IS_COLLECT_MINI } from '../common/constant'
 import Dto from '../common/localStorage'
-import { View, Button } from '@tarojs/components'
+import { View, Button,Text } from '@tarojs/components'
+import staticData from '@src/store/common/static-data.js'
 
 /**
  * 所有 页面视图 都应该继承自这个类
@@ -215,7 +216,17 @@ export default class BaseComponent extends Component {
     }else{
       return this.__local_dto.getValue(USER_INFO_KEY)
     }
-    
+  }
+
+   /**
+   * 获取当前是否小程序收藏
+   */
+  getCurrentIsCollentMini() {
+    return this.__local_dto.getValue(IS_COLLECT_MINI)
+  }
+
+  setCurrentIsCollentMini(status) {
+    this.__local_dto.setValue(IS_COLLECT_MINI, status)
   }
 
   registe = ()=>{
@@ -224,15 +235,31 @@ export default class BaseComponent extends Component {
     })
   }
 
+  handleCollectMini= ()=>{
+    this.setCurrentIsCollentMini(false);
+  }
+
   //全局引导
   guide(){
-    console.log('渲染')
     return(
       <View>
         {
           <View className='guide-button' onClick={this.registe.bind(this)}>
             <View>美好童年，翘首可及</View>
             <View className="button">登陆/注册</View>
+          </View>
+        }
+      </View>
+    )
+  }
+
+  collectMini(){
+    return(
+      <View>
+        {
+          this.getCurrentIsCollentMini() && 
+          <View className='collectMini' onClick={this.handleCollectMini.bind(this)}>
+            <View>点击“添加到我的小程序”，给孩子们一个美好童年 X</View>
           </View>
         }
       </View>

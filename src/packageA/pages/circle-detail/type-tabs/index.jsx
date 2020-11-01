@@ -210,7 +210,8 @@ export default class TypeTabsView extends Component {
   }
 
    //点击帖子详情
-   handlePostDetail(pid) {
+   handlePostDetail(pid,e) {
+    e.stopPropagation();
     console.log('查看帖子详情')
     Taro.navigateTo({
       url:'/packageB/pages/post-detail/index?pid='+pid
@@ -221,6 +222,11 @@ export default class TypeTabsView extends Component {
   //帖子收藏与取消收藏
   handleFavorite= (model)=>{
     this.circleDetailStore.updateCirclePostsByFavorite(model.pid)
+  }
+
+  //问答的收藏与取消
+  handleFavoriteQuestion = (model)=>{
+    this.circleDetailStore.updateCircleQuestionsByFavorite(model.qid)
   }
 
   render() {
@@ -247,7 +253,7 @@ export default class TypeTabsView extends Component {
             {
               circlePosts.map((item, num) => {
                 return (
-                  <PostCard key={num} countryAble={false} model={item} closeRelease needShared onCardClick={this.handlePostDetail.bind(this,item.pid)} onHandleFavorite={this.handleFavorite.bind(this)}/>
+                  <PostCard key={item.pid} countryAble={false} model={item} closeRelease needShared onCardClick={this.handlePostDetail.bind(this,item.pid)} onHandleFavorite={this.handleFavorite.bind(this)}/>
                 )
               })
             }
@@ -259,7 +265,7 @@ export default class TypeTabsView extends Component {
             {
               circleQuestion.map((item, num) => {
                 return (
-                  <QACard model={item} key={num}/>
+                  <QACard model={item} key={num} onHandleFavorite={this.handleFavoriteQuestion.bind(this)}/>
                 )
               })
             }

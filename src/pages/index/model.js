@@ -36,7 +36,6 @@ export default {
     })
   },
 
-  //
   async getAttentionCircle(params) {
     const ret = await request.postWithToken('/relation/user/circles', params)
     const data = request.standardResponse(ret)
@@ -64,4 +63,56 @@ export default {
       return false
     }
   },
+
+  async markPost(pid) {
+    let params = {
+      pid
+    }
+    const ret = await request.postWithToken('/post/mark', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async cancelMarkPost(pid) {
+    let params = {
+      pid
+    }
+    const ret = await request.postWithToken('/post/mark/cancel', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async cancelMarkQuestion(qid) {
+    let params = {
+     qid
+    }
+    const ret = await request.postWithToken('/question/mark/cancel', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async markQuestion(qid) {
+    let params = {
+     qid
+    }
+    const ret = await request.postWithToken('/question/mark', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  }
 }

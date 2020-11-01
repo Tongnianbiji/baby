@@ -10,12 +10,12 @@ import './index.scss'
 
 export default class ProfileHome extends Presenter {
   render() {
-    const { tabs, 
+    const { tabs,
       tabsCurrent,
       isMySelf,
-      userInfo:{nickName,headImg,sex,district,child,signature,flow,funs,circle,marked,stared,subscr,userId,theme}, 
-      activeData, 
-      postData, 
+      userInfo: { nickName, headImg, sex, district, child, signature, flow, funs, circle, marked, stared, subscr, userId, theme },
+      activeData,
+      postData,
       questionData,
       showActiveLoading,
       showPostLoading,
@@ -26,51 +26,53 @@ export default class ProfileHome extends Presenter {
     } = this.state;
     let isChildThanTwo = false;
     let childs = [];
-    for (let a in child){
+    for (let a in child) {
       childs.push(child[a])
     }
     //(childs.length > 2) && (isChildThanTwo = true,childs = childs.slice(0,2))
     return (
       <View className='profile-home-viewport'>
-        <View className='profile-header' style={{backgroundImage:`url(${theme})`}}>
-          <View className='top-wrapper'>
-            <View className='left-container'>
-              <View className='avatar' onClick={this.viewProfileInfo.bind(this,userId)}>
-                <Image src={headImg}></Image>
-              </View>
-            </View>
-            {
-              isMySelf ? 
-              <View className='right-container'>
-                <View className='ops' style={{width:'auto'}} onClick={this.editProfile.bind(this)}>编辑资料</View>
-              </View>
-              :
-              <View>
-                <View className='right-container'>
-                  <View onClick={this.onSubscr.bind(this)}>
-                    {
-                      subscr ? <View className='ops focus' style="opacity:.5">已关注</View> : <View className='ops focus'>关注</View>
-                    }
-                  </View>
-                
-                  <View className='ops msg' onClick={this.goToIM.bind(this)}>私信</View>
-                  <View className='more' onClick={this.setProfile.bind(this)}>
-                    更多
-                    <Image src={ICONS.ARROW_RIGHT_C}></Image>
-                  </View>
+        {
+          nickName &&
+          <View className='profile-header' style={{ backgroundImage: `url(${theme})` }}>
+            <View className='top-wrapper'>
+              <View className='left-container'>
+                <View className='avatar' onClick={this.viewProfileInfo.bind(this, userId)}>
+                  <Image src={headImg}></Image>
                 </View>
               </View>
-            }
-            
-          </View>
-          <View className='member-wrapper'>
-            <View style={{color:this.getNickNameColor(sex || 'MALE')}} className='nick'>{nickName}</View>
-            {
-              sex === 'FEMALE'
-                ? <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/female.png' className='gender' />
-                : <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png' className='gender' />
-            }
-            {/* <View className='family'>3位家庭成员</View>
+              {
+                isMySelf ?
+                  <View className='right-container'>
+                    <View className='ops' style={{ width: 'auto' }} onClick={this.editProfile.bind(this)}>编辑资料</View>
+                  </View>
+                  :
+                  <View>
+                    <View className='right-container'>
+                      <View onClick={this.onSubscr.bind(this)}>
+                        {
+                          subscr ? <View className='ops focus' style="opacity:.5">已关注</View> : <View className='ops focus'>关注</View>
+                        }
+                      </View>
+
+                      <View className='ops msg' onClick={this.goToIM.bind(this)}>私信</View>
+                      <View className='more' onClick={this.setProfile.bind(this)}>
+                        更多
+                    <Image src={ICONS.ARROW_RIGHT_C}></Image>
+                      </View>
+                    </View>
+                  </View>
+              }
+
+            </View>
+            <View className='member-wrapper'>
+              <View style={{ color: this.getNickNameColor(sex || 'MALE') }} className='nick'>{nickName}</View>
+              {
+                sex === 'FEMALE'
+                  ? <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/female.png' className='gender' />
+                  : <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/male.png' className='gender' />
+              }
+              {/* <View className='family'>3位家庭成员</View>
             <View className='member-container'>
               <View className='member'>
                 <View className='member-avatar'></View>
@@ -85,21 +87,21 @@ export default class ProfileHome extends Presenter {
                 <View className='member-named'>爷爷</View>
               </View>
             </View> */}
-          </View>
-          <View className='label-wrapper'>
-            {
-              district && 
-              <View className='label'>{district}</View>
-            }
-          
-            {
-              childs.map(item=>{
-                return(
-                  <View className='label'>{item}</View>
-                )
-              })
-            }
-            {/* {
+            </View>
+            <View className='label-wrapper'>
+              {
+                district &&
+                <View className='label'>{district}</View>
+              }
+
+              {
+                childs.map(item => {
+                  return (
+                    <View className='label'>{item}</View>
+                  )
+                })
+              }
+              {/* {
               isChildThanTwo && 
               <View className='more' onClick={this.viewMoreChild.bind(this)}>
                 更多
@@ -107,29 +109,31 @@ export default class ProfileHome extends Presenter {
               </View>
               
             } */}
+            </View>
+            <View className='signature-wrapper'>
+              {signature}
+            </View>
+            <View className='number-wrapper'>
+              <View className='number' onClick={this.onClickNavTo.bind(this, 'fans')}>
+                <View className='number-value'>{funs}</View>
+                <View className='number-title'>粉丝</View>
+              </View>
+              <View className='number' onClick={this.onClickNavTo.bind(this, 'circle')}>
+                <View className='number-value'>{circle}</View>
+                <View className='number-title'>圈子</View>
+              </View>
+              <View className='number' onClick={this.onClickNavTo.bind(this, 'focus')}>
+                <View className='number-value'>{flow}</View>
+                <View className='number-title'>关注</View>
+              </View>
+              <View className='number'>
+                <View className='number-value'>{marked}/{stared}</View>
+                <View className='number-title'>收赞/获赞</View>
+              </View>
+            </View>
           </View>
-          <View className='signature-wrapper'>
-            {signature}
-          </View>
-          <View className='number-wrapper'>
-            <View className='number' onClick={this.onClickNavTo.bind(this, 'fans')}>
-              <View className='number-value'>{funs}</View>
-              <View className='number-title'>粉丝</View>
-            </View>
-            <View className='number' onClick={this.onClickNavTo.bind(this, 'circle')}>
-          <View className='number-value'>{circle}</View>
-              <View className='number-title'>圈子</View>
-            </View>
-            <View className='number' onClick={this.onClickNavTo.bind(this, 'focus')}>
-          <View className='number-value'>{flow}</View>
-              <View className='number-title'>关注</View>
-            </View>
-            <View className='number'>
-          <View className='number-value'>{marked}/{stared}</View>
-              <View className='number-title'>收赞/获赞</View>
-            </View>
-          </View>
-        </View>
+        }
+
         <View className='profile-body'>
 
           <View className='tabs-container'>
@@ -137,16 +141,16 @@ export default class ProfileHome extends Presenter {
 
               <AtTabsPane current={tabsCurrent} index={0}>
                 {
-                  !!activeData.length && 
+                  !!activeData.length &&
                   <View className='new-info'>
                     共{activeData.length}条内容
                   </View>
                 }
                 <View>
                   {
-                    activeData.map((item,index) => {
+                    activeData.map((item, index) => {
                       return (
-                        <UserInfoItem key={index} model={item.entity} activeModel={item}/>
+                        <UserInfoItem key={index} model={item.entity} activeModel={item} onHandleFavorite={this.handleFavoriteActive.bind(this)}/>
                       )
                     })
                   }
@@ -155,39 +159,39 @@ export default class ProfileHome extends Presenter {
               </AtTabsPane>
               <AtTabsPane current={tabsCurrent} index={1}>
                 {
-                  !!postData.length && 
+                  !!postData.length &&
                   <View className='new-info'>
                     共{postData.length}条内容
                   </View>
                 }
                 <View>
                   {
-                    postData.map((item,index) => {
+                    postData.map((item, index) => {
                       return (
-                        <UserInfoItem key={index} model={item}/>
+                        <UserInfoItem key={index} model={item} onHandleFavorite={this.handleFavoritePost.bind(this)}/>
                       )
                     })
-                    
+
                   }
                   <Preloading showLoading={showPostLoading} isToBottom={isPostToBottom}></Preloading>
                 </View>
               </AtTabsPane>
               <AtTabsPane current={tabsCurrent} index={2}>
                 {
-                  !!questionData.length && 
+                  !!questionData.length &&
                   <View className='new-info'>
                     共{questionData.length}条内容
                   </View>
                 }
                 <View>
                   {
-                    questionData.map((item,index) => {
+                    questionData.map((item, index) => {
                       return (
-                        <UserInfoItem key={index} model={item}/>
+                        <UserInfoItem key={index} model={item} onHandleFavorite={this.handleFavoriteQuestion.bind(this)}/>
                       )
                     })
                   }
-                   <Preloading showLoading={showQuestionLoading} isToBottom={isQuestionToBottom}></Preloading>
+                  <Preloading showLoading={showQuestionLoading} isToBottom={isQuestionToBottom}></Preloading>
                 </View>
               </AtTabsPane>
             </AtTabs>

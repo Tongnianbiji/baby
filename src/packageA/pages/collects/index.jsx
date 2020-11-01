@@ -9,10 +9,29 @@ import PostCard from '@components/post-card'
 import './index.scss'
 
 export default class CollectsView extends Presenter {
+
+  onShareAppMessage (res){
+    let path= '';
+    if (res.from === 'button') {
+      console.log('自定义',res.target)
+      const {pid,qid} =JSON.parse(res.target.id);
+      if(pid){
+        path = `/packageB/pages/post-detail/index?pid=${pid}`
+      }
+      if(qid){
+        path = `/packageB/pages/issue-detail/index?qid=${qid}`
+      }
+    }
+    return {
+      title: `欢迎加入童年`,
+      path:path
+    }
+  }
+
   render() {
     const { currentTab,collectData,likeData,showCollectLoading,showLikeLoading,isCollectToBottom ,isLikeToBottom } = this.state
     return (
-      <View className='collects-vewport'>
+      <View className='collects-vewport' style="overflow:hidden">
         <AtTabs tabList={this.state.tabList} className='tabs' current={currentTab} onClick={this.tabChange}>
           <AtTabsPane index={0} className='message-tabs-pane' current={currentTab}>
           {

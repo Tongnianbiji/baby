@@ -43,7 +43,7 @@ sa.setPara({
 	// 自定义渠道追踪参数，如source_channel: ["custom_param"]
 	source_channel: [],
 	// 是否允许控制台打印查看埋点数据(建议开启查看)
-	show_log: false,
+	show_log: true,
 	// 是否允许修改 onShareAppMessage 里 return 的 path，用来增加(登录 ID，分享层级，当前的 path)，在 app onShow 中自动获取这些参数来查看具体分享来源、层级等
 	allow_amend_share_path: true
 });
@@ -121,11 +121,11 @@ class App extends BaseComponent {
   //判断是否是游客还是用户
   isRegiest = () => {
     const {updateIsRegisteStatus, updateIsLoginStatus} = staticDataStore;
+    this.setCurrentIsCollentMini(true)
     Taro.login().then(({ errMsg, code }) => {
       console.log('code', code);
       request.get('/user/checkregist',{code}).then((e)=>{
         const {userId,token,regist} = e.data.data;
-        
         if(regist){
           updateIsRegisteStatus(true);
           updateIsLoginStatus(true);
@@ -188,6 +188,17 @@ class App extends BaseComponent {
     })
   }
 
+    //更新城市信息
+  async updateCityInfo(params){
+    const ret = await request.postWithToken('/poi/update', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   //获取城市信息
   getCityInfo(lon, lat) {
     return request.get('https://restapi.amap.com/v3/geocode/regeo', {
@@ -195,9 +206,16 @@ class App extends BaseComponent {
       location: `${lon},${lat}`
     }).then(data => {
       if (data.data && data.data.infocode === '10000') {
+        console.log('定位信息',data.data)
         const { regeocode = {} } = data.data
         const { addressComponent = {} } = regeocode
         const { province, city, adcode, citycode, country, district } = addressComponent;
+        this.updateCityInfo({
+          districtCode:adcode,
+          districtName:district,
+          lat:lat,
+          lng:lon
+        })
         this.setCurrentLocation({
           lat:lat,
           lon:lon,

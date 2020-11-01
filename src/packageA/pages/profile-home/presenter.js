@@ -9,14 +9,14 @@ export default class ProfileHomePresenter extends BaseComponent {
       tabs: Model.tabs,
       tabsCurrent: 0,
       userInfo: {
-        nickName: '小于妈妈',
-        headImg: '#',
-        sex: 'FEMALE',
-        flow: 0,
-        funs: 0,
-        circle: 0,
-        marked: 0,
-        stared: 0
+        // nickName: '小于妈妈',
+        // headImg: '#',
+        // sex: 'FEMALE',
+        // flow: 0,
+        // funs: 0,
+        // circle: 0,
+        // marked: 0,
+        // stared: 0
       },
       userId: '',
       postLock: false,
@@ -283,6 +283,176 @@ export default class ProfileHomePresenter extends BaseComponent {
         })
       }
     }
+  }
+
+  //动态收藏
+  handleFavoriteActive = async (model)=>{
+    // let {postLock,activeData} = this.state;
+    // let preIndex = activeData.findIndex(item=>item.entity.pid === model.pid)
+    // if(!postLock){
+    //  if(model.isMark){
+    //    this.setState({
+    //      postLock:true
+    //    })
+    //    let res = await Model.cancelMarkPost(model.pid);
+    //    this.setState({
+    //      postLock:false
+    //    })
+    //    activeData[preIndex].entity.isMark = false;
+    //    activeData[preIndex].entity.markes -= 1;
+    //    if(res){
+    //      this.showToast('已取消');
+    //    }
+    //  }else{
+    //    this.setState({
+    //      postLock:true
+    //    })
+    //    let res = await Model.markPost(model.pid);
+    //    this.setState({
+    //      postLock:false
+    //    })
+    //    activeData[preIndex].entity.isMark = true;
+    //    activeData[preIndex].entity.markes += 1;
+    //    if(res){
+    //      this.showToast('已收藏');
+    //    }
+    //  }
+    // }
+    // this.setState({
+    //   activeData:activeData
+    // })
+
+    let {postLock,activeData} = this.state;
+    let preIndex = null;
+    const {pid,qid} = model;
+    if(pid){
+      preIndex = activeData.findIndex(item=>item.entity.pid === model.pid)
+    }
+    else if(qid){
+      preIndex = activeData.findIndex(item=>item.entity.qid === model.qid)
+    }
+    if(!postLock){
+     if(model.isMark){
+       this.setState({
+         postLock:true
+       })
+       let res = null;
+       if(pid){
+        res = await Model.cancelMarkPost(model.pid);
+       }
+       else if(qid){
+        res = await Model.cancelMarkQuestion(model.qid);
+       }
+       this.setState({
+         postLock:false
+       })
+       activeData[preIndex].entity.isMark = false;
+       activeData[preIndex].entity.markes -= 1;
+       if(res){
+         this.showToast('已取消');
+       }
+     }else{
+       this.setState({
+         postLock:true
+       })
+       let res = null;
+       if(pid){
+        res = await Model.markPost(model.pid);
+       }
+       else if(qid){
+        res = await Model.markQuestion(model.qid);
+       }
+       this.setState({
+         postLock:false
+       })
+       activeData[preIndex].entity.isMark = true;
+       activeData[preIndex].entity.markes += 1;
+       if(res){
+         this.showToast('已收藏');
+       }
+     }
+    }
+    this.setState({
+      activeData:activeData
+    })
+
+  }
+
+   //帖子收藏
+   handleFavoritePost = async (model)=>{
+    let {postLock,postData} = this.state;
+    let preIndex = postData.findIndex(item=>item.pid === model.pid)
+    if(!postLock){
+     if(model.isMark){
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.cancelMarkPost(model.pid);
+       this.setState({
+         postLock:false
+       })
+       postData[preIndex].isMark = false;
+       postData[preIndex].markes -= 1;
+       if(res){
+         this.showToast('已取消');
+       }
+     }else{
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.markPost(model.pid);
+       this.setState({
+         postLock:false
+       })
+       postData[preIndex].isMark = true;
+       postData[preIndex].markes += 1;
+       if(res){
+         this.showToast('已收藏');
+       }
+     }
+    }
+    this.setState({
+      postData:postData
+    })
+  }
+
+  //问题收藏
+  handleFavoriteQuestion = async (model)=>{
+    console.log('******',model)
+    let {postLock,questionData} = this.state;
+    let preIndex = questionData.findIndex(item=>item.qid === model.qid)
+    if(!postLock){
+     if(model.isMark){
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.cancelMarkQuestion(model.qid);
+       this.setState({
+         postLock:false
+       })
+       questionData[preIndex].isMark = false;
+       questionData[preIndex].markes -= 1;
+       if(res){
+         this.showToast('已取消');
+       }
+     }else{
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.markQuestion(model.qid);
+       this.setState({
+         postLock:false
+       })
+       questionData[preIndex].isMark = true;
+       questionData[preIndex].markes += 1;
+       if(res){
+         this.showToast('已收藏');
+       }
+     }
+    }
+    this.setState({
+      questionData:questionData
+    })
   }
 
   onClickNavTo(type) {

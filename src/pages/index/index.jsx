@@ -9,6 +9,7 @@ import AttentionCircle from './components/attention-circle'
 import iconSearch from '../../assets/img/icon-search.png'
 import arrowDown from '../../assets/img/arrow-down.png'
 import iconRing from '../../assets/img/icon-ring.png'
+import Preloading from '@components/preloading'
 
 import './index.scss'
 
@@ -20,9 +21,26 @@ export default class Index extends HomePage {
     navigationBarTitleText: '童年'
   }
 
+  onShareAppMessage (res){
+    let path= '';
+    if (res.from === 'button') {
+      const {pid,qid} =JSON.parse(res.target.id);
+      if(pid){
+        path = `/packageB/pages/post-detail/index?pid=${pid}`
+      }
+      if(qid){
+        path = `/packageB/pages/issue-detail/index?qid=${qid}`
+      }
+    }
+    return {
+      title: `欢迎加入童年`,
+      path:path
+    }
+  }
+
   render() {
-    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers } = this.state;
-    const {isGuide} = this.props.staticDataStore
+    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isCollectMin, showAttentionLoading, isAttentionToBottom} = this.state;
+    const {isGuide} = this.props.staticDataStore;
     return (
       <View className='home-page-viewport'>
         <View className='search-bar'>
@@ -55,11 +73,17 @@ export default class Index extends HomePage {
               <View className='user-item-wrapper'>
                 {
                   attentionType === 1 ?
-                    attentionUsers.map(key => {
-                      return (
-                        <UserInfoItem key={key} onClick={this.jump2circle} />
-                      )
-                    }) :
+                    <View>
+                        {
+                          attentionUsers.map((item,key) => {
+                            return (
+                              <UserInfoItem key={key} model={item.entity} activeModel={item} onHandleFavorite={this.handleFavoriteAttention.bind(this)} onClick={this.jump2circle} />
+                            )
+                          })
+                        }
+                      <Preloading showLoading={showAttentionLoading} isToBottom={isAttentionToBottom}></Preloading>
+                    </View>
+                     :
                     <AttentionCircle />
                 }
               </View>
@@ -69,7 +93,7 @@ export default class Index extends HomePage {
                 {
                   [1, 2, 3, 4, 5].map(key => {
                     return (
-                      <UserInfoItem key={key} needShared />
+                      <UserInfoItem key={key} needShared onShare={this.share.bind(this)}/>
                     )
                   })
                 }
@@ -109,6 +133,10 @@ export default class Index extends HomePage {
         {
           isGuide ?
           this.guide() : null
+        }
+        {
+          isCollectMin && 
+          this.collectMini()
         }
       </View>
     )

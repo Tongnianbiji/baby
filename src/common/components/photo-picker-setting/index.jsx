@@ -9,6 +9,7 @@ export default class PhotoPickerSetting extends Component {
 
   static defaultProps = {
     onGetFiles: () => ({}),
+    scale:1
   }
 
   constructor(props) {
@@ -63,6 +64,7 @@ export default class PhotoPickerSetting extends Component {
 
   render() {
     const { showCropper, imagePath } = this.state;
+    const {scale} = this.props;
     return (
       <View>
         <View className='photo-picker-view' onClick={this.choosePhoto.bind(this)}>
@@ -74,7 +76,7 @@ export default class PhotoPickerSetting extends Component {
         </View>
         {
           showCropper &&
-          <Cropper imagePath={imagePath} onClose={this.closeCropper.bind(this)} onSaveCropperImage={this.saveCropperImage.bind(this)}></Cropper>
+          <Cropper imagePath={imagePath} onClose={this.closeCropper.bind(this)} scale={scale} onSaveCropperImage={this.saveCropperImage.bind(this)}></Cropper>
         }
       </View>
     )

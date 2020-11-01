@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { View, Input, Image } from '@tarojs/components'
 import Presenter from './presenter'
 import { ICONS } from '../../../common/constant'
+import SearchCircleItem from '@common/components/circle-card'
 import SchoolItem from './school-item'
 import './styles.scss'
 
@@ -12,6 +13,7 @@ export default class MoreCircleView extends Presenter {
   }
 
   render() {
+    const {childrenCircles} = this.state;
     return (
       <View className='more-circle-viewport'>
         <View className='search-box'>
@@ -30,9 +32,9 @@ export default class MoreCircleView extends Presenter {
             </View>
           </View>
           {
-            [1, 2, 3, 4, 5, 6, 8, 7].map(n => {
+            childrenCircles.map(item => {
               return (
-                <SchoolItem key={n} />
+                <SearchCircleItem data={item} key={item.cid} onHandleSubscr={this.handleSubsrc.bind(this)} />
               )
             })
           }

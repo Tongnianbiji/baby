@@ -20,11 +20,21 @@ export default class CharacterBPresenter extends BaseComponent {
   componentWillMount() { }
 
   componentDidMount() { 
-    const {inviter,babyName,invtKey} = this.$router.params;
+    const {inviter,babyName,invtKey,inviterRoles} = this.$router.params;
+    let chatacterList = JSON.parse(inviterRoles);
+    chatacterList.forEach(item=>{
+      if(item.roleText){
+        item.roleText = `我是${item.roleText}`
+      }else{
+        item.roleText = '其他'
+      }
+      
+    })
     this.setState({
       inviter:inviter,
       babyName:babyName,
-      invtKey:invtKey
+      invtKey:invtKey,
+      chatacterList:chatacterList
     })
     this.getFamilyList()
   }
@@ -38,36 +48,42 @@ export default class CharacterBPresenter extends BaseComponent {
   selectRole = async (item)=>{
     const {updateRole,isRegiste,updateSex} = staticData;
     const {chatacterList,familyMember,babyName,invtKey} = this.state;
-    const keyChatacterList = chatacterList.slice(0,6);
-    const roleText = item.title.slice(2);
-    const index1 = familyMember.findIndex(e=>e.roleText == roleText);
-    const index2 = keyChatacterList.findIndex(e=>e.title == item.title);
+    //const keyChatacterList = chatacterList.slice(0,6);
+    const roleText = item.roleText.slice(2);
+    // const index1 = familyMember.findIndex(e=>e.roleText == roleText);
+    // const index2 = keyChatacterList.findIndex(e=>e.title == item.title);
    
-    if(!item.value){
+    if(item.role === 'OTHER'){
       this.navto({
         url:`/packageA/pages/characterX/index?isInvite=true`
       })
     }else{
-      if(index1>-1 && index2>-1){
-        this.showToast(`${babyName} ${roleText}已经加入童年`)
+      updateRole(roleText);
+      updateSex(getSex(roleText));
+      if(!isRegiste){
+        this.navto({
+          url:'/pages/login/index'
+        })
       }else{
-        updateRole(roleText);
-        updateSex(getSex(roleText));
-        if(!isRegiste){
-          this.navto({
-            url:'/packageA/pages/characterA/index'
-          })
-        }else{
-          let res1 = await Model.acceptInvite(invtKey,roleText);
-          console.log('ceshi',res1)
-          this.navto({
-            url: `/packageA/pages/profile-setting-info/index?newUser=true`
-          })
-        }
-        // this.navto({
-        //   url:'/packageA/pages/characterA/index'
-        // })
+        let res1 = await Model.acceptInvite(invtKey,roleText);
+        Taro.showToast({
+          title:'宝宝信息已经同步至“我的家”中',
+          icon:'none',
+          duration:2e3
+        })
+        Taro.switchTab({
+          url: `/pages/index/index`
+        })
       }
+      // if(index1>-1 && index2>-1){
+      //   this.showToast(`${babyName} ${roleText}已经加入童年`)
+      // }
+      // else{
+       
+      //   // this.navto({
+      //   //   url:'/packageA/pages/characterA/index'
+      //   // })
+      // }
     }
   }
 

@@ -2,6 +2,7 @@ import Taro from '@tarojs/taro'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
 import staticData from '@src/store/common/static-data'
+import getSex from '@common/utils/roleToSex'
 
 export default class ProfileSettingInfoPresenter extends BaseComponent {
   constructor(props) {
@@ -19,7 +20,14 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
   componentWillMount() { }
 
   componentDidMount() {
-    this.getWxProfileInfo()
+    const {wxInfo} = this.$router.params;
+    const {wxUserInfo,sex,role} = staticData;
+    // console.log('*****',wxUserInfo,sex,role)
+    if(wxInfo){
+      this.getWxProfileInfo()
+    }else{
+      this.getProfileInfo()
+    }
   }
 
   componentWillUnmount() { }
@@ -35,13 +43,13 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
         isShowNext:false
       })
     }
-    this.getProfileInfo();
   }
 
   componentDidHide() { }
 
   onClickNavTo(type) {
-    const {nickName,signature} = this.state;
+    // const {nickName,signature} = this.state;
+    const {nickName,signature} = staticData;
     switch (type) {
       case 'nickname':
         this.navto({ url: `/packageA/pages/profile-setting-info-nickname/index?nickName=${nickName}` })
@@ -58,11 +66,14 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
   getProfileInfo = async ()=>{
     const uid = this.getUserInfo().userId;
     const token = this.isLogin();
+    const {updateNickName,updateSignature} = staticData;
     let res = await Model.getProfileInfo(token,uid);
     if(res&&res.nickName){
+      updateNickName(res.nickName);
+      updateSignature(res.signature);
       this.setState({
-        nickName:res.nickName,
-        signature:res.signature,
+        // nickName:res.nickName,
+        // signature:res.signature,
         headImg:res.headImg,
         theme:res.theme
       })
@@ -70,10 +81,12 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
   }
 
   getWxProfileInfo =()=>{
-    const {wxUserInfo} = staticData;
+    const {wxUserInfo,updateNickName,updateSignature} = staticData;
     const {newUser} = this.$router.params;
     if(wxUserInfo.nickName && newUser){
       let res= wxUserInfo;
+      updateNickName(res.nickName);
+      updateSignature(res.signature);
       this.setState({
         nickName:res.nickName,
         headImg:res.avatarUrl,
@@ -107,7 +120,9 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
     }
   }
 
-  nextStep = ()=>{
+  nextStep = async ()=>{
+    const {nickName,signature,role} = staticData;
+    await Model.updateInfo(nickName,signature,getSex(role));
     this.navto({
       url:'/packageA/pages/interest/index'
     })

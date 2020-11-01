@@ -25,6 +25,8 @@ class postDetailStore{
   };
   @observable files = [];
 
+  @observable total = 0;
+
   @action getReplyList = async (sortType=1,pid) => {
     const d = await Model.getReplyList(pid,sortType)
     if (d) {
@@ -153,7 +155,8 @@ class postDetailStore{
    @action insertStatus = (commentList)=>{
     commentList.forEach(item => {
       item.isShowSubInfo=true;
-      item.subLength=this.calcSubListLen(item.leafReplyList,item.leafReplyList.length);
+      item.isShowContent=true;
+      item.subLength=this.calcSubListLen(item.leafReplyList,item.leafReplyList.length+1);
       this.insertStatus(item.leafReplyList)
     })
     return commentList;
@@ -165,7 +168,7 @@ class postDetailStore{
       if(item.leafReplyList.length){
         total += item.leafReplyList.length;
       }
-      this.calcSubListLen(item.leafReplyList,total)
+      this.calcSubListLen(item.leafReplyList);
     })
     return total;
   }
@@ -179,6 +182,7 @@ class postDetailStore{
         item.postReplyBo.replyId === replyId
       ) {
         item.isShowSubInfo=!item.isShowSubInfo;
+        item.isShowContent=!item.isShowContent;
       } else {
         this.getUpdateReplyListStatus(item.leafReplyList,params)
       }

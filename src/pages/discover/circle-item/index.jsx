@@ -13,7 +13,8 @@ export default class CircleItem extends Component {
   }
 
   findMore = () => {
-    Taro.navigateTo({ url: '/packageA/pages/more-circle/index' })
+    const { cid, name } = this.props
+    Taro.navigateTo({ url: `/packageA/pages/more-circle/index?cid=${cid}&cname=${name}`})
   }
 
   gotoCircleDetail = () => {
@@ -44,9 +45,8 @@ export default class CircleItem extends Component {
           <View className='number'>问答: {questions}</View>
         </View>
         {
-          leaf && <View className='more' onClick={this.findMore.bind(this)}>发现更多&gt;</View>
+          !leaf && <View className='more' onClick={this.findMore.bind(this)}>发现更多&gt;</View>
         }
-
       </View>
     )
   }

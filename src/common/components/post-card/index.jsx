@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro'
 import React, { Component } from 'react'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image,Button } from '@tarojs/components'
 import FormaDate from '@common/formaDate'
 import { ICONS } from '../../constant'
 import Behaviors from '@common/utils/behaviors'
@@ -40,11 +40,24 @@ export default class UserInfoItem extends Component {
 
     cardClick: () => { },
     onHandleFavorite: () => { },
-    onHandleLike:()=>{}
+    onHandleLike:()=>{},
+    onShare:()=>{}
   }
 
-  cardClick = () => {
-    this.props.onCardClick(this.model)
+  cardClick = (model,e) => {
+    e.stopPropagation();
+    if(model.pid){
+      Taro.navigateTo({
+        url:`/packageB/pages/post-detail/index?pid=${model.pid}`
+      })
+    }
+    else if(model.qid){
+      Taro.navigateTo({
+        url:`/packageB/pages/issue-detail/index?qid=${model.qid}`
+      })
+    }
+   
+    //this.props.onCardClick(this.model)
   }
 
   handleFavorite = (model,e) => {
@@ -81,6 +94,13 @@ export default class UserInfoItem extends Component {
     })
   }
 
+  share = (e)=>{
+    e.stopPropagation();
+    console.log('阻止冒泡')
+    //this.props.onShare(model)
+  }
+
+
   render() {
     let { model,sortNum,activeModel,closeRelease } = this.props;
     if(!activeModel.entity){
@@ -91,7 +111,7 @@ export default class UserInfoItem extends Component {
       <View className='ui-user-info-item'>
         {this.props.children}
         <View className='main-wrapper'>
-          <View onClick={this.cardClick}>
+          <View onClick={this.cardClick.bind(this,model)}>
             {
               
               <View className='release-info'>
@@ -101,7 +121,12 @@ export default class UserInfoItem extends Component {
                     this.props.needDistance && <View className='distance-info'>0.9km</View>
                   }
                   {
-                    this.props.needShared && <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
+                    this.props.needShared && 
+                    <View onClick={this.share.bind(this)}>
+                      <Button className='btn-share' openType="share" id={JSON.stringify(model)}>
+                        <Image src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
+                      </Button>
+                    </View>
                   }
                 </View>
               </View>
@@ -168,7 +193,7 @@ export default class UserInfoItem extends Component {
                     <View className='icon'>答</View>
                     <View className='txt'>可以了，11月以后就可以交了</View>
                   </View>
-                </View> : <Text className='content'>{model.title || '济阳三村幼儿园怎么样，算比较好的幼儿园吗?'}</Text>
+                </View> : <Text className='content'>{model.title || model.content}</Text>
             }
             {
               this.props.isMyReply && <View className='content' style="color:#666666;;">原贴：{model.content || '济阳三村幼儿园怎么样，算比较好的幼儿园吗?'}</View>

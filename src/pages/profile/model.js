@@ -7,7 +7,6 @@ export default {
       if (ret.errMsg === request.okMsg) {
         return ret.data
       }
-      return { code: request.errCode }
     })
   }
 }

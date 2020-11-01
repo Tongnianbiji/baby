@@ -7,21 +7,7 @@ export default class Presenter extends BaseComponent {
     this.state = {
       tabList: Model.tabList,
       currentTab: 0,
-      collectData: [
-        // {
-        //   createAt: "2020-10-14 15:23:21",
-        //   entityId: 23,
-        //   entityUid: "4a836531a49cf9170ed75dd24b488f78",
-        //   title: "1223",
-        //   type: 3008,
-        //   uid: "4a836531a49cf9170ed75dd24b488f78",
-        //   updateAt: "2020-10-14 15:23:21",
-        //   userSnapshot: {
-        //     headImg: "https://cdn.tongnian.world/head/20170710210234_y3Kf5.thumb.1000_0.jpeg",
-        //     nickName: "小景"
-        //   }
-        // }
-      ],
+      collectData: [],
       likeData: [],
       postLock: false,
       isCollectToBottom: false,
@@ -29,7 +15,9 @@ export default class Presenter extends BaseComponent {
       showCollectLoading: true,
       showLikeLoading: true,
       collectPageNum: 1,
-      likePageNum: 1
+      likePageNum: 1,
+      currentSharePid:'',
+      currentShareQid:''
     }
   }
 

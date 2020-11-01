@@ -336,6 +336,22 @@ const actions = {
     return d.code;
   },
 
+  //收藏问答
+  async favoriteQuestion(qid) {
+    const ret = await req.postWithToken('/question/mark', { qid })
+    const d = req.standardResponse(ret)
+    console.log('收藏', d)
+    return d.code;
+  },
+  //取消收藏问答
+
+  async cancelFavoriteQuestion(qid) {
+    const ret = await req.postWithToken('/question/mark/cancel', { qid })
+    const d = req.standardResponse(ret)
+    console.log('取消收藏', d)
+    return d.code;
+  },
+
   //更新是否显示定制圈子
   updateCustomStatus(status){
     this.isCustomCircle = status
@@ -497,6 +513,7 @@ const actions = {
   setCirclePostsEmpty() {
     this.circlePosts = []
   },
+
   updateCirclePostsByFavorite(pid) {
     Taro.showLoading();
     let circlePosts = this.circlePosts;
@@ -546,8 +563,59 @@ const actions = {
         }
       }
     })
+  },
 
-  }
+  updateCircleQuestionsByFavorite(qid) {
+    Taro.showLoading();
+    let circleQuestion = this.circleQuestion;
+    this.postLock = true;
+    circleQuestion.forEach(async item => {
+      if (item.qid === qid) {
+        if (item.isMark) {
+          let code = await this.cancelFavoriteQuestion(qid);
+          this.postLock = false;
+          Taro.hideLoading();
+          if (code === 0) {
+            item.isMark = false;
+            item.markes -= 1;
+            this.circleQuestion = JSON.parse(JSON.stringify(circleQuestion));
+            Taro.showToast({
+              title:'取消收藏',
+              icon: 'none',
+              duration:2e3
+            })
+          } else {
+            Taro.showToast({
+              title:'取消失败',
+              icon: 'none',
+              duration:2e3
+            })
+          }
+        } else {
+          let code = await this.favoriteQuestion(qid);
+          this.postLock = false;
+          Taro.hideLoading();
+          if (code === 0) {
+            item.isMark = true;
+            item.markes += 1;
+            this.circleQuestion = JSON.parse(JSON.stringify(circleQuestion));
+            Taro.showToast({
+              title:'已收藏',
+              icon: 'success',
+              duration:2e3
+            })
+          } else {
+            Taro.showToast({
+              title:'收藏失败',
+              icon: 'none',
+              duration:2e3
+            })
+          }
+        }
+      }
+    })
+  },
+
 
 }
 

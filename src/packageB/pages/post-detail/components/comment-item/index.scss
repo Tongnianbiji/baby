@@ -87,6 +87,7 @@
       // top: 50%;
       overflow:auto;
       transform: translateY(-50%);
+      margin-top: 20px;
       .btns-wrapper {
         display: flex;
         align-items: center;
@@ -135,6 +136,11 @@
       
     }
   }
+  .show-toggle{
+    position: absolute;
+    top: 0;
+    right: 12px;
+  }
   .hide-more-line {
     width: 10px;
     position: absolute;
@@ -154,3 +160,4 @@
     border-bottom: 0;
   }
 }
+

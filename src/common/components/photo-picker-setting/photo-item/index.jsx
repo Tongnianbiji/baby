@@ -21,7 +21,6 @@ export default class PhotoItemView extends Component {
   }
 
   componentDidMount() {
-    console.log( '###',this.props.model)
     const scope = this
     Taro.uploadFile({
       url: req._build_url('/upload/file'),

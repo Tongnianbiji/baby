@@ -98,12 +98,12 @@ export default {
         iconPath: "assets/img/tabbar/discovery.png",
         selectedIconPath: "assets/img/tabbar/discovery-actived.png"
       },
-      // {
-      //   pagePath: "pages/message/index",
-      //   text: "消息",
-      //   iconPath: "assets/img/tabbar/message.png",
-      //   selectedIconPath: "assets/img/tabbar/message-actived.png"
-      // },
+      {
+        pagePath: "pages/message/index",
+        text: "消息",
+        iconPath: "assets/img/tabbar/message.png",
+        selectedIconPath: "assets/img/tabbar/message-actived.png"
+      },
       {
         pagePath: "pages/profile/index",
         text: "我的",

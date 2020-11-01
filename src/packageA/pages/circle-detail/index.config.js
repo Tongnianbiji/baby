@@ -1,3 +1,5 @@
 export default {
-  "enablePullDownRefresh": true
+  "enablePullDownRefresh": true,
+  enableShareAppMessage: true,
+  enableShareTimeline:true
 }

@@ -27,7 +27,7 @@ export default class ProfileBabyPresenter extends BaseComponent {
   }
 
   onShareAppMessage (res){
-    const {userInfo,babyName,invtKey} = this.state;
+    const {userInfo,babyName,invtKey,otherMember} = this.state;
     const { bid } = this.$router.params
     if (res.from === 'button') {
       // 来自页面内转发按钮
@@ -35,7 +35,7 @@ export default class ProfileBabyPresenter extends BaseComponent {
     }
     return {
       title: `${userInfo.nickName}邀请加入童年`,
-      path: `/packageA/pages/characterC/index?inviter=${userInfo.nickName}&bid=${bid}&babyName=${babyName}&invtKey=${invtKey}`
+      path: `/packageA/pages/characterC/index?inviter=${userInfo.nickName}&bid=${bid}&babyName=${babyName}&invtKey=${invtKey}&inviterRoles=${JSON.stringify(otherMember)}`
     }
   }
 
@@ -47,9 +47,10 @@ export default class ProfileBabyPresenter extends BaseComponent {
     const { bid } = this.$router.params
     let res = await Model.getData(bid);
     if(res && res.data && res.data.family){
+      const {family,emptyRoles} = res.data;
       this.setState({
-        familyMember:res.data.family,
-        otherMember:res.data.emptyRoles
+        familyMember:family,
+        otherMember:emptyRoles,
       })
     }
   }

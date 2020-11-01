@@ -53,5 +53,21 @@ export default {
     } else {
       return false
     }
+  },
+
+  async updateInfo(nickName,signature,sex) {
+    let params = {
+      nickName,
+      signature,
+      sex
+    }
+    const ret = await request.postWithToken('/profile/update', params);
+    const data = request.standardResponse(ret)
+    console.log(data)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
   }
 }

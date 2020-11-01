@@ -17,7 +17,8 @@ export default class CommentItem extends Component {
     hasChildredSibling: false,
     last: false,
     onReplyPost: () => { },
-    onHandleDelete:()=>{}
+    onHandleDelete:()=>{},
+    isShowContent:true
   }
 
   constructor(props){
@@ -95,7 +96,7 @@ export default class CommentItem extends Component {
   }
 
   render() {
-    const { avatar, children, needLine, hasChildren, hasChildredSibling, last, model, model: {
+    const { isShowContent,avatar, children, needLine, hasChildren, hasChildredSibling, last, model, model: {
       content,
       createTime = '2020-03-29 21:29:00',
       dislikes = 0,
@@ -163,22 +164,25 @@ export default class CommentItem extends Component {
             </View> */}
             {!needLine && <View className='line' />}
           </View>
-          <View onClick={this.replyPost.bind(this, model)} onLongPress={this.handleDelete.bind(this,model)}>
-            <View className='contents'>{content}</View>
-            <View className='contents'>
-              {
-                files.map(item => {
-                  return <View>
-                    { item.type == 1 ?
-                      <Image onClick={this.preViewImage.bind(this,item.url)} mode={'aspectFit'} src={item.url}></Image>
-                      : <Video id={item.url} muted={muted} autoplay onFullscreenChange={this.screenChange.bind(this)} onClick={this.preViewVideo.bind(this,item.url)} src={item.url}></Video>
-                    }
-                    </View>
-                })
-              }
+          {
+            isShowContent && 
+            <View onClick={this.replyPost.bind(this, model)} onLongPress={this.handleDelete.bind(this,model)}>
+              <View className='contents'>{content}</View>
+              <View className='contents'>
+                {
+                  files.map(item => {
+                    return <View>
+                      { item.type == 1 ?
+                        <Image onClick={this.preViewImage.bind(this,item.url)} mode={'aspectFit'} src={item.url}></Image>
+                        : <Video id={item.url} playBtnPosition={"center"} onClick={this.preViewVideo.bind(this,item.url)} src={item.url}></Video>
+                      }
+                      </View>
+                  })
+                }
+              </View>
             </View>
-          </View>
-
+          }
+          
           <View className='like-btns'>
               <View className='btns-wrapper'>
                 <View className='like-btn' onClick={this.replyPost.bind(this, model)}>
@@ -194,11 +198,11 @@ export default class CommentItem extends Component {
                 </View>
               </View>
             </View>
-          {!!hasChildren && <View className='vertical-line' />}
+          {!!hasChildren && isShowContent && <View className='vertical-line' />}
         </View>
-        <View className='children-nodes'>
+        <View className={['children-nodes',isShowContent ? '' : 'show-toggle']}>
           {children}
-          {!!hasChildren && <View className='vertical-line-bottom' />}
+          {!!hasChildren && isShowContent && <View className='vertical-line-bottom' />}
         </View>
         {!!last && <View className='hide-more-line' />}
       </View>

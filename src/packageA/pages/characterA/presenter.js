@@ -89,7 +89,19 @@ export default class CharacterAPresenter extends BaseComponent {
    * @param {Number} value 索引
    */
   onClickForTopTab(value) {
-    const { topTabsCurrent } = this.state;
+    const { topTabsCurrent,role } = this.state;
+    const {updateRole} = staticData;
+    if(value ===0 ){
+      updateRole('妈妈')
+    }
+    else if(value ===1){
+      updateRole('爸爸')
+    }
+    else if(value ===2 && (role === '妈妈' || role === '爸爸')){
+      this.setState({
+        role:''
+      })
+    }
     this.setState({
       topTabsCurrent: value,
       subTabsCurrent: 0, //sub tab default 0
@@ -309,10 +321,13 @@ export default class CharacterAPresenter extends BaseComponent {
   //下一步
   nextStep= async (e)=>{
     let officeName = '宝宝',yearState=null,yearDesc=null;
+    let isHasWxInfo = false;
+    console.log('微信信息',e)
     const {subTabsCurrent,babyList,pregnancyBornDate,preHospital} =this.state;
     const {isRegiste,updateWxUserInfo} = staticData;
     if(e&&e.detail&&e.detail.userInfo){
-      updateWxUserInfo(e.detail.userInfo)
+      updateWxUserInfo(e.detail.userInfo);
+      isHasWxInfo = true
     }
     if(this.isCanSave()){
       switch(subTabsCurrent){
@@ -333,10 +348,8 @@ export default class CharacterAPresenter extends BaseComponent {
           })
           if(status){
             this.navto({
-              url: `/packageA/pages/profile-setting-info/index?newUser=true`
+              url: `/packageA/pages/profile-setting-info/index?newUser=true&wxInfo=${isHasWxInfo}`
             })
-          }else{
-            this.showToast('系统异常')
           }
           break;
         case 1:
@@ -349,10 +362,8 @@ export default class CharacterAPresenter extends BaseComponent {
           let res2 = await Model.submit(officeName,yearState,yearDesc);
           if(res2){
             this.navto({
-              url: `/packageA/pages/profile-setting-info/index?newUser=true`
+              url: `/packageA/pages/profile-setting-info/index?newUser=true&wxInfo=${isHasWxInfo}`
             })
-          }else{
-            this.showToast('系统异常')
           }
           break;
         case 2:
@@ -363,10 +374,8 @@ export default class CharacterAPresenter extends BaseComponent {
           let res3 = await Model.submit(officeName,yearState,yearDesc);
           if(res3){
             this.navto({
-              url: `/packageA/pages/profile-setting-info/index?newUser=true`
+              url: `/packageA/pages/profile-setting-info/index?newUser=true&wxInfo=${isHasWxInfo}`
             })
-          }else{
-            this.showToast('系统异常')
           }
           break;
       }

@@ -9,7 +9,7 @@ page {
   font-family:PingFangSC-Regular,PingFang SC;
   font-weight: 400;
   .at-tabs{
-    overflow:auto;
+    overflow-y:auto;
   }
   .tabs {
     &>.at-tabs__header {

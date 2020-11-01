@@ -4,6 +4,7 @@ import { View, Image,Canvas } from '@tarojs/components'
 import Presenter from './presenter'
 import './index.scss'
 import PhotoPickerSetting from '@components/photo-picker-setting'
+import staticData from '@src/store/common/static-data'
 
 export default class ProfileSettingInfo extends Presenter {
 
@@ -12,7 +13,8 @@ export default class ProfileSettingInfo extends Presenter {
   }
 
   render() {
-    const {headImg, theme, nickName, signature,canSave,isShowNext} = this.state;
+    const {headImg, theme, canSave, isShowNext} = this.state;
+    const {nickName,signature} = staticData;
     return (
       <View className='profile-setting-info-viewport'>
         <View className='item'>
@@ -21,7 +23,7 @@ export default class ProfileSettingInfo extends Presenter {
           </View>
           <View className='item-value'>
             <View className='item-circle' style={{backgroundImage:`url(${headImg})`}}>
-              <PhotoPickerSetting onGetFiles={this.getHeadFile.bind(this)}></PhotoPickerSetting>
+              <PhotoPickerSetting onGetFiles={this.getHeadFile.bind(this)} scale={1}></PhotoPickerSetting>
             </View>
             <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
@@ -50,7 +52,7 @@ export default class ProfileSettingInfo extends Presenter {
           </View>
           <View className='item-value'>
             <View className='item-range' style={{backgroundImage:`url(${theme})`}}>
-              <PhotoPickerSetting onGetFiles={this.getThemeFile.bind(this)}></PhotoPickerSetting>
+              <PhotoPickerSetting onGetFiles={this.getThemeFile.bind(this)} scale={102/77}></PhotoPickerSetting>
             </View>
           </View>
         </View>

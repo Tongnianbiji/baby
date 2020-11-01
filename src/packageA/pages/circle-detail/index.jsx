@@ -29,6 +29,25 @@ class CircleDetailView extends Presenter {
   onPullDownRefresh() {
     this.freshList()
   }
+
+
+  onShareAppMessage (res){
+    let path= '';
+    if (res.from === 'button') {
+      const {pid,qid} =JSON.parse(res.target.id);
+      if(pid){
+        path = `/packageB/pages/post-detail/index?pid=${pid}`
+      }
+      if(qid){
+        path = `/packageB/pages/issue-detail/index?qid=${qid}`
+      }
+    }
+    return {
+      title: `欢迎加入童年`,
+      path:path
+    }
+  }
+
   loadingRender() {
     return (
       <View></View>

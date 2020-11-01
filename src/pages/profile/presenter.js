@@ -48,7 +48,7 @@ export default class ProfilePresenter extends BaseComponent {
       }
       else {
         this.hideLoading();
-        this.showToast(ERR_MSG);
+        //this.showToast(ERR_MSG);
       }
     })
   }

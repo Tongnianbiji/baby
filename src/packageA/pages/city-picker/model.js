@@ -34,5 +34,15 @@ export default {
   },
   searchCity(kw) {
     return request.get(`/poi/search?kw=${kw}`).then(request.standardResponse)
+  },
+
+  async updateCityInfo(params){
+    const ret = await request.postWithToken('/poi/update', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
   }
 }

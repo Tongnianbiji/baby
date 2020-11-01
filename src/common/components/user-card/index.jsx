@@ -36,25 +36,27 @@ export default class UserInfoCard extends Component {
 
 
   render() {
-    const { tip,model,model:{circle ,flow, funs,marked,stared,createDt}} = this.props;
+    const { tip,model,model:{post ,flow, funs,marked,stared,createDt,headImg,district,signature,nickName}} = this.props;
     return (
       <View className='ui-user-info-card' onClick={this.handleGetUserDetail.bind(this,model)}>
         <View className='avatar-wrapper'>
-          <View className='avatar'></View>
+          <View className='avatar'>
+            <Image src={headImg}></Image>
+          </View>
         </View>
         <View className='info-wrapper'>
           <View className='name-area'>
-            <Text className='name' style={{color:this.getNickNameColor(model.sex || 'FEMALE')}}>{model.userSnapshot && model.userSnapshot.nickName && model.userSnapshot.nickName || '张三'}</Text>
+            <Text className='name' style={{color:this.getNickNameColor(model.sex || 'FEMALE')}}>{nickName}</Text>
             <Image className='sex' src={ICONS.FEMALE_ICON}></Image>
             <View className='tags-warpper'>
               <View className='tag'>大宝:两岁一个月</View>
               <View className='tag'>小宝:九个月</View>
             </View>
           </View>
-          <View className='sub-title'>上海 浦东 | 家有碎钞机</View>
+          <View className='sub-title'>{district} {district&&signature&& '|'} {signature}</View>
           <View className='nubmers'>
             <View className='num'>粉丝: {funs}</View>
-            <View className='num'>发布: {circle}</View>
+            <View className='num'>发布: {post}</View>
             <View className='num'>收藏: {flow}</View>
           </View>
           <View className='sub-title'>{`${createDt} ${tip}`}</View>

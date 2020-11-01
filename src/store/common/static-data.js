@@ -19,6 +19,8 @@ class Data {
   @observable sex='MALE';
   @observable wxUserInfo={};
   @observable fromHomeMore=false;
+  @observable nickName='';
+  @observable signature='';
 
   @action updateCurrentCity = (currentCity)=>{
     this.currentCity = currentCity
@@ -38,6 +40,14 @@ class Data {
 
   @action updateSex = (sex)=>{
     this.sex = sex
+  }
+
+  @action updateNickName = (nickName)=>{
+    this.nickName = nickName
+  }
+
+  @action updateSignature = (signature)=>{
+    this.signature = signature
   }
 
   @action updateWxUserInfo = (info)=>{
@@ -67,7 +77,6 @@ class Data {
   @action updateFromHomeMoreStatus= (status)=>{
     this.fromHomeMore = status
   }
-
 
   @action getTagList = async (cid) => {
     const ret = await req.postWithToken('post/getTag', { cid })

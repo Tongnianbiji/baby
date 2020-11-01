@@ -1,4 +1,5 @@
 import BaseComponent from '../../../common/baseComponent'
+import Model from './model';
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -6,12 +7,15 @@ export default class Presenter extends BaseComponent {
 
     this.state = {
       sliderStyle: {},
-      activeTab: 1
+      activeTab: 1,
+      childrenCircles:[]
     }
   }
 
   componentWillMount() {
-    this.setNavBarTitle('济阳三村幼儿园')
+    const {cname} = this.$router.params;
+    this.setNavBarTitle(cname);
+    this.getData()
   }
 
   tabChange(index) {
@@ -21,5 +25,19 @@ export default class Presenter extends BaseComponent {
         transform: `translateX(${100 * (index - 1)}%)`
       }
     })
+  }
+
+  getData = async()=>{
+    const {cid} = this.$router.params;
+    let res = await Model.getData(cid);
+    if(res && res.items){
+      this.setState({
+        childrenCircles:res.items
+      })
+    }
+  }
+
+  handleSubsrc = ()=>{
+    
   }
 }

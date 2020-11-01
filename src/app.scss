@@ -100,3 +100,37 @@
     flex:none
   }
 }
+.collectMini{
+  position: fixed;
+  top:20px;
+  right: 20px;
+  background:linear-gradient(270deg, #FF473A 0%, #FF8A63 100%);
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px 3px rgba(0,0,0,.2);
+  padding:15px;
+  z-index: 999;
+  font-size: 26px;
+  color:#ffffff;
+  text{
+    width: 8px;
+    height: 8px;
+    background-color: #000000;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .mid{
+    width: 12px;
+    height: 12px;
+    margin:0 6px;
+  }
+}
+.collectMini::before{
+  content: '';
+  width: 0;
+  height: 0;
+  border: 20px solid;
+  border-color: transparent transparent #FF473A;
+  position: absolute;
+  top:-40px;
+  right: 110px;
+}

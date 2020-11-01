@@ -15,8 +15,8 @@ export default class CharacterB extends Presenter {
           {
             chatacterList.map((item, index) => {
               return (
-                <View className='item flex-between' key={item.value} onClick={this.selectRole.bind(this,item)}>
-                  <View>{item.title}</View>
+                <View className='item flex-between' key={item.role} onClick={this.selectRole.bind(this,item)}>
+                  <View>{item.roleText}</View>
                   <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/right-a.png'></Image>
                 </View>
               )
