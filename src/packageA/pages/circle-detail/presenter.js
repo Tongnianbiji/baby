@@ -30,11 +30,14 @@ export default class Presenter extends BaseComponent {
     })
     this.setNavBarTitle(cname)
     this.showLoading()
-    this.initData(cid)
+  }
+  componentDidShow(){
+    const { cid} = getCurrentInstance().router.params;
+    this.initData(cid);
   }
 
   componentWillUnmount(){
-    this.$store.initData()
+    this.$store.initData();
   }
 
   onPullDownRefresh() {
@@ -56,8 +59,7 @@ export default class Presenter extends BaseComponent {
     await this.$store.getTopPost(cid);
     await this.$store.getCirclePosts(cid);
     await this.$store.getParentCircles(cid);
-    await this.$store.getChildCircles(cid)
-    if (!leaf) {
+    if (leaf) {
       await this.$store.getSiblingCircles(cid)
     } else {
       await this.$store.getChildCircles(cid)

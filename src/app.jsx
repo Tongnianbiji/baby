@@ -121,7 +121,9 @@ class App extends BaseComponent {
   //判断是否是游客还是用户
   isRegiest = () => {
     const {updateIsRegisteStatus, updateIsLoginStatus} = staticDataStore;
-    this.setCurrentIsCollentMini(true)
+    if(!this.getCurrentIsCollentMini()){
+      this.setCurrentIsCollentMini(1)
+    }
     Taro.login().then(({ errMsg, code }) => {
       console.log('code', code);
       request.get('/user/checkregist',{code}).then((e)=>{

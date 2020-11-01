@@ -83,49 +83,54 @@ export default class MainPanelComponent extends Component {
         customLevel = [{desc:'3岁9个月'}]
       }} = this.props.issueDetailStore.issueDetail;
     return (
-      <View className='main-panel-view'>
-        <View className='user-info'>
-          <View className='avatar' onClick={this.viewProfileInfo.bind(this,uid)}>
-            {
-              headImg ?
-                <Image src={headImg} className='avatar-img' /> :
-                null
-            }
-          </View>
-          <View className='infos'>
-            <View className='name-area'>
-          <Text className='name' style={{color:this.getNickNameColor(sex || 'FEMALE')}}>{nickName}</Text>
-              <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
-              <Text className='years-old'>{ city + ' ' + country}</Text>
-              <Text className='years-old'>{customLevel.length && customLevel[0].desc}</Text>
-              <Button className='btn-share' open-type='share' onClick={this.share.bind(this,qid)}>
-                  <Image src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
-                </Button>
-            </View>
-            <Text className='times'>{FormaDate(createTime)}</Text>
-          </View>
-        </View>
-        <View className='issue' onClick={this.goAnswer.bind(this,qid)}>
-          <View className='icon'>问</View>
-          <View className='txt'>{title}</View>
-        </View>
-        <View className='tags'>
-          <View className='tips'>
-            <View className='views'>
-              <Image className='img' src={ICONS.PREVIEW} />
-              <Text>{views}</Text>
-            </View>
-            <View className='comment'>
-              <Image className='img' src={ICONS.EDIT} />
-              <Text>{replys}</Text>
-            </View>
-            <View className='favorite'>
-              <Image className='img' onClick={this.handleFavorite.bind(this)} src={isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE}/>
-              <Text>{markes}</Text>
-            </View>
-          </View>
-        </View>
+      <View>
+        {  qid &&
+           <View className='main-panel-view'>
+           <View className='user-info'>
+             <View className='avatar' onClick={this.viewProfileInfo.bind(this,uid)}>
+               {
+                 headImg ?
+                   <Image src={headImg} className='avatar-img' /> :
+                   null
+               }
+             </View>
+             <View className='infos'>
+               <View className='name-area'>
+             <Text className='name' style={{color:this.getNickNameColor(sex || 'FEMALE')}}>{nickName}</Text>
+                 <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
+                 <Text className='years-old'>{ city + ' ' + country}</Text>
+                 <Text className='years-old'>{customLevel.length && customLevel[0].desc}</Text>
+                 <Button className='btn-share' open-type='share' onClick={this.share.bind(this,qid)}>
+                     <Image src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
+                   </Button>
+               </View>
+               <Text className='times'>{FormaDate(createTime)}</Text>
+             </View>
+           </View>
+           <View className='issue' onClick={this.goAnswer.bind(this,qid)}>
+             <View className='icon'>问</View>
+             <View className='txt'>{title}</View>
+           </View>
+           <View className='tags'>
+             <View className='tips'>
+               <View className='views'>
+                 <Image className='img' src={ICONS.PREVIEW} />
+                 <Text>{views}</Text>
+               </View>
+               <View className='comment'>
+                 <Image className='img' src={ICONS.EDIT} />
+                 <Text>{replys}</Text>
+               </View>
+               <View className='favorite'>
+                 <Image className='img' onClick={this.handleFavorite.bind(this)} src={isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE}/>
+                 <Text>{markes}</Text>
+               </View>
+             </View>
+           </View>
+         </View>
+        }
       </View>
+     
     )
   }
 }

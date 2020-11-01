@@ -18,7 +18,10 @@ export default class ProfileBabyDetailPresenter extends BaseComponent {
           grade:'请选择'
         }
       },
-      gradeSelector:Model.gradeSelector
+      gradeSelector:Model.gradeSelector,
+      // checkHospital:'',
+      // planHospital:'',
+      preBornDate:''
     }
   }
 
@@ -26,23 +29,35 @@ export default class ProfileBabyDetailPresenter extends BaseComponent {
 
   componentDidMount() { 
     const {bid,yearState} = this.$router.params;
-    const {babyList} = staticData;
+    const {babyList,updateHospital} = staticData;
     if(bid){
       let preIndex = babyList.findIndex(item=>item.bid == bid);
       this.setState({
         baby:babyList[preIndex],
         yearState:yearState
       })
+      if(yearState === 'PREGNANCY'){
+        this.setNavBarTitle('孕育中')
+        updateHospital(babyList[preIndex].yearDesc.checkHospital)
+      }
+      else if(yearState === 'PREPARED'){
+        this.setNavBarTitle('备孕中')
+      }
     }
   }
 
   componentWillUnmount() { }
 
   componentDidShow(){
-    const {babyNickname,school} = staticData;
-    let {baby} = this.state;
-    baby.officeName = babyNickname;
-    baby.yearDesc.school = school;
+    const {babyNickname,school,hospital} = staticData;
+    let {baby,yearState} = this.state;
+    if(yearState === 'BRINGUP'){
+      baby.officeName = babyNickname;
+      baby.yearDesc.school = school;
+    }
+    else if(yearState === 'PREGNANCY'){
+      baby.yearDesc.checkHospital = hospital;
+    }
     this.setState({
       baby:baby
     })
@@ -88,6 +103,30 @@ export default class ProfileBabyDetailPresenter extends BaseComponent {
     this.setState({
       baby:baby
     })
+  }
+
+  //预产期
+  onPreBornDateChange =(e)=>{
+    let {baby} = this.state;
+    baby.yearDesc.birthday = e.target.value;
+    this.setState({
+      baby:baby
+    })
+  }
+
+  //选择医院
+  selectBabyHospital = (hType)=>{
+    this.setState({
+      hType:hType
+    })
+    this.navto({
+      url:'/packageA/pages/hospitals/index'
+    })
+  }
+
+  //切换状态
+  switchStatus =()=>{
+    this.navback()
   }
 
   //提交修改

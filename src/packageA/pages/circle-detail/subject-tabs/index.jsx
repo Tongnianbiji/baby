@@ -27,7 +27,8 @@ let mock = [
 @observer
 export default class CircleTabs extends Component {
   static defaultProps = {
-    onSubTabChangeGetData: () => ({})
+    onSubTabChangeGetData: () => ({}),
+    onTabChangeGetData:()=>{}
   }
   constructor(props) {
     super(props)
@@ -45,10 +46,11 @@ export default class CircleTabs extends Component {
 
   onTabChange = num => {
     this.setState({ current: num })
+    this.circleDetailStore.updateActiveTopTab(num)
+    this.props.onTabChangeGetData(num);
   }
   onSubTabChange = (item) => {
     this.circleDetailStore.updateActiveTags(item);
-    console.log('点击子tab')
     this.props.onSubTabChangeGetData();
   }
   onSubTabAll = () => {
@@ -70,7 +72,8 @@ export default class CircleTabs extends Component {
       this.setState({
         tags: res.items
       })
-    } else {
+    }
+    else{
       this.setState({
         tags: mock
       })
@@ -101,7 +104,7 @@ export default class CircleTabs extends Component {
               tabList={tabList}
               size='small'
               current={current}
-              onChange={this.onTabChange}
+              onChange={this.onTabChange.bind(this)}
             />
           </View>
         </View>

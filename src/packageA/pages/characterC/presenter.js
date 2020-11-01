@@ -65,14 +65,21 @@ export default class CharacterBPresenter extends BaseComponent {
           url:'/pages/login/index'
         })
       }else{
-        let res1 = await Model.acceptInvite(invtKey,roleText);
-        Taro.showToast({
-          title:'宝宝信息已经同步至“我的家”中',
-          icon:'none',
-          duration:2e3
-        })
-        Taro.switchTab({
-          url: `/pages/index/index`
+        await Model.acceptInvite(invtKey,roleText);
+        Taro.showModal({
+          title: '童年',
+          content: `已成为${babyName}家庭成员，即将开启美好童年`,
+          showCancel:false,
+          success: function (res) {
+            if (res.confirm) {
+               Taro.switchTab({
+                  url: `/pages/index/index`
+                })
+            } 
+            else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
         })
       }
       // if(index1>-1 && index2>-1){

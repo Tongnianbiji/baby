@@ -34,7 +34,7 @@ export default class SearchCircle extends Presenter {
           <Preloading showLoading={showLoading} isToBottom={isToBottom}></Preloading>
         </View>
         {
-          kw && 
+          kw && !!circlesList.length &&
           <View className='no-data'>
             <View className='no-data-content'>
               没有找到想要的圈子

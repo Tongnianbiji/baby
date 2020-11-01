@@ -21,6 +21,9 @@ const state = {
   isCustomCircle:false,
   customConfig:{},
 
+  //顶部排序tab
+  activeTopTab:0,
+  sortObj:{},
   //子tab active tags
   activeTags: new Set(),
   activeTagsId: new Set(),
@@ -30,28 +33,9 @@ const state = {
 
   // 相关圈子
   parentCircles: [],
-  childCircles: [
-    {
-      cid: 1,
-      imgUrl: '#',
-      name: '子圈子'
-    },
-    {
-      cid: 1,
-      imgUrl: '#',
-      name: '子圈子'
-    },
-    {
-      cid: 1,
-      imgUrl: '#',
-      name: '子圈子'
-    },
-    {
-      cid: 1,
-      imgUrl: '#',
-      name: '子圈子'
-    }
-  ],
+  childCircles: [],
+  parentCirclesLength:0,
+  childCirclesLength:0,
 
   //对应圈子帖子列表
   circlePosts: [],
@@ -142,7 +126,8 @@ const actions = {
     if (d.code === 0) {
       //只显示一个父圈子多余的不显示
       if(d.data.items){
-        this.parentCircles = d.data.items.slice(0,1) || []
+        this.parentCircles = d.data.items || [];
+        this.parentCirclesLength=d.data.total;
       }
     }
   },
@@ -153,7 +138,8 @@ const actions = {
     if (d.code === 0) {
       //只显示3个子圈子多余的不显示
       if(d.data.items){
-        this.childCircles = d.data.items.slice(0,3) || []
+        this.childCircles = d.data.items || [];
+        this.childCirclesLength=d.data.total;
       }
       
     }
@@ -165,7 +151,8 @@ const actions = {
     if (d.code === 0) {
       //只显示3个子圈子多余的不显示
       if(d.data.items){
-        this.childCircles = d.data.items.slice(0,3) || []
+        this.childCircles = d.data.items || [];
+        this.childCirclesLength=d.data.total;
       }
     }
   },
@@ -176,7 +163,8 @@ const actions = {
       cid: cid,
       tagIds: Array.from(this.activeTagsId),
       pageNum: this.postsPageNum,
-      pageSize: 5
+      pageSize: 5,
+      sort:this.sortObj
     }
     this.postLock = true;
     const ret = await req.postWithToken('/search/circle/post', params);
@@ -202,7 +190,8 @@ const actions = {
       cid: cid,
       tagIds: Array.from(this.activeTagsId),
       pageNum: this.essencePageNum,
-      pageSize: 5
+      pageSize: 5,
+      sort:this.sortObj
     }
     this.postLock = true;
     const ret = await req.postWithToken('/search/circle/essence', params)
@@ -228,7 +217,8 @@ const actions = {
       cid: cid,
       tagIds: Array.from(this.activeTagsId),
       pageNum: this.questionPageNum,
-      pageSize: 5
+      pageSize: 5,
+      sort:this.sortObj
     }
     this.postLock = true;
     const ret = await req.postWithToken('/search/circle/question', params)
@@ -374,6 +364,22 @@ const actions = {
   //获取获取圈子cid
   updateCircleId(cid) {
     this.cid = cid;
+  },
+
+  //更新顶部排序tab
+  updateActiveTopTab(tab){
+    this.activeTopTab = tab;
+    switch(tab){
+      case 0:
+        this.sortObj= {heat_rate:'desc'};
+        break;
+      case 1:
+        this.sortObj= {create_time:'desc'};
+        break;
+      case 2:
+        this.sortObj= {last_reply_time:'desc'};
+        break;
+    }
   },
 
   //切换子tag关键词数组

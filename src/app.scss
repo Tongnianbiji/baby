@@ -111,17 +111,25 @@
   z-index: 999;
   font-size: 26px;
   color:#ffffff;
-  text{
-    width: 8px;
-    height: 8px;
-    background-color: #000000;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  .mid{
-    width: 12px;
-    height: 12px;
-    margin:0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // text{
+  //   width: 8px;
+  //   height: 8px;
+  //   background-color: #000000;
+  //   border-radius: 50%;
+  //   display: inline-block;
+  // }
+  // .mid{
+  //   width: 12px;
+  //   height: 12px;
+  //   margin:0 6px;
+  // }
+  image{
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
   }
 }
 .collectMini::before{

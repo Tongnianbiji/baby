@@ -5,7 +5,11 @@ import './styles.scss'
 
 export default class NoDataShowCreate extends Component {
   createCircle = ()=>{
-    this.showToast('即将开放，敬请期待')
+    Taro.showToast({
+      title:'即将开放，敬请期待',
+      icon:'none',
+      duration:2e3
+    })
   }
   render() {
     return (

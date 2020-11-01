@@ -187,12 +187,16 @@ export default class UserInfoItem extends Component {
                 <View className='content answer-wrapper'>
                   <View className='answer'>
                     <View className='icon'>问</View>
-                    <View className='txt'>济阳三村最近可以交娃的社保了吗？</View>
+                    <View className='txt'>{model.title}</View>
                   </View>
-                  <View className='answer'>
-                    <View className='icon'>答</View>
-                    <View className='txt'>可以了，11月以后就可以交了</View>
-                  </View>
+                  {
+                    model.content && 
+                    <View className='answer'>
+                      <View className='icon'>答</View>
+                      <View className='txt'>{model.content}</View>
+                    </View>
+                  }
+                  
                 </View> : <Text className='content'>{model.title || model.content}</Text>
             }
             {

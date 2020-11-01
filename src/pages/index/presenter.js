@@ -20,16 +20,17 @@ export default class HomePage extends BaseComponent {
       attentionPageNum:1,
       showAttentionLoading:true,
       isAttentionToBottom:false,
-      postLock:false
+      postLock:false,
+      isCollentMini:true
     }
   }
 
   componentDidMount(){
-    setTimeout(() => {
-      this.setState({
-        isCollectMin:false
-      })
-    }, 5e3);
+    // setTimeout(() => {
+    //   this.setState({
+    //     isCollectMin:false
+    //   })
+    // }, 5e3);
   }
 
   componentDidShow() {
@@ -295,5 +296,12 @@ export default class HomePage extends BaseComponent {
         currentShareQid:qid
       })
     }
+  }
+
+  closeCollentMini =()=>{
+    this.setState({
+      isCollentMini:false
+    })
+    this.setCurrentIsCollentMini(2)
   }
 }

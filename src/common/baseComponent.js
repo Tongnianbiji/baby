@@ -2,7 +2,8 @@ import Taro, {getCurrentInstance} from '@tarojs/taro'
 import React, { Component } from 'react'
 import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY,USER_INFO_KEY_USERID,CURRENT_LOCATION_INFO,IS_COLLECT_MINI } from '../common/constant'
 import Dto from '../common/localStorage'
-import { View, Button,Text } from '@tarojs/components'
+import { View, Button,Text, Icon,Image } from '@tarojs/components'
+import {ICONS} from '@common/constant'
 import staticData from '@src/store/common/static-data.js'
 
 /**
@@ -235,9 +236,6 @@ export default class BaseComponent extends Component {
     })
   }
 
-  handleCollectMini= ()=>{
-    this.setCurrentIsCollentMini(false);
-  }
 
   //全局引导
   guide(){
@@ -247,19 +245,6 @@ export default class BaseComponent extends Component {
           <View className='guide-button' onClick={this.registe.bind(this)}>
             <View>美好童年，翘首可及</View>
             <View className="button">登陆/注册</View>
-          </View>
-        }
-      </View>
-    )
-  }
-
-  collectMini(){
-    return(
-      <View>
-        {
-          this.getCurrentIsCollentMini() && 
-          <View className='collectMini' onClick={this.handleCollectMini.bind(this)}>
-            <View>点击“添加到我的小程序”，给孩子们一个美好童年 X</View>
           </View>
         }
       </View>

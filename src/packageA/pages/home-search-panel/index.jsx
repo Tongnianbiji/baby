@@ -64,9 +64,9 @@ export default class HomeSearchView extends Presenter {
                     <AtTabsPane index={2} className='tabs-pane' current={currentTopTab}>
                       {
                         currentTopTab === 2 && !!questionResult.length &&
-                        questionResult.map(n => {
+                        questionResult.map((item,n) => {
                           return (
-                            <PostCard needShared closeRelease key={n} isAnwser>
+                            <PostCard needShared closeRelease key={n} model={item} isAnwser>
                               {
                                 n === 1 ? <TitleBarInCard title='问答列表' /> : null
                               }
@@ -81,7 +81,9 @@ export default class HomeSearchView extends Presenter {
                         currentTopTab === 3 && !!circleResult.length &&
                         circleResult.map((item,n) => <CircleCard onHandleSubscr={this.handleSubsrc.bind(this)} kw={searchValue} data={item} key={n} />)
                       }
-                      <CreateCircle />
+                      {
+                        !!circleResult.length && <CreateCircle />
+                      }
                     </AtTabsPane>
                     <AtTabsPane index={4} className='tabs-pane' current={currentTopTab}>
                       {
@@ -132,9 +134,9 @@ export default class HomeSearchView extends Presenter {
                     <AtTabsPane index={2} className='tabs-pane' current={currentTopTab}>
                       {
                         currentTopTab === 2 &&
-                        postResult.map(n => {
+                        postResult.map((item,n) => {
                           return (
-                            <PostCard needShared closeRelease key={n} isAnwser>
+                            <PostCard needShared closeRelease key={n} model={item} isAnwser>
                               {
                                 n === 1 ? <TitleBarInCard title='问答列表' /> : null
                               }

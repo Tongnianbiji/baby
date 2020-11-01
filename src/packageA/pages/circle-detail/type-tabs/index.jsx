@@ -195,6 +195,15 @@ export default class TypeTabsView extends Component {
     }
   }
 
+   //切换顶部tag
+   onTabChange() {
+    const { postLock, listType } = this.circleDetailStore;
+    this.circleDetailStore.resetTabListStatus(listType);
+    if (!this.isToBottom()&&!postLock) {
+      this.typeTabPost()
+    }
+  }
+
   //切换子tag
   onSubTabChange() {
     const { postLock, listType } = this.circleDetailStore;
@@ -234,9 +243,9 @@ export default class TypeTabsView extends Component {
     let newTypeTabs = isCustomCircle ? TypeTabs : TypeTabs.slice(0,5)
     return (
       <View className='type-tabs-view' onTouchStart={this.touchStart.bind(this)}>
-        <AtTabs animated={false} className='tabs' tabList={newTypeTabs} current={listType} onClick={this.typeTabChange}>
+        <AtTabs swipeable={false} animated={false} className='tabs' tabList={newTypeTabs} current={listType} onClick={this.typeTabChange}>
           <AtTabsPane index={0} current={listType}>
-            <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} />
+            <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)}/>
             <ScrollViewList onScrollToUpper={this.onScrollToUpper.bind(this)} onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingEssence} isToBottom={isToBottomEssence}>
               {
                 circleEssence.map((item, num) => {
@@ -248,7 +257,7 @@ export default class TypeTabsView extends Component {
             </ScrollViewList>
           </AtTabsPane>
           <AtTabsPane index={1} current={listType}>
-            <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)}/>
+            <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)}/>
             <ScrollViewList onScrollToUpper={this.onScrollToUpper.bind(this)} onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingPosts} isToBottom={isToBottomPosts}>
             {
               circlePosts.map((item, num) => {
@@ -260,7 +269,7 @@ export default class TypeTabsView extends Component {
             </ScrollViewList>
           </AtTabsPane>
           <AtTabsPane index={2} current={listType}>
-            <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)}/>
+            <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)}/>
             <ScrollViewList onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingQuestion} isToBottom={isToBottomQuestion}>
             {
               circleQuestion.map((item, num) => {

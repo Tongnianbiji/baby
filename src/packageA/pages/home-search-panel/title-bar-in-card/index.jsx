@@ -6,8 +6,9 @@ import './styles.scss'
 
 
 const tabList = [
+  { title: '最相关', useable: true },
   { title: '最热', useable: true },
-  { title: '最相关', useable: true }
+  { title: '最新', useable: true },
 ]
 export default class PostTitleBar extends Component {
   static defaultProps = {
@@ -22,7 +23,6 @@ export default class PostTitleBar extends Component {
   }
 
   onTabChange = (id)=>{
-    //this.props.selectSortType(id+1);
     this.setState({
       current: id
     })

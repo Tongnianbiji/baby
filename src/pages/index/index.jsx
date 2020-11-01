@@ -10,6 +10,7 @@ import iconSearch from '../../assets/img/icon-search.png'
 import arrowDown from '../../assets/img/arrow-down.png'
 import iconRing from '../../assets/img/icon-ring.png'
 import Preloading from '@components/preloading'
+import {ICONS} from '@common/constant'
 
 import './index.scss'
 
@@ -39,7 +40,7 @@ export default class Index extends HomePage {
   }
 
   render() {
-    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isCollectMin, showAttentionLoading, isAttentionToBottom} = this.state;
+    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isCollectMin, showAttentionLoading, isAttentionToBottom,isCollentMini} = this.state;
     const {isGuide} = this.props.staticDataStore;
     return (
       <View className='home-page-viewport'>
@@ -135,8 +136,14 @@ export default class Index extends HomePage {
           this.guide() : null
         }
         {
-          isCollectMin && 
-          this.collectMini()
+          <View>
+            {
+              isCollentMini && this.getCurrentIsCollentMini()==1 && 
+              <View className='collectMini' onClick={this.closeCollentMini.bind(this)}>
+                <Text>点击“添加到我的小程序”，给孩子们一个美好童年</Text><Image src={ICONS.DELETE}></Image>
+              </View>
+            }
+          </View>
         }
       </View>
     )

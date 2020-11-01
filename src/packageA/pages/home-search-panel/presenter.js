@@ -48,23 +48,15 @@ export default class Presenter extends BaseComponent {
   async doSearch() {
     const {type,searchValue} = this.state;
     let res = await Model.search(type,searchValue);
+    console.log('ceshi',res)
     if(res){
       this.setState({
-        circleResult:this.objectToArr(res.circleResult.items),
-        postResult:this.objectToArr(res.postResult.items),
-        questionResult:this.objectToArr(res.questionResult.items),
-        userResult:this.objectToArr(res.userResult.items)
+        circleResult:res.circleResult && res.circleResult.items || [],
+        postResult:res.postResult && res.postResult.items|| [],
+        questionResult:res.questionResult && res.questionResult.items|| [],
+        userResult:res.userResult && res.userResult.items|| []
       })
     }
-  }
-
-  //对象转数组
-  objectToArr = (obj)=>{
-    let arr = [];
-    for(let o in obj){
-      arr.push(obj[o])
-    }
-    return arr;
   }
 
   onMore = t => {

@@ -356,10 +356,10 @@ export default class CharacterAPresenter extends BaseComponent {
           yearState='PREGNANCY';
           yearDesc={
             birthday:pregnancyBornDate,
-            checkHospital:'上海红房子产科医院',
+            checkHospital:'',
             planHospita:preHospital
           }
-          let res2 = await Model.submit(officeName,yearState,yearDesc);
+          let res2 = await Model.submit('孕育中',yearState,yearDesc);
           if(res2){
             this.navto({
               url: `/packageA/pages/profile-setting-info/index?newUser=true&wxInfo=${isHasWxInfo}`
@@ -371,7 +371,7 @@ export default class CharacterAPresenter extends BaseComponent {
           yearDesc={
             birthday:pregnancyBornDate
           }
-          let res3 = await Model.submit(officeName,yearState,yearDesc);
+          let res3 = await Model.submit('备孕中',yearState,yearDesc);
           if(res3){
             this.navto({
               url: `/packageA/pages/profile-setting-info/index?newUser=true&wxInfo=${isHasWxInfo}`

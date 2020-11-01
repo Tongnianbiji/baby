@@ -4,8 +4,6 @@
 import ISFAVORITED from '@ass/img/favorited.png';
 import COPY from '@ass/img/copy.png';
 import WARNING from '@ass/img/warning.png'
-import FULLLIKE from '@ass/img/full-like.png'
-import FULLDISLIKE from '@ass/img/full-dislike.png'
 import EDIT from '@ass/img/edit.png'
 import IMG from '@ass/img/img.png'
 import NODATA from '@ass/img/no-data.png'
@@ -45,6 +43,10 @@ export const ICONS = {
 
   DISLIKE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/dislike.png',
 
+  FULLDISLIKE:'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/dislike_2.png',
+
+  FULLLIKE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/like_2.png',
+
   LIKE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/like.png',
 
 
@@ -52,8 +54,6 @@ export const ICONS = {
   ISFAVORITED: ISFAVORITED,
   COPY: COPY,
   WARNING: WARNING,
-  FULLLIKE: FULLLIKE,
-  FULLDISLIKE:FULLDISLIKE,
   EDIT:EDIT,
   IMG:IMG,
   NODATA:NODATA,

@@ -74,7 +74,7 @@ export default class Presenter extends BaseComponent {
     this.navback()
   }
 
-  selectedCity(record) {
+  async selectedCity(record) {
     const { currentTab } = this.state
     if (currentTab === 0) { // province
       const prevData = this.state.tabsData
@@ -121,6 +121,13 @@ export default class Presenter extends BaseComponent {
         this.hideNavLoading()
       })
     } else { // town
+      record.center.split(',')
+      await Model.updateCityInfo({
+        districtCode:record.code,
+        districtName:record.name,
+        lat:record.center.split(',')[1],
+        lng:record.center.split(',')[0],
+      })
       this.pickCity(record.name)
     }
   }
@@ -175,7 +182,14 @@ export default class Presenter extends BaseComponent {
     }
   }
 
-  selectedSearchCity = (e)=>{
+  selectedSearchCity = async (e)=>{
+    e.center.split(',')
+    await Model.updateCityInfo({
+      districtCode:e.code,
+      districtName:e.name,
+      lat:e.center.split(',')[1],
+      lng:e.center.split(',')[0],
+    })
     this.pickCity(e.name)
   }
 }
