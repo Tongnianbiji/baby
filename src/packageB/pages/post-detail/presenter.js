@@ -3,7 +3,8 @@ import React from 'react'
 import Model from './model'
 import Taro from '@tarojs/taro'
 import postDetail from './store/post-detail'
-import staticDataStore from '@src/store/common/static-data.js'
+import staticDataStore from '@src/store/common/static-data'
+import circleIsReload from '@src/common/utils/circleIsReload'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -12,13 +13,13 @@ export default class Presenter extends BaseComponent {
     this.state = {
       currentModel: {},
       replys: 0,
-      postDetail: postDetail
+      postDetail: postDetail,
+      reLoad:null
     }
   }
 
   componentDidMount() {
     this.showNavLoading()
-    
   }
 
   componentDidShow() {
@@ -27,8 +28,9 @@ export default class Presenter extends BaseComponent {
   }
 
   componentWillUnmount(){
-    const {initPageList} = postDetail
-    initPageList()
+    const {initPageList} = postDetail;
+    initPageList();
+    circleIsReload();
   }
 
   //回复帖子

@@ -19,6 +19,7 @@
       height: 100px;
       border-radius: 50%;
       background: rgba(222, 198, 193, 1);
+      margin-right: 20px;
     }
     .item-txt {
       font-size: 28px;
@@ -46,12 +47,12 @@
     }
     .other-items {
       @extend .flex;
-      @extend .flex-between;
+      // @extend .flex-between;
       flex-wrap: wrap;
       .other-item {
         border-radius: 8px;
         border: 1px solid #ff473a;
-        padding: 10px 0;
+        //padding: 10px 0;
         font-size: 28px;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
@@ -61,6 +62,8 @@
         text-align: center;
         padding:0;
         background-color: #ffffff;
+        height: 60px;
+        line-height: 60px;
       }
       button::after{
         border:none

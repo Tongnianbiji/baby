@@ -21,6 +21,11 @@ class Data {
   @observable fromHomeMore=false;
   @observable nickName='';
   @observable signature='';
+  @observable reLoadCirclePage=true;
+
+  @action updateReLoadCirclePage = (status)=>{
+    this.reLoadCirclePage = status
+  }
 
   @action updateCurrentCity = (currentCity)=>{
     this.currentCity = currentCity

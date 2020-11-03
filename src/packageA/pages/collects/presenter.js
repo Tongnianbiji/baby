@@ -22,7 +22,7 @@ export default class Presenter extends BaseComponent {
   }
 
   componentDidMount() {
-    this.getCollectData()
+    this.getCollectData();
   }
 
   componentDidShow() { }

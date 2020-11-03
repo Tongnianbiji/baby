@@ -8,21 +8,15 @@ export default class ProfileHomePresenter extends BaseComponent {
     this.state = {
       tabs: Model.tabs,
       tabsCurrent: 0,
-      userInfo: {
-        // nickName: '小于妈妈',
-        // headImg: '#',
-        // sex: 'FEMALE',
-        // flow: 0,
-        // funs: 0,
-        // circle: 0,
-        // marked: 0,
-        // stared: 0
-      },
+      userInfo: {},
       userId: '',
       postLock: false,
       activeData: [],
       postData: [],
       questionData: [],
+      activeDataTotal:0,
+      postDataTotal:0,
+      questionDataTotal:0,
       isMySelf: false,
 
       isActiveToBottom: false,
@@ -51,6 +45,23 @@ export default class ProfileHomePresenter extends BaseComponent {
   }
 
   componentDidHide() { }
+
+  onShareAppMessage (res){
+    let path= '';
+    if (res.from === 'button') {
+      const {pid,qid} =JSON.parse(res.target.id);
+      if(pid){
+        path = `/packageB/pages/post-detail/index?pid=${pid}`
+      }
+      if(qid){
+        path = `/packageB/pages/issue-detail/index?qid=${qid}`
+      }
+    }
+    return {
+      title: `欢迎加入童年`,
+      path:path
+    }
+  }
 
   onReachBottom() {
     const { postLock, isPostToBottom, isActiveToBottom, isQuestionToBottom, tabsCurrent } = this.state;
@@ -189,6 +200,9 @@ export default class ProfileHomePresenter extends BaseComponent {
 
     if (res && res.items && res.items.length) {
       const { total, items } = res;
+      this.setState({
+        activeDataTotal:total
+      })
       if (!activeData.length) {
         this.setState({
           activeData: items || []
@@ -228,6 +242,9 @@ export default class ProfileHomePresenter extends BaseComponent {
     })
     if (res && res.items && res.items.length) {
       const { total, items } = res;
+      this.setState({
+        postDataTotal:total
+      })
       if (!postData.length) {
         this.setState({
           postData: items || []
@@ -266,6 +283,9 @@ export default class ProfileHomePresenter extends BaseComponent {
     })
     if (res && res.items && res.items.length) {
       const { total, items } = res;
+      this.setState({
+        questionDataTotal:total
+      })
       if (!questionData.length) {
         this.setState({
           questionData: items || []
@@ -287,41 +307,6 @@ export default class ProfileHomePresenter extends BaseComponent {
 
   //动态收藏
   handleFavoriteActive = async (model)=>{
-    // let {postLock,activeData} = this.state;
-    // let preIndex = activeData.findIndex(item=>item.entity.pid === model.pid)
-    // if(!postLock){
-    //  if(model.isMark){
-    //    this.setState({
-    //      postLock:true
-    //    })
-    //    let res = await Model.cancelMarkPost(model.pid);
-    //    this.setState({
-    //      postLock:false
-    //    })
-    //    activeData[preIndex].entity.isMark = false;
-    //    activeData[preIndex].entity.markes -= 1;
-    //    if(res){
-    //      this.showToast('已取消');
-    //    }
-    //  }else{
-    //    this.setState({
-    //      postLock:true
-    //    })
-    //    let res = await Model.markPost(model.pid);
-    //    this.setState({
-    //      postLock:false
-    //    })
-    //    activeData[preIndex].entity.isMark = true;
-    //    activeData[preIndex].entity.markes += 1;
-    //    if(res){
-    //      this.showToast('已收藏');
-    //    }
-    //  }
-    // }
-    // this.setState({
-    //   activeData:activeData
-    // })
-
     let {postLock,activeData} = this.state;
     let preIndex = null;
     const {pid,qid} = model;
@@ -375,8 +360,44 @@ export default class ProfileHomePresenter extends BaseComponent {
     this.setState({
       activeData:activeData
     })
-
   }
+
+
+  //关注/取消
+  handleSubscrActive = async (model)=>{
+    let {postLock,activeData} = this.state;
+    let preIndex = activeData.findIndex(item=>item.userId === model.userId)
+    if(!postLock){
+     if(model.isSubscr){
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.cancelAttentionUser(model.userId);
+       this.setState({
+         postLock:false
+       })
+       activeData[preIndex].isSubscr = false
+       if(res){
+         this.showToast('已取消');
+       }
+     }else{
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.attentionUser(model.userId);
+       this.setState({
+         postLock:false
+       })
+       activeData[preIndex].isSubscr = true
+       if(res){
+         this.showToast('已关注');
+       }
+     }
+    }
+    this.setState({
+      activeData:activeData
+    })
+   }
 
    //帖子收藏
    handleFavoritePost = async (model)=>{
@@ -450,7 +471,7 @@ export default class ProfileHomePresenter extends BaseComponent {
        }
      }
     }
-    this.setState({
+    this.setState({ 
       questionData:questionData
     })
   }

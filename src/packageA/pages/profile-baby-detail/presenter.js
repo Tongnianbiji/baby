@@ -124,9 +124,44 @@ export default class ProfileBabyDetailPresenter extends BaseComponent {
     })
   }
 
-  //切换状态
-  switchStatus =()=>{
-    this.navback()
+  //在孕育状态下进行切换状态
+  switchStatusByPregnancy =()=>{
+    const {baby} = this.state;
+    Taro.showActionSheet({
+      itemList: ['哺育'],
+      success: (res)=> {
+        if(res.tapIndex === 0){
+          this.setState({
+            yearState:'BRINGUP',
+            preBornDate:''
+          })
+          this.setNavBarTitle('宝宝信息')
+        }
+      }
+    })
+  }
+
+   //在备孕状态下进行切换状态
+   switchStatusByPlanPregnancy =()=>{
+    Taro.showActionSheet({
+      itemList: ['哺育','孕育'],
+      success: (res)=> {
+        if(res.tapIndex === 0){
+          this.setState({
+            yearState:'BRINGUP',
+            preBornDate:''
+          })
+          this.setNavBarTitle('宝宝信息')
+        }
+        else if(res.tapIndex === 1){
+          this.setState({
+            yearState:'PREGNANCY',
+            preBornDate:''
+          })
+          this.setNavBarTitle('孕育中')
+        }
+      }
+    })
   }
 
   //提交修改
@@ -142,7 +177,4 @@ export default class ProfileBabyDetailPresenter extends BaseComponent {
       this.navback()
     }
   }
-
-  
-  
 }

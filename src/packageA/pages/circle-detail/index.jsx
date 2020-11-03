@@ -5,6 +5,7 @@ import { observer, inject } from 'mobx-react'
 import Presenter from './presenter'
 import MainInfoPanel from './main-info-panel'
 import TypeTabs from './type-tabs'
+import staticData from '@src/store/common/static-data'
 import './styles.scss'
 
 const ICON_ADD = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/circle-add.png'
@@ -33,6 +34,7 @@ class CircleDetailView extends Presenter {
 
   onShareAppMessage (res){
     let path= '';
+    const {updateReLoadCirclePage} = staticData;
     if (res.from === 'button') {
       const {pid,qid} =JSON.parse(res.target.id);
       if(pid){
@@ -41,6 +43,7 @@ class CircleDetailView extends Presenter {
       if(qid){
         path = `/packageB/pages/issue-detail/index?qid=${qid}`
       }
+      updateReLoadCirclePage(false)
     }
     return {
       title: `欢迎加入童年`,

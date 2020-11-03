@@ -40,5 +40,18 @@ export default {
     } else {
       return false
     }
-  }
+  },
+
+  async clearMessage(type) {
+    let params = {
+      type
+    }
+    const ret = await request.getWithToken('/tnmsg/confirm', params)
+    const d = request.standardResponse(ret)
+    if(d.code == 0){
+      return true
+    }else{
+      return false
+    }
+  },
 }

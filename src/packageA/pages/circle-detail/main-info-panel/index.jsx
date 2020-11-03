@@ -55,12 +55,14 @@ class MainInfoPanel extends Component {
 
   //查看更多父圈子
   viewMoreParentCircles = (cid)=> {
-    Taro.navigateTo({ url: `/packageA/pages/more-circle/index?cid=${cid}` })
+    const {name } = this.$store.detailInfo
+    Taro.navigateTo({ url: `/packageA/pages/more-circle/index?cid=${cid}&cname=${name}&circleType=parent` })
   }
 
   //查看更多子圈子
   viewMoreChildCircles = (cid)=>{
-    Taro.navigateTo({ url: `/packageA/pages/more-circle/index?cid=${cid}` })
+    const { leaf,name } = this.$store.detailInfo
+    Taro.navigateTo({ url: `/packageA/pages/more-circle/index?cid=${cid}&cname=${name}&circleType=${leaf ? 'sibling' : 'child'}` })
   }
 
   render() {

@@ -82,5 +82,5 @@ export default {
       })
       return false
     }
-  }
+  },
 }

@@ -44,7 +44,7 @@ export default {
       pageNum,
       pageSize:pageSize
     }
-    const ret = await request.postWithToken('/user/post', params)
+    const ret = await request.postWithToken('/activity/user/post', params)
     const d = request.standardResponse(ret)
     if(d.code == 0){
       return d.data
@@ -60,7 +60,7 @@ export default {
       pageNum,
       pageSize:pageSize
     }
-    const ret = await request.postWithToken('/user/question', params)
+    const ret = await request.postWithToken('/activity/user/question', params)
     const d = request.standardResponse(ret)
     if(d.code == 0){
       return d.data

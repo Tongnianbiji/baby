@@ -1,0 +1,234 @@
+@import '../../../app.scss';
+//text外层view
+.is-not-text{
+  display: flex;
+  flex-wrap: wrap;
+}
+.ui-user-info-item {
+  background: #fff;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  position: relative;
+  .main-wrapper {
+    padding: 24px;
+    .release-info {
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      .release {
+        font-size: 24px;
+        line-height: 24px;
+        color: #999;
+      }
+      .info {
+        @extend .flex-center;
+        .btn-share {
+          position: absolute;
+          right: 24px;
+          top:24px;
+          width: 35px;
+          height: 35px;
+          padding:0;
+          line-height: 1;
+          z-index: 999;
+          image{
+            width: 32px;
+            height: 32px;
+          }
+        }
+        button::after{
+          border:none
+        }
+        .distance-info {
+          font-size: 24px;
+          color: #333;
+          margin-right: 30px;
+        }
+      }
+    }
+    .user-info {
+      display: flex;
+      padding-bottom: 29px;
+      position: relative;
+      .btn-like{
+        position: absolute;
+        right: 0;
+        top:0;
+        width: 32px;
+        height: 32px;
+      }
+      .order {
+        width: 30px;
+        padding-right: 16px;
+        @extend .flex-center;
+        color: #999;
+        .icon-order {
+          width: 24px;
+          height: 24px;
+          min-width: 24px;
+          margin-right: 4px;
+        }
+      }
+      .avatar {
+        width: 60px;
+        height: 60px;
+        overflow: hidden;
+        margin-right: 12px;
+        background: #eee;
+        border-radius: 50%;
+        image { width: 100%; height: 100%; }
+      }
+      .infos {
+        flex: 1;
+        font-size: 0;
+        position: relative;
+        .name-area {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          .name {
+            color: #3D3AFF;
+            font-size: 28px;
+            margin-right: 10px;
+            display: inline-block;
+          }
+          .sex {
+            width: 26px;
+            height: 24px;
+            margin-right: 12px;
+          }
+          .years-old {
+            height: 36px;
+            background: #e9e9e9;
+            padding: 0 16px;
+            border-radius: 18px;
+            font-size: 24px;
+            color: #666;
+            margin-right: 12px;
+            display: inline-block;
+          }
+          .babys {
+            height: 36px;
+            background: #e9e9e9;
+            padding: 0 16px;
+            border-radius: 18px;
+            font-size: 24px;
+            color: #666;
+            margin-right: 12px;
+            display: inline-block;
+            margin-top:10px;
+          }
+          .btn-share {
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            top: 2px;
+            right: 0;
+          }
+        }
+        .times {
+          color: #999;
+          font-size: 24px;
+          line-height: 24px;
+          margin-top:10px;
+          display: inline-block;
+        }
+      }
+    }
+    .release-time {
+      font-size: 24px;
+      color: #999;
+      padding-bottom: 12px;
+
+    }
+    .content {
+      color: #333;
+      font-size: 28px;
+      &.answer-wrapper {
+        .answer {
+          display: flex;
+          align-items: center;
+          &:first-child {
+            margin-bottom: 14px;
+          }
+          .icon {
+            color: #fff;
+            font-size: 24px;
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            margin-right: 16px;
+            background: #95B8FF;
+            border-radius: 4px;
+          }
+          .txt {
+            flex: 1;
+            color: #333;
+            font-size: 28px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+    .tags {
+      display: flex;
+      padding-top: 24px;
+      .community-area {
+        width: 213px;
+        align-items: center;
+        display: flex;
+        align-items: center;
+        .community-name {
+          height:35px;
+          background:linear-gradient(270deg,rgba(255,71,58,1) 0%,rgba(255,138,99,1) 100%);
+          border-radius:4px;
+          color: #fff;
+          font-size: 24px;
+          padding: 0 10px;
+        }
+      }
+      .tips {
+        flex: 1;
+        align-items: center;
+        @extend .flex-between;
+        padding: 0 12px;
+        .views, .comment, .favorite {
+          color: #666;
+          font-size: 28px;
+          display: flex;
+          align-items: center;
+        }
+        .views {
+          color: #666;
+          .img {
+            width: 35px;
+            height: 26px;
+            margin-right: 6px;
+          }
+        }
+        .comment {
+          color: #666;
+          .img {
+            width: 34px;
+            height: 32px;
+            margin-right: 6px;
+          }
+        }
+        .favorite {
+          color: #666;
+          .img {
+            width: 34px;
+            height: 32px;
+            margin-right: 6px;
+          }
+        }
+      }
+    }
+  }
+  
+}

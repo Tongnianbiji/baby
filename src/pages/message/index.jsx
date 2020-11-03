@@ -7,15 +7,13 @@ import Presenter from './presenter'
 import './index.scss'
 
 export default class Index extends Presenter {
-
-  config = {
-    navigationBarTitleText: '消息'
-  }
-
   render() {
-    const { currentTab } = this.state;
+    const { currentTab,total } = this.state;
     return (
       <View className='message-viewport'>
+        {
+          total && <View className="total">{total}</View>
+        }
         <AtTabs tabList={this.state.tabList} current={currentTab} swipeable={false} className='tabs' onClick={this.tabChange}>
           <AtTabsPane className='message-tabs-pane' index={0} current={currentTab}>
             <View className='entry-wrapper'>

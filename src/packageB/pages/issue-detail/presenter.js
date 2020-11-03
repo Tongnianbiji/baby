@@ -1,6 +1,7 @@
 import BaseComponent from '@common/baseComponent'
 import Model from './model'
 import issueDetailStore from './store/issue-detail'
+import circleIsReload from '@src/common/utils/circleIsReload'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -19,7 +20,8 @@ export default class Presenter extends BaseComponent {
 
   componentWillUnmount(){
     const {initPageList} = issueDetailStore
-    initPageList()
+    initPageList();
+    circleIsReload();
   }
 
   

@@ -4,6 +4,7 @@ import { View, Text, Image, Button } from '@tarojs/components'
 import { AtBadge, AtTabs, AtTabsPane } from 'taro-ui'
 import HomePage from './presenter'
 import { observer, inject } from 'mobx-react'
+import BehaviorCard from '@components/behavior-card'
 import UserInfoItem from '../../common/components/post-card'
 import AttentionCircle from './components/attention-circle'
 import iconSearch from '../../assets/img/icon-search.png'
@@ -17,28 +18,6 @@ import './index.scss'
 @inject('staticDataStore')
 @observer
 export default class Index extends HomePage {
-
-  config = {
-    navigationBarTitleText: '童年'
-  }
-
-  onShareAppMessage (res){
-    let path= '';
-    if (res.from === 'button') {
-      const {pid,qid} =JSON.parse(res.target.id);
-      if(pid){
-        path = `/packageB/pages/post-detail/index?pid=${pid}`
-      }
-      if(qid){
-        path = `/packageB/pages/issue-detail/index?qid=${qid}`
-      }
-    }
-    return {
-      title: `欢迎加入童年`,
-      path:path
-    }
-  }
-
   render() {
     const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isCollectMin, showAttentionLoading, isAttentionToBottom,isCollentMini} = this.state;
     const {isGuide} = this.props.staticDataStore;
@@ -78,7 +57,7 @@ export default class Index extends HomePage {
                         {
                           attentionUsers.map((item,key) => {
                             return (
-                              <UserInfoItem key={key} model={item.entity} activeModel={item} onHandleFavorite={this.handleFavoriteAttention.bind(this)} onClick={this.jump2circle} />
+                              <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteAttention.bind(this)} onSubScrUser={this.handleSubscrAttention.bind(this)}></BehaviorCard>
                             )
                           })
                         }
@@ -152,7 +131,7 @@ export default class Index extends HomePage {
   /**
    * 分享
    */
-  onShareAppMessage() {
-    return this.setShareOptions()
-  }
+  // onShareAppMessage() {
+  //   return this.setShareOptions()
+  // }
 }

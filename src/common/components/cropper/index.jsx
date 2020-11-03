@@ -19,7 +19,8 @@ export default class Cropper extends Component {
       canvasHeight: '',
       imageHeight: 200,
       startX: 0,
-      startY: 0
+      startY: 0,
+      defaultCropperWidth:200,
     }
   }
 
@@ -90,15 +91,20 @@ export default class Cropper extends Component {
 
 
   drawCanvas = () => {
-    const { canvasHeight, canvasWidth, imageHeight } = this.state;
-    const { imagePath } = this.props;
+    const { canvasHeight, canvasWidth, imageHeight,defaultCropperWidth } = this.state;
+    const { imagePath ,scale} = this.props;
     const cvsCtx = Taro.createCanvasContext('cropper', this.$scope);
     this.getImageInfo(imagePath, (res) => {
-      console.log('图片尺寸',res)
       this.setState({
         imageHeight:res.height
       })
       cvsCtx.drawImage(imagePath, (canvasWidth-res.width)/2, 0, res.width, res.height);
+      cvsCtx.rect((canvasWidth-defaultCropperWidth)/2, (canvasHeight-defaultCropperWidth/scale)/2, defaultCropperWidth, defaultCropperWidth/scale);
+      this.setState({
+        cropperW: defaultCropperWidth,
+        cropperH: defaultCropperWidth/scale
+      })
+      cvsCtx.stroke();
       cvsCtx.draw();
     })
   }

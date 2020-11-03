@@ -69,7 +69,10 @@ export default {
         "pages/issue-detail/index",
         "pages/reply-post/index",
         "pages/report/index",
-        "pages/create-answer/index"
+        "pages/create-answer/index",
+        "pages/reply-my-post/index",
+        "pages/qa-me/index",
+        "pages/passive-collects/index"
       ]
     }
   ],

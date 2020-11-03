@@ -14,7 +14,10 @@ export default class Presenter extends BaseComponent {
       postLock:false,
       pageNum:1,
       kw:'',
-      current:0
+      current:0,
+      sortType:{
+        _score:'desc'
+      }
     }
   } 
 
@@ -24,16 +27,20 @@ export default class Presenter extends BaseComponent {
     this.getData();
   }
 
-  // onReachBottom(){
-  //   const {postLock, isToBottom} = this.state;
-  //   if(!postLock && !isToBottom){
-  //     this.setState((pre)=>({
-  //       pageNum:pre.pageNum+1
-  //     }),()=>{
-  //       this.getData()
-  //     })
-  //   }
-  // }
+  onReachBottom(){
+    const {postLock, isToBottom,kw} = this.state;
+    if(!postLock && !isToBottom){
+      this.setState((pre)=>({
+        pageNum:pre.pageNum+1
+      }),()=>{
+        if(kw){
+          this.getSearchData()
+        }else{
+          this.getData()
+        }
+      })
+    }
+  }
 
   tabChange(index) {
     this.setState({
@@ -55,6 +62,7 @@ export default class Presenter extends BaseComponent {
   }
 
   onKwInput = async(e) => {
+    const {cid,circleType} = this.$router.params;
     this.initList();
     this.setState(prev => {
       const ret = {
@@ -66,6 +74,7 @@ export default class Presenter extends BaseComponent {
         if(ret.kw){
           this.getSearchData()
         }else{
+          this.getData(cid,circleType);
           this.setState({
             showLoading:false
           })
@@ -79,13 +88,16 @@ export default class Presenter extends BaseComponent {
   }
 
   getSearchData = async ()=>{
-    const {kw,pageNum,childrenCircles} = this.state;
+    const {kw,pageNum,childrenCircles,sortType} = this.state;
+    const {cid} = this.$router.params;
     this.setState({
       postLock:true
     })
-    let res = await Model.getData({
+    let res = await Model.getSearchData({
       keyword:kw,
-      pageNum
+      parentCid:cid || '',
+      pageNum,
+      sort:sortType
     });
     this.setState({
       postLock:false
@@ -117,12 +129,37 @@ export default class Presenter extends BaseComponent {
   }
 
   getData = async()=>{
-    const {cid} = this.$router.params;
-    let res = await Model.getData(cid);
-    console.log('res',res)
-    if(res && res.items){
+    const {cid,circleType} = this.$router.params;
+    const {pageNum,childrenCircles} = this.state;
+    this.setState({
+      postLock:true
+    })
+    let res = await Model.getData(cid,circleType,pageNum);
+    this.setState({
+      postLock:false
+    })
+
+    if(res && res.items && res.items.length){
+      const {total,items} = res;
+      if (!childrenCircles.length) {
+        this.setState({
+          childrenCircles : items || []
+        })
+        
+      } else {
+        this.setState((pre)=>({
+          childrenCircles:pre.childrenCircles.concat(items || [])
+        }))
+      }
+      if (total <= this.state.childrenCircles.length) {
+        this.setState({
+          showLoading:false,
+          isToBottom:true
+        })
+      }
+    }else{
       this.setState({
-        childrenCircles:res.items
+        showLoading:false,
       })
     }
   }
@@ -163,13 +200,25 @@ export default class Presenter extends BaseComponent {
     })
   }
 
-  toSearch =()=> {
-    this.navto({ url: '/packageA/pages/search-circle/index' })
-  }
-
   onTabChange = (id)=>{
+    let sortType = {};
+    console.log(id)
+    switch(id){
+      case 0:
+        sortType={ _score:'desc'}
+        break;
+      case 1:
+        sortType={ location:'desc'}
+        break;
+      case 2:
+        sortType={ heat_rate:'desc'}
+        break;
+      }
     this.setState({
-      current: id
+      current: id,
+      sortType:sortType
+    },()=>{
+      this.getSearchData()
     })
   }
 }

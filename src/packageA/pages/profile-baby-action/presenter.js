@@ -8,7 +8,6 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
     this.state = {
       tabs: Model.tabs,
       tabsCurrent: 0,
-      isHavebabyInfo:false,
       babyNickname:'',
       babySchool:'请选择',
       babyBorn:'请选择',
@@ -20,21 +19,22 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
       preBornDate:'请选择',
       hType:1,
       grade:'请选择',
+      isUpdateInfo:false,
       gradeSelector:Model.gradeSelector
     }
   }
 
   componentDidMount() { 
-    const {id} = getCurrentInstance().router.params;
-    if(id){
-      this.setState({
-        isHavebabyInfo:true
-      })
-    }else{
-      this.setState({
-        isHavebabyInfo:false
-      })
-    }
+    // const {update,tab,bid} = getCurrentInstance().router.params;
+    // console.log("888",bid)
+    // if(bid){
+    //   // //this.setNavBarTitle('更新宝宝');
+    //   // if(tab)
+    //   this.setState({
+    //     tabsCurrent:tab,
+    //     isUpdateInfo:update
+    //   })
+    // }
   }
 
   componentDidShow(){
@@ -152,13 +152,13 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
           }
           break;
         case 1:
-          let res2 = await Model.submit(babyNickname='孕育',yearState,{birthday:preBornDate,checkHospital,planHospital});
+          let res2 = await Model.submit(babyNickname='孕育中',yearState,{birthday:preBornDate,checkHospital,planHospital});
           if(res2){
             this.navback()
           }
           break;
         case 2:
-          let res3 = await Model.submit(babyNickname='备孕',yearState,{birthday:babyBorn});
+          let res3 = await Model.submit(babyNickname='备孕中',yearState,{birthday:babyBorn});
           if(res3){
             this.navback()
           }
@@ -166,6 +166,7 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
       }
     } 
   }
+
     
   /**
    * tab 点击

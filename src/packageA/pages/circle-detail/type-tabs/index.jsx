@@ -221,7 +221,7 @@ export default class TypeTabsView extends Component {
    //点击帖子详情
    handlePostDetail(pid,e) {
     e.stopPropagation();
-    console.log('查看帖子详情')
+    
     Taro.navigateTo({
       url:'/packageB/pages/post-detail/index?pid='+pid
     })

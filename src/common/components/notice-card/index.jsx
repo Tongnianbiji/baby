@@ -3,43 +3,65 @@ import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import FormaDate from '@common/formaDate'
 import { ICONS } from '../../constant'
+import Behaviors from '@common/utils/behaviors'
 import './styles.scss'
 
 export default class NoticeCard extends Component {
   static defaultProps = {
     data: {},
+    activeModel: {},
     isShowTools: true,
     countryAble: true,
     isShowUserInfo: true,
     ishowAvatar: true,
-    isShowQuestion:true,
-    isShowAnswer:true,
-    isOldQuestion:false,
-    isShowTime:false,
+    isShowQuestion: true,
+    isShowAnswer: true,
+    isOldQuestion: false,
+    isShowTime: false,
+    isShowReleaseTime:true,
+    tip:'',
     type: 'post', //post|qa,
     onHandleFavorite: () => { },
-    onNoticeClick: ()=>{}
+    onNoticeClick: () => { }
   }
 
   constructor(props) {
     super(props)
   }
 
-  handleFavorite = (pid, e) => {
+  handleFavorite = (qid, e) => {
     e.stopPropagation();
-    this.props.onHandleFavorite(pid)
+    this.props.onHandleFavorite(qid)
   }
 
-  handleNoticeClick = (data)=>{
+  handleNoticeClick = (data) => {
+    const { activeModel } = this.props;
+    let qid = '';
+    if(data.qid){
+      qid=data.qid;
+    }
+    else if(activeModel.entity.qid){
+      qid=activeModel.entity.qid
+    }
+    Taro.navigateTo({
+      url: `/packageB/pages/issue-detail/index?qid=${qid}`
+    })
     this.props.onNoticeClick(data)
   }
 
   viewCircleDetail = cid => {
-    if(!cid){
-      cid='10397889'
+    if (!cid) {
+      cid = '10397889'
     }
     Taro.navigateTo({
       url: `/packageA/pages/circle-detail/index?cid=${cid}`
+    })
+  }
+
+  viewProfileInfo = (uid,e)=>{
+    e.stopPropagation();
+    Taro.navigateTo({
+      url:`/packageA/pages/profile-home/index?userId=${uid}`
     })
   }
 
@@ -54,18 +76,18 @@ export default class NoticeCard extends Component {
   }
 
   renderQA() {
-    const { data, isShowTools,isShowQuestion,isShowAnswer,isOldQuestion,isShowTime } = this.props;
+    const { data, isShowTools, isShowQuestion, isShowAnswer, isOldQuestion, isShowTime } = this.props;
     return (
-      <View className='qa-wrapper' onClick={this.handleNoticeClick.bind(this,data)}>
+      <View className='qa-wrapper'>
 
         {
-          isShowTime && 
+          isShowTime &&
           <View className='questions'>
             <View className='txt' style="padding:0;font-size:24rpx;color:#999999;margin-bottom:5px">{data && data.createTime && FormaDate(data.createTime) || '2019/03/02'}</View>
           </View>
         }
         {
-          isShowQuestion && 
+          isShowQuestion &&
           <View className='questions'>
             <View className='icon'>问</View>
             <View className='txt'>{data.title && data.title}</View>
@@ -73,29 +95,28 @@ export default class NoticeCard extends Component {
         }
 
         {
-          isShowAnswer && 
+          isShowAnswer &&
           <View className='anwser'>
             <View className='icon'>答</View>
             <View className='txt'>{data.title}</View>
           </View>
         }
         <View>
-        {
-          isOldQuestion && 
-          <View className='anwser'>
-            <View className='txt no-active' style="padding:0">原问题：{data.entity && data.entity.title}</View>
-          </View>
-        }
+          {
+            isOldQuestion &&
+            <View className='anwser'>
+              <View className='txt no-active' style="padding:0">原问题：{data.entity && data.entity.title}</View>
+            </View>
+          }
         </View>
-       
-       
-       
+
+
+
         <View className='tags'>
           {
             this.props.countryAble &&
             <View className='community-area'>
-              {/* <Text className='community-name'>{(data && data.userSnapshot && data.userSnapshot.city && `${data.userSnapshot.city} ${data.userSnapshot.country}`) || '上海 新城'}</Text> */}
-              <Text className='community-name'>{(data && data.cid && `${data.cName}`) || '备孕交流'}</Text>
+              <View className='community-name'>{(data && data.cid && `${data.cName}`) || '备孕交流'}</View>
             </View>
           }
           {
@@ -103,15 +124,15 @@ export default class NoticeCard extends Component {
             <View className='tips'>
               <View className='views'>
                 <Image className='img' src={ICONS.PREVIEW} />
-                <Text>{data.views || 0}</Text>
+                <View>{data.views || 0}</View>
               </View>
               <View className='comment'>
                 <Image className='img' src={ICONS.EDIT} />
-                <Text>{data.replys || 0}</Text>
+                <View>{data.replys || 0}</View>
               </View>
               <View className='favorite'>
                 <Image className='img' onClick={this.handleFavorite.bind(this, data)} src={data.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
-                <Text>{data.markes || 0}</Text>
+                <View>{data.markes || 0}</View>
               </View>
             </View>
           }
@@ -121,19 +142,31 @@ export default class NoticeCard extends Component {
   }
 
   renderFav() {
+    const { activeModel,tip} = this.props;
     return (
-      <View className='fav-txt'>济阳三村幼儿园什么时候开学</View>
+      <View>
+        <View className='fav-txt'>{activeModel.title}</View>
+        <View className='fav-txt' style="color:#999999">{activeModel.type ==4005 ? '原提问：' : '原帖：' }{activeModel.entity.title}</View>
+      </View>
+   
     )
   }
 
   render() {
-    const {ishowAvatar,isShowUserInfo} = this.props;
+    const { ishowAvatar, isShowUserInfo, activeModel,tip ,isShowReleaseTime,data} = this.props;
     return (
-      <View className='ui-notice-card'>
+      <View className="wrapper" onClick={this.handleNoticeClick.bind(this, data)}>
+        {
+          activeModel.userSnapshot && isShowReleaseTime && 
+          <View className="behavior">{`${activeModel.userSnapshot && activeModel.userSnapshot.nickName}${Behaviors(activeModel.type)} | ${activeModel.updateAt && FormaDate(activeModel.updateAt)}`}</View>
+        }
+        <View className='ui-notice-card'>
         {
           ishowAvatar &&
-          <View className='avatar-wrapper'>
-            <View className='avatar'></View>
+          <View className='avatar-wrapper' onClick={this.viewProfileInfo.bind(this,activeModel.uid)}>
+            <View className='avatar'>
+              <Image src={activeModel && activeModel.userSnapshot.headImg}></Image>
+            </View>
           </View>
         }
 
@@ -142,10 +175,10 @@ export default class NoticeCard extends Component {
             isShowUserInfo &&
             <View className='title-line'>
               <View className='title'>
-                <View className='txt'>张三</View>
-                <View className='sub'>回复了你的贴子</View>
+              <View className='txt'>{activeModel && activeModel.userSnapshot.nickName}</View>
+                <View className='sub'>{Behaviors(activeModel && activeModel.type)}</View>
               </View>
-              <View className='time'>01/25</View>
+              <View className='time'>{FormaDate(activeModel && activeModel.updateAt)}</View>
             </View>
           }
 
@@ -158,6 +191,8 @@ export default class NoticeCard extends Component {
           }
         </View>
       </View>
+      </View>
+      
     )
   }
 }

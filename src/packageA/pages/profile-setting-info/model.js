@@ -55,8 +55,9 @@ export default {
     }
   },
 
-  async updateInfo(nickName,signature,sex) {
+  async updateInfo(headImg,nickName,signature,sex) {
     let params = {
+      headImg,
       nickName,
       signature,
       sex

@@ -3,7 +3,23 @@
 .message-viewport {
   padding: 32px 32px;
   box-sizing: border-box;
+  position: relative;
+  .total{
+    width: 25px;
+    height: 25px;
+    background-color: #FF473A;
+    position: absolute;
+    border-radius: 50%;
+    top:20px;
+    left: 218px;
+    z-index: 999;
+    color:#ffffff;
+    font-size: 16px;
+    line-height: 25px;
+    text-align: center;
+  }
   .tabs {
+    position: relative;
     &>.at-tabs__header {
       position: fixed;
       top: 0;
@@ -11,7 +27,7 @@
       z-index: 99;
     }
     &>.at-tabs__header .at-tabs__item--active {
-      color: #333 !important;
+      color: #FF473A !important;
       font-size: 32px;
     }
     &>.at-tabs__header .at-tabs__item {
@@ -20,7 +36,7 @@
       padding: 29px 0 19px 0;
     }
     &>.at-tabs__header .at-tabs__item--active .at-tabs__item-underline {
-      background: #333;
+      background: #FF473A;
       width: 72px;
       height: 6px;
       border-radius: 9px;

@@ -2,13 +2,44 @@ import BaseRequest from '@common/baseRequest'
 import Taro from '@tarojs/taro'
 const request = new BaseRequest();
 export default {
-  async getData(cid) {
+  async getData(cid,type,pageNum=1) {
     let params = {
-     cid
+     cid,
+     pageNum
     }
-    const ret = await request.postWithToken('/circle/children/base', params)
+    let ret=null;
+    if(type === 'parent'){
+      ret = await request.postWithToken('/circle/parents/base', params)
+    }
+    else if(type === 'sibling'){
+      ret = await request.postWithToken('/circle/sibling/base', params)
+    }
+    else{
+      ret = await request.postWithToken('/circle/children/base', params)
+    }
+    
     const data = request.standardResponse(ret)
     if (data.code === 0 && data.data) {
+      return data.data
+    } else {
+      return false
+    }
+  },
+
+  async getSearchData(params = {
+      keyword:'',
+      parentCid:'',
+      firstSubjectId:'',
+      secondSubjectId:'',
+      pageNum:1,
+      pageSize:10,
+      sort:{
+        _score:'desc'
+      }
+  }) {
+    const ret = await request.postWithToken('/search/circle', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
       return data.data
     } else {
       return false

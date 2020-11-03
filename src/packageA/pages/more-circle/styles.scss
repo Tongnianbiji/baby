@@ -12,6 +12,7 @@
     height: 84px;
     padding: 12px 32px 24px;
     box-sizing: border-box;
+    z-index: 999;
     .inp-wrapper {
       position: relative;
       .search-inp {
@@ -37,29 +38,37 @@
     padding: 104px 32px 20px;
   }
   .tabs {
-    height: 60px;
-    background: #e3e3e3;
+    height: 90px;
+    background: #ffffff;
     border-radius:8px;
-    padding: 3px;
+    padding: 0 20px;
     position: relative;
     box-sizing: border-box;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     .slider {
       background: #fff;
       border-radius: 8px;
       width: 33.3333%;
       height: 100%;
       transition: all .3s ease;
+      line-height: 90px;
+      color:#FF473A;
+      font-size: 28px;
     }
     .tab-items {
       position: absolute;
       top: 0;
-      left: 0;
-      width: 100%;
+      right: 20px;
+      width: 220px;
       height: 100%;
       display: flex;
       justify-content: flex-end;
       background-color: #ffffff;
+      align-items: center;
+      box-sizing: border-box;
       .tab-item {
         flex: 1;
         color: #333;

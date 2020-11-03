@@ -14,6 +14,7 @@ export default class ProfileBabyAction extends Presenter {
     return (
       <View className='profile-baby-action-viewport'>
         <View className='tabs-container'>
+
           <AtTabs className='tabs' current={tabsCurrent} tabList={tabs} swipeable={false} onClick={this.onClickForTabs.bind(this)}>
             <AtTabsPane index={0} current={tabsCurrent}>
               {this.renderParenting()}
@@ -31,7 +32,7 @@ export default class ProfileBabyAction extends Presenter {
   }
 
   renderParenting() {
-    const {isHavebabyInfo, babyNickname, babySchool,babyBorn,sex,grade,gradeSelector} = this.state;
+    const {babyNickname, babySchool,babyBorn,sex,grade,gradeSelector} = this.state;
     return (
       <View>
         <View className='item' onClick={this.createBabyNickname.bind(this)}>
@@ -99,22 +100,16 @@ export default class ProfileBabyAction extends Presenter {
           <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认</View>
         </View> */}
         {
-          isHavebabyInfo ?
-          <View>
-            <View className='btn-wrapper'>
-              <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认修改</View>
-            </View>
-          </View>
-          :  <View className='btn-wrapper'>
-              <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认</View>
-            </View>
+        <View className='btn-wrapper'>
+          <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认</View>
+        </View>
         }
       </View>
     )
   }
 
   renderPregnancy() {
-    const {isHavebabyInfo,checkHospital,planHospital,preBornDate} = this.state;
+    const {checkHospital,planHospital,preBornDate} = this.state;
     return (
       <View>
         <View className='item'>
@@ -155,25 +150,15 @@ export default class ProfileBabyAction extends Presenter {
           </View>
         </View>
         {
-          isHavebabyInfo ?
-          <View>
-            <View className='btn-wrapper'>
-              <View className='btn flex-center'>切换状态</View>
-            </View>
-            <View className='btn-wrapper'>
-              <View className='btn flex-center'>确认修改</View>
-            </View>
+          <View className='btn-wrapper'>
+            <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认</View>
           </View>
-          :  <View className='btn-wrapper'>
-              <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认</View>
-            </View>
         }
       </View>
     )
   }
 
   renderPlanPregnancy() {
-    const {isHavebabyInfo} = this.state;
     return (
       <View>
         <View className='item'>
@@ -195,18 +180,11 @@ export default class ProfileBabyAction extends Presenter {
           </View>
         </View>
         {
-          isHavebabyInfo ?
           <View>
             <View className='btn-wrapper'>
-              <View className='btn flex-center'>切换状态</View>
-            </View>
-            <View className='btn-wrapper'>
-              <View className='btn flex-center'>确认修改</View>
-            </View>
-          </View>
-          :  <View className='btn-wrapper'>
               <View className='btn flex-center'>确认</View>
             </View>
+          </View>
         }
         
       </View>

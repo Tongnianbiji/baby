@@ -16,6 +16,32 @@ export default {
     { title: '我是舅舅', value: 10 },
     { title: '其他', value: 0 },
   ],
+  roleTable:{
+    "MAMA": "妈妈",
+    "GRANDMA": "奶奶",
+    "XIAOYI": "小姨",
+    "DADY": "爸爸",
+    "GRANDFATHER": "爷爷",
+    "YIMA": "姨妈",
+    "WAIGONG": "外公",
+    "GANMA": "干妈",
+    "OTHER": "",
+    "AYI": "阿姨",
+    "UNCLE": "叔叔",
+    "JIUJIU": "舅舅",
+    "GANBA": "干爸",
+    "WAIPO": "外婆",
+    "GUGU": "姑姑",
+    "JIUMA": "舅妈"
+  },
+  getRoleText (role){
+    for(let i in this.roleTable){
+      if(this.roleTable[i] === role){
+        return i
+      }
+    }
+  },
+
   async getData(bid){
     let params ={
       bid
@@ -33,10 +59,11 @@ export default {
       return false
     }
   },
-  async acceptInvite(invtKey,role){
+  async acceptInvite(invtKey,role,roleText=''){
     let params ={
       invtKey,
-      role,
+      role:this.getRoleText(role),
+      roleText
     }
     const ret = await request.getWithToken('/child/accept', params)
     const data = request.standardResponse(ret);

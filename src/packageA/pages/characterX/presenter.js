@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
 import staticData from '@src/store/common/static-data.js'
-
+import getSex from '@common/utils/roleToSex'
 export default class CharacterXPresenter extends BaseComponent {
   constructor(props) {
     super(props);
@@ -36,17 +36,35 @@ export default class CharacterXPresenter extends BaseComponent {
       role:e.detail.value
     })
   }
-  nextStep = ()=>{
+  nextStep = async ()=>{
+    const {babyName,invtKey} = this.$router.params;
     const {role,isInvite} = this.state;
-    const {updateRole} = staticData;
+    const {updateRole,updateSex} = staticData;
     if(role){
       updateRole(role);
       if(!isInvite){
         this.navback(2)
       }else{
-        this.navto({
-          url:`/packageA/pages/characterA/index?isOther=true`
-        })
+        updateRole(role);
+        updateSex(getSex(role));
+        let res = await Model.acceptInvite(invtKey,role);
+        if(res){
+          Taro.showModal({
+            title: '童年',
+            content: `已成为${babyName}家庭成员，即将开启美好童年`,
+            showCancel:false,
+            success: function (res) {
+              if (res.confirm) {
+                  Taro.switchTab({
+                    url: `/pages/index/index`
+                  })
+              } 
+              else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
       }
     }else{
       this.showToast('请输入身份')

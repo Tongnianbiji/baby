@@ -3,10 +3,9 @@ import Taro from '@tarojs/taro'
 import { View, Input, Image } from '@tarojs/components'
 import Presenter from './presenter'
 import { ICONS } from '../../../common/constant'
-import Preloading from '@components/preloading'
 import SearchCircleItem from '@common/components/circle-card'
+import Preloading from '@components/preloading'
 import UITabs2 from '@common/components/ui-tabs2'
-import SchoolItem from './school-item'
 import './styles.scss'
 
 const tabList = [
@@ -26,15 +25,16 @@ export default class MoreCircleView extends Presenter {
       <View className='more-circle-viewport'>
         <View className='search-box'>
           <View className='inp-wrapper'>
-            <Input className='search-inp' onClick={this.toSearch.bind(this)}/>
+            <Input className='search-inp' onInput={this.onKwInput.bind(this)} value={kw} />
             <Image src={ICONS.SEARCH} className='search-icon' />
           </View>
         </View>
-        {
+        { 
           !!childrenCircles.length && 
           <View className='list-wrapper'>
             <View className='tabs'>
-              <View className='slider' style={this.state.sliderStyle}></View>
+              {/* <View className='slider' style={this.state.sliderStyle}></View> */}
+              <View className='slider' style={this.state.sliderStyle}>{kw}</View>
               <View className='tab-items'>
                 <UITabs2
                   itemColor='#999'

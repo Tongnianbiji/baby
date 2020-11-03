@@ -1,6 +1,7 @@
 import BaseComponent from '@common/baseComponent'
 import Model from './model'
 import Taro from '@tarojs/taro'
+import circleIsReload from '@src/common/utils/circleIsReload'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -19,15 +20,14 @@ export default class Presenter extends BaseComponent {
 
   componentDidMount() {
     const { cid, cname = '' } = this.$router.params
-
     this.setNavBarTitle(cname)
     this.showNavLoading()
-
     this.init(cid)
   }
 
   componentWillUnmount(){
-    this.$store.updateOpPanel(false)
+    this.$store.updateOpPanel(false);
+    circleIsReload()
   }
 
   async init(cid) {

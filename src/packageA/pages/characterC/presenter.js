@@ -48,23 +48,19 @@ export default class CharacterBPresenter extends BaseComponent {
   selectRole = async (item)=>{
     const {updateRole,isRegiste,updateSex} = staticData;
     const {chatacterList,familyMember,babyName,invtKey} = this.state;
-    //const keyChatacterList = chatacterList.slice(0,6);
     const roleText = item.roleText.slice(2);
-    // const index1 = familyMember.findIndex(e=>e.roleText == roleText);
-    // const index2 = keyChatacterList.findIndex(e=>e.title == item.title);
-   
-    if(item.role === 'OTHER'){
+    if(!isRegiste){
       this.navto({
-        url:`/packageA/pages/characterX/index?isInvite=true`
+        url:'/pages/login/index'
       })
     }else{
-      updateRole(roleText);
-      updateSex(getSex(roleText));
-      if(!isRegiste){
+      if(item.role === 'OTHER'){
         this.navto({
-          url:'/pages/login/index'
+          url:`/packageA/pages/characterX/index?isInvite=true&babyName=${babyName}&invtKey=${invtKey}`
         })
       }else{
+        updateRole(roleText);
+        updateSex(getSex(roleText));
         await Model.acceptInvite(invtKey,roleText);
         Taro.showModal({
           title: '童年',
@@ -72,7 +68,7 @@ export default class CharacterBPresenter extends BaseComponent {
           showCancel:false,
           success: function (res) {
             if (res.confirm) {
-               Taro.switchTab({
+                Taro.switchTab({
                   url: `/pages/index/index`
                 })
             } 
@@ -82,16 +78,9 @@ export default class CharacterBPresenter extends BaseComponent {
           }
         })
       }
-      // if(index1>-1 && index2>-1){
-      //   this.showToast(`${babyName} ${roleText}已经加入童年`)
-      // }
-      // else{
-       
-      //   // this.navto({
-      //   //   url:'/packageA/pages/characterA/index'
-      //   // })
-      // }
     }
+
+    
   }
 
   getFamilyList = async ()=>{

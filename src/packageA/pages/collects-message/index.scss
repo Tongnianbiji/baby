@@ -16,7 +16,7 @@ page {
       z-index: 99;
     }
     &>.at-tabs__header .at-tabs__item--active {
-      color: #333 !important;
+      color: #FF473A !important;
       font-size: 32px;
     }
     &>.at-tabs__header .at-tabs__item {
@@ -25,7 +25,7 @@ page {
       padding: 29px 0 19px 0;
     }
     &>.at-tabs__header .at-tabs__item--active .at-tabs__item-underline {
-      background: #333;
+      background: #FF473A;
       width: 72px;
       height: 6px;
       border-radius: 9px;

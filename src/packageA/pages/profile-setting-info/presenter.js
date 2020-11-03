@@ -122,7 +122,8 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
 
   nextStep = async ()=>{
     const {nickName,signature,role} = staticData;
-    await Model.updateInfo(nickName,signature,getSex(role));
+    const {headImg} = this.state;
+    await Model.updateInfo(headImg,nickName,signature,getSex(role));
     this.navto({
       url:'/packageA/pages/interest/index'
     })

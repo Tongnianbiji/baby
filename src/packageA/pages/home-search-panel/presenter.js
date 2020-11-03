@@ -48,7 +48,6 @@ export default class Presenter extends BaseComponent {
   async doSearch() {
     const {type,searchValue} = this.state;
     let res = await Model.search(type,searchValue);
-    console.log('ceshi',res)
     if(res){
       this.setState({
         circleResult:res.circleResult && res.circleResult.items || [],

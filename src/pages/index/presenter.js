@@ -12,20 +12,20 @@ export default class HomePage extends BaseComponent {
       attentionType: 1, //1: 关注的用户   2: 关注的圈子
       hotTabType: 1, //1: 24小时   2: 7天
       currentCity: this.getCurrentCity(),
-      tabId:110000,
-      attentionUsers:[],
-      isCollectMin:true,
-      currentSharePid:'',
-      currentShareQid:'',
-      attentionPageNum:1,
-      showAttentionLoading:true,
-      isAttentionToBottom:false,
-      postLock:false,
-      isCollentMini:true
+      tabId: 110000,
+      attentionUsers: [],
+      isCollectMin: true,
+      currentSharePid: '',
+      currentShareQid: '',
+      attentionPageNum: 1,
+      showAttentionLoading: true,
+      isAttentionToBottom: false,
+      postLock: false,
+      isCollentMini: true
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // setTimeout(() => {
     //   this.setState({
     //     isCollectMin:false
@@ -46,37 +46,55 @@ export default class HomePage extends BaseComponent {
     //   } else {
     //     this.setState({ currentCity: this.getSubCityName() })
     //   }
-      
+
     // }).catch(() => {
     //   this.setState({ currentCity: '请选择' })
     // })
-    console.log('当前城市',this.getCurrentCity());
-    const { 
+    console.log('当前城市', this.getCurrentCity());
+    const {
       lat,
       lon,
       provinceCode,
       cityCode,
       countryCode
     } = this.getCurrentLocation();
-    const {tabId} = this.state;
+    const { tabId } = this.state;
     getApp().sensors.registerApp({
-      lat:lat,
-      lon:lon,
-      provinceCode:provinceCode,
-      cityCode:cityCode,
-      countryCode:countryCode,
-      tabId:tabId,
-      uid:this.getUserInfo().userId || 'guest'
+      lat: lat,
+      lon: lon,
+      provinceCode: provinceCode,
+      cityCode: cityCode,
+      countryCode: countryCode,
+      tabId: tabId,
+      uid: this.getUserInfo().userId || 'guest'
     })
     this.setState({
-      currentCity:this.getCurrentCity()
+      currentCity: this.getCurrentCity()
     })
   }
 
+  onShareAppMessage (res){
+    let path= '';
+    console.log('分享',res)
+    if (res.from === 'button') {
+      const {pid,qid} =JSON.parse(res.target.id);
+      if(pid){
+        path = `/packageB/pages/post-detail/index?pid=${pid}`
+      }
+      if(qid){
+        path = `/packageB/pages/issue-detail/index?qid=${qid}`
+      }
+    }
+    return {
+      title: `欢迎加入童年`,
+      path:path
+    }
+  }
+
   onReachBottom() {
-    const { postLock, isAttentionToBottom,currentTopTab,attentionType } = this.state;
+    const { postLock, isAttentionToBottom, currentTopTab, attentionType } = this.state;
     if (currentTopTab === 0) {
-      if(attentionType===1){
+      if (attentionType === 1) {
         if (!postLock && !isAttentionToBottom) {
           this.setState((pre) => ({
             attentionPageNum: pre.attentionPageNum + 1
@@ -89,38 +107,38 @@ export default class HomePage extends BaseComponent {
   }
 
   topTabChange = (current) => {
-    const { attentionType,hotTabType} =this.state;
+    const { attentionType, hotTabType } = this.state;
     let tabId = null;
-    switch(current){
+    switch (current) {
       case 0:
-        if(attentionType ===1){
-          tabId=100100;
+        if (attentionType === 1) {
+          tabId = 100100;
           this.getAttentionUsers()
         }
-        else if(attentionType ===2){
-          tabId=100204;//目前关注圈子只有圈子（其他暂时隐藏）
+        else if (attentionType === 2) {
+          tabId = 100204;//目前关注圈子只有圈子（其他暂时隐藏）
         }
         break;
       case 1:
-        tabId=110000;
+        tabId = 110000;
         break;
       case 2:
-        if(hotTabType ===1){
-          tabId=130100;
+        if (hotTabType === 1) {
+          tabId = 130100;
         }
-        else if(hotTabType ===2){
-          tabId=130200;
+        else if (hotTabType === 2) {
+          tabId = 130200;
         }
         break;
     }
     this.setState({
       currentTopTab: current,
-      tabId:tabId
-    },()=>{
+      tabId: tabId
+    }, () => {
       //const {tabId} = this.state;
       getApp().sensors.registerApp({
-        tabId:tabId,
-        eventType:2
+        tabId: tabId,
+        eventType: 2
       })
     })
   }
@@ -128,56 +146,56 @@ export default class HomePage extends BaseComponent {
   attentionTabChange = attentionType => {
     let tabId = null;
     this.setState({ attentionType },
-      ()=>{
-        if(attentionType === 1){
+      () => {
+        if (attentionType === 1) {
           this.getAttentionUsers()
         }
       })
-      if(attentionType ===1){
-        tabId=100100;
-        this.setState({
-          tabId:100100
-        })
-      }
-      else if(attentionType ===2){
-        tabId=100204;
-        this.setState({
-          tabId:100204//目前关注圈子只有圈子（其他暂时隐藏）
-        })
-      }
-      getApp().sensors.registerApp({
-        tabId:tabId,
-        eventType:2
+    if (attentionType === 1) {
+      tabId = 100100;
+      this.setState({
+        tabId: 100100
       })
+    }
+    else if (attentionType === 2) {
+      tabId = 100204;
+      this.setState({
+        tabId: 100204//目前关注圈子只有圈子（其他暂时隐藏）
+      })
+    }
+    getApp().sensors.registerApp({
+      tabId: tabId,
+      eventType: 2
+    })
   }
 
   hotTabChange = hotTabType => {
     let tabId = null;
     this.setState({ hotTabType })
-    if(hotTabType ===1){
-      tabId=130100;
+    if (hotTabType === 1) {
+      tabId = 130100;
       this.setState({
-        tabId:130100
+        tabId: 130100
       })
     }
-    else if(hotTabType ===2){
-      tabId=130200;
+    else if (hotTabType === 2) {
+      tabId = 130200;
       this.setState({
-        tabId:130200
+        tabId: 130200
       })
     }
     getApp().sensors.registerApp({
-      tabId:tabId,
-      eventType:2
+      tabId: tabId,
+      eventType: 2
     })
   }
 
   goSearch = () => {
-    this.navto({url: '/packageA/pages/home-search-panel/index?searchScope=all'})
+    this.navto({ url: '/packageA/pages/home-search-panel/index?searchScope=all' })
   }
 
-  onLongPressForDebug(){
-    this.navto({url:'/test/index'})
+  onLongPressForDebug() {
+    this.navto({ url: '/test/index' })
   }
 
   selectCity = () => {
@@ -194,7 +212,7 @@ export default class HomePage extends BaseComponent {
   }
 
   //获取关注用户数据
-  getAttentionUsers = async()=>{ 
+  getAttentionUsers = async () => {
     const { attentionUsers, attentionPageNum } = this.state;
     const { userId } = this.getUserInfo();
     this.setState({
@@ -225,82 +243,118 @@ export default class HomePage extends BaseComponent {
     }
   }
 
-  handleFavoriteAttention = async (model)=>{
-    let {postLock,attentionUsers} = this.state;
+  handleFavoriteAttention = async (model) => {
+    let { postLock, attentionUsers } = this.state;
     let preIndex = null;
-    const {pid,qid} = model;
-    if(pid){
-      preIndex = attentionUsers.findIndex(item=>item.entity.pid === model.pid)
+    const { pid, qid } = model;
+    if (pid) {
+      preIndex = attentionUsers.findIndex(item => item.entity.pid === model.pid)
     }
-    else if(qid){
-      preIndex = attentionUsers.findIndex(item=>item.entity.qid === model.qid)
+    else if (qid) {
+      preIndex = attentionUsers.findIndex(item => item.entity.qid === model.qid)
     }
-    if(!postLock){
-     if(model.isMark){
-       this.setState({
-         postLock:true
-       })
-       let res = null;
-       if(pid){
-        res = await Model.cancelMarkPost(model.pid);
-       }
-       else if(qid){
-        res = await Model.cancelMarkQuestion(model.qid);
-       }
-       this.setState({
-         postLock:false
-       })
-       attentionUsers[preIndex].entity.isMark = false;
-       attentionUsers[preIndex].entity.markes -= 1;
-       if(res){
-         this.showToast('已取消');
-       }
-     }else{
-       this.setState({
-         postLock:true
-       })
-       let res = null;
-       if(pid){
-        res = await Model.markPost(model.pid);
-       }
-       else if(qid){
-        res = await Model.markQuestion(model.qid);
-       }
-       this.setState({
-         postLock:false
-       })
-       attentionUsers[preIndex].entity.isMark = true;
-       attentionUsers[preIndex].entity.markes += 1;
-       if(res){
-         this.showToast('已收藏');
-       }
-     }
+    if (!postLock) {
+      if (model.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.cancelMarkPost(model.pid);
+        }
+        else if (qid) {
+          res = await Model.cancelMarkQuestion(model.qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        attentionUsers[preIndex].entity.isMark = false;
+        attentionUsers[preIndex].entity.markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.markPost(model.pid);
+        }
+        else if (qid) {
+          res = await Model.markQuestion(model.qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        attentionUsers[preIndex].entity.isMark = true;
+        attentionUsers[preIndex].entity.markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
     }
     this.setState({
-      attentionUsers:attentionUsers
+      attentionUsers: attentionUsers
     })
   }
 
-  share = (model)=>{
-    const {pid,qid} = model;
+  //关注/取消
+  handleSubscrAttention = async (model) => {
+    let { postLock, attentionUsers } = this.state;
+    let preIndex = attentionUsers.findIndex(item => item.userId === model.userId)
+    if (!postLock) {
+      if (model.isSubscr) {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.cancelAttentionUser(model.userId);
+        this.setState({
+          postLock: false
+        })
+        attentionUsers[preIndex].isSubscr = false
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.attentionUser(model.userId);
+        this.setState({
+          postLock: false
+        })
+        attentionUsers[preIndex].isSubscr = true
+        if (res) {
+          this.showToast('已关注');
+        }
+      }
+    }
     this.setState({
-      currentSharePid:'',
-      currentShareQid:''
+      attentionUsers: attentionUsers
     })
-    if(pid){
+  }
+
+  share = (model) => {
+    const { pid, qid } = model;
+    this.setState({
+      currentSharePid: '',
+      currentShareQid: ''
+    })
+    if (pid) {
       this.setState({
-        currentSharePid:pid
+        currentSharePid: pid
       })
-    }else if(qid){
+    } else if (qid) {
       this.setState({
-        currentShareQid:qid
+        currentShareQid: qid
       })
     }
   }
 
-  closeCollentMini =()=>{
+  closeCollentMini = () => {
     this.setState({
-      isCollentMini:false
+      isCollentMini: false
     })
     this.setCurrentIsCollentMini(2)
   }

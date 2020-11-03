@@ -14,10 +14,12 @@ export default class ProfileBaby extends Presenter {
           familyMember.map((item, index) => {
             return (
               <View key={`item_${item.userId}_${index}`} className='item' onClick={this.onClickNavTo.bind(this, item.userId)}>
-                <Image className='item-avatar' src={item.avatar} />
-                <View className='item-txt'>
-                  <View>{item.roleText ? `${item.nickName}(${item.roleText})` : item.nickName}</View>
-                  <View>{item.createDt}</View>
+                <View style="display:flex;align-items:center;">
+                  <Image className='item-avatar' src={item.avatar} />
+                  <View className='item-txt'>
+                    <View>{item.roleText ? `${item.nickName}(${item.roleText})` : item.nickName}</View>
+                    <View>{item.createDt}</View>
+                  </View>
                 </View>
                 <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
               </View>
@@ -30,7 +32,10 @@ export default class ProfileBaby extends Presenter {
             {
               otherMember.map((item, index) => {
                 return (
-                  <Button open-type="share" className='other-item' key={`item_${item.role}_${index}`}>{item.roleText || '其他'}</Button>
+                  <View style="margin-right:5px">
+                    <Button open-type="share" className='other-item' key={`item_${item.role}_${index}`}>{item.roleText || '其他'}</Button>
+                  </View>
+                  
                 )
               })
             }

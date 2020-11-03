@@ -56,8 +56,19 @@ export default class UserInfoItem extends Component {
         url:`/packageB/pages/issue-detail/index?qid=${model.qid}`
       })
     }
-   
-    //this.props.onCardClick(this.model)
+    else if(model.entity){
+      let {pid,qid} = model.entity;
+      if(pid){
+        Taro.navigateTo({
+          url:`/packageB/pages/post-detail/index?pid=${pid}`
+        })
+      }
+      else if(qid){
+        Taro.navigateTo({
+          url:`/packageB/pages/issue-detail/index?qid=${qid}`
+        })
+      }
+    }
   }
 
   handleFavorite = (model,e) => {
@@ -96,7 +107,6 @@ export default class UserInfoItem extends Component {
 
   share = (e)=>{
     e.stopPropagation();
-    console.log('阻止冒泡')
     //this.props.onShare(model)
   }
 

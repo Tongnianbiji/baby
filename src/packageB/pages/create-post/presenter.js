@@ -2,6 +2,7 @@ import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
+import circleIsReload from '@src/common/utils/circleIsReload'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -34,7 +35,8 @@ export default class Presenter extends BaseComponent {
   }
 
   componentWillUnmount(){
-    this.$store.updateOpPanel(false)
+    this.$store.updateOpPanel(false);
+    circleIsReload();
   }
 
   async init(cid) {

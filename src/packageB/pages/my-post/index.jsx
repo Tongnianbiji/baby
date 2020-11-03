@@ -5,8 +5,6 @@ import { AtTabs, AtTabsPane } from 'taro-ui'
 import Presenter from './presenter'
 import Preloading from '@components/preloading'
 import PostItem from '@components/post-card'
-//import NoData from '@components/no-data'
-
 import './index.scss'
 
 export default class MyPostView extends Presenter {

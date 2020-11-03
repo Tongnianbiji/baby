@@ -189,13 +189,13 @@
           color: rgba(153, 153, 153, 1);
         }
         .at-tabs__header .at-tabs__item--active {
-          color: rgba(51, 51, 51, 1);
+          color: #FF473A;
         }
         .at-tabs__header .at-tabs__item--active .at-tabs__item-underline {
           width: 72px;
           height: 6px;
           //background: $sys-active-bg;
-          background: #333333;
+          background:#FF473A;
           border: unset;
           border-radius: 9px;
           left: 50%;
@@ -214,7 +214,7 @@
         }
       }
       .new-info {
-        padding: 32px 0 24px 0;
+        padding: 32px 0 0 0;
         font-size: 28px;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;

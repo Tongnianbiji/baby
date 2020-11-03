@@ -4,7 +4,8 @@ import { AtTabs, AtTabsPane } from 'taro-ui'
 import { View, Image } from '@tarojs/components'
 import Presenter from './presenter'
 import Preloading from '@components/preloading'
-import UserInfoItem from '../../../common/components/post-card'
+import BehaviorCard from '@components/behavior-card'
+//import UserInfoItem from '../../../common/components/post-card'
 import { ICONS } from '@common/constant'
 import './index.scss'
 
@@ -22,7 +23,10 @@ export default class ProfileHome extends Presenter {
       showQuestionLoading,
       isActiveToBottom,
       isPostToBottom,
-      isQuestionToBottom
+      isQuestionToBottom,
+      activeDataTotal,
+      postDataTotal,
+      questionDataTotal,
     } = this.state;
     let isChildThanTwo = false;
     let childs = [];
@@ -141,16 +145,19 @@ export default class ProfileHome extends Presenter {
 
               <AtTabsPane current={tabsCurrent} index={0}>
                 {
-                  !!activeData.length &&
+                  !!activeDataTotal &&
                   <View className='new-info'>
-                    共{activeData.length}条内容
+                    共{activeDataTotal}条内容
                   </View>
                 }
                 <View>
                   {
                     activeData.map((item, index) => {
+                      // return (
+                      //   <UserInfoItem key={index} model={item.entity} activeModel={item} onHandleFavorite={this.handleFavoriteActive.bind(this)} needShared/>
+                      // )
                       return (
-                        <UserInfoItem key={index} model={item.entity} activeModel={item} onHandleFavorite={this.handleFavoriteActive.bind(this)}/>
+                        <BehaviorCard key={index} data={item} onHandleFavorite={this.handleFavoriteActive.bind(this)} onSubScrUser={this.handleSubscrActive.bind(this)}></BehaviorCard>
                       )
                     })
                   }
@@ -159,9 +166,9 @@ export default class ProfileHome extends Presenter {
               </AtTabsPane>
               <AtTabsPane current={tabsCurrent} index={1}>
                 {
-                  !!postData.length &&
+                  !!postDataTotal &&
                   <View className='new-info'>
-                    共{postData.length}条内容
+                    共{postDataTotal}条内容
                   </View>
                 }
                 <View>
@@ -178,9 +185,9 @@ export default class ProfileHome extends Presenter {
               </AtTabsPane>
               <AtTabsPane current={tabsCurrent} index={2}>
                 {
-                  !!questionData.length &&
+                  !!questionDataTotal &&
                   <View className='new-info'>
-                    共{questionData.length}条内容
+                    共{questionDataTotal}条内容
                   </View>
                 }
                 <View>

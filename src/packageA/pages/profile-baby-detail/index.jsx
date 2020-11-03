@@ -137,7 +137,7 @@ export default class ProfileBabyDetail extends Presenter {
         {
           <View>
             <View className='btn-wrapper'>
-              <View className='btn flex-center' onClick={this.switchStatus.bind(this)}>切换状态</View>
+              <View className='btn flex-center' onClick={this.switchStatusByPregnancy.bind(this)}>切换状态</View>
             </View>
             <View className='btn-wrapper' onClick={this.confirmModify.bind(this)}>
               <View className='btn flex-center'>确认修改</View>
@@ -171,7 +171,7 @@ export default class ProfileBabyDetail extends Presenter {
         </View>
         {
           <View>
-            <View className='btn-wrapper' onClick={this.switchStatus.bind(this)}>
+            <View className='btn-wrapper' onClick={this.switchStatusByPlanPregnancy.bind(this)}>
               <View className='btn flex-center'>切换状态</View>
             </View>
             <View className='btn-wrapper' onClick={this.confirmModify.bind(this)}>

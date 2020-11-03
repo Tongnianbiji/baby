@@ -111,6 +111,9 @@
         font-size: 24px;
         color: #333;
         white-space: nowrap;
+        width: 60px;
+        text-overflow: ellipsis;
+        overflow: hidden;
         @extend .line1;
       }
       &.last-parent-one {

@@ -7,12 +7,39 @@ export default class Presenter extends BaseComponent {
 
     this.state = {
       tabList: Model.tabsList,
-      currentTab: 0
+      currentTab: 0,
+      answer: 0,
+      funs: 0,
+      mark: 0,
+      reply: 0,
+      star: 0,
+      total:0
     }
+  }
+
+  componentDidMount(){}
+
+  componentDidShow(){
+    this.getMessageCount()
   }
 
   getMessage() {
     Model.getMessage()
+  }
+
+  getMessageCount = async ()=>{
+    let res = await Model.getMessageCount();
+    if(res){
+      const {answer,funs,mark,reply,star} = res;
+      this.setState({
+        // answer,
+        // funs,
+        // mark,
+        // reply,
+        // star
+        total:answer+funs+mark+reply+star
+      })
+    }
   }
 
   tabChange = index => {
@@ -24,15 +51,15 @@ export default class Presenter extends BaseComponent {
   }
 
   toPostReply = () => {
-    this.navto({ url: '/packageA/pages/postReply/index' })
+    this.navto({ url: '/packageB/pages/reply-my-post/index' })
   }
 
   toQaList = () => {
-    this.navto({ url: '/packageA/pages/qa-list/index' })
+    this.navto({ url: '/packageB/pages/qa-me/index' })
   }
 
   toCollect = () => {
-    this.navto({ url: '/packageA/pages/collects/index' })
+    this.navto({ url: '/packageB/pages/passive-collects/index' })
   }
 
   toSysMessage = () => {

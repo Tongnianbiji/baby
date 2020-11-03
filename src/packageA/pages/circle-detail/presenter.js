@@ -2,6 +2,7 @@ import React from 'react'
 import BaseComponent from '../../../common/baseComponent'
 import Taro, {getCurrentInstance} from '@tarojs/taro'
 import Model from './model'
+import staticData from '@src/store/common/static-data'
 export default class Presenter extends BaseComponent {
 
   constructor(props) {
@@ -22,18 +23,21 @@ export default class Presenter extends BaseComponent {
     const info = Taro.getSystemInfoSync();
     const { windowHeight, statusBarHeight, titleBarHeight } = info;
     const tempHeight = (windowHeight - 140) + 'px';
-    
     this.$store.updateCircleId(cid);
     this.setState({
       cid: cid,
       tempHeight:tempHeight
     })
-    this.setNavBarTitle(cname)
-    this.showLoading()
+    this.setNavBarTitle(cname);
   }
   componentDidShow(){
     const { cid} = getCurrentInstance().router.params;
-    this.initData(cid);
+    const {reLoadCirclePage,updateReLoadCirclePage} = staticData;
+    if(reLoadCirclePage){
+      this.showLoading();
+      this.initData(cid);
+    }
+    updateReLoadCirclePage(true)
   }
 
   componentWillUnmount(){

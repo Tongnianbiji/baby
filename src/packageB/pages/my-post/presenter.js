@@ -148,6 +148,7 @@ export default class Presenter extends BaseComponent {
 
    //点击帖子详情
    handlePostDetail(pid) {
+     console.log('*******',pid)
     this.navto({
       url:'/packageB/pages/post-detail/index?pid='+pid
     })
