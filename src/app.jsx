@@ -95,19 +95,22 @@ class App extends BaseComponent {
       // 新的版本下载失败
     })
 
-    new GoEasy({
-      host: 'hangzhou.goeasy.io',
-      appkey: 'BC-d71d87e7f5f54b519e77da2c5a1e1bba',
-      onConnected() {
-        console.log('连接成功')
-      },
-      onDisconnected() {
-        console.log('断开连接')
-      },
-      onConnectFailed(error) {
-        console.log('连接失败', error)
-      }
-    })
+    const {getGoEasy} =staticDataStore;
+    getGoEasy(
+      new GoEasy({
+        host: 'hangzhou.goeasy.io',
+        appkey: 'BC-6ad253de75d242f5a8917e75e14e1eca',
+        onConnected() {
+          console.log('连接成功')
+        },
+        onDisconnected() {
+          console.log('断开连接')
+        },
+        onConnectFailed(error) {
+          console.log('连接失败', error)
+        }
+      })
+    )
   }
 
   componentDidShow() {

@@ -44,7 +44,7 @@ export default {
       pageNum,
       pageSize:pageSize
     }
-    const ret = await request.postWithToken('/activity/user/post', params)
+    const ret = await request.postWithToken('/user/post', params)
     const d = request.standardResponse(ret)
     if(d.code == 0){
       return d.data
@@ -60,7 +60,7 @@ export default {
       pageNum,
       pageSize:pageSize
     }
-    const ret = await request.postWithToken('/activity/user/question', params)
+    const ret = await request.postWithToken('/user/question', params)
     const d = request.standardResponse(ret)
     if(d.code == 0){
       return d.data
@@ -139,6 +139,32 @@ export default {
      qid
     }
     const ret = await request.postWithToken('/question/mark', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async leaveCircle(cid) {
+    let params = {
+     cid
+    }
+    const ret = await request.postWithToken('/relation/circle/leave', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async joinCircle(cid) {
+    let params = {
+     cid
+    }
+    const ret = await request.postWithToken('/relation/circle/join', params)
     const data = request.standardResponse(ret)
     if (data.code === 0) {
       return true

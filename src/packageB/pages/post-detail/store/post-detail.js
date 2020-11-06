@@ -156,21 +156,25 @@ class postDetailStore{
     commentList.forEach(item => {
       item.isShowSubInfo=true;
       item.isShowContent=true;
-      item.subLength=this.calcSubListLen(item.leafReplyList,item.leafReplyList.length+1);
+      item.subLength=this.calcSubListLen(item);
       this.insertStatus(item.leafReplyList)
     })
     return commentList;
   }
 
   //递归计算子元素list的长度
-  @action calcSubListLen = (list,total)=>{
-    list.forEach(item=>{
-      if(item.leafReplyList.length){
-        total += item.leafReplyList.length;
-      }
-      this.calcSubListLen(item.leafReplyList);
-    })
-    return total;
+  @action calcSubListLen = (obj)=>{
+    console.log('obj',obj)
+    if(!obj.leafReplyList.length){
+      return 1;
+    }
+    else{
+      let total = 1;
+      obj.leafReplyList.forEach(item=>{
+        total += this.calcSubListLen(item)
+      })
+      return total
+    }
   }
 
   //递归更新回复列表状态

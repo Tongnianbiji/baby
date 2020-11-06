@@ -207,10 +207,10 @@ export default class UserInfoItem extends Component {
                     </View>
                   }
                   
-                </View> : <Text className='content'>{model.title || model.content}</Text>
+                </View> : <Text className='content'>{activeModel.title || model.title || model.content}</Text>
             }
             {
-              this.props.isMyReply && <View className='content' style="color:#666666;;">原贴：{model.content || '济阳三村幼儿园怎么样，算比较好的幼儿园吗?'}</View>
+              this.props.isMyReply && model.title && <View className='content' style="color:#666666;;">原贴：{model.title}</View>
             }
           </View>
           <View className='tags'>

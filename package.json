@@ -40,9 +40,11 @@
     "goeasy": "^1.0.17",
     "mobx": "^4.8.0",
     "mobx-react": "^6.1.4",
+    "qrcode.react": "^1.0.0",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
-    "taro-cropper": "^1.2.4",
+    "taro-code": "^3.2.0",
+    "taro-cropper": "^1.2.3",
     "taro-ui": "^3.0.0-alpha.3"
   },
   "devDependencies": {

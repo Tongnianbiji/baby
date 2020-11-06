@@ -39,13 +39,20 @@ export default class NoticeCard extends Component {
     let qid = '';
     if(data.qid){
       qid=data.qid;
+      Taro.navigateTo({
+        url: `/packageB/pages/issue-detail/index?qid=${qid}`
+      })
     }
     else if(activeModel.entity.qid){
       qid=activeModel.entity.qid
+      Taro.navigateTo({
+        url: `/packageB/pages/issue-detail/index?qid=${qid}`
+      })
+    }else if(data.pid){
+      Taro.navigateTo({
+        url: `/packageB/pages/post-detail/index?pid=${data.pid}`
+      })
     }
-    Taro.navigateTo({
-      url: `/packageB/pages/issue-detail/index?qid=${qid}`
-    })
     this.props.onNoticeClick(data)
   }
 
@@ -75,8 +82,19 @@ export default class NoticeCard extends Component {
     )
   }
 
+  formateType(type){
+    const type1 = [3003,3005];
+    const type2 = [4003,4005];
+    if(type1.includes(type)){
+      return '原帖：'
+    }
+    else if(type2.includes(type)){
+      return '原提问：'
+    }
+  }
+
   renderQA() {
-    const { data, isShowTools, isShowQuestion, isShowAnswer, isOldQuestion, isShowTime } = this.props;
+    const { data, isShowTools, isShowQuestion, isShowAnswer, isOldQuestion, isShowTime ,activeModel} = this.props;
     return (
       <View className='qa-wrapper'>
 
@@ -95,17 +113,17 @@ export default class NoticeCard extends Component {
         }
 
         {
-          isShowAnswer &&
+          isShowAnswer && (data.content || activeModel.content || activeModel.title) &&
           <View className='anwser'>
             <View className='icon'>答</View>
-            <View className='txt'>{data.title}</View>
+            <View className='txt'>{data.content || activeModel.content || activeModel.title}</View>
           </View>
         }
         <View>
           {
             isOldQuestion &&
             <View className='anwser'>
-              <View className='txt no-active' style="padding:0">原问题：{data.entity && data.entity.title}</View>
+              <View className='txt no-active' style="padding:0">原问题：{data.title || activeModel.entity && (activeModel.entity.title || activeModel.entity.content)}</View>
             </View>
           }
         </View>
@@ -116,7 +134,7 @@ export default class NoticeCard extends Component {
           {
             this.props.countryAble &&
             <View className='community-area'>
-              <View className='community-name'>{(data && data.cid && `${data.cName}`) || '备孕交流'}</View>
+              <View className='community-name'>{(data && data.cid && data.cName && `${data.cName}`) || '备孕交流'}</View>
             </View>
           }
           {
@@ -146,7 +164,7 @@ export default class NoticeCard extends Component {
     return (
       <View>
         <View className='fav-txt'>{activeModel.title}</View>
-        <View className='fav-txt' style="color:#999999">{activeModel.type ==4005 ? '原提问：' : '原帖：' }{activeModel.entity.title}</View>
+        <View className='fav-txt' style="color:#999999">{this.formateType(activeModel.type)}{activeModel.entity.title}</View>
       </View>
    
     )

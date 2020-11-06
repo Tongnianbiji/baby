@@ -1,11 +1,15 @@
 import Taro from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
+import FormaDate from '@common/formaDate'
+import Behaviors from '@common/utils/behaviors'
 import './styles.scss'
 
 export default class CircleItem extends Component {
   static defaultProps = {
     data: null,
+    activeModel:{},
+    isShowReleaseTime:false,
     // 是否在最上方显示 [可能感兴趣] 一栏
     recommand: false,
     kw: '济阳',
@@ -59,10 +63,14 @@ export default class CircleItem extends Component {
   }
 
   render() {
-    const {data,data:{cid,uid,description,leaf,imgUrl,name,posts,questions,subscribe,isSubscribe},kw} = this.props;
-    let newTitle
+    const {data,data:{cid,uid,description,leaf,imgUrl,name,posts,questions,subscribe,isSubscribe},kw,activeModel,isShowReleaseTime} = this.props;
+    let newTitle = null;
     return (
       <View className='search-circle-item' onClick={this.gotoCircleDetail.bind(this,data)}>
+        {
+          activeModel.userSnapshot && isShowReleaseTime && 
+          <View className="behavior">{`${activeModel.userSnapshot && activeModel.userSnapshot.nickName}${Behaviors(activeModel.type)} | ${activeModel.updateAt && FormaDate(activeModel.updateAt)}`}</View>
+        }
         {
           this.props.recommand &&
           <View className='recommand-title'>可能感兴趣</View>

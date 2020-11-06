@@ -8,5 +8,18 @@ export default {
         return ret.data
       }
     })
+  },
+
+  async checkregist(code){
+    let params = {
+      code
+    }
+    const ret = await request.get('/user/checkregist', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
   }
 }

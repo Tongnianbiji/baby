@@ -4,6 +4,7 @@ import { View } from '@tarojs/components'
 import Presenter from './presenter'
 import Preloading from '@components/preloading'
 import PostItem from '@components/post-card'
+import NoticeCard from '@components/notice-card'
 import './index.scss'
 
 export default class ReplyMyPostView extends Presenter {
@@ -20,7 +21,10 @@ export default class ReplyMyPostView extends Presenter {
           <View>
             {
               replyData.map((item)=>{
-                return (<PostItem onCardClick={this.handlePostDetail.bind(this,item.entityId)} model={item} closeRelease onlyReleaseTime isMyReply isShowTools={false}/>)
+                // return (<PostItem onCardClick={this.handlePostDetail.bind(this,item.entityId)} model={item} closeRelease onlyReleaseTime isMyReply isShowTools={false}/>)
+                return(
+                  <NoticeCard onCardClick={this.handlePostDetail.bind(this,item.entity.pid)} type={''} isShowReleaseTime={false} data={item.entity} activeModel={item}/>
+                )
               })
             }
             <Preloading showLoading={showReplyLoading} isToBottom={isReplyToBottom}></Preloading>

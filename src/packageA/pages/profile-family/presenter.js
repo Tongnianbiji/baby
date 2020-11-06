@@ -6,8 +6,8 @@ export default class ProfileBabyPresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      familyMember: Model.familyMember,
-      otherMember: Model.otherMember,
+      familyMember: [],
+      otherMember: [],
       userInfo:{
         nickName:'小福妈妈'
       },

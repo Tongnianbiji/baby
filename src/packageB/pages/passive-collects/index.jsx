@@ -4,7 +4,7 @@ import { AtTabs, AtTabsPane } from 'taro-ui'
 import { View } from '@tarojs/components'
 import Presenter from './presenter'
 import Preloading from '@components/preloading'
-import PostCard from '@components/post-card'
+//import PostCard from '@components/post-card'
 import NoticeCard from '@components/notice-card'
 import './index.scss'
 
@@ -29,18 +29,23 @@ export default class PassiveCollectsView extends Presenter {
   // }
 
   render() {
-    const { currentTab,collectData,likeData,showCollectLoading,showLikeLoading,isCollectToBottom ,isLikeToBottom } = this.state
+    const { currentTab,collectData,likeData,showCollectLoading,showLikeLoading,isCollectToBottom ,isLikeToBottom, mark,star} = this.state
     return (
       <View className='collects-vewport' style="overflow:hidden">
+        {
+          !!mark && <View className="mark">{mark}</View>
+        }
+        {
+          !!star && <View className="star">{star}</View>
+        }
         <AtTabs tabList={this.state.tabList} className='tabs' current={currentTab} onClick={this.tabChange}>
           <AtTabsPane index={0} className='message-tabs-pane' current={currentTab}>
           {
-             
              collectData.length ? 
              <View>
                {
                  collectData.map((item)=>{
-                   return (<NoticeCard onCardClick={this.handlePostDetail.bind(this,item.entity.pid)} type={''} isShowReleaseTime={false} data={item.entity} activeModel={item}/>)
+                   return (<NoticeCard type={''} isShowReleaseTime={false} data={item.entity} isOldQuestion={false} activeModel={item}/>)
                  })
                }
              <Preloading showLoading={showCollectLoading} isToBottom={isCollectToBottom}></Preloading>
@@ -49,12 +54,11 @@ export default class PassiveCollectsView extends Presenter {
           </AtTabsPane>
           <AtTabsPane index={1} className='message-tabs-pane' current={currentTab}>
           {
-             
              likeData.length ? 
              <View>
                {
                  likeData.map((item)=>{
-                  return (<NoticeCard onCardClick={this.handlePostDetail.bind(this,item.entity.pid)} type={''} isShowReleaseTime={false} data={item.entity} activeModel={item}/>)
+                  return (<NoticeCard type={''} isShowReleaseTime={false} data={item.entity} isOldQuestion={false} activeModel={item}/>)
                  })
                }
              <Preloading showLoading={showLikeLoading} isToBottom={isLikeToBottom}></Preloading>

@@ -11,14 +11,14 @@ export default class ProfileSettingPrivacy extends Presenter {
     const { checked } = this.state;
     return (
       <View className='profile-setting-privacy-viewport'>
-        <View className='item'>
+        <Button className='item' openType='share'>
           <View className='item-label'>
             <View className='item-txt'>把他（她）推荐给朋友</View>
           </View>
-          <Button className='item-button' openType='share'>
+          <View className='item-button'>
             <Image src={ICONS.ARROW_RIGHT_P}></Image>
-          </Button>
-        </View>
+          </View>
+        </Button>
 
         <View className='item'>
           <View className='item-label'>

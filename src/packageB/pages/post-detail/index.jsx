@@ -6,6 +6,7 @@ import Presenter from './presenter'
 import MainPanel from './components/main-panel'
 import Comments from './components/comments'
 import ReplyTools from './components/reply-tools'
+import CustomTitle from '@components/custom-title'
 import './index.scss'
 
 export default class PostDetailView extends Presenter {
@@ -25,13 +26,14 @@ export default class PostDetailView extends Presenter {
 
 
   render() {
-    const { replys, postDetail } = this.state;
+    const { replys, postDetail,isCanEntranceCircle } = this.state;
     const store = {
       postDetail
     }
     return (
       <Provider {...store}>
-        <View className='post-detail-view'>
+        <CustomTitle title={postDetail.detailData.cName || '帖子详情'} isCanEntranceCircle={isCanEntranceCircle} onEntrancePage={this.entrancePage.bind(this)}></CustomTitle>
+        <View className='post-detail-view' style={{marginTop:`59px`}}>
           <MainPanel onShare={this.share.bind(this)}/>
           <Comments replys={replys} selectSortType={this.getReplyList.bind(this)} onReplyPost={this.replyPost.bind(this)} />
           <ReplyTools onCopyContent={this.copyContent} onInputReply={this.inputReply.bind(this)} onSubmitReply={this.submitReply}></ReplyTools>

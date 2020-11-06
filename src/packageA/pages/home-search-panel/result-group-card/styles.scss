@@ -60,6 +60,11 @@
             width: 380px;
             // width: 0;
             overflow: hidden;
+            .matched-txt {
+              color: #FF473A;
+              margin-right: 10px;
+              display: inline-block;
+            }
           }
           .btn-join {
             padding: 0 24px 0 24px;
@@ -180,6 +185,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            .matched-txt {
+              color: #FF473A;
+              margin-right: 10px;
+              display: inline-block;
+            }
           }
         }
       }

@@ -307,95 +307,95 @@ export default class ProfileHomePresenter extends BaseComponent {
 
   //动态收藏
   handleFavoriteActive = async (model)=>{
-    let {postLock,activeData} = this.state;
+    let { postLock, activeData } = this.state;
     let preIndex = null;
-    const {pid,qid} = model;
-    if(pid){
-      preIndex = activeData.findIndex(item=>item.entity.pid === model.pid)
+    const { pid, qid } = model.entity;
+    if (pid) {
+      preIndex = activeData.findIndex(item => item.activityId === model.activityId)
     }
-    else if(qid){
-      preIndex = activeData.findIndex(item=>item.entity.qid === model.qid)
+    else if (qid) {
+      preIndex = activeData.findIndex(item => item.activityId === model.activityId)
     }
-    if(!postLock){
-     if(model.isMark){
-       this.setState({
-         postLock:true
-       })
-       let res = null;
-       if(pid){
-        res = await Model.cancelMarkPost(model.pid);
-       }
-       else if(qid){
-        res = await Model.cancelMarkQuestion(model.qid);
-       }
-       this.setState({
-         postLock:false
-       })
-       activeData[preIndex].entity.isMark = false;
-       activeData[preIndex].entity.markes -= 1;
-       if(res){
-         this.showToast('已取消');
-       }
-     }else{
-       this.setState({
-         postLock:true
-       })
-       let res = null;
-       if(pid){
-        res = await Model.markPost(model.pid);
-       }
-       else if(qid){
-        res = await Model.markQuestion(model.qid);
-       }
-       this.setState({
-         postLock:false
-       })
-       activeData[preIndex].entity.isMark = true;
-       activeData[preIndex].entity.markes += 1;
-       if(res){
-         this.showToast('已收藏');
-       }
-     }
+    if (!postLock) {
+      if (model.entity.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.cancelMarkPost(pid);
+        }
+        else if (qid) {
+          res = await Model.cancelMarkQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        activeData[preIndex].entity.isMark = false;
+        activeData[preIndex].entity.markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.markPost(pid);
+        }
+        else if (qid) {
+          res = await Model.markQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        activeData[preIndex].entity.isMark = true;
+        activeData[preIndex].entity.markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
     }
     this.setState({
-      activeData:activeData
+      activeData: activeData
     })
   }
 
 
-  //关注/取消
-  handleSubscrActive = async (model)=>{
-    let {postLock,activeData} = this.state;
-    let preIndex = activeData.findIndex(item=>item.userId === model.userId)
-    if(!postLock){
-     if(model.isSubscr){
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.cancelAttentionUser(model.userId);
-       this.setState({
-         postLock:false
-       })
-       activeData[preIndex].isSubscr = false
-       if(res){
-         this.showToast('已取消');
-       }
-     }else{
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.attentionUser(model.userId);
-       this.setState({
-         postLock:false
-       })
-       activeData[preIndex].isSubscr = true
-       if(res){
-         this.showToast('已关注');
-       }
-     }
+  //加入/取消
+  handleSubscrCircleActive = async (model)=>{
+    let { postLock, activeData } = this.state;
+    let preIndex = activeData.findIndex(item => item.activityId === model.activityId)
+    if (!postLock) {
+      if (model.entity.isSubscribe) {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.leaveCircle(model.entity.cid);
+        this.setState({
+          postLock: false
+        })
+        activeData[preIndex].entity.isSubscribe = false
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.joinCircle(model.entity.cid);
+        this.setState({
+          postLock: false
+        })
+        activeData[preIndex].entity.isSubscribe = true
+        if (res) {
+          this.showToast('已加入');
+        }
+      }
     }
     this.setState({
-      activeData:activeData
+      activeData: activeData
     })
    }
 
@@ -514,8 +514,9 @@ export default class ProfileHomePresenter extends BaseComponent {
 
   //私信
   goToIM = () => {
+    const {userInfo:{nickName,userId,headImg}} = this.state;
     this.navto({
-      url: '/packageA/pages/message-im/index'
+      url: `/packageA/pages/message-im/index?name=${nickName}&id=${userId}&headImg=${headImg}`
     })
   }
 

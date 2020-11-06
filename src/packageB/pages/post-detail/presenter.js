@@ -14,12 +14,25 @@ export default class Presenter extends BaseComponent {
       currentModel: {},
       replys: 0,
       postDetail: postDetail,
-      reLoad:null
+      reLoad:null,
+      statusBarHeight:0,
+      isCanEntranceCircle:true
     }
   }
 
   componentDidMount() {
     this.showNavLoading()
+    let pages = getCurrentPages();
+    let prevPage = pages[pages.length - 2]
+    if(prevPage.route === 'packageA/pages/circle-detail/index'){
+      this.setState({
+        isCanEntranceCircle:false
+      })
+    }else{
+      this.setState({
+        isCanEntranceCircle:true,
+      })
+    }
   }
 
   componentDidShow() {
@@ -31,6 +44,14 @@ export default class Presenter extends BaseComponent {
     const {initPageList} = postDetail;
     initPageList();
     circleIsReload();
+  }
+
+  //自定义进入圈子
+  entrancePage = ()=>{
+    const {cid,cName} = postDetail.detailData;
+    this.navto({
+      url:`/packageA/pages/circle-detail/index?cid=${cid}&cname=${cName}`
+    })
   }
 
   //回复帖子

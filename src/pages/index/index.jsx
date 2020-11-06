@@ -19,10 +19,16 @@ import './index.scss'
 @observer
 export default class Index extends HomePage {
   render() {
-    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isCollectMin, showAttentionLoading, isAttentionToBottom,isCollentMini} = this.state;
+    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isCollectMin, showAttentionLoading, isAttentionToBottom,isCollentMini,showNewInfoBar} = this.state;
     const {isGuide} = this.props.staticDataStore;
     return (
       <View className='home-page-viewport'>
+        {
+          showNewInfoBar && 
+          <View className="new-info-bar">
+            <Text>童年为你更新12条新信息</Text>
+          </View>
+        }
         <View className='search-bar'>
           <View className='location-info' onClick={this.selectCity}>
             <Text className="location-info-text">{currentCity}</Text>
@@ -57,7 +63,7 @@ export default class Index extends HomePage {
                         {
                           attentionUsers.map((item,key) => {
                             return (
-                              <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteAttention.bind(this)} onSubScrUser={this.handleSubscrAttention.bind(this)}></BehaviorCard>
+                              <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteAttention.bind(this,item)} onHandleSubscr={this.handleSubscrCircleAttention.bind(this,item)}></BehaviorCard>
                             )
                           })
                         }

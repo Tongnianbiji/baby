@@ -7,29 +7,7 @@ const req = new Request();
 
 class IssueDetailStore{
   @observable qid = '';
-  @observable answerList=[
-  //   {questionReplyBo:
-  //   {
-  //     content:'',
-  //     createTime :'',
-  //     dislikes : 0,
-  //     isDislikes:false,
-  //     isLikes : false,
-  //     likes : 0,
-  //     files : [],
-  //     qid:6,
-  //     replyId:1,
-  //     userSnapshot: {
-  //       city : '',
-  //       country : '',
-  //       headImg :'',
-  //       nickName:'',
-  //       sex :'',
-  //       customLevel : [{ desc: '' }]
-  //     }
-  //   }
-  // }
-  ];
+  @observable answerList=[];
   @observable activeSortType=1;
   @observable issueDetail = {
     replys:0,

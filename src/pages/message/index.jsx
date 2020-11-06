@@ -8,11 +8,15 @@ import './index.scss'
 
 export default class Index extends Presenter {
   render() {
-    const { currentTab,total } = this.state;
+    const { currentTab,total,answer,
+      funs,
+      mark,
+      reply,
+      star } = this.state;
     return (
       <View className='message-viewport'>
         {
-          total && <View className="total">{total}</View>
+          !!total && <View className="total">{total}</View>
         }
         <AtTabs tabList={this.state.tabList} current={currentTab} swipeable={false} className='tabs' onClick={this.tabChange}>
           <AtTabsPane className='message-tabs-pane' index={0} current={currentTab}>
@@ -20,18 +24,34 @@ export default class Index extends Presenter {
               <View className='entry' onClick={this.toFans}>
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-fans.png' className='icon' />
                 <Text className='txt'>粉丝</Text>
+                {
+                  !!funs && 
+                  <View className="bubble">{funs}</View>
+                }
               </View>
               <View className='entry' onClick={this.toCollect}>
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-like.png' className='icon' />
                 <Text className='txt'>被收藏/获赞</Text>
+                {
+                  !!(mark + star) && 
+                  <View className="bubble">{mark + star}</View>
+                }
               </View>
               <View className='entry' onClick={this.toPostReply}>
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-posts.png' className='icon' />
                 <Text className='txt'>回贴</Text>
+                {
+                  !!reply && 
+                  <View className="bubble">{reply}</View>
+                }
               </View>
               <View className='entry' onClick={this.toQaList}>
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-quesion.png' className='icon' />
                 <Text className='txt'>回答</Text>
+                {
+                  !!answer && 
+                  <View className="bubble">{answer}</View>
+                }
               </View>
             </View>
             <View className='message-list'>

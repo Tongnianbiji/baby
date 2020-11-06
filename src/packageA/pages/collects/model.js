@@ -27,7 +27,7 @@ export default {
       pageNum,
       pageSize:10
     }
-    const ret = await req.postWithToken('/star/get', params)
+    const ret = await req.postWithToken('/user/star', params)
     const d = req.standardResponse(ret)
     if(d.code == 0){
       return d.data

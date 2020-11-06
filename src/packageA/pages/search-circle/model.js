@@ -9,7 +9,8 @@ export default {
       firstSubjectId:'',
       secondSubjectId:'',
       pageNum:1,
-      pageSize:10
+      pageSize:10,
+      sortType
   }) {
     const ret = await request.postWithToken('/search/circle', params)
     const data = request.standardResponse(ret)

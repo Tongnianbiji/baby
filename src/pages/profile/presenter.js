@@ -6,6 +6,7 @@ import staticData from '@src/store/common/static-data'
 import Storage from '@common/localStorage'
 import { USER_INFO_KEY_USERID } from '@common/constant'
 
+
 export default class ProfilePresenter extends BaseComponent {
   constructor(props) {
     super(props);
@@ -23,6 +24,7 @@ export default class ProfilePresenter extends BaseComponent {
       isLogin:isLogin
     })
     this.getProfile();
+    this.isUserLogin()
   }
 
   onShareAppMessage (res){
@@ -51,6 +53,7 @@ export default class ProfilePresenter extends BaseComponent {
         //this.showToast(ERR_MSG);
       }
     })
+    this.hideLoading();
   }
 
   login = ()=>{
@@ -60,7 +63,8 @@ export default class ProfilePresenter extends BaseComponent {
   }
 
   onClickNavTo(type) {
-    const {isLogin} = staticData
+    const {isLogin} = staticData;
+    const {profileInfo} = this.state;
     switch (type) {
       case 'profile-home'://个人主页
         this.navto({ url: '/packageA/pages/profile-home/index' })
@@ -101,7 +105,6 @@ export default class ProfilePresenter extends BaseComponent {
         }
         break;
       case 'family'://我的家
-        const {profileInfo} = this.state;
         if(isLogin){
           if(profileInfo.child.length>1){
             this.navto({ url: '/packageA/pages/profile-baby/index?isToFamily=true' })
@@ -125,7 +128,7 @@ export default class ProfilePresenter extends BaseComponent {
         break;
       case 'setting'://设置
         if(isLogin){
-          this.navto({ url: '/packageA/pages/profile-setting/index' })
+          this.navto({ url: `/packageA/pages/profile-setting/index?headImg=${profileInfo.headImg}` })
         }else{
           this.showToast('请先登录')
         }
@@ -148,6 +151,27 @@ export default class ProfilePresenter extends BaseComponent {
     e.stopPropagation();
     Taro.navigateTo({
       url:`/packageA/pages/profile-home/index?userId=${uid}`
+    })
+  }
+
+  toShareCode = ()=>{
+    Taro.navigateTo({
+      url:`/packageB/pages/share-qrCode/index`
+    })
+  }
+
+  //判断是否已登录过
+  isUserLogin = ()=>{
+    Taro.login().then(async ({ errMsg, code }) => {
+      let res = await Model.checkregist(code);
+      if(res){
+        const {regist} = res;
+        if(regist){
+          this.setState({
+            isLogin:true
+          })
+        }
+      }
     })
   }
 }

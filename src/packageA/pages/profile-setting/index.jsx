@@ -6,6 +6,7 @@ import './index.scss'
 
 export default class ProfileSetting extends Presenter {
   render() {
+    const {headImg} = this.state;
     return (
       <View className='profile-setting-viewport'>
         <View className='item' onClick={this.onClickNavTo.bind(this, 'edit')}>
@@ -13,7 +14,9 @@ export default class ProfileSetting extends Presenter {
             <View className='item-txt'>编辑信息</View>
           </View>
           <View className='item-value'>
-            <View className='item-circle'></View>
+            <View className='item-circle'>
+              <Image src={headImg}></Image>
+            </View>
             <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>

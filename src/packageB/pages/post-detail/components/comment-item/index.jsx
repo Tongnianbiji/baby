@@ -147,7 +147,7 @@ export default class CommentItem extends Component {
                 <Text className='years-old'>{`${city} ${country}`}</Text>
               </View>
               <View className="inline-block">
-                <Text className='years-old'>{customLevel.length && customLevel[0].desc}</Text>
+                <Text className='years-old'>{!!customLevel.length && customLevel[0].desc}</Text>
               </View>
             </View>
             {/* <View className='like-btns'>

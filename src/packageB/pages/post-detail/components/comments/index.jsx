@@ -110,6 +110,8 @@ export default class CommentsView extends Component {
       color: '#999999',
       //padding: '5px',
       textAlign: 'center',
+      display:'flex',
+      alignItems:'center'
     }
     const dropDownIcon = {
       width: '10px',
@@ -160,40 +162,40 @@ export default class CommentsView extends Component {
                                                                           <CommentItem onReplyPost={this.onReplyPost.bind(this)} isShowContent={item10.isShowContent} onHandleDelete={this.hanleDeleteReply.bind(this)} model={item10.postReplyBo} key={item10.replyId} hasChildren={item10.leafReplyList && item10.leafReplyList.length} last={index10 === item9.leafReplyList.length - 1} />
 
                                                                         ))
-                                                                        : <View style={dropDown} onClick={this.toggleInfo.bind(this, item9)}><Image style={dropDownIcon} src={ICONS.DROP}></Image>{`${item9.subLength}条`}</View>
+                                                                        : <View><View style={dropDown} onClick={this.toggleInfo.bind(this, item9)}><Image style={dropDownIcon} src={ICONS.DROP}></Image><View>{`${item9.subLength}条`}</View></View></View>
                                                                       }
                                                                     </CommentItem>
                                                                   ))
-                                                                  : <View style={dropDown} onClick={this.toggleInfo.bind(this, item8)}><Image style={dropDownIcon} src={ICONS.DROP}></Image>{`${item8.subLength}条`}</View>
+                                                                  : <View><View style={dropDown} onClick={this.toggleInfo.bind(this, item8)}><Image style={dropDownIcon} src={ICONS.DROP}></Image><View>{`${item8.subLength}条`}</View></View></View>
                                                                 }
                                                               </CommentItem>
                                                             ))
-                                                            : <View style={dropDown} onClick={this.toggleInfo.bind(this, item7)}><Image style={dropDownIcon} src={ICONS.DROP}></Image>{`${item7.subLength}条`}</View>
+                                                            : <View><View style={dropDown} onClick={this.toggleInfo.bind(this, item7)}><Image style={dropDownIcon} src={ICONS.DROP}></Image><View>{`${item7.subLength}条`}</View></View></View>
                                                           }
                                                         </CommentItem>
                                                       ))
-                                                      : <View style={dropDown} onClick={this.toggleInfo.bind(this, item6)}><Image style={dropDownIcon} src={ICONS.DROP}></Image>{`${item6.subLength}条`}</View>
+                                                      : <View><View style={dropDown} onClick={this.toggleInfo.bind(this, item6)}><Image style={dropDownIcon} src={ICONS.DROP}></Image><View>{`${item6.subLength}条`}</View></View></View>
                                                     }
                                                   </CommentItem>
                                                 ))
-                                                : <View style={dropDown} onClick={this.toggleInfo.bind(this, item5)}><Image style={dropDownIcon} src={ICONS.DROP}></Image>{`${item5.subLength}条`}</View>
+                                                : <View><View style={dropDown} onClick={this.toggleInfo.bind(this, item5)}><Image style={dropDownIcon} src={ICONS.DROP}></Image><View>{`${item5.subLength}条`}</View></View></View>
                                               }
                                             </CommentItem>
                                           ))
-                                          : <View style={dropDown} onClick={this.toggleInfo.bind(this, item4)}><Image style={dropDownIcon} src={ICONS.DROP}></Image>{`${item4.subLength}条`}</View>
+                                          : <View><View style={dropDown} onClick={this.toggleInfo.bind(this, item4)}><Image style={dropDownIcon} src={ICONS.DROP}></Image><View>{`${item4.subLength}条`}</View></View></View>
                                       }
                                     </CommentItem>
                                   ))
-                                  : <View style={dropDown} onClick={this.toggleInfo.bind(this, item3)}><Image style={dropDownIcon} src={ICONS.DROP}></Image>{`${item3.subLength}条`}</View>
+                                  : <View><View style={dropDown} onClick={this.toggleInfo.bind(this, item3)}><Image style={dropDownIcon} src={ICONS.DROP}></Image><View>{`${item3.subLength}条`}</View></View></View>
                               }
                             </CommentItem>
                           ))
-                          : <View style={dropDown} onClick={this.toggleInfo.bind(this, item2)}><Image style={dropDownIcon} src={ICONS.DROP}></Image>{`${item2.subLength}条`}</View>
+                          : <View><View style={dropDown} onClick={this.toggleInfo.bind(this, item2)}><Image style={dropDownIcon} src={ICONS.DROP}></Image><View>{`${item2.subLength}条`}</View></View></View>
                       }
                     </CommentItem>
                   )
                 })
-                : <View style={dropDown} onClick={this.toggleInfo.bind(this, item)}><Image style={dropDownIcon} src={ICONS.DROP}></Image>{`${item.subLength}条`}</View>
+                : <View><View style={dropDown} onClick={this.toggleInfo.bind(this, item)}><Image style={dropDownIcon} src={ICONS.DROP}></Image><View>{`${item.subLength}条`}</View></View></View>
               }
             </CommentItem>
           })

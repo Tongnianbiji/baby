@@ -5,7 +5,7 @@ import { View, Image } from '@tarojs/components'
 import Presenter from './presenter'
 import Preloading from '@components/preloading'
 import BehaviorCard from '@components/behavior-card'
-//import UserInfoItem from '../../../common/components/post-card'
+import UserInfoItem from '../../../common/components/post-card'
 import { ICONS } from '@common/constant'
 import './index.scss'
 
@@ -157,7 +157,7 @@ export default class ProfileHome extends Presenter {
                       //   <UserInfoItem key={index} model={item.entity} activeModel={item} onHandleFavorite={this.handleFavoriteActive.bind(this)} needShared/>
                       // )
                       return (
-                        <BehaviorCard key={index} data={item} onHandleFavorite={this.handleFavoriteActive.bind(this)} onSubScrUser={this.handleSubscrActive.bind(this)}></BehaviorCard>
+                        <BehaviorCard key={index} data={item} onHandleFavorite={this.handleFavoriteActive.bind(this,item)} onHandleSubscr={this.handleSubscrCircleActive.bind(this,item)}></BehaviorCard>
                       )
                     })
                   }
@@ -203,7 +203,6 @@ export default class ProfileHome extends Presenter {
               </AtTabsPane>
             </AtTabs>
           </View>
-
         </View>
       </View>
     )

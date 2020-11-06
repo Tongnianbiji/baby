@@ -32,11 +32,11 @@ export default class Presenter extends BaseComponent {
     if(res){
       const {answer,funs,mark,reply,star} = res;
       this.setState({
-        // answer,
-        // funs,
-        // mark,
-        // reply,
-        // star
+        answer,
+        funs,
+        mark,
+        reply,
+        star,
         total:answer+funs+mark+reply+star
       })
     }
@@ -59,7 +59,8 @@ export default class Presenter extends BaseComponent {
   }
 
   toCollect = () => {
-    this.navto({ url: '/packageB/pages/passive-collects/index' })
+    const {mark,star} = this.state;
+    this.navto({ url: `/packageB/pages/passive-collects/index?mark=${mark}&star=${star}` })
   }
 
   toSysMessage = () => {

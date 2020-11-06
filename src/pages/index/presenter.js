@@ -1,7 +1,7 @@
 import BaseComponent from '../../common/baseComponent'
 import React from 'react'
 import Model from './model'
-import staticData from '../../store/common/static-data'
+import Taro from '@tarojs/taro'
 export default class HomePage extends BaseComponent {
   constructor(props) {
     super(props)
@@ -21,7 +21,8 @@ export default class HomePage extends BaseComponent {
       showAttentionLoading: true,
       isAttentionToBottom: false,
       postLock: false,
-      isCollentMini: true
+      isCollentMini: true,
+      showNewInfoBar:false
     }
   }
 
@@ -73,6 +74,22 @@ export default class HomePage extends BaseComponent {
     })
   }
 
+
+  onPullDownRefresh() {
+    const {currentTopTab} = this.state;
+    if(currentTopTab === 1){
+      this.setState({
+        showNewInfoBar:true
+      })
+    }
+    setTimeout(()=>{
+      Taro.stopPullDownRefresh()
+      this.setState({
+        showNewInfoBar:false
+      })
+    },2e3)
+  }
+
   onShareAppMessage (res){
     let path= '';
     console.log('分享',res)
@@ -107,13 +124,15 @@ export default class HomePage extends BaseComponent {
   }
 
   topTabChange = (current) => {
-    const { attentionType, hotTabType } = this.state;
+    const { attentionType, hotTabType,attentionUsers } = this.state;
     let tabId = null;
     switch (current) {
       case 0:
         if (attentionType === 1) {
           tabId = 100100;
-          this.getAttentionUsers()
+          if(!attentionUsers.length){
+            this.getAttentionUsers()
+          }
         }
         else if (attentionType === 2) {
           tabId = 100204;//目前关注圈子只有圈子（其他暂时隐藏）
@@ -145,10 +164,13 @@ export default class HomePage extends BaseComponent {
 
   attentionTabChange = attentionType => {
     let tabId = null;
+    const {attentionUsers } = this.state;
     this.setState({ attentionType },
       () => {
         if (attentionType === 1) {
-          this.getAttentionUsers()
+          if(!attentionUsers.length){
+            this.getAttentionUsers()
+          }
         }
       })
     if (attentionType === 1) {
@@ -246,24 +268,24 @@ export default class HomePage extends BaseComponent {
   handleFavoriteAttention = async (model) => {
     let { postLock, attentionUsers } = this.state;
     let preIndex = null;
-    const { pid, qid } = model;
+    const { pid, qid } = model.entity;
     if (pid) {
-      preIndex = attentionUsers.findIndex(item => item.entity.pid === model.pid)
+      preIndex = attentionUsers.findIndex(item => item.activityId === model.activityId)
     }
     else if (qid) {
-      preIndex = attentionUsers.findIndex(item => item.entity.qid === model.qid)
+      preIndex = attentionUsers.findIndex(item => item.activityId === model.activityId)
     }
     if (!postLock) {
-      if (model.isMark) {
+      if (model.entity.isMark) {
         this.setState({
           postLock: true
         })
         let res = null;
         if (pid) {
-          res = await Model.cancelMarkPost(model.pid);
+          res = await Model.cancelMarkPost(pid);
         }
         else if (qid) {
-          res = await Model.cancelMarkQuestion(model.qid);
+          res = await Model.cancelMarkQuestion(qid);
         }
         this.setState({
           postLock: false
@@ -279,10 +301,10 @@ export default class HomePage extends BaseComponent {
         })
         let res = null;
         if (pid) {
-          res = await Model.markPost(model.pid);
+          res = await Model.markPost(pid);
         }
         else if (qid) {
-          res = await Model.markQuestion(model.qid);
+          res = await Model.markQuestion(qid);
         }
         this.setState({
           postLock: false
@@ -299,20 +321,20 @@ export default class HomePage extends BaseComponent {
     })
   }
 
-  //关注/取消
-  handleSubscrAttention = async (model) => {
+  //加入/取消
+  handleSubscrCircleAttention = async (model) => {
     let { postLock, attentionUsers } = this.state;
-    let preIndex = attentionUsers.findIndex(item => item.userId === model.userId)
+    let preIndex = attentionUsers.findIndex(item => item.activityId === model.activityId)
     if (!postLock) {
-      if (model.isSubscr) {
+      if (model.entity.isSubscribe) {
         this.setState({
           postLock: true
         })
-        let res = await Model.cancelAttentionUser(model.userId);
+        let res = await Model.leaveCircle(model.entity.cid);
         this.setState({
           postLock: false
         })
-        attentionUsers[preIndex].isSubscr = false
+        attentionUsers[preIndex].entity.isSubscribe = false
         if (res) {
           this.showToast('已取消');
         }
@@ -320,13 +342,13 @@ export default class HomePage extends BaseComponent {
         this.setState({
           postLock: true
         })
-        let res = await Model.attentionUser(model.userId);
+        let res = await Model.joinCircle(model.entity.cid);
         this.setState({
           postLock: false
         })
-        attentionUsers[preIndex].isSubscr = true
+        attentionUsers[preIndex].entity.isSubscribe = true
         if (res) {
-          this.showToast('已关注');
+          this.showToast('已加入');
         }
       }
     }

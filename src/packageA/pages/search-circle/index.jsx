@@ -4,13 +4,19 @@ import { View, Input, Image } from '@tarojs/components'
 import { ICONS } from '../../../common/constant'
 import Presenter from './presenter'
 import SearchCircleItem from '../../../common/components/circle-card'
+import UITabs2 from '@common/components/ui-tabs2'
 import Preloading from '@components/preloading'
 import './styles.scss'
 
+const tabList = [
+  { title: '推荐', useable: true },
+  { title: '距离', useable: true },
+  { title: '热度', useable: true },
+]
 export default class SearchCircle extends Presenter {
 
   render() {
-    const {circlesList,kw,showLoading,isToBottom} = this.state;
+    const {circlesList,kw,showLoading,isToBottom,current} = this.state;
     return (
       <View className='search-circle-viewport'>
         <View className='search-bar'>
@@ -23,6 +29,21 @@ export default class SearchCircle extends Presenter {
           </View>
           <View className='search-btn'>取消</View>
         </View>
+        {
+          !!circlesList.length && 
+          <View className='tabs'>
+            <View className='slider'>圈子列表</View>
+            <View className='tab-items'>
+              <UITabs2
+                itemColor='#999'
+                tabList={tabList}
+                size='small'
+                current={current}
+                onChange={this.onTabChange.bind(this)}
+              />
+            </View>
+          </View>
+        }
         <View className='item-wrapper'>
           {
             circlesList.map((item,n) => {

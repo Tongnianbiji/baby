@@ -1,9 +1,6 @@
 import Taro from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View, Text, Image,Button } from '@tarojs/components'
-import FormaDate from '@common/formaDate'
-import { ICONS } from '../../constant'
-import Behaviors from '@common/utils/behaviors'
 import PostCard from '@components/post-card'
 import NoticeCard from '@components/notice-card'
 import UserCard from '@components/user-card'
@@ -15,7 +12,8 @@ export default class BehaviorCard extends Component {
   static defaultProps = {
     data:{},
     onHandleFavorite:()=>{},
-    onSubScrUser:()=>{}
+    onSubScrUser:()=>{},
+    onHandleSubscr:()=>{}
   }
 
   hanleFavorite = (model)=>{
@@ -24,6 +22,10 @@ export default class BehaviorCard extends Component {
 
   SubScrUser = (model)=>{
     this.props.onSubScrUser(model)
+  }
+
+  handleSubscr = (model)=>{
+    this.props.onHandleSubscr(model)
   }
 
   render() {
@@ -44,15 +46,15 @@ export default class BehaviorCard extends Component {
         }
         {
           type === 4005 && 
-          <NoticeCard isShowUserInfo={false} ishowAvatar={false} data={data.entity} activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} type='qa'></NoticeCard>
+          <NoticeCard isShowUserInfo={false} ishowAvatar={false} isShowAnswer={false} isOldQuestion isShowQuestion={false} data={data.entity} activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} type='qa'></NoticeCard>
         }
         {
           type === 3003 && 
-          <PostCard model={data.entity} activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} onlyReleaseTime isMyReply isShowTools={false}></PostCard>
+          <PostCard model={data.entity} activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} isMyReply isShowTools={false}></PostCard>
         }
         {
           type === 4003 && 
-          <NoticeCard isShowUserInfo={false} ishowAvatar={false} data={data.entity} activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} type='qa'></NoticeCard>
+          <NoticeCard isShowUserInfo={false} ishowAvatar={false} isShowQuestion={false} isShowAnswer isOldQuestion data={data.entity} activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} type='qa'></NoticeCard>
         }
         {
           type === 3008 && 
@@ -60,15 +62,15 @@ export default class BehaviorCard extends Component {
         }
         {
           type === 4008 && 
-          <NoticeCard data={data.entity} isShowTime isShowUserInfo={false} ishowAvatar={false} isOldQuestion isShowQuestion={false} activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} type='qa'></NoticeCard>
+          <NoticeCard data={data.entity} activeModel={data} isShowUserInfo={false} ishowAvatar={false} isShowAnswer isOldQuestion isShowQuestion={false} activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} type='qa'></NoticeCard>
         }
         {
           type === 1001 && 
-          <CircleCard model={ata.entity}></CircleCard>
+          <CircleCard data={data.entity} activeModel={data} isShowReleaseTime onHandleSubscr={this.handleSubscr.bind(this)}></CircleCard>
         }
         {
           type === 2001 && 
-          <UserCard tip={''} model={data.entity} activeModel={data} onSubscr={this.SubScrUser.bind(this)}></UserCard>
+          <UserCard tip={''} model={data.entity} activeModel={data} isShowReleaseTime onSubscr={this.SubScrUser.bind(this)}></UserCard>
         }
       </View>
     )

@@ -8,13 +8,19 @@ export default class ProfileSettingPresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
+      headImg:''
     }
     this.storage = Storage.getInstance()
   }
 
   componentWillMount() { }
 
-  componentDidMount() { }
+  componentDidMount() { 
+    const {headImg} = this.$router.params;
+    this.setState({
+      headImg:headImg
+    })
+  }
 
   componentWillUnmount() { }
 

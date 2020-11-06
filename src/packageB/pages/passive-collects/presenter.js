@@ -17,11 +17,14 @@ export default class Presenter extends BaseComponent {
       collectPageNum: 1,
       likePageNum: 1,
       currentSharePid:'',
-      currentShareQid:''
+      currentShareQid:'',
+      mark:10,
+      star:10
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this.getMessageCount();
     this.getCollectData();
     Model.clearMessage('mark');
   }
@@ -49,15 +52,17 @@ export default class Presenter extends BaseComponent {
     }
   }
 
-  tabChange = index => {
+  tabChange = async (index) => {
     this.setState({ currentTab: index });
     this.initData();
     if (index === 0) {
       this.getCollectData();
-      Model.clearMessage('mark');
+      await Model.clearMessage('mark');
+      await this.getMessageCount();
     } else {
       this.getLikeData();
-      Model.clearMessage('star')
+      await Model.clearMessage('star');
+      await this.getMessageCount();
     }
   }
 
@@ -225,10 +230,14 @@ export default class Presenter extends BaseComponent {
     })
   }
 
-  //点击帖子详情
-  handlePostDetail(pid) {
-    this.navto({
-      url: '/packageB/pages/post-detail/index?pid=' + pid
-    })
+  getMessageCount = async ()=>{
+    let res = await Model.getMessageCount();
+    if(res){
+      const {mark,star} = res;
+      this.setState({
+        mark,
+        star
+      })
+    }
   }
 }

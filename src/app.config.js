@@ -72,7 +72,8 @@ export default {
         "pages/create-answer/index",
         "pages/reply-my-post/index",
         "pages/qa-me/index",
-        "pages/passive-collects/index"
+        "pages/passive-collects/index",
+        "pages/share-qrCode/index"
       ]
     }
   ],

@@ -1,0 +1,33 @@
+.wrapper-custom{
+  position: fixed;
+  width: 100%;
+  background-color: #ffffff;
+  left: 0;
+  top:0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding-top: 40px;
+  &-back{
+    position: absolute;
+    left: 20px;
+    top:65px;
+    width: 35px;
+    height: 35px;
+  }
+  &-title{
+    display: flex;
+    align-items: center;
+    text{
+      font-size: 34px;
+      color: #333333;
+      font-weight: bold;
+    }
+    image{
+      width: 20px;
+      height: 20px;
+      margin-left: 20px;
+    }
+  }
+}

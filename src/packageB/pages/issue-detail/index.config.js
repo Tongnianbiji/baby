@@ -1,5 +1,6 @@
 export default {
   navigationBarTitleText: '问答详情',
   enableShareAppMessage: true,
-  enableShareTimeline:true
+  enableShareTimeline:true,
+  navigationStyle:"custom"
 }

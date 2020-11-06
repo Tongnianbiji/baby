@@ -12,7 +12,7 @@ export default {
       pageNum,
       pageSize:10
     }
-    const ret = await req.postWithToken('/activity/mark/received', params)
+    const ret = await req.postWithToken('/mark/received', params)
     const d = req.standardResponse(ret)
     if(d.code == 0){
       return d.data
@@ -27,7 +27,7 @@ export default {
       pageNum,
       pageSize:10
     }
-    const ret = await req.postWithToken('/activity/star/received', params)
+    const ret = await req.postWithToken('/star/received', params)
     const d = req.standardResponse(ret)
     if(d.code == 0){
       return d.data
@@ -98,6 +98,16 @@ export default {
     const d = req.standardResponse(ret)
     if(d.code == 0){
       return true
+    }else{
+      return false
+    }
+  },
+
+  async getMessageCount(){
+    const ret = await req.getWithToken('/tnmsg/count')
+    const d = req.standardResponse(ret)
+    if(d.code == 0){
+      return d.data
     }else{
       return false
     }

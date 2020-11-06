@@ -32,9 +32,28 @@ export default class SearchResultGroupCard extends Component {
     this.props.onMore(this.props.type)
   }
 
+  highLight = (originTxt, kw) => {
+    if (!kw) {
+      kw = '济阳'
+    }
+    const reg = new RegExp(kw, 'gi');
+    const contentReg = /^_#_([^_#_]+)_#_$/;
+    const newList = [];
+    let c = 1;
+    originTxt.replace(reg, (matched) => `,_#_${matched}_#_,`).split(',').map(t => {
+      const isView = contentReg.test(t)
+      t && newList.push({
+        id: ++c,
+        type: isView ? 'view' : 'text',
+        value: isView ? t.match(contentReg)[1] : t
+      })
+    })
+    return newList;
+  }
+
   goCircleDetail = (cid) => {
-    if(!cid){
-      cid='10397889'
+    if (!cid) {
+      cid = '10397889'
     }
     Taro.navigateTo({
       url: `/packageA/pages/circle-detail/index?cid=${cid}`
@@ -48,29 +67,29 @@ export default class SearchResultGroupCard extends Component {
       return '#FF1493'
     }
   }
-  viewProfileInfo = (uid,e)=>{
+  viewProfileInfo = (uid, e) => {
     e.stopPropagation();
     Taro.navigateTo({
-      url:`/packageA/pages/profile-home/index?userId=${uid}`
+      url: `/packageA/pages/profile-home/index?userId=${uid}`
     })
   }
 
-  cardClick = (model,e) => {
+  cardClick = (model, e) => {
     e.stopPropagation();
-    if(model.pid){
+    if (model.pid) {
       Taro.navigateTo({
-        url:`/packageB/pages/post-detail/index?pid=${model.pid}`
+        url: `/packageB/pages/post-detail/index?pid=${model.pid}`
       })
     }
-    else if(model.qid){
+    else if (model.qid) {
       Taro.navigateTo({
-        url:`/packageB/pages/issue-detail/index?qid=${model.qid}`
+        url: `/packageB/pages/issue-detail/index?qid=${model.qid}`
       })
     }
   }
 
   renderCircle() {
-    const { model } = this.props;
+    const { model, kw } = this.props;
     return (
       <View>
         {
@@ -86,7 +105,17 @@ export default class SearchResultGroupCard extends Component {
                   </View>
                   <View className='infos'>
                     <View className='title'>
-                      <View className='txt'>{item.name}</View>
+                      <View className='txt'>
+                        {
+                          this.highLight(item.name, kw).map(t => {
+                            return (
+                              t.type === 'view' ?
+                                <View className='matched-txt' key={t.id}>{t.value}</View> :
+                                <Text key={t.id}>{t.value}</Text>
+                            )
+                          })
+                        }
+                      </View>
                       <View className={`btn-join ${item.isSubscribe ? 'btn-join-attentioned' : ''}`}>{item.isSubscribe ? '已加入' : '加入'}</View>
                     </View>
                     <View className='sub-title'>
@@ -108,16 +137,16 @@ export default class SearchResultGroupCard extends Component {
   }
 
   renderAnswer() {
-    const { model } = this.props;
+    const { model, kw } = this.props;
     return (
       <View>
         {
           model && !!model.length &&
           model.slice(0, 2).map(item => {
             return (
-              <View className='anwser-part-wrapper' onClick={this.cardClick.bind(this,item)}>
+              <View className='anwser-part-wrapper' onClick={this.cardClick.bind(this, item)}>
                 <View className='user-info'>
-                  <View className='avatar' onClick={this.viewProfileInfo.bind(this,item.uid)}>
+                  <View className='avatar' onClick={this.viewProfileInfo.bind(this, item.uid)}>
                     <Image src={item.userSnapshot && item.userSnapshot.headImg || '#'}></Image>
                   </View>
                   <View className='infos'>
@@ -138,19 +167,41 @@ export default class SearchResultGroupCard extends Component {
                 <View className='content-wrapper answer-wrapper'>
                   <View className='answer'>
                     <View className='icon'>问</View>
-                    <View className='txt'>{item.title}</View>
+                    {/* <View className='txt'>{item.title}</View> */}
+                    <View className='txt'>
+                      {
+                        this.highLight(item.title, kw).map(t => {
+                          return (
+                            t.type === 'view' ?
+                              <View className='matched-txt' key={t.id}>{t.value}</View> :
+                              <Text key={t.id}>{t.value}</Text>
+                          )
+                        })
+                      }
+                    </View>
                   </View>
                   {
                     item.content &&
                     <View className='answer'>
                       <View className='icon'>答</View>
-                      <View className='txt'>{item.content}</View>
+                      {/* <View className='txt'>{item.content}</View> */}
+                      <View className='txt'>
+                        {
+                          this.highLight(item.content, kw).map(t => {
+                            return (
+                              t.type === 'view' ?
+                                <View className='matched-txt' key={t.id}>{t.value}</View> :
+                                <Text key={t.id}>{t.value}</Text>
+                            )
+                          })
+                        }
+                      </View>
                     </View>
                   }
 
                 </View>
                 <View className='tags'>
-                  <View className='community-area' onClick={this.goCircleDetail.bind(this,item.cid)}>
+                  <View className='community-area' onClick={this.goCircleDetail.bind(this, item.cid)}>
                     <Text className='community-name'>{(item && item.cName && `${item.cName}`) || '备孕交流'}</Text>
                   </View>
                   <View className='tips'>
@@ -177,16 +228,16 @@ export default class SearchResultGroupCard extends Component {
   }
 
   renderPost() {
-    const { model } = this.props;
+    const { model, kw} = this.props;
     return (
       <View>
         {
           model && !!model.length &&
           model.slice(0, 2).map(item => {
             return (
-              <View className='post-part-wrapper' onClick={this.cardClick.bind(this,item)}>
+              <View className='post-part-wrapper' onClick={this.cardClick.bind(this, item)}>
                 <View className='user-info'>
-                  <View className='avatar' onClick={this.viewProfileInfo.bind(this,item.uid)}>
+                  <View className='avatar' onClick={this.viewProfileInfo.bind(this, item.uid)}>
                     <Image src={item.userSnapshot && item.userSnapshot.headImg || '#'}></Image>
                   </View>
                   <View className='infos'>
@@ -204,9 +255,24 @@ export default class SearchResultGroupCard extends Component {
                     <Text className='times'>{item.createTime && FormaDate(item.createTime)}</Text>
                   </View>
                 </View>
-                    <Text className='content-wrapper'>{item.title}</Text>
+                {/* <Text className='content-wrapper'>{item.title}</Text> */}
+                <View className='content-wrapper answer-wrapper'>
+                <View className='answer'>
+                  <View className='txt'>
+                    {
+                      this.highLight(item.title, kw).map(t => {
+                        return (
+                          t.type === 'view' ?
+                            <View className='matched-txt' key={t.id}>{t.value}</View> :
+                            <Text key={t.id}>{t.value}</Text>
+                        )
+                      })
+                    }
+                  </View>
+                  </View>
+                </View>
                 <View className='tags'>
-                  <View className='community-area' onClick={this.goCircleDetail.bind(this,item.cid)}>
+                  <View className='community-area' onClick={this.goCircleDetail.bind(this, item.cid)}>
                     <Text className='community-name'>{(item && item.cName && `${item.cName}`) || '备孕交流'}</Text>
                   </View>
                   <View className='tips'>

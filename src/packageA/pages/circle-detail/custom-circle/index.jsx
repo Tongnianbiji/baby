@@ -127,7 +127,7 @@ export default class CustomCircle extends Component {
             <View><Switch color='#04BE02' className="switch-size" checked={defaultGroupFlag} onChange={this.toggleFeature}/></View>
           </View>
           {/* {
-            openFeature &&
+            defaultGroupFlag &&
               <View className='items-wrapper'>
                 <View className='item-card'>
                   <View className='container'>
@@ -160,7 +160,7 @@ export default class CustomCircle extends Component {
               {ageGroup.map((item, i) => {
                 return (
                   <Label className='radio-list__label' style="margin-right: 10px;" for={i} key={i}>
-                    <Radio className='radio-list__radio' onClick={this.selectGroup.bind(this,item.value)} color="#FF473A" value={item.value} checked={item.value === defaultGroup}>{item.text}</Radio>
+                    <Radio className='radio-list__radio' onClick={this.selectGroup.bind(this,item.value)} color="#FF473A" value={item.value} checked={item.value === defaultGroup}><View style="width:150px;">{item.text}</View></Radio>
                   </Label>
                 )
               })}

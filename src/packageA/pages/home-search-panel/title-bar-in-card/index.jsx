@@ -30,6 +30,7 @@ export default class PostTitleBar extends Component {
 
   render() {
     const {current} = this.state;
+    const {title} = this.props;
     // return (
     //   <View className='ui-post-title-bar'>
     //     <View className='title'>{this.props.title}</View>
@@ -45,6 +46,8 @@ export default class PostTitleBar extends Component {
     // )
     return (
       <View className='tabs-wrapper1'>
+        <View className='slider'>{title}</View>
+        <View className='tab-items'>
         <UITabs2
           itemColor='#999'
           tabList={tabList}
@@ -52,6 +55,7 @@ export default class PostTitleBar extends Component {
           current={current}
           onChange={this.onTabChange.bind(this)}
         />
+        </View>
       </View>
     )
   }

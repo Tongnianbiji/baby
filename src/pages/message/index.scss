@@ -4,11 +4,12 @@
   padding: 32px 32px;
   box-sizing: border-box;
   position: relative;
+  overflow: hidden;
   .total{
     width: 25px;
     height: 25px;
     background-color: #FF473A;
-    position: absolute;
+    position: fixed;
     border-radius: 50%;
     top:20px;
     left: 218px;
@@ -59,6 +60,20 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
+      .bubble{
+        position: absolute;
+        top:0;
+        right:30px;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background-color: #FF473A;
+        color:#ffffff;
+        line-height: 25px;
+        text-align: center;
+        font-size: 16px;
+      }
       .icon {
         width: 90px;
         height: 90px;

@@ -84,10 +84,10 @@ export default class Profile extends Presenter {
               </View>
               <Image className='other-right' src={ICON_ARROW} />
             </View>
-            <Button className='other' open-type="share">
+            <Button className='other' onClick={this.toShareCode.bind(this)}>
               <View className='other-left'>
                 <Image className='other-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-share.png' />
-                <View className='other-txt'>分享</View>
+                <View className='other-txt'>面对面分享</View>
               </View>
               <Image className='other-right' src={ICON_ARROW} />
             </Button>

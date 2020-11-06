@@ -52,8 +52,51 @@
       height: 48px;
     }
   }
+  .tabs {
+    height: 90px;
+    background: #ffffff;
+    border-radius:8px;
+    padding: 0 20px;
+    position: relative;
+    box-sizing: border-box;
+    //margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin:106px 35px 0 35px;
+    .slider {
+      background: #fff;
+      border-radius: 8px;
+      width: 33.3333%;
+      height: 100%;
+      transition: all .3s ease;
+      line-height: 90px;
+      color:#333333;
+      font-size: 28px;
+    }
+    .tab-items {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      width: 220px;
+      height: 100%;
+      display: flex;
+      justify-content: flex-end;
+      background-color: #ffffff;
+      align-items: center;
+      box-sizing: border-box;
+      .tab-item {
+        flex: 1;
+        color: #333333;
+        font-size: 28px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+      }
+    }
+  }
   .item-wrapper {
-    padding: 110px 32px 0;
+    padding: 0 32px 0;
   }
 
   .no-data {

@@ -15,7 +15,7 @@ export default class ProfileBaby extends Presenter {
             return (
               <View key={`item_${item.userId}_${index}`} className='item' onClick={this.onClickNavTo.bind(this, item.userId)}>
                 <View style="display:flex;align-items:center;">
-                  <Image className='item-avatar' src={item.avatar} />
+                  <Image className='item-avatar' src={item.headIco} />
                   <View className='item-txt'>
                     <View>{item.roleText ? `${item.nickName}(${item.roleText})` : item.nickName}</View>
                     <View>{item.createDt}</View>

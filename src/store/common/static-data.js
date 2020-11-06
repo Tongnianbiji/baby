@@ -22,6 +22,11 @@ class Data {
   @observable nickName='';
   @observable signature='';
   @observable reLoadCirclePage=true;
+  @observable goEasy=null;
+
+  @action getGoEasy = (goEasy)=>{
+    this.goEasy = goEasy
+  }
 
   @action updateReLoadCirclePage = (status)=>{
     this.reLoadCirclePage = status

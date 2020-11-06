@@ -12,7 +12,8 @@ export default class Presenter extends BaseComponent {
       pageNum:1,
       isToBottom:false,
       showLoading:false,
-      postLock:false
+      postLock:false,
+      sortType:{ _score:'desc'}
     }
   }
 
@@ -33,13 +34,14 @@ export default class Presenter extends BaseComponent {
 
   //获取搜索数据
   getSearchData = async ()=>{
-    const {kw,pageNum,circlesList} = this.state;
+    const {kw,pageNum,circlesList,sortType} = this.state;
     this.setState({
       postLock:true
     })
     let res = await Model.getData({
       keyword:kw,
-      pageNum
+      pageNum,
+      sortType
     });
     this.setState({
       postLock:false
@@ -150,6 +152,28 @@ export default class Presenter extends BaseComponent {
     }
     this.setState({
       circlesList:circlesList
+    })
+  }
+
+  onTabChange = (id)=>{
+    let sortType = {};
+    console.log(id)
+    switch(id){
+      case 0:
+        sortType={ _score:'desc'}
+        break;
+      case 1:
+        sortType={ location:'desc'}
+        break;
+      case 2:
+        sortType={ heat_rate:'desc'}
+        break;
+      }
+    this.setState({
+      current: id,
+      sortType:sortType
+    },()=>{
+      this.getSearchData()
     })
   }
 }
