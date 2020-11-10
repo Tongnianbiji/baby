@@ -146,6 +146,11 @@
     .content {
       color: #333;
       font-size: 28px;
+      .matched-txt {
+        color: #FF473A;
+        margin-right: 10px;
+        display: inline-block;
+      }
       &.answer-wrapper {
         .answer {
           display: flex;

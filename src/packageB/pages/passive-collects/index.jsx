@@ -4,7 +4,6 @@ import { AtTabs, AtTabsPane } from 'taro-ui'
 import { View } from '@tarojs/components'
 import Presenter from './presenter'
 import Preloading from '@components/preloading'
-//import PostCard from '@components/post-card'
 import NoticeCard from '@components/notice-card'
 import './index.scss'
 
@@ -45,7 +44,7 @@ export default class PassiveCollectsView extends Presenter {
              <View>
                {
                  collectData.map((item)=>{
-                   return (<NoticeCard type={''} isShowReleaseTime={false} data={item.entity} isOldQuestion={false} activeModel={item}/>)
+                   return (<NoticeCard type={''} isShowReleaseTime={false} tip={true} data={item.entity} activeModel={item}/>)
                  })
                }
              <Preloading showLoading={showCollectLoading} isToBottom={isCollectToBottom}></Preloading>
@@ -58,7 +57,7 @@ export default class PassiveCollectsView extends Presenter {
              <View>
                {
                  likeData.map((item)=>{
-                  return (<NoticeCard type={''} isShowReleaseTime={false} data={item.entity} isOldQuestion={false} activeModel={item}/>)
+                  return (<NoticeCard type={''} isOldQuestion isShowReleaseTime={false} tip={true} data={item.entity} activeModel={item}/>)
                  })
                }
              <Preloading showLoading={showLikeLoading} isToBottom={isLikeToBottom}></Preloading>

@@ -20,7 +20,6 @@ export default class MoreCircleView extends Presenter {
 
   render() {
     const {childrenCircles,kw,showLoading,isToBottom,current} = this.state;
-    console.log('更多圈子',childrenCircles)
     return (
       <View className='more-circle-viewport'>
         <View className='search-box'>
@@ -34,7 +33,7 @@ export default class MoreCircleView extends Presenter {
           <View className='list-wrapper'>
             <View className='tabs'>
               {/* <View className='slider' style={this.state.sliderStyle}></View> */}
-              <View className='slider' style={this.state.sliderStyle}>{kw}</View>
+              <View className='slider' style={this.state.sliderStyle}>圈子列表</View>
               <View className='tab-items'>
                 <UITabs2
                   itemColor='#999'
@@ -49,7 +48,7 @@ export default class MoreCircleView extends Presenter {
               {
                 childrenCircles.map(item => {
                   return (
-                    <SearchCircleItem data={item} key={item.cid} kw={kw} onHandleSubscr={this.handleSubsrc.bind(this)} />
+                    <SearchCircleItem data={item} isShowDistance key={item.cid} kw={kw} onHandleSubscr={this.handleSubsrc.bind(this)} />
                   )
                 })
               }
@@ -57,7 +56,6 @@ export default class MoreCircleView extends Presenter {
             </View>
           </View>
         }
-        
       </View>
     )
   }

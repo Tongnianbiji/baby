@@ -16,8 +16,8 @@ export default class Presenter extends BaseComponent {
       showLikeLoading: true,
       collectPageNum: 1,
       likePageNum: 1,
-      currentSharePid:'',
-      currentShareQid:''
+      currentSharePid: '',
+      currentShareQid: ''
     }
   }
 
@@ -127,6 +127,10 @@ export default class Presenter extends BaseComponent {
     })
     if (res && res.items && res.items.length) {
       const { total, items } = res;
+      items.forEach(likeItem=>{
+        likeItem.entity.replyId = likeItem.originalId;
+        likeItem.entity.isLikes=true
+      })
       if (!likeData.length) {
         this.setState({
           likeData: items || []
@@ -149,76 +153,115 @@ export default class Presenter extends BaseComponent {
   }
 
   //收藏
-  handleFavorite = async (model)=>{
-    let {postLock,collectData} = this.state;
-    let preIndex = collectData.findIndex(item=>item.entity.pid === model.pid)
-    if(!postLock){
-     if(model.isMark){
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.cancelMarkPost(model.pid);
-       this.setState({
-         postLock:false
-       })
-       collectData[preIndex].entity.isMark = false;
-       collectData[preIndex].entity.markes -= 1;
-       if(res){
-         this.showToast('已取消');
-       }
-     }else{
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.markPost(model.pid);
-       this.setState({
-         postLock:false
-       })
-       collectData[preIndex].entity.isMark = true;
-       collectData[preIndex].entity.markes += 1;
-       if(res){
-         this.showToast('已收藏');
-       }
-     }
+  handleFavorite = async (model) => {
+    let { postLock, collectData } = this.state;
+    let preIndex = null;
+    const { pid, qid } = model;
+    if (pid) {
+      preIndex = collectData.findIndex(item => item.entity.pid === model.pid)
+    }
+    else if (qid) {
+      preIndex = collectData.findIndex(item => item.entity.qid === model.qid)
+    }
+    if (!postLock) {
+      if (model.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.cancelMarkPost(pid);
+        }
+        else if (qid) {
+          res = await Model.cancelMarkQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        collectData[preIndex].entity.isMark = false;
+        collectData[preIndex].entity.markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.markPost(pid);
+        }
+        else if (qid) {
+          res = await Model.markQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        collectData[preIndex].entity.isMark = true;
+        collectData[preIndex].entity.markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
     }
     this.setState({
-      collectData:collectData
+      collectData: collectData
     })
   }
 
   //点赞
-  handleLike =async (model)=>{
-    let {postLock,likeData} = this.state;
-    let preIndex = likeData.findIndex(item=>item.entity.pid === model.pid && item.entity.replyId === model.replyId)
-    if(!postLock){
-     if(model.isLikes){
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.cancelLikePost(model.pid,model.replyId);
-       this.setState({
-         postLock:false
-       })
-       likeData[preIndex].entity.isLikes = false
-       if(res){
-         this.showToast('已取消');
-       }
-     }else{
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.likePost(model.pid,model.replyId);
-       this.setState({
-         postLock:false
-       })
-       likeData[preIndex].entity.isLikes = true
-       if(res){
-         this.showToast('已点赞');
-       }
-     }
+  handleLike = async (model) => {
+    console.log('点赞',model)
+    let { postLock, likeData } = this.state;
+    const { pid, qid } = model;
+    let preIndex = null;
+    if (pid) {
+      preIndex = likeData.findIndex(item => item.entity.pid === pid && item.entity.replyId === model.replyId)
+    }
+    else if (qid) {
+      preIndex = likeData.findIndex(item => item.entity.qid === qid && item.entity.replyId === model.replyId)
+    }
+    if (!postLock) {
+      if (model.isLikes) {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.cancelLikePost(model.pid, model.replyId);
+        }
+        else if (qid) {
+          res = await Model.cancelLikeQuestion(model.qid, model.replyId);
+        }
+        this.setState({
+          postLock: false
+        })
+        likeData[preIndex].entity.isLikes = false
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.likePost(model.pid, model.replyId);
+        }
+        else if (qid) {
+          res = await Model.likeQuestion(model.qid, model.replyId);
+        }
+        this.setState({
+          postLock: false
+        })
+        likeData[preIndex].entity.isLikes = true
+        if (res) {
+          this.showToast('已点赞');
+        }
+      }
     }
     this.setState({
-      likeData:likeData
+      likeData: likeData
     })
   }
 

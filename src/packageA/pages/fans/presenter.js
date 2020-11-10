@@ -10,10 +10,21 @@ export default class Presenter extends BaseComponent {
       isToBottom:false,
       showLoading:true,
       pageNum:1,
+      isSelf:true
     }
   }
 
   componentDidMount() {
+    const { userId } = this.$router.params;
+    if(this.getUserInfo().userId === userId  || !userId){
+      this.setState({
+        isSelf:true
+      })
+    }else{
+      this.setState({
+        isSelf:false
+      })
+    }
     this.getListData();
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2];

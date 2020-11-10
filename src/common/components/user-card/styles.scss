@@ -20,6 +20,10 @@
         height: 100px;
         background: #eee;
         overflow: hidden;
+        image{
+          width: 100%;
+          height: 100%;
+        }
       }
     }
     .info-wrapper {
@@ -36,6 +40,11 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          .matched-txt {
+            color: #FF473A;
+            margin-right: 10px;
+            display: inline-block;
+          }
         }
         .sex {
           width: 26px;
@@ -98,4 +107,15 @@
   &.attentioned {
     opacity: .5;
   }
+}
+
+.distance{
+  position: absolute;
+  top: 0;
+  right: 130px;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  font-size: 24px;
+  color: #999999;
 }

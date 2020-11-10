@@ -6,6 +6,7 @@ import Presenter from './presenter'
 import Preloading from '@components/preloading'
 import BehaviorCard from '@components/behavior-card'
 import UserInfoItem from '../../../common/components/post-card'
+import NoticeCard from '../../../common/components/notice-card'
 import { ICONS } from '@common/constant'
 import './index.scss'
 
@@ -132,7 +133,7 @@ export default class ProfileHome extends Presenter {
               </View>
               <View className='number'>
                 <View className='number-value'>{marked}/{stared}</View>
-                <View className='number-title'>收赞/获赞</View>
+                <View className='number-title'>被收藏/获赞</View>
               </View>
             </View>
           </View>
@@ -157,7 +158,7 @@ export default class ProfileHome extends Presenter {
                       //   <UserInfoItem key={index} model={item.entity} activeModel={item} onHandleFavorite={this.handleFavoriteActive.bind(this)} needShared/>
                       // )
                       return (
-                        <BehaviorCard key={index} data={item} onHandleFavorite={this.handleFavoriteActive.bind(this,item)} onHandleSubscr={this.handleSubscrCircleActive.bind(this,item)}></BehaviorCard>
+                        <BehaviorCard key={index} data={item} onHandleFavorite={this.handleFavoriteActive.bind(this,item)} onSubScrUser={this.subScrUser.bind(this,item)} onHandleSubscr={this.handleSubscrCircleActive.bind(this,item)}></BehaviorCard>
                       )
                     })
                   }
@@ -194,7 +195,7 @@ export default class ProfileHome extends Presenter {
                   {
                     questionData.map((item, index) => {
                       return (
-                        <UserInfoItem key={index} model={item} onHandleFavorite={this.handleFavoriteQuestion.bind(this)}/>
+                        <NoticeCard isShowUserInfo={false} ishowAvatar={false} key={item.qid} data={item} type='qa' onHandleFavorite={this.handleFavoriteQuestion.bind(this)}/>
                       )
                     })
                   }

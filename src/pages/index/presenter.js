@@ -14,15 +14,19 @@ export default class HomePage extends BaseComponent {
       currentCity: this.getCurrentCity(),
       tabId: 110000,
       attentionUsers: [],
+      recommends:[],
       isCollectMin: true,
       currentSharePid: '',
       currentShareQid: '',
       attentionPageNum: 1,
       showAttentionLoading: true,
       isAttentionToBottom: false,
+      showRecommendLoading: true,
+      isRecommendToBottom: false,
       postLock: false,
       isCollentMini: true,
-      showNewInfoBar:false
+      showNewInfoBar:false,
+      total:0
     }
   }
 
@@ -32,6 +36,7 @@ export default class HomePage extends BaseComponent {
     //     isCollectMin:false
     //   })
     // }, 5e3);
+    this.getrecommends()
   }
 
   componentDidShow() {
@@ -57,21 +62,24 @@ export default class HomePage extends BaseComponent {
       lon,
       provinceCode,
       cityCode,
-      countryCode
+      countryCode,
+      cityCodeCode,
+      countryCodeCode
     } = this.getCurrentLocation();
     const { tabId } = this.state;
     getApp().sensors.registerApp({
       lat: lat,
       lon: lon,
       provinceCode: provinceCode,
-      cityCode: cityCode,
-      countryCode: countryCode,
+      cityCode: cityCodeCode,
+      countryCode: countryCodeCode,
       tabId: tabId,
       uid: this.getUserInfo().userId || 'guest'
     })
     this.setState({
       currentCity: this.getCurrentCity()
     })
+    this.getMessageCount()
   }
 
 
@@ -83,9 +91,10 @@ export default class HomePage extends BaseComponent {
       })
     }
     setTimeout(()=>{
-      Taro.stopPullDownRefresh()
       this.setState({
         showNewInfoBar:false
+      },()=>{
+        Taro.stopPullDownRefresh()
       })
     },2e3)
   }
@@ -109,14 +118,22 @@ export default class HomePage extends BaseComponent {
   }
 
   onReachBottom() {
-    const { postLock, isAttentionToBottom, currentTopTab, attentionType } = this.state;
+    const { postLock, isAttentionToBottom, currentTopTab, attentionType, attentionUsers } = this.state;
     if (currentTopTab === 0) {
       if (attentionType === 1) {
         if (!postLock && !isAttentionToBottom) {
           this.setState((pre) => ({
             attentionPageNum: pre.attentionPageNum + 1
           }), () => {
-            this.getAttentionUsers()
+            this.getAttentionUsers();
+            let contentIdList = [];
+            attentionUsers.forEach(item=>{
+              contentIdList.push(item.activityId.toString())
+            })
+            getApp().sensors.registerApp({
+              contentIdList: contentIdList,
+              contentType:1
+            })
           })
         }
       }
@@ -124,7 +141,7 @@ export default class HomePage extends BaseComponent {
   }
 
   topTabChange = (current) => {
-    const { attentionType, hotTabType,attentionUsers } = this.state;
+    const { attentionType, hotTabType,attentionUsers,recommends } = this.state;
     let tabId = null;
     switch (current) {
       case 0:
@@ -140,6 +157,9 @@ export default class HomePage extends BaseComponent {
         break;
       case 1:
         tabId = 110000;
+        if(!recommends.length){
+          this.getrecommends()
+        }
         break;
       case 2:
         if (hotTabType === 1) {
@@ -265,6 +285,51 @@ export default class HomePage extends BaseComponent {
     }
   }
 
+  //获取推荐数据
+  getrecommends = async () => {
+    const { recommends, attentionPageNum } = this.state;
+    const { userId } = this.getUserInfo();
+    let r = await Model.clearRead(userId);
+    console.log('*****',r)
+    this.setState({
+      postLock: true
+    })
+    let res = await Model.getrecommends();
+    this.setState({
+      postLock: false
+    })
+    if (res){
+      this.setState({
+        recommends: res || []
+      })
+    }
+    if(!res.length){
+      this.setState({
+        showRecommendLoading: false,
+        isRecommendToBottom: true,
+      })
+    }
+    // if (res && res.items && res.items.length) {
+    //   const { total, items } = res;
+    //   if (!recommends.length) {
+    //     this.setState({
+    //       recommends: items || []
+    //     })
+
+    //   } else {
+    //     this.setState((pre) => ({
+    //       recommends: pre.recommends.concat(items || [])
+    //     }))
+    //   }
+    //   if (total <= this.state.recommends.length) {
+    //     this.setState({
+    //       showRecommendLoading: false,
+    //       isRecommendToBottom: true,
+    //     })
+    //   }
+    // }
+  }
+
   handleFavoriteAttention = async (model) => {
     let { postLock, attentionUsers } = this.state;
     let preIndex = null;
@@ -357,6 +422,41 @@ export default class HomePage extends BaseComponent {
     })
   }
 
+  subScrUser = async (model)=>{
+    let {postLock,attentionUsers} = this.state;
+    let preIndex = attentionUsers.findIndex(item=>item.entity.userId === model.entity.userId)
+    if(!postLock){
+     if(model.entity.isSubscr){
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.cancelAttentionUser(model.entity.userId);
+       this.setState({
+         postLock:false
+       })
+       attentionUsers[preIndex].entity.isSubscr = false
+       if(res){
+         this.showToast('已取消');
+       }
+     }else{
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.attentionUser(model.entity.userId);
+       this.setState({
+         postLock:false
+       })
+       attentionUsers[preIndex].entity.isSubscr = true
+       if(res){
+         this.showToast('已关注');
+       }
+     }
+    }
+    this.setState({
+      attentionUsers:attentionUsers
+    })
+   }
+
   share = (model) => {
     const { pid, qid } = model;
     this.setState({
@@ -372,6 +472,22 @@ export default class HomePage extends BaseComponent {
         currentShareQid: qid
       })
     }
+  }
+
+  getMessageCount = async ()=>{
+    let res = await Model.getMessageCount();
+    if(res){
+      const {answer,funs,mark,reply,star} = res;
+      this.setState({
+        total:answer+funs+mark+reply+star
+      })
+    }
+  }
+
+  goMessage = ()=>{
+    Taro.switchTab({
+      url:'/pages/message/index'
+    })
   }
 
   closeCollentMini = () => {

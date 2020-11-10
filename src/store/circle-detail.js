@@ -1,6 +1,8 @@
 import { observable, action, set } from 'mobx'
 import Taro from '@tarojs/taro'
 import Request from '../common/baseRequest'
+import BaseComponent from '@common/baseComponent'
+import GetDistance from '@common/utils/calcDistance'
 
 const req = new Request()
 
@@ -240,6 +242,7 @@ const actions = {
 
   //获取圈子对应的用户列表
   async getCircleUser(cid) {
+    const {lat,lon} = (new BaseComponent()).getCurrentLocation()
     let params = {
       cid: cid,
       keyword: '',
@@ -251,17 +254,32 @@ const actions = {
     const d = req.standardResponse(ret)
     this.postLock = false;
     if (d.code === 0) {
-
+      let userList = d.data.items;
+      userList.forEach(item=>{
+        item.distance = GetDistance(lat,lon,item.lat,item.lng)
+      })
       if (!this.circleUser.length) {
-        this.circleUser = d.data.items || []
+        this.circleUser = userList || []
       } else {
-        this.circleUser = this.circleUser.concat(d.data.items || [])
+        this.circleUser = this.circleUser.concat(userList || [])
       }
       if (d.data.total <= this.circleUser.length) {
         this.isToBottomUser = true;
         this.loadingUser = false;
       }
     }
+    //this.circleUser = this.sortDistance(this.circleUser);
+  },
+
+  //排序
+  sortDistance(arr){
+    const stableSorting = (s1, s2) => {
+      let s1D = s1.distance.slice(0,s1.distance.length-2);
+      let s2D = s2.distance.slice(0,s2.distance.length-2)
+      if (s1D < s2D) return -1;
+      return 1;
+    };
+    return arr.sort(stableSorting);
   },
 
   //获取定制圈子配置查询

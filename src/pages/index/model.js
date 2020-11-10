@@ -77,6 +77,22 @@ export default {
     }
   },
 
+  //获取推荐的数据
+  async getrecommends(pageNum=1) {
+    let params = {
+      pageNum,
+      pageSize:10
+
+    }
+    const ret = await request.postWithToken('/search/recommend', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  },
+
   async cancelMarkPost(pid) {
     let params = {
       pid
@@ -164,6 +180,56 @@ export default {
     if (data.code === 0) {
       return true
     } else {
+      return false
+    }
+  },
+
+  async cancelAttentionUser(userId) {
+    let params = {
+      userId
+    }
+    const ret = await request.postWithToken('/subscr/delete', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async attentionUser(userId) {
+    let params = {
+      userId
+    }
+    const ret = await request.postWithToken('/subscr/submit', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async getMessageCount(){
+    const ret = await request.getWithToken('/tnmsg/count')
+    const d = request.standardResponse(ret)
+    if(d.code == 0){
+      return d.data
+    }else{
+      return false
+    }
+  },
+
+  //清除曝光
+  async clearRead(uid){
+    let params = {
+      exp:`pid_${uid}`
+    }
+    const ret = await request.postWithToken('/test/cleanRead',params)
+    const d = request.standardResponse(ret)
+    if(d.code == 0){
+      return true
+    }else{
       return false
     }
   }

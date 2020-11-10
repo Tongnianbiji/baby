@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Image, RadioGroup, Radio, Picker } from '@tarojs/components'
+import { View, Image, RadioGroup, Radio, Picker,Input,Text } from '@tarojs/components'
 import { GENDER_LIST } from '../../../common/enums';
 import Presenter from './presenter'
 import './index.scss'

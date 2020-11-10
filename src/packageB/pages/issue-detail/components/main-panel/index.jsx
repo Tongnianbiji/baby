@@ -4,12 +4,13 @@ import { View, Image, Text, Button } from '@tarojs/components'
 import { ICONS } from '@common/constant'
 import { observer, inject } from 'mobx-react'
 import  FormaDate from '@common/formaDate'
+import BaseComponent from '@common/baseComponent'
 import './index.scss'
 import Model from '../../model'
 
 @inject('issueDetailStore')
 @observer
-export default class MainPanelComponent extends Component {
+export default class MainPanelComponent extends BaseComponent {
   static defaultProps = {
     info: {},
     onShare:()=>{}
@@ -63,6 +64,37 @@ export default class MainPanelComponent extends Component {
     })
   }
 
+  deleteQuestion = (model)=>{
+    const {userId} = this.getUserInfo();
+    if(userId === model.uid){
+      Taro.showActionSheet({
+        itemList: ['删除'],
+        success: async (res)=> {
+          if(res.tapIndex == 0){
+            let r = await Model.deleteQuestion(model.qid);
+            if(r){
+              Taro.showToast({
+                title:'删除成功',
+                icon:'success',
+                duration:2e3
+              })
+              Taro.navigateBack()
+            }else{
+              Taro.showToast({
+                title:'系统异常',
+                icon:'none',
+                duration:2e3
+              })
+            }
+          }
+        },
+        fail:(res)=> {
+          console.log(res.errMsg)
+        }
+      })
+    }
+  }
+
   render() {
     const {
       title,
@@ -107,7 +139,7 @@ export default class MainPanelComponent extends Component {
                <Text className='times'>{FormaDate(createTime)}</Text>
              </View>
            </View>
-           <View className='issue' onClick={this.goAnswer.bind(this,qid)}>
+           <View className='issue' onClick={this.goAnswer.bind(this,qid)} onLongPress={this.deleteQuestion.bind(this,this.props.issueDetailStore.issueDetail)}>
              <View className='icon'>问</View>
              <View className='txt'>{title}</View>
            </View>

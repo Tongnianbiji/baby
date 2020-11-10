@@ -3,7 +3,7 @@
 .main-info-panel {
   background: #fff;
   border-radius: 16px;
-  padding: 24px 24px 0;
+  padding: 0 24px 10px;
   font-family:PingFangSC-Regular,PingFang SC;
   font-weight:400;
   .icon-right {
@@ -83,7 +83,7 @@
     padding: 24px 20px 0;
   }
   .circle-list {
-    margin-top: 32px;
+    margin-top: 20px;
     display: flex;
     margin-bottom: 20px;
     align-items: center;

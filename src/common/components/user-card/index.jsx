@@ -13,12 +13,34 @@ export default class UserInfoCard extends Component {
     activeModel: {},
     tip: '关注了你',
     isShowReleaseTime:false,
+    isShowTip:true,
+    isShowDistance:false,
+    kw:'',
     onSubscr: () => { },
     onGetUserDetail: () => { },
   }
 
   constructor(props) {
     super(props)
+  }
+
+  highLight = (originTxt, kw) => {
+    if (!kw) {
+      kw = '济阳'
+    }
+    const reg = new RegExp(kw, 'gi');
+    const contentReg = /^_#_([^_#_]+)_#_$/;
+    const newList = [];
+    let c = 1;
+    originTxt.replace(reg, (matched) => `,_#_${matched}_#_,`).split(',').map(t => {
+      const isView = contentReg.test(t)
+      t && newList.push({
+        id: ++c,
+        type: isView ? 'view' : 'text',
+        value: isView ? t.match(contentReg)[1] : t
+      })
+    })
+    return newList;
   }
 
   handleSubscr = (model, e) => {
@@ -55,7 +77,7 @@ export default class UserInfoCard extends Component {
   }
 
   render() {
-    const { tip, model, model: { post, flow, funs, createDt, headImg, district, signature, nickName, city, country,sex }, activeModel,isShowReleaseTime } = this.props;
+    const { isShowDistance,kw,isShowTip,tip, model, model: { post, flow, funs, createDt, headImg, district, signature, nickName, city, country,sex,stared }, activeModel,isShowReleaseTime } = this.props;
     return (
       <View className="wrapper">
         {
@@ -70,26 +92,51 @@ export default class UserInfoCard extends Component {
           </View>
           <View className='info-wrapper'>
             <View className='name-area'>
+              {
+                kw ? 
+                <View className='name'>
+                {
+                  this.highLight(nickName, kw).map(t => {
+                    return (
+                      t.type === 'view' ?
+                        <View className='matched-txt' key={t.id}>{t.value}</View> :
+                        <Text key={t.id}>{t.value}</Text>
+                    )
+                  })
+                }
+              </View>
+              :
               <Text className='name' style={{ color: this.getNickNameColor(sex || activeModel.userSnapshot && activeModel.userSnapshot.sex || 'FEMALE') }}>{nickName || activeModel.userSnapshot.nickName}</Text>
-              <Image className='sex' src={ICONS.FEMALE_ICON}></Image>
+              }
+              
+              <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
               <View className='tags-warpper'>
                 <View className='tag'>{district || `${city} ${country}` || `${activeModel.userSnapshot.city} ${activeModel.userSnapshot.country}`}</View>
-                <View className='tag'>大宝:两岁一个月</View>
-                <View className='tag'>小宝:九个月</View>
+                {
+                  [1,2].map(item=>{
+                    return(
+                      <View className='tag'>大宝:两岁一个月</View>
+                    )
+                  })
+                }
               </View>
 
             </View>
             <View className='sub-title'>{signature}</View>
             <View className='nubmers'>
               <View className='num'>粉丝: {funs}</View>
-              <View className='num'>发布: {post}</View>
-              <View className='num'>收藏: {flow}</View>
+              <View className='num'>帖子: {post}</View>
+              <View className='num'>获赞: {stared}</View>
             </View>
             {
-              createDt && 
+              isShowTip && createDt && 
               <View className='sub-title'>{`${createDt} ${tip}`}</View>
             }
           </View>
+          {
+            isShowDistance && 
+            <View className="distance">{model.distance}</View>
+          }
           <View onClick={this.handleSubscr.bind(this, model)} className={`btn-attention${model.isSubscr ? ' attentioned' : ''}`}>{model.isSubscr ? '已关注' : '关注'}</View>
         </View>
       </View>

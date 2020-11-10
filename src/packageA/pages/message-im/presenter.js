@@ -4,49 +4,50 @@ import Taro from '@tarojs/taro'
 import staticData from '@src/store/common/static-data'
 import Model from './model'
 
-const {goEasy} = staticData;
+const { goEasy } = staticData;
 export default class Presenter extends BaseComponent {
   constructor(props) {
     super(props)
     this.state = {
-      scrollStyle:{},
-      messageList:[],
-      myPublishMessage:{},
-      userInfo:{},
-      activeFocus:false,
-      inputValue:'',
-      inputBoxBottom:0,
-      holdKeyboard:false
+      scrollStyle: {},
+      messageList: [],
+      myPublishMessage: {},
+      userInfo: {},
+      activeFocus: false,
+      inputValue: '',
+      inputBoxBottom: 0,
+      holdKeyboard: false
     }
   }
 
   componentDidMount() {
     const systemInfo = Taro.getSystemInfoSync();
-    const {name,id} = this.$router.params;
-    let {messageList} = this.state;
+    const { name, id } = this.$router.params;
+    let { messageList } = this.state;
     let windowHeight = systemInfo.windowHeight;
-    let scrollStyle = {height:`${windowHeight - 48}px`}
+    let scrollStyle = { height: `${windowHeight - 48}px` }
     this.setState({
-      scrollStyle:scrollStyle
+      scrollStyle: scrollStyle
     })
     this.getProfileData();
     Model.getData(id)
     this.setNavigationBarTitle();
     goEasy.subscribe({
       channel: "tn1",
-      onMessage: (message)=> {
-        const {uid,content,headImg,nickName}=JSON.parse(message.content)
-        if(content){
+      onMessage: (message) => {
+        const { uid, content, headImg, nickName } = JSON.parse(message.content)
+        if (content) {
           messageList.push(
             {
-              uid:uid,
-              content:content,
-              headImg:headImg,
-              nickName:nickName
+              uid: uid,
+              content: content,
+              headImg: headImg,
+              nickName: nickName,
+              isBlock:false
             }
           )
           this.setState({
-            messageList:messageList
+            messageList: messageList
           })
         }
       }
@@ -64,69 +65,94 @@ export default class Presenter extends BaseComponent {
   }
 
   //获取个人信息
-  getProfileData = async()=>{
-    const {userId} = this.getUserInfo();
+  getProfileData = async () => {
+    const { userId } = this.getUserInfo();
     let res = await Model.getProfileData(userId);
-    if(res){
+    if (res) {
       this.setState({
-        userInfo:res
+        userInfo: res
       })
     }
   }
 
-  viewProfileInfo = (uid,e)=>{
+  viewProfileInfo = (uid, e) => {
     e.stopPropagation();
     Taro.navigateTo({
-      url:`/packageA/pages/profile-home/index?userId=${uid}`
+      url: `/packageA/pages/profile-home/index?userId=${uid}`
     })
   }
 
-  onScrollToLower= ()=>{
+  onScrollToLower = () => {
     console.log('往下滑')
   }
 
-  inputMessage = (e)=>{
+  inputMessage = (e) => {
     this.setState({
-      publishContent:e.target.value,
-      inputValue:e.target.value
+      publishContent: e.target.value,
+      inputValue: e.target.value
     })
   }
 
-  publishMessage = ()=>{
-    const {publishContent,userInfo:{userId,nickName,headImg}} = this.state;
-    const { name, id } = getCurrentInstance().router.params;
-    if(publishContent){
-      goEasy.publish({
+  publishMessage = async () => {
+    const { publishContent, userInfo: { userId, nickName, headImg } } = this.state;
+    let {messageList} = this.state;
+    const {id } = getCurrentInstance().router.params;
+    let isBlock = await this.isBlockFriend();
+    if (publishContent) {
+      if (!isBlock) {
+        goEasy.publish({
           channel: "tn1",
           message: JSON.stringify({
-            uid:userId,
-            content:publishContent,
-            nickName:nickName,
-            headImg:headImg
+            uid: userId,
+            content: publishContent,
+            nickName: nickName,
+            headImg: headImg,
+            isBlock:false
           }),
-      })
-      this.setState({
-        inputValue:'',
-        //holdKeyboard:false
-      })
-      Model.saveData(id,publishContent)
-    }else{
+        })
+        this.setState({
+          inputValue: '',
+          //holdKeyboard:false
+        })
+        Model.saveData(id, publishContent)
+      }else{
+        messageList.push(
+          {
+            uid: userId,
+            content: publishContent,
+            headImg: headImg,
+            nickName: nickName,
+            isBlock:true
+          }
+        )
+        this.setState({
+          messageList: messageList
+        })
+      }
+
+    } else {
       this.showToast('输入不能为空')
     }
   }
 
-  onFocus = ()=>{
+  onFocus = () => {
     this.setState({
-      activeFocus:true,
-      inputBoxBottom:300,
+      activeFocus: true,
+      inputBoxBottom: 300,
       //holdKeyboard:true
     })
   }
 
-  onBlur = ()=>{
+  onBlur = () => {
     this.setState({
-      activeFocus:false,
-      inputBoxBottom:0
+      activeFocus: false,
+      inputBoxBottom: 0
     })
+  }
+
+  isBlockFriend = async () => {
+    const { id } = this.$router.params;
+    let res = await Model.isBlockFriend(id);
+    console.log('是否被拉黑', res)
   }
 }

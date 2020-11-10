@@ -14,7 +14,8 @@ export const SearchResultType = {
   CIRCLE: 'circle',
   ANSWER: 'answer',
   POST: 'post',
-  ESSENCE:'essence'
+  ESSENCE:'essence',
+  USER:'user'
 }
 
 /**

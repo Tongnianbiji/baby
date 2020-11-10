@@ -37,7 +37,7 @@ sa.setPara({
 		appHide:true, // 默认为 true，false 则关闭 $MPHide 事件采集
 		pageShow:true, // 默认为 true，false 则关闭 $MPViewScreen 事件采集
 		pageShare:true, // 默认为 true，false 则关闭 $MPShare 事件采集
-		mpClick: false, // 默认为 false，true 则开启 $MPClick 事件采集 
+		mpClick: true, // 默认为 false，true 则开启 $MPClick 事件采集 
 		mpFavorite: true // 默认为 true，false 则关闭 $MPAddFavorites 事件采集
 	},
 	// 自定义渠道追踪参数，如source_channel: ["custom_param"]
@@ -214,7 +214,7 @@ class App extends BaseComponent {
         console.log('定位信息',data.data)
         const { regeocode = {} } = data.data
         const { addressComponent = {} } = regeocode
-        const { province, city, adcode, citycode, country, district } = addressComponent;
+        const { province, city, adcode, citycode, country, district, towncode } = addressComponent;
         this.updateCityInfo({
           districtCode:adcode,
           districtName:district,
@@ -227,6 +227,8 @@ class App extends BaseComponent {
           provinceCode:province,
           cityCode:city,
           countryCode:district,
+          cityCodeCode:adcode,
+          countryCodeCode:towncode
         })
         return {
           msg: 'ok',

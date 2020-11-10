@@ -22,7 +22,7 @@ export default class Presenter extends BaseComponent {
     const { cid, cname = '' } = getCurrentInstance().router.params;
     const info = Taro.getSystemInfoSync();
     const { windowHeight, statusBarHeight, titleBarHeight } = info;
-    const tempHeight = (windowHeight - 140) + 'px';
+    const tempHeight = (windowHeight - 130) + 'px';
     this.$store.updateCircleId(cid);
     this.setState({
       cid: cid,
@@ -51,7 +51,8 @@ export default class Presenter extends BaseComponent {
   onPageScroll(e) {
     let { tempHeight } = this.state;
     let scrollTop = e.scrollTop;
-    if (scrollTop >= 220) {
+    console.log(scrollTop)
+    if (scrollTop >= 130) {
       this.$store.updateCenterHeight(tempHeight)
       this.$store.updateIsFiexd(true)
     }

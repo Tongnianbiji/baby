@@ -98,6 +98,17 @@ export default {
     }else{
       return false
     }
-    
+  },
+  async deletePost(pid) {
+    let params = {
+      pid
+    }
+    const ret = await req.postWithToken('/post/delete', params)
+    const d = req.standardResponse(ret);
+    if(d.code === 0){
+      return true
+    }else{
+      return false
+    }
   },
 }

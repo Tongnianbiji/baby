@@ -39,7 +39,7 @@ export default class CreateIssueView extends Presenter {
         <View className='photo-picker-wrapper'>
           <PhotoPicker onGetFiles={this.getFiles.bind(this)} />
         </View>
-        <View className='tag-tips'>＋添加一个合适的问题类别，可以提高问题的回答率哦</View>
+        {/* <View className='tag-tips'>＋添加一个合适的问题类别，可以提高问题的回答率哦</View>
         <View className='tag-wrapper'>
           <View className='scroll-wrapper'>
             <ScrollView scrollX>
@@ -56,7 +56,7 @@ export default class CreateIssueView extends Presenter {
             </View>
           </View>
           
-        {/* <TagScrollView tags={tagList} activeTags={selectedTag} onSelectTag={this.tagClick.bind(this)}>
+        <TagScrollView tags={tagList} activeTags={selectedTag} onSelectTag={this.tagClick.bind(this)}>
             <View className='tag-list'>
                 {
                   tagList.map(item => (
@@ -64,8 +64,8 @@ export default class CreateIssueView extends Presenter {
                   ))
                 }
             </View>
-        </TagScrollView> */}
-        </View>
+        </TagScrollView>
+        </View> */}
         <View className='btn-wrapper'>
           <View className={`btn-save${canSave ? '' : ' can-not-save'}`} onClick={this.doSubmit.bind(this)}>提交</View>
         </View>

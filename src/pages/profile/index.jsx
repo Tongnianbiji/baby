@@ -42,7 +42,7 @@ export default class Profile extends Presenter {
                 </View>
                 <View className='number' onClick={this.onClickNavTo.bind(this, 'collects-message')}>
                   <View className='number-value'>{`${profileInfo.marked || 0}/${profileInfo.stared || 0}`}</View>
-                  <View className='number-title'>被收赞/获赞</View>
+                  <View className='number-title'>被收藏/获赞</View>
                 </View>
               </View>
             </View>

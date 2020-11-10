@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro'
 import React, { Component } from 'react'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image, Button } from '@tarojs/components'
 import FormaDate from '@common/formaDate'
 import { ICONS } from '../../constant'
 import Behaviors from '@common/utils/behaviors'
@@ -19,10 +19,13 @@ export default class NoticeCard extends Component {
     isOldQuestion: false,
     isShowTime: false,
     isShowReleaseTime:true,
+    needLike:false,
+    needShared:false,
     tip:'',
     type: 'post', //post|qa,
     onHandleFavorite: () => { },
-    onNoticeClick: () => { }
+    onNoticeClick: () => { },
+    onHandleLike:()=>{}
   }
 
   constructor(props) {
@@ -56,6 +59,11 @@ export default class NoticeCard extends Component {
     this.props.onNoticeClick(data)
   }
 
+  handleLike = (model,e)=>{
+    e.stopPropagation();
+    this.props.onHandleLike(model)
+  }
+
   viewCircleDetail = cid => {
     if (!cid) {
       cid = '10397889'
@@ -82,9 +90,13 @@ export default class NoticeCard extends Component {
     )
   }
 
+  share = (e)=>{
+    e.stopPropagation();
+  }
+
   formateType(type){
-    const type1 = [3003,3005];
-    const type2 = [4003,4005];
+    const type1 = [3003,3005,3008];
+    const type2 = [4003,4005,4008];
     if(type1.includes(type)){
       return '原帖：'
     }
@@ -94,14 +106,14 @@ export default class NoticeCard extends Component {
   }
 
   renderQA() {
-    const { data, isShowTools, isShowQuestion, isShowAnswer, isOldQuestion, isShowTime ,activeModel} = this.props;
+    const { data, isShowTools, isShowQuestion, isShowAnswer, isOldQuestion, isShowTime ,activeModel,activeModel:{type}} = this.props;
     return (
       <View className='qa-wrapper'>
 
         {
           isShowTime &&
           <View className='questions'>
-            <View className='txt' style="padding:0;font-size:24rpx;color:#999999;margin-bottom:5px">{data && data.createTime && FormaDate(data.createTime) || '2019/03/02'}</View>
+            <View className='txt' style="padding:0;font-size:24rpx;color:#999999;margin-bottom:5px">{activeModel && activeModel.createAt && FormaDate(activeModel.createAt) || data && data.createTime && FormaDate(data.createTime)}</View>
           </View>
         }
         {
@@ -113,10 +125,10 @@ export default class NoticeCard extends Component {
         }
 
         {
-          isShowAnswer && (data.content || activeModel.content || activeModel.title) &&
+          isShowAnswer && ((type !== 4003 && type !== 4008) ? data.answer : activeModel.content) &&
           <View className='anwser'>
             <View className='icon'>答</View>
-            <View className='txt'>{data.content || activeModel.content || activeModel.title}</View>
+            <View className='txt'>{(type !== 4003 && type !== 4008) ? data.answer : activeModel.content}</View>
           </View>
         }
         <View>
@@ -160,23 +172,37 @@ export default class NoticeCard extends Component {
   }
 
   renderFav() {
-    const { activeModel,tip} = this.props;
+    const { activeModel,isOldQuestion,data} = this.props;
     return (
       <View>
-        <View className='fav-txt'>{activeModel.title}</View>
-        <View className='fav-txt' style="color:#999999">{this.formateType(activeModel.type)}{activeModel.entity.title}</View>
+        <View className='fav-txt'>{activeModel.content || data.title}</View>
+        {
+          isOldQuestion && 
+          <View className='fav-txt' style="color:#999999">{this.formateType(activeModel.type)}{activeModel.entity.title}</View>
+        }
       </View>
    
     )
   }
 
   render() {
-    const { ishowAvatar, isShowUserInfo, activeModel,tip ,isShowReleaseTime,data} = this.props;
+    const { ishowAvatar, isShowUserInfo, activeModel,tip ,isShowReleaseTime,data,needLike,needShared} = this.props;
     return (
       <View className="wrapper" onClick={this.handleNoticeClick.bind(this, data)}>
         {
           activeModel.userSnapshot && isShowReleaseTime && 
           <View className="behavior">{`${activeModel.userSnapshot && activeModel.userSnapshot.nickName}${Behaviors(activeModel.type)} | ${activeModel.updateAt && FormaDate(activeModel.updateAt)}`}</View>
+        }
+        {
+          needLike && <Image onClick={this.handleLike.bind(this,data)} className='btn-like' src={data.isLikes ? ICONS.FULLLIKE : ICONS.LIKE} alt=''></Image>
+        }
+        {
+        needShared && 
+          <View onClick={this.share.bind(this)}>
+            <Button className='btn-share' openType="share" id={JSON.stringify(data)}>
+              <Image src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
+            </Button>
+          </View>
         }
         <View className='ui-notice-card'>
         {
@@ -194,7 +220,7 @@ export default class NoticeCard extends Component {
             <View className='title-line'>
               <View className='title'>
               <View className='txt'>{activeModel && activeModel.userSnapshot.nickName}</View>
-                <View className='sub'>{Behaviors(activeModel && activeModel.type)}</View>
+                <View className='sub'>{Behaviors(activeModel && activeModel.type,tip)}</View>
               </View>
               <View className='time'>{FormaDate(activeModel && activeModel.updateAt)}</View>
             </View>

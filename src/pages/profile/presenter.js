@@ -17,14 +17,15 @@ export default class ProfilePresenter extends BaseComponent {
     this.storage = Storage.getInstance()
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.isUserLogin()
+  }
   componentDidShow(){
     const {isLogin} = staticData
     this.setState({
       isLogin:isLogin
     })
     this.getProfile();
-    this.isUserLogin()
   }
 
   onShareAppMessage (res){
@@ -87,21 +88,27 @@ export default class ProfilePresenter extends BaseComponent {
         if(isLogin){
           this.navto({ url: '/packageA/pages/collects/index' })
         }else{
-          this.showToast('请先登录')
+           this.navto({
+            url:'/pages/login/index'
+          })
         }
         break;
       case 'mypost'://帖子
         if(isLogin){
           this.navto({ url: '/packageB/pages/my-post/index' })
         }else{
-          this.showToast('请先登录')
+           this.navto({
+            url:'/pages/login/index'
+          })
         }
         break;
       case 'question'://问答
         if(isLogin){
           this.navto({ url: '/packageA/pages/qa-list/index' })
         }else{
-          this.showToast('请先登录')
+           this.navto({
+            url:'/pages/login/index'
+          })
         }
         break;
       case 'family'://我的家
@@ -112,7 +119,9 @@ export default class ProfilePresenter extends BaseComponent {
             this.navto({ url: '/packageA/pages/profile-family/index' })
           }
         }else{
-          this.showToast('请先登录')
+           this.navto({
+            url:'/pages/login/index'
+          })
         }
         break;
 
@@ -120,7 +129,9 @@ export default class ProfilePresenter extends BaseComponent {
         if(isLogin){
           this.navto({ url: '/packageA/pages/profile-baby/index' })
         }else{
-          this.showToast('请先登录')
+           this.navto({
+            url:'/pages/login/index'
+          })
         }
         break;
       case 'share'://分享
@@ -130,7 +141,9 @@ export default class ProfilePresenter extends BaseComponent {
         if(isLogin){
           this.navto({ url: `/packageA/pages/profile-setting/index?headImg=${profileInfo.headImg}` })
         }else{
-          this.showToast('请先登录')
+           this.navto({
+            url:'/pages/login/index'
+          })
         }
         break;
       case 'about'://关于我们

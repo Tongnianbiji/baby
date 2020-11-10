@@ -555,6 +555,41 @@ export default class ProfileHomePresenter extends BaseComponent {
     })
   }
 
+  subScrUser = async (model)=>{
+    let {postLock,activeData} = this.state;
+    let preIndex = activeData.findIndex(item=>item.entity.userId === model.entity.userId)
+    if(!postLock){
+     if(model.entity.isSubscr){
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.cancelAttentionUser(model.entity.userId);
+       this.setState({
+         postLock:false
+       })
+       activeData[preIndex].entity.isSubscr = false
+       if(res){
+         this.showToast('已取消');
+       }
+     }else{
+       this.setState({
+         postLock:true
+       })
+       let res = await Model.attentionUser(model.entity.userId);
+       this.setState({
+         postLock:false
+       })
+       activeData[preIndex].entity.isSubscr = true
+       if(res){
+         this.showToast('已关注');
+       }
+     }
+    }
+    this.setState({
+      activeData:activeData
+    })
+   }
+
   getNickNameColor = (sex) => {
     if (sex === 'MALE') {
       return '#027AFF'

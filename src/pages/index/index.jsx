@@ -19,7 +19,7 @@ import './index.scss'
 @observer
 export default class Index extends HomePage {
   render() {
-    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isCollectMin, showAttentionLoading, isAttentionToBottom,isCollentMini,showNewInfoBar} = this.state;
+    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isCollectMin, showAttentionLoading, isAttentionToBottom,isCollentMini,showNewInfoBar,total,recommends,showRecommendLoading,isRecommendToBottom} = this.state;
     const {isGuide} = this.props.staticDataStore;
     return (
       <View className='home-page-viewport'>
@@ -40,8 +40,8 @@ export default class Index extends HomePage {
               <Text>搜索</Text>
             </View>
           </View>
-          <View className='notice-info' onLongPress={this.onLongPressForDebug.bind(this)}>
-            <AtBadge value={8}>
+          <View className='notice-info' onLongPress={this.onLongPressForDebug.bind(this)} onClick={this.goMessage.bind(this)}>
+            <AtBadge value={total?total : ''}>
               <Image src={iconRing} className='icon-ring'></Image>
             </AtBadge>
           </View>
@@ -63,7 +63,7 @@ export default class Index extends HomePage {
                         {
                           attentionUsers.map((item,key) => {
                             return (
-                              <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteAttention.bind(this,item)} onHandleSubscr={this.handleSubscrCircleAttention.bind(this,item)}></BehaviorCard>
+                              <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteAttention.bind(this,item)} onHandleSubscr={this.handleSubscrCircleAttention.bind(this,item)} onSubScrUser={this.subScrUser.bind(this,item)}></BehaviorCard>
                             )
                           })
                         }
@@ -77,11 +77,16 @@ export default class Index extends HomePage {
             <AtTabsPane current={currentTopTab} index={1} className='attention-tabs-pane'>
               <View className='user-item-wrapper'>
                 {
-                  [1, 2, 3, 4, 5].map(key => {
-                    return (
-                      <UserInfoItem key={key} needShared onShare={this.share.bind(this)}/>
-                    )
-                  })
+                    <View>
+                    {
+                      recommends.map((item,key) => {
+                        return (
+                          <UserInfoItem model={item.entity} activeModel={item} needShared></UserInfoItem>
+                        )
+                      })
+                    }
+                  <Preloading showLoading={showRecommendLoading} isToBottom={isRecommendToBottom}></Preloading>
+                  </View>
                 }
               </View>
             </AtTabsPane>

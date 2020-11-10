@@ -5,6 +5,7 @@
   background: $sys-page-bg;
   min-height: 100vh;
   padding: 24px 32px;
+  overflow: hidden;
 
   .item {
     @extend .flex-between;

@@ -182,7 +182,7 @@ export default class ProfileBabyAction extends Presenter {
         {
           <View>
             <View className='btn-wrapper'>
-              <View className='btn flex-center'>确认</View>
+              <View className='btn flex-center' onClick={this.onClickForCreate.bind(this)}>确认</View>
             </View>
           </View>
         }

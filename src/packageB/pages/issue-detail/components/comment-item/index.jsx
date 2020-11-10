@@ -12,7 +12,8 @@ import './index.scss'
 @observer
 export default class CommentItemView extends Component {
   static defaultProps = {
-    model: {}
+    model: {},
+    onHandleDelete:()=>{}
   }
 
   constructor(props) {
@@ -83,6 +84,12 @@ export default class CommentItemView extends Component {
     }
   }
 
+  handleDelete=(model)=>{
+    this.props.onHandleDelete(model)
+  }
+
+ 
+
 
   getNickNameColor = (sex)=>{
     if(sex === 'MALE'){
@@ -149,7 +156,7 @@ export default class CommentItemView extends Component {
             <Text className='times'>{FormaDate(createTime)}</Text>
           </View>
         </View>
-        <View className='answer'>
+        <View className='answer' onLongPress={this.handleDelete.bind(this,this.props.model)}>
           <View className='icon'>答</View>
           <View className='txt'>{content}</View>
         </View>

@@ -21,9 +21,8 @@ export default class ReplyMyPostView extends Presenter {
           <View>
             {
               replyData.map((item)=>{
-                // return (<PostItem onCardClick={this.handlePostDetail.bind(this,item.entityId)} model={item} closeRelease onlyReleaseTime isMyReply isShowTools={false}/>)
                 return(
-                  <NoticeCard onCardClick={this.handlePostDetail.bind(this,item.entity.pid)} type={''} isShowReleaseTime={false} data={item.entity} activeModel={item}/>
+                  <NoticeCard onCardClick={this.handlePostDetail.bind(this,item.entity.pid)} isOldQuestion tip={true} type={''} isShowReleaseTime={false} data={item.entity} activeModel={item}/>
                 )
               })
             }

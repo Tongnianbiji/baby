@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro'
 import React, { Component } from 'react'
-import { View, Text, Image,Button } from '@tarojs/components'
+import { View, Text, Image, Button } from '@tarojs/components'
 import FormaDate from '@common/formaDate'
 import { ICONS } from '../../constant'
 import Behaviors from '@common/utils/behaviors'
@@ -11,7 +11,7 @@ export default class UserInfoItem extends Component {
   static defaultProps = {
     // 数据
     model: {},
-    activeModel:{},
+    activeModel: {},
     // 是否显示 [分享] 按钮
     needShared: false,
     // 是否显示 [距离]
@@ -29,91 +29,111 @@ export default class UserInfoItem extends Component {
     // 是否只显示发布时间, 不显示发贴人信息
     onlyReleaseTime: false,
     // 是否为我的回复
-    isMyReply:false,
+    isMyReply: false,
     // 是否显示tools
-    isShowTools:true,
+    isShowTools: true,
     //是否需要点赞
-    needLike:false,
+    needLike: false,
 
     //排名临时
-    sortNum:1,
+    sortNum: 1,
+    kw: '',
 
     cardClick: () => { },
     onHandleFavorite: () => { },
-    onHandleLike:()=>{},
-    onShare:()=>{}
+    onHandleLike: () => { },
+    onShare: () => { }
   }
 
-  cardClick = (model,e) => {
+  highLight = (originTxt, kw) => {
+    if (!kw) {
+      kw = '济阳'
+    }
+    const reg = new RegExp(kw, 'gi');
+    const contentReg = /^_#_([^_#_]+)_#_$/;
+    const newList = [];
+    let c = 1;
+    originTxt.replace(reg, (matched) => `,_#_${matched}_#_,`).split(',').map(t => {
+      const isView = contentReg.test(t)
+      t && newList.push({
+        id: ++c,
+        type: isView ? 'view' : 'text',
+        value: isView ? t.match(contentReg)[1] : t
+      })
+    })
+    return newList;
+  }
+
+  cardClick = (model, e) => {
     e.stopPropagation();
-    if(model.pid){
+    if (model.pid) {
       Taro.navigateTo({
-        url:`/packageB/pages/post-detail/index?pid=${model.pid}`
+        url: `/packageB/pages/post-detail/index?pid=${model.pid}`
       })
     }
-    else if(model.qid){
+    else if (model.qid) {
       Taro.navigateTo({
-        url:`/packageB/pages/issue-detail/index?qid=${model.qid}`
+        url: `/packageB/pages/issue-detail/index?qid=${model.qid}`
       })
     }
-    else if(model.entity){
-      let {pid,qid} = model.entity;
-      if(pid){
+    else if (model.entity) {
+      let { pid, qid } = model.entity;
+      if (pid) {
         Taro.navigateTo({
-          url:`/packageB/pages/post-detail/index?pid=${pid}`
+          url: `/packageB/pages/post-detail/index?pid=${pid}`
         })
       }
-      else if(qid){
+      else if (qid) {
         Taro.navigateTo({
-          url:`/packageB/pages/issue-detail/index?qid=${qid}`
+          url: `/packageB/pages/issue-detail/index?qid=${qid}`
         })
       }
     }
   }
 
-  handleFavorite = (model,e) => {
+  handleFavorite = (model, e) => {
     e.stopPropagation();
     this.props.onHandleFavorite(model)
   }
 
-  handleLike = (model,e)=>{
+  handleLike = (model, e) => {
     e.stopPropagation();
     this.props.onHandleLike(model)
   }
 
-  getNickNameColor = (sex)=>{
-    if(sex === 'MALE'){
+  getNickNameColor = (sex) => {
+    if (sex === 'MALE') {
       return '#027AFF'
-    }else{
+    } else {
       return '#FF1493'
     }
   }
 
-  viewProfileInfo = (uid,e)=>{
+  viewProfileInfo = (uid, e) => {
     e.stopPropagation();
     Taro.navigateTo({
-      url:`/packageA/pages/profile-home/index?userId=${uid}`
+      url: `/packageA/pages/profile-home/index?userId=${uid}`
     })
   }
 
   viewCircleDetail = cid => {
-    if(!cid){
-      cid='10397889'
+    if (!cid) {
+      cid = '10397889'
     }
     Taro.navigateTo({
       url: `/packageA/pages/circle-detail/index?cid=${cid}`
     })
   }
 
-  share = (e)=>{
+  share = (e) => {
     e.stopPropagation();
     //this.props.onShare(model)
   }
 
 
   render() {
-    let { model,sortNum,activeModel,closeRelease } = this.props;
-    if(!activeModel.entity){
+    let { model, sortNum, activeModel, closeRelease, kw } = this.props;
+    if (!activeModel.entity) {
       closeRelease = true
     }
     // const { userSnapshot:{customLevel, headImg, nickName, } } = model;
@@ -121,17 +141,17 @@ export default class UserInfoItem extends Component {
       <View className='ui-user-info-item'>
         {this.props.children}
         <View className='main-wrapper'>
-          <View onClick={this.cardClick.bind(this,model)}>
+          <View onClick={this.cardClick.bind(this, model)}>
             {
-              
+
               <View className='release-info'>
-                 {!closeRelease && <Text className='release'>{`${activeModel.userSnapshot ? activeModel.userSnapshot.nickName : ''}${ activeModel.type ? Behaviors(activeModel.type) : ''} | ${activeModel.createAt ?  FormaDate(activeModel.createAt) : ''}`}</Text>}
+                {!closeRelease && <Text className='release'>{`${activeModel.userSnapshot ? activeModel.userSnapshot.nickName : ''}${activeModel.type ? Behaviors(activeModel.type) : ''} | ${activeModel.createAt ? FormaDate(activeModel.createAt) : ''}`}</Text>}
                 <View className='info'>
                   {
                     this.props.needDistance && <View className='distance-info'>0.9km</View>
                   }
                   {
-                    this.props.needShared && 
+                    this.props.needShared &&
                     <View onClick={this.share.bind(this)}>
                       <Button className='btn-share' openType="share" id={JSON.stringify(model)}>
                         <Image src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
@@ -151,13 +171,13 @@ export default class UserInfoItem extends Component {
                     <Text>{sortNum}</Text>
                   </View>
                 }
-                <View className='avatar' onClick={this.viewProfileInfo.bind(this,model.uid)}>
+                <View className='avatar' onClick={this.viewProfileInfo.bind(this, model.uid)}>
                   <Image src={model.userSnapshot && model.userSnapshot.headImg || '#'}></Image>
                 </View>
                 <View className='infos'>
                   <View className='name-area'>
                     <View className='is-not-text'>
-                      <View className='name' style={{color:this.getNickNameColor(model.userSnapshot && model.userSnapshot.sex || 'FEMALE')}}>{(model.userSnapshot && model.userSnapshot.nickName) || '李庭语妈妈'}</View>
+                      <View className='name' style={{ color: this.getNickNameColor(model.userSnapshot && model.userSnapshot.sex || 'FEMALE') }}>{(model.userSnapshot && model.userSnapshot.nickName) || '李庭语妈妈'}</View>
                     </View>
 
                     <Image className='sex' src={(model.userSnapshot && model.userSnapshot.sex) ? model.userSnapshot.sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON : ICONS.FEMALE_ICON}></Image>
@@ -185,7 +205,7 @@ export default class UserInfoItem extends Component {
                   <Text className='times'>{(model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</Text>
                 </View>
                 {
-                  this.props.needLike && <Image onClick={this.handleLike.bind(this,model)} className='btn-like' src={model.isLikes ? ICONS.FULLLIKE : ICONS.LIKE} alt=''></Image>
+                  this.props.needLike && <Image onClick={this.handleLike.bind(this, model)} className='btn-like' src={model.isLikes ? ICONS.FULLLIKE : ICONS.LIKE} alt=''></Image>
                 }
               </View>
             }
@@ -197,17 +217,40 @@ export default class UserInfoItem extends Component {
                 <View className='content answer-wrapper'>
                   <View className='answer'>
                     <View className='icon'>问</View>
-                    <View className='txt'>{model.title}</View>
+                    <View className='content'>
+                      {
+                        this.highLight(model.title, kw).map(t => {
+                          return (
+                            t.type === 'view' ?
+                              <View className='matched-txt' key={t.id}>{t.value}</View> :
+                              <Text key={t.id}>{t.value}</Text>
+                          )
+                        })
+                      }
+                    </View>
                   </View>
                   {
-                    model.content && 
+                    model.content &&
                     <View className='answer'>
                       <View className='icon'>答</View>
                       <View className='txt'>{model.content}</View>
                     </View>
                   }
-                  
-                </View> : <Text className='content'>{activeModel.title || model.title || model.content}</Text>
+
+                </View> : model.title ?
+                  <View className='content'>
+                    {
+                      this.highLight(model.title, kw).map(t => {
+                        return (
+                          t.type === 'view' ?
+                            <View className='matched-txt' key={t.id}>{t.value}</View> :
+                            <Text key={t.id}>{t.value}</Text>
+                        )
+                      })
+                    }
+                  </View>
+                  :
+                  <Text className='content'>{activeModel.content || model.content}</Text>
             }
             {
               this.props.isMyReply && model.title && <View className='content' style="color:#666666;;">原贴：{model.title}</View>
@@ -216,7 +259,7 @@ export default class UserInfoItem extends Component {
           <View className='tags'>
             {
               this.props.countryAble &&
-              <View className='community-area' onClick={this.viewCircleDetail.bind(this,model.cid)}>
+              <View className='community-area' onClick={this.viewCircleDetail.bind(this, model.cid)}>
                 {/* <Text className='community-name'>{(model && model.userSnapshot && model.userSnapshot.city  && `${model.userSnapshot.city} ${model.userSnapshot.country}`) || '上海 新城'}</Text> */}
                 <Text className='community-name'>{(model && model.cName && `${model.cName}`) || '备孕交流'}</Text>
               </View>
@@ -233,12 +276,11 @@ export default class UserInfoItem extends Component {
                   <Text>{model.replys || 0}</Text>
                 </View>
                 <View className='favorite'>
-                  <Image className='img' onClick={this.handleFavorite.bind(this,model)} src={model.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
+                  <Image className='img' onClick={this.handleFavorite.bind(this, model)} src={model.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
                   <Text>{model.markes || 0}</Text>
                 </View>
               </View>
             }
-            
           </View>
         </View>
       </View>

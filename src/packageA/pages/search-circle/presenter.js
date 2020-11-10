@@ -157,16 +157,25 @@ export default class Presenter extends BaseComponent {
 
   onTabChange = (id)=>{
     let sortType = {};
-    console.log(id)
+    const {kw} = this.state;
+    this.initList();
     switch(id){
       case 0:
         sortType={ _score:'desc'}
         break;
       case 1:
-        sortType={ location:'desc'}
+        if(kw){
+          sortType={ _score:'desc',location:'asc'}
+        }else{
+          sortType={location:'asc'}
+        }
         break;
       case 2:
-        sortType={ heat_rate:'desc'}
+        if(kw){
+          sortType={ _score:'desc',heat_rate:'desc'}
+        }else{
+          sortType={ heat_rate:'desc'}
+        }
         break;
       }
     this.setState({

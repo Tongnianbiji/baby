@@ -186,7 +186,8 @@ export default class CommentItem extends Component {
           <View className='like-btns'>
               <View className='btns-wrapper'>
                 <View className='like-btn' onClick={this.replyPost.bind(this, model)}>
-                    <Image src={ICONS.COMMENT} className='like-btn-img' />
+                    {/* <Image src={ICONS.COMMENT} className='like-btn-img' /> */}
+                    回复
                 </View>
                 <View className='like-btn' onClick={this.handleLike.bind(this, model)}>
                   <Image src={isLikes ? ICONS.FULLLIKE : ICONS.LIKE} className='like-btn-img' />

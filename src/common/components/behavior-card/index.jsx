@@ -46,7 +46,7 @@ export default class BehaviorCard extends Component {
         }
         {
           type === 4005 && 
-          <NoticeCard isShowUserInfo={false} ishowAvatar={false} isShowAnswer={false} isOldQuestion isShowQuestion={false} data={data.entity} activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} type='qa'></NoticeCard>
+          <NoticeCard isShowUserInfo={false} ishowAvatar={false} isOldQuestion isShowQuestion={false} data={data.entity} activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} type='qa'></NoticeCard>
         }
         {
           type === 3003 && 
@@ -70,7 +70,7 @@ export default class BehaviorCard extends Component {
         }
         {
           type === 2001 && 
-          <UserCard tip={''} model={data.entity} activeModel={data} isShowReleaseTime onSubscr={this.SubScrUser.bind(this)}></UserCard>
+          <UserCard tip={''} isShowTip={false} model={data.entity} activeModel={data} isShowReleaseTime onSubscr={this.SubScrUser.bind(this)}></UserCard>
         }
       </View>
     )

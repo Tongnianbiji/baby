@@ -38,7 +38,8 @@ export default class TypeTabsView extends Component {
       doubleClickLock:false,
       tabId:140200,
       hotTabType:1,
-      userTabType:1
+      userTabType:1,
+      isShowDistance:false
     }
     this.circleDetailStore = this.props.circleDetailStore;
   }
@@ -156,14 +157,16 @@ export default class TypeTabsView extends Component {
       tabId=140501;
       this.setState({
         tabId:140501,
-        userTabType:type+1
+        userTabType:type+1,
+        isShowDistance:false
       })
     }
     else if(type ===1){
       tabId=140502;
       this.setState({
         tabId:140502,
-        userTabType:type+1
+        userTabType:type+1,
+        isShowDistance:true
       })
     }
     getApp().sensors.registerApp({
@@ -240,6 +243,7 @@ export default class TypeTabsView extends Component {
 
   render() {
     const { circlePosts, circleEssence, circleQuestion,circleUser, listType, fixed, centerHeight, loadingPosts, loadingEssence, loadingQuestion, loadingUser, isToBottomPosts, isToBottomEssence, isToBottomQuestion, isToBottomUser,isCustomCircle} = this.circleDetailStore;
+    const {isShowDistance} = this.state;
     let newTypeTabs = isCustomCircle ? TypeTabs : TypeTabs.slice(0,5)
     return (
       <View className='type-tabs-view' onTouchStart={this.touchStart.bind(this)}>
@@ -302,7 +306,7 @@ export default class TypeTabsView extends Component {
             {
               circleUser.map((item, num) => {
                 return (
-                  <UserCard model={item} key={num} />
+                  <UserCard model={item} key={num} isShowDistance={isShowDistance}/>
                 )
               })
               }

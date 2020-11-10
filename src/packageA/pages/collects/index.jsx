@@ -5,7 +5,7 @@ import { View } from '@tarojs/components'
 import Presenter from './presenter'
 import Preloading from '@components/preloading'
 import PostCard from '@components/post-card'
-// import NoData from '@components/no-data'
+import NoticeCard from '@components/notice-card'
 import './index.scss'
 
 export default class CollectsView extends Presenter {
@@ -40,7 +40,17 @@ export default class CollectsView extends Presenter {
              <View>
                {
                  collectData.map((item)=>{
-                   return (<PostCard onCardClick={this.handlePostDetail.bind(this,item.pid)} onHandleFavorite={this.handleFavorite.bind(this)} model={item.entity} closeRelease needShared/>)
+                   return (
+                     <View>
+                       {item.type === 3005 &&
+                         <PostCard onCardClick={this.handlePostDetail.bind(this,item.pid)} onHandleFavorite={this.handleFavorite.bind(this)} model={item.entity} closeRelease needShared/>
+                       }
+                       {item.type === 4005 &&
+                        <NoticeCard isShowUserInfo={false} isShowReleaseTime={false} ishowAvatar={false} needShared isOldQuestion isShowQuestion={false} data={item.entity} activeModel={item} onHandleFavorite={this.handleFavorite.bind(this)} type='qa'></NoticeCard>
+                       }
+                     </View>
+                   
+                   )
                  })
                }
              <Preloading showLoading={showCollectLoading} isToBottom={isCollectToBottom}></Preloading>
@@ -54,7 +64,20 @@ export default class CollectsView extends Presenter {
              <View>
                {
                  likeData.map((item)=>{
-                   return (<PostCard onHandleLike={this.handleLike.bind(this)} onCardClick={this.handlePostDetail.bind(this,item.pid)} model={item.entity} isShowTools={false} isMyReply closeRelease needLike/>)
+                   
+                   return (
+                    <View>
+                      {
+                        item.type === 3008 &&
+                        <PostCard onHandleLike={this.handleLike.bind(this)} onCardClick={this.handlePostDetail.bind(this,item.pid)} activeModel={item} model={item.entity} isShowTools={false} isMyReply closeRelease needLike/>
+                      }
+                      {
+                        item.type === 4008 &&
+                        <NoticeCard data={item.entity} activeModel={item} needLike isShowReleaseTime={false} isShowUserInfo={false} ishowAvatar={false} isShowTools={false} isShowAnswer isOldQuestion isShowQuestion={false} onHandleLike={this.handleLike.bind(this)} type='qa'></NoticeCard>
+                      }
+                    </View>
+                    
+                   )
                  })
                }
              <Preloading showLoading={showLikeLoading} isToBottom={isLikeToBottom}></Preloading>

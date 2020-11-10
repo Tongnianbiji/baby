@@ -35,7 +35,7 @@ export default class QAListView extends Presenter {
              <View>
                {
                  answerData.map((item)=>{
-                   return (<NoticeCard isShowTime isShowUserInfo={false} ishowAvatar={false} isOldQuestion isShowQuestion={false} type='qa'  key={item.qid} onHandleFavorite={this.handleFavoriteAnswer.bind(this)} onNoticeClick={this.handlePostDetail.bind(this)} data={item.entity}/>)
+                   return (<NoticeCard isShowTime isShowUserInfo={false} ishowAvatar={false} isOldQuestion isShowQuestion={false} type='qa'  key={item.qid} onHandleFavorite={this.handleFavoriteAnswer.bind(this)} onNoticeClick={this.handlePostDetail.bind(this)} isShowReleaseTime={false} activeModel={item} data={item.entity}/>)
                  })
                }
              <Preloading showLoading={showAnswerLoading} isToBottom={isAnswerToBottom}></Preloading>

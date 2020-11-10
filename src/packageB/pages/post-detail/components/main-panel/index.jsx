@@ -4,13 +4,14 @@ import Taro from '@tarojs/taro'
 import { View, Image, Text, Button } from '@tarojs/components'
 import { ICONS } from '@common/constant'
 import { observer, inject } from 'mobx-react'
+import BaseComponent from '@common/baseComponent'
 import Model from '../../model'
 import  FormaDate from '@common/formaDate'
 
 import './index.scss'
 @inject('postDetail','staticDataStore')
 @observer
-export default class MainPanelComponent extends Component {
+export default class MainPanelComponent extends BaseComponent {
   static defaultProps = {
     info: {},
     onShare:()=>{}
@@ -40,9 +41,10 @@ export default class MainPanelComponent extends Component {
     updatePostFavoriteMarks(params)
   }
 
-  reply = () => {
+  reply = (e) => {
     const { getCurrentReplyPostData, detailData,updateCurrentplaceholder,updateFocusStatus,updateActiveFocusStatus,isToPostOwner,updateIsToPostOwnerStatus } = this.props.postDetail;
     const {isRegiste} = this.props.staticDataStore;
+    e.stopPropagation();
     if(isRegiste){
       Taro.navigateTo({
         url:'/packageB/pages/reply-post/index'
@@ -69,6 +71,37 @@ export default class MainPanelComponent extends Component {
       return '#027AFF'
     }else{
       return '#FF1493'
+    }
+  }
+
+  deletePost = (model)=>{
+    const {userId} = this.getUserInfo();
+    if(userId === model.uid){
+      Taro.showActionSheet({
+        itemList: ['删除'],
+        success: async (res)=> {
+          if(res.tapIndex == 0){
+            let r = await Model.deletePost(model.pid);
+            if(r){
+              Taro.showToast({
+                title:'删除成功',
+                icon:'success',
+                duration:2e3
+              })
+              Taro.navigateBack()
+            }else{
+              Taro.showToast({
+                title:'系统异常',
+                icon:'none',
+                duration:2e3
+              })
+            }
+          }
+        },
+        fail:(res)=> {
+          console.log(res.errMsg)
+        }
+      })
     }
   }
   
@@ -122,7 +155,7 @@ export default class MainPanelComponent extends Component {
               <Text className='times'>{FormaDate(createTime)}</Text>
             </View>
           </View>
-          <View onClick={this.reply.bind(this)}>
+          <View onClick={this.reply.bind(this)} onLongPress={this.deletePost.bind(this,this.props.postDetail.detailData)}>
             <View className='title'>{title}</View>
             <View className='content'>{content}</View>
           </View>
@@ -133,7 +166,7 @@ export default class MainPanelComponent extends Component {
                 <Image className='img' src={ICONS.PREVIEW} />
                 <Text>{views}</Text>
               </View>
-              <View className='comment'>
+              <View className='comment' onClick={this.reply.bind(this)}>
                 <Image className='img' src={ICONS.COMMENT} />
                 <Text>{replys}</Text>
               </View>

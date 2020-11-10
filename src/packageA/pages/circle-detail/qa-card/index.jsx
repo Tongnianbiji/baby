@@ -30,7 +30,7 @@ export default class QACardView extends Component {
   }
 
   render() {
-    const { title, views, replys, markes,qid,contnet } = this.props.model;
+    const { title, views, replys, markes,qid,answer } = this.props.model;
     const {model} = this.props;
     return (
       <View className='qa-card-view' onClick={this.cardClick.bind(this,qid)}>
@@ -44,10 +44,10 @@ export default class QACardView extends Component {
         </View>
 
        
-          { contnet && 
+          { answer && 
             <View className='anwser'>
               <View className='icon'>答</View>
-              <View className='txt' style="width:300px">{contnet}</View>
+              <View className='txt' style="width:300px">{answer}</View>
             </View>
           }
         

@@ -13,7 +13,8 @@ export default class Presenter extends BaseComponent {
       mark: 0,
       reply: 0,
       star: 0,
-      total:0
+      total:0,
+      chatList:Model.chatList
     }
   }
 
@@ -40,6 +41,16 @@ export default class Presenter extends BaseComponent {
         total:answer+funs+mark+reply+star
       })
     }
+  }
+
+  //删除某一个聊天
+  deleteChat = (chat)=>{
+    let {chatList} = this.state;
+    let preIndex = chatList.findIndex(item=>item.id === chat.id)
+    chatList.splice(preIndex,1);
+    this.setState({
+      chatList
+    })
   }
 
   tabChange = index => {

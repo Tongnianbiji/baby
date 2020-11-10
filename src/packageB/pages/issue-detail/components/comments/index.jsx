@@ -4,19 +4,21 @@ import { View, Image } from '@tarojs/components'
 import { observer, inject } from 'mobx-react'
 import { ICONS } from '@common/constant'
 import CommentItem from '../comment-item'
+import BaseComponent from '@common/baseComponent'
 import UITabs2 from '@components/ui-tabs2'
+import Model from '../../model'
 
 import './index.scss'
 
 const tabList = [
   { title: '热度', useable: true },
-  { title: '时间正序', useable: true },
-  { title: '时间倒序', useable: true }
+  { title: '最早', useable: true },
+  { title: '最晚', useable: true }
 ]
 
 @inject('issueDetailStore')
 @observer
-export default class CommentsView extends Component {
+export default class CommentsView extends BaseComponent {
   static defaultProps = {
     dataList: []
   }
@@ -35,6 +37,41 @@ export default class CommentsView extends Component {
     // this.setState({
     //   activeSortType: id
     // })
+  }
+
+  hanleDeleteReply= (model)=>{
+    const {userId} = this.getUserInfo();
+    const {qid,replyId} = model;
+    const {activeSortType} = this.state;
+    const { getAnswerList } = this.props.issueDetailStore;
+    if(userId === model.uid){
+      Taro.showActionSheet({
+        itemList: ['删除'],
+        success: async (res)=> {
+          if(res.tapIndex == 0){
+            let r = await Model.deleteReply(qid,replyId);
+            if(r){
+              await getAnswerList(activeSortType,qid);
+              this.render();
+              Taro.showToast({
+                title:'删除成功',
+                icon:'success',
+                duration:2e3
+              })
+            }else{
+              Taro.showToast({
+                title:'系统异常',
+                icon:'none',
+                duration:2e3
+              })
+            }
+          }
+        },
+        fail:(res)=> {
+          console.log(res.errMsg)
+        }
+      })
+    }
   }
 
   render() {
@@ -59,7 +96,7 @@ export default class CommentsView extends Component {
           {
             answerList.map((item,n)=>{
               return (
-                <CommentItem key={n} model={item.questionReplyBo}/>
+                <CommentItem key={n} model={item.questionReplyBo} onHandleDelete={this.hanleDeleteReply.bind(this)} />
               )
             })
           }

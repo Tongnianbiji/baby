@@ -1,18 +1,19 @@
 import Taro from '@tarojs/taro'
 import React from 'react'
 import { View, Image, Text } from '@tarojs/components'
-import { AtTabs, AtTabsPane } from 'taro-ui'
+import { AtTabs, AtTabsPane, AtSwipeAction } from 'taro-ui'
 import { ICONS } from '../../common/constant'
 import Presenter from './presenter'
 import './index.scss'
 
 export default class Index extends Presenter {
   render() {
-    const { currentTab,total,answer,
+    const { currentTab, total, answer,
       funs,
       mark,
       reply,
-      star } = this.state;
+      star,
+      chatList } = this.state;
     return (
       <View className='message-viewport'>
         {
@@ -25,7 +26,7 @@ export default class Index extends Presenter {
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-fans.png' className='icon' />
                 <Text className='txt'>粉丝</Text>
                 {
-                  !!funs && 
+                  !!funs &&
                   <View className="bubble">{funs}</View>
                 }
               </View>
@@ -33,7 +34,7 @@ export default class Index extends Presenter {
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-like.png' className='icon' />
                 <Text className='txt'>被收藏/获赞</Text>
                 {
-                  !!(mark + star) && 
+                  !!(mark + star) &&
                   <View className="bubble">{mark + star}</View>
                 }
               </View>
@@ -41,7 +42,7 @@ export default class Index extends Presenter {
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-posts.png' className='icon' />
                 <Text className='txt'>回贴</Text>
                 {
-                  !!reply && 
+                  !!reply &&
                   <View className="bubble">{reply}</View>
                 }
               </View>
@@ -49,7 +50,7 @@ export default class Index extends Presenter {
                 <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/m-quesion.png' className='icon' />
                 <Text className='txt'>回答</Text>
                 {
-                  !!answer && 
+                  !!answer &&
                   <View className="bubble">{answer}</View>
                 }
               </View>
@@ -70,30 +71,32 @@ export default class Index extends Presenter {
           <AtTabsPane className='message-tabs-pane' index={1} current={currentTab}>
             <View className='chat-list'>
               {
-                [{ name: '张三', txt: '哈喽, 打个招呼', id: 1 },
-                { name: '李四', txt: '哈喽, 打个招呼', id: 2 },
-                { name: '赵六', txt: '哈喽, 打个招呼', id: 3 },
-                { name: '张三', txt: '哈喽, 打个招呼', id: 4 },
-                { name: '王五', txt: '回复: 哈喽, 打个招呼', id: 5 },
-                { name: '张三', txt: '哈喽, 打个招呼', id: 6 },
-                { name: '张三', txt: '哈喽, 打个招呼', id: 7 },
-                { name: '张三', txt: '哈喽, 打个招呼', id: 8 },].map(item => {
+                chatList.map(item => {
                   return (
-                    <View className='chat-item' key={item.id} onClick={this.toIM.bind(this, item)}>
-                      <View className='avatar-wrapper'>
-                        <View className='avatar'></View>
-                      </View>
-                      <View className='contents'>
-                        <View className='ta-name'>
-                          <Text className='txt'>{item.name}</Text>
-                          <Text className='date'>04/05</Text>
+                    <AtSwipeAction className="chat-action" onClick={this.deleteChat.bind(this,item)} options={[
+                      {
+                        text: '删除',
+                        style: {
+                          backgroundColor: '#FF473A'
+                        }
+                      }
+                    ]}>
+                      <View key={item.id} className="chat-item" onClick={this.toIM.bind(this, item)}>
+                        <View className='avatar-wrapper'>
+                          <View className='avatar'></View>
                         </View>
-                        <View className='chat-line'>
-                          <Text className='chat'>{item.txt}</Text>
-                          <Image src='' className='icon-reply' />
+                        <View className='contents'>
+                          <View className='ta-name'>
+                            <Text className='txt'>{item.name}</Text>
+                            <Text className='date'>04/05</Text>
+                          </View>
+                          <View className='chat-line'>
+                            <Text className='chat'>{item.txt}</Text>
+                            <Image src='' className='icon-reply' />
+                          </View>
                         </View>
                       </View>
-                    </View>
+                    </AtSwipeAction>
                   )
                 })
               }

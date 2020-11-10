@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text, Image, Textarea, ScrollView } from '@tarojs/components'
+import {ICONS} from '@common/constant'
 import Presenter from './presenter'
 import './index.scss'
 
@@ -28,7 +29,12 @@ export default class MessageIMView extends Presenter {
                         <View className="chat-box-item-right">
                           <View className="chat-box-item-right-content">
                             <View className="nickname">{item.nickName}</View>
-                            <Text selectable className="content">{item.content}</Text>
+                            <View selectable={true} className="content">{item.content}
+                            {
+                              item.isBlock &&
+                              <Image className="block" src={ICONS.BLOCK}></Image>
+                            }
+                            </View>
                           </View>
                           <Image className="chat-box-item-right-img" onClick={this.viewProfileInfo.bind(this,item.uid)} src={item.headImg}></Image>
                         </View>
@@ -37,7 +43,7 @@ export default class MessageIMView extends Presenter {
                           <Image className="chat-box-item-left-img" src={item.headImg}></Image>
                           <View className="chat-box-item-left-content">
                             <View className="nickname">{item.nickName}</View>
-                            <Text selectable className="content">{item.content}</Text>
+                            <Text selectable={true} className="content">{item.content}</Text>
                           </View>
                         </View>
                     }

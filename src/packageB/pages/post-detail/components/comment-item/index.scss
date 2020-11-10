@@ -90,19 +90,20 @@
         align-items: center;
         float: right;
         width: 180px;
-        justify-content: space-between;
+        //justify-content: space-between;
         .like-btn {
           font-size: 20px;
           color: #999;
+          margin-right: 20px;
           .like-btn-img {
             width: 24px;
             height: 24px;
             margin-right: 6px;
           }
           
-          &:nth-child(1) {
-            margin-right: 20px;
-          }
+          // &:nth-child(1) {
+          //   margin-right: 20px;
+          // }
         }
       }
     }

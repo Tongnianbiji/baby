@@ -60,10 +60,10 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
     this.navto({ url: `/packageA/pages/profile-baby-detail/index?id=${id}` })
   }
 
-  onClickForCreate() {
-    Model.childCreate();
-    // Model.searchSchool();
-  }
+  // onClickForCreate() {
+  //   Model.childCreate();
+  //   // Model.searchSchool();
+  // }
 
   //创建宝宝小名
   createBabyNickname = ()=>{
@@ -131,11 +131,17 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
         }
         break;
       case 1:
-        if(preBornDate){
+        if(preBornDate !== '请选择'){
           this.setState({
             canSave:true
           })
         }
+        break;
+      case 2:
+        this.setState({
+          canSave:true
+        })
+        break;
     }
     
     return this.state.canSave
@@ -143,6 +149,7 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
   //确认提交
   onClickForCreate = async ()=>{
     let {babyNickname,babySchool,babyBorn,sex,yearState,tabsCurrent, checkHospital,planHospital,preBornDate,grade} = this.state;
+    console.log('创建宝宝',tabsCurrent)
     if(this.isCanSave()){
       switch(tabsCurrent){
         case 0:

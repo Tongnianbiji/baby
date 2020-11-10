@@ -12,6 +12,7 @@ export default class CircleItem extends Component {
     isShowReleaseTime:false,
     // 是否在最上方显示 [可能感兴趣] 一栏
     recommand: false,
+    isShowDistance:false,
     kw: '济阳',
     onHandleSubscr:()=>{}
   }
@@ -63,8 +64,7 @@ export default class CircleItem extends Component {
   }
 
   render() {
-    const {data,data:{cid,uid,description,leaf,imgUrl,name,posts,questions,subscribe,isSubscribe},kw,activeModel,isShowReleaseTime} = this.props;
-    let newTitle = null;
+    const {isShowDistance,data,data:{cid,uid,description,leaf,imgUrl,name,posts,questions,subscribe,isSubscribe},kw,activeModel,isShowReleaseTime} = this.props;
     return (
       <View className='search-circle-item' onClick={this.gotoCircleDetail.bind(this,data)}>
         {
@@ -94,6 +94,10 @@ export default class CircleItem extends Component {
                   })
                 }
               </View>
+              {
+                isShowDistance && 
+              <View style="color:#999;font-size:13px;margin-right:5px;">{data.distance}</View>
+              }
               <View onClick={this.handleSubscr.bind(this,data)} className={`btn ${isSubscribe? 'btn-attentioned' : ''}`}>{isSubscribe  ? '已加入' : '加入'}</View>
             </View>
               <Text className='subtitle'>简介: {description}</Text>

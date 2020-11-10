@@ -11,7 +11,8 @@ const typeMap = {
   [SearchResultType.ANSWER]: '问答',
   [SearchResultType.CIRCLE]: '圈子',
   [SearchResultType.POST]: '帖子',
-  [SearchResultType.ESSENCE]: '精华'
+  [SearchResultType.ESSENCE]: '精华',
+  [SearchResultType.USER]:'用户'
 }
 
 export default class SearchResultGroupCard extends Component {
@@ -207,15 +208,15 @@ export default class SearchResultGroupCard extends Component {
                   <View className='tips'>
                     <View className='views'>
                       <Image className='img' src={ICONS.PREVIEW} />
-                      <Text>12</Text>
+                      <Text>{item.views}</Text>
                     </View>
                     <View className='comment'>
                       <Image className='img' src={ICONS.COMMENT} />
-                      <Text>12</Text>
+                      <Text>{item.replys}</Text>
                     </View>
                     <View className='favorite'>
                       <Image className='img' src={ICONS.FAVORITE} />
-                      <Text>12</Text>
+                      <Text>{item.markes}</Text>
                     </View>
                   </View>
                 </View>
@@ -278,15 +279,15 @@ export default class SearchResultGroupCard extends Component {
                   <View className='tips'>
                     <View className='views'>
                       <Image className='img' src={ICONS.PREVIEW} />
-                      <Text>12</Text>
+                      <Text>{item.views}</Text>
                     </View>
                     <View className='comment'>
                       <Image className='img' src={ICONS.COMMENT} />
-                      <Text>12</Text>
+                      <Text>{item.replys}</Text>
                     </View>
                     <View className='favorite'>
                       <Image className='img' src={ICONS.FAVORITE} />
-                      <Text>12</Text>
+                      <Text>{item.markes}</Text>
                     </View>
                   </View>
                 </View>
@@ -295,6 +296,62 @@ export default class SearchResultGroupCard extends Component {
           })
         }
       </View>
+    )
+  }
+
+
+  renderUser() {
+    const { model, kw} = this.props;
+    return (
+      model && !!model.length &&
+          model.slice(0, 2).map(item=>{
+            return(
+              <View className="wrapper" onClick={this.viewProfileInfo.bind(this, item.userId)}>
+              <View className='ui-user-info-card'>
+                <View className='avatar-wrapper'>
+                  <View className='avatar'>
+                    <Image src={item.headImg}></Image>
+                  </View>
+                </View>
+                <View className='info-wrapper'>
+                  <View className='name-area'>
+                    {/* <Text className='name' style={{ color: this.getNickNameColor(item.sex || 'FEMALE') }}>{item.nickName}</Text> */}
+                    <View className='name'>
+                    {
+                      this.highLight(item.nickName, kw).map(t => {
+                        return (
+                          t.type === 'view' ?
+                            <View className='matched-txt' key={t.id}>{t.value}</View> :
+                            <Text key={t.id}>{t.value}</Text>
+                        )
+                      })
+                    }
+                  </View>
+                    <Image className='sex' src={item.sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
+                    <View className='tags-warpper'>
+                      <View className='tag'>{`${item.city} ${item.country}`}</View>
+                      {
+                        [1,2].map(item=>{
+                          return(
+                            <View className='tag'>大宝:两岁一个月</View>
+                          )
+                        })
+                      }
+                    </View>
+      
+                  </View>
+                  <View className='sub-title'>{item.signature}</View>
+                  <View className='nubmers'>
+                    <View className='num'>粉丝: {item.funs}</View>
+                    <View className='num'>发布: {item.post}</View>
+                    <View className='num'>收藏: {item.flow}</View>
+                  </View>
+                </View>
+                <View className={`btn-attention${item.isSubscr ? ' attentioned' : ''}`}>{item.isSubscr ? '已关注' : '关注'}</View>
+              </View>
+            </View>
+            )
+          })
     )
   }
 
@@ -318,8 +375,9 @@ export default class SearchResultGroupCard extends Component {
               this.props.type === SearchResultType.ANSWER ?
                 this.renderAnswer() :
                 this.props.type === SearchResultType.CIRCLE ?
-                  this.renderCircle() :
-                  this.renderPost()
+                  this.renderCircle() : 
+                  this.props.type === SearchResultType.POST ?
+                  this.renderPost() : this.renderUser()
             }
           </View>
         }

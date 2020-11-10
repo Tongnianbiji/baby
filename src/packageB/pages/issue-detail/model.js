@@ -98,6 +98,17 @@ export default {
     }else{
       return false
     }
-    
+  },
+  async deleteQuestion(qid) {
+    let params = {
+      qid
+    }
+    const ret = await req.postWithToken('/question/delete', params)
+    const d = req.standardResponse(ret);
+    if(d.code === 0){
+      return true
+    }else{
+      return false
+    }
   },
 }

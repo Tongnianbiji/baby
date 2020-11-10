@@ -64,6 +64,7 @@ export default class Presenter extends BaseComponent {
     switch(searchScope){
       case 'all':
         index = {
+          [SearchResultType.USER]: 4,
           [SearchResultType.CIRCLE]: 3,
           [SearchResultType.ANSWER]: 2,
           [SearchResultType.POST]: 1

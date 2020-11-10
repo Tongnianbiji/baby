@@ -9,8 +9,8 @@ page {
   font-family:PingFangSC-Regular,PingFang SC;
   font-weight: 400;
   .mark{
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
     background-color: #FF473A;
     position: fixed;
     border-radius: 50%;
@@ -18,22 +18,22 @@ page {
     left: 244px;
     z-index: 999;
     color:#ffffff;
-    font-size: 16px;
-    line-height: 25px;
+    font-size: 20px;
+    line-height: 35px;
     text-align: center;
   }
   .star{
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
     background-color: #FF473A;
     position: fixed;
     border-radius: 50%;
     top:20px;
-    right:124px;
+    right:114px;
     z-index: 999;
     color:#ffffff;
-    font-size: 16px;
-    line-height: 25px;
+    font-size: 20px;
+    line-height: 35px;
     text-align: center;
   }
   .at-tabs{

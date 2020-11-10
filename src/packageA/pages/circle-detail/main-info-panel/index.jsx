@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Taro, {getCurrentInstance} from '@tarojs/taro'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { observer, inject } from 'mobx-react'
 import { View, Image, Swiper, SwiperItem } from '@tarojs/components'
 import DTO from '../../../../common/localStorage'
@@ -45,29 +45,29 @@ class MainInfoPanel extends Component {
   }
 
   //查看父圈子
-  viewParentCircle=(cid)=>{
+  viewParentCircle = (cid) => {
     Taro.navigateTo({ url: `/packageA/pages/circle-detail/index?cid=${cid}` })
   }
   //查看子圈子
-  viewChildCircles = (cid)=>{
+  viewChildCircles = (cid) => {
     Taro.navigateTo({ url: `/packageA/pages/circle-detail/index?cid=${cid}` })
   }
 
   //查看更多父圈子
-  viewMoreParentCircles = (cid)=> {
-    const {name } = this.$store.detailInfo
+  viewMoreParentCircles = (cid) => {
+    const { name } = this.$store.detailInfo
     Taro.navigateTo({ url: `/packageA/pages/more-circle/index?cid=${cid}&cname=${name}&circleType=parent` })
   }
 
   //查看更多子圈子
-  viewMoreChildCircles = (cid)=>{
-    const { leaf,name } = this.$store.detailInfo
+  viewMoreChildCircles = (cid) => {
+    const { leaf, name } = this.$store.detailInfo
     Taro.navigateTo({ url: `/packageA/pages/more-circle/index?cid=${cid}&cname=${name}&circleType=${leaf ? 'sibling' : 'child'}` })
   }
 
   render() {
     const {
-      detailInfo: {description, name, imgUrl, subscribe, posts, questions,cid },
+      detailInfo: { description, name, imgUrl, subscribe, posts, questions, cid },
       parentCircles,
       childCircles,
       topPosts,
@@ -75,7 +75,7 @@ class MainInfoPanel extends Component {
       parentCirclesLength,
       childCirclesLength
     } = this.$store
-    
+
     return (
       <View className='main-info-panel'>
         { /* 头像, 名称, 按钮 */}
@@ -111,38 +111,42 @@ class MainInfoPanel extends Component {
           <View>问答:{questions}</View>
         </View>
         {/* 圈子列表 */}
-        <View className='circle-list'>
-          {
-            parentCircles.slice(0,1).map(circle => (
-              <View className={['circle-item', parentCircles.length <=1 && 'last-parent-one']} key={circle.cid} onClick={this.viewParentCircle.bind(this,circle.cid)}>
-                <View className='avatar'>{circle.imgUrl && <Image src={circle.imgUrl} className='avatar-img' />}</View>
-                <View className='name'>{circle.name}</View>
+        {
+          (!!parentCircles.length || !!parentCircles.length || !!childCircles.length) &&
+          <View className='circle-list'>
+            {
+              parentCircles.slice(0, 1).map(circle => (
+                <View className={['circle-item', parentCircles.length <= 1 && 'last-parent-one']} key={circle.cid} onClick={this.viewParentCircle.bind(this, circle.cid)}>
+                  <View className='avatar'>{circle.imgUrl && <Image src={circle.imgUrl} className='avatar-img' />}</View>
+                  <View className='name'>{circle.name}</View>
+                </View>
+              ))
+            }
+            {
+              parentCircles.length > 1 &&
+              <View className='circle-item last-parent-one' onClick={this.viewMoreParentCircles.bind(this, cid)}>
+                <View className='avatar'>{parentCirclesLength}</View>
+                <View className='name'>父圈子</View>
               </View>
-            ))
-          }
-          {
-            parentCircles.length > 1 &&
-            <View className='circle-item last-parent-one' onClick={this.viewMoreParentCircles.bind(this,cid)}>
-              <View className='avatar'>{parentCirclesLength}</View>
-              <View className='name'>父圈子</View>
-            </View>
-          }
-          {
-            childCircles.slice(0,3).map(circle => (
-              <View className='circle-item small-item' key={circle.cid} onClick={this.viewChildCircles.bind(this,circle.cid)}>
-                <View className='avatar'>{circle.imgUrl && <Image src={circle.imgUrl} className='avatar-img' />}</View>
-                <View className='name'>{circle.name}</View>
+            }
+            {
+              childCircles.slice(0, 3).map(circle => (
+                <View className='circle-item small-item' key={circle.cid} onClick={this.viewChildCircles.bind(this, circle.cid)}>
+                  <View className='avatar'>{circle.imgUrl && <Image src={circle.imgUrl} className='avatar-img' />}</View>
+                  <View className='name'>{circle.name}</View>
+                </View>
+              ))
+            }
+            {
+              childCircles.length > 3 &&
+              <View className='circle-item small-item' onClick={this.viewMoreChildCircles.bind(this, cid)}>
+                <View className='avatar'>{childCirclesLength}</View>
+                <View className='name'>子圈子</View>
               </View>
-            ))
-          }
-          {
-            childCircles.length > 3 &&
-            <View className='circle-item small-item'  onClick={this.viewMoreChildCircles.bind(this,cid)}>
-              <View className='avatar'>{childCirclesLength}</View>
-              <View className='name'>子圈子</View>
-            </View>
-          }
-        </View>
+            }
+          </View>
+        }
+
         {/* 公告列表 */}
         {
           topPosts.length ?

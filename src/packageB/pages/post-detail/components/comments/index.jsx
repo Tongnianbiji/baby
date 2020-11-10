@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import { ICONS } from '@common/constant'
 import CommentItem from '../comment-item'
+import BaseComponent from '@common/baseComponent'
 import { observer, inject } from 'mobx-react'
 import UITabs2 from '@components/ui-tabs2'
 import Model from '../../model'
@@ -10,12 +11,12 @@ import './index.scss'
 
 const tabList = [
   { title: '热度', useable: true },
-  { title: '时间正序', useable: true },
-  { title: '时间倒序', useable: true }
+  { title: '最早', useable: true },
+  { title: '最晚', useable: true }
 ]
 @inject('postDetail')
 @observer
-export default class CommentsView extends Component {
+export default class CommentsView extends BaseComponent {
   static defaultProps = {
     dataList: [],
     replys: 0,
@@ -70,35 +71,38 @@ export default class CommentsView extends Component {
   }
 
   hanleDeleteReply= (model)=>{
-    const {pid,replyId} = model;
+    const {userId} = this.getUserInfo();
+    const {pid,replyId,uid} = model;
     const {activeSortType} = this.state;
     const { getReplyList } = this.props.postDetail;
-    Taro.showActionSheet({
-      itemList: ['删除'],
-      success: async (res)=> {
-        if(res.tapIndex == 0){
-          let r = await Model.deleteReply(pid,replyId);
-          if(r){
-            getReplyList(activeSortType,pid);
-            this.render();
-            Taro.showToast({
-              title:'删除成功',
-              icon:'success',
-              duration:2e3
-            })
-          }else{
-            Taro.showToast({
-              title:'系统异常',
-              icon:'none',
-              duration:2e3
-            })
+    if(userId === uid){
+      Taro.showActionSheet({
+        itemList: ['删除'],
+        success: async (res)=> {
+          if(res.tapIndex == 0){
+            let r = await Model.deleteReply(pid,replyId);
+            if(r){
+              getReplyList(activeSortType,pid);
+              this.render();
+              Taro.showToast({
+                title:'删除成功',
+                icon:'success',
+                duration:2e3
+              })
+            }else{
+              Taro.showToast({
+                title:'系统异常',
+                icon:'none',
+                duration:2e3
+              })
+            }
           }
+        },
+        fail:(res)=> {
+          console.log(res.errMsg)
         }
-      },
-      fail:(res)=> {
-        console.log(res.errMsg)
-      }
-    })
+      })
+    }
   }
 
   // 不支持递归渲染

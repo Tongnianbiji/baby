@@ -37,7 +37,7 @@ export default class MyPostView extends Presenter {
              <View>
                {
                  replyData.map((item)=>{
-                   return (<PostItem onCardClick={this.handlePostDetail.bind(this,item.entityId)} model={item} closeRelease onlyReleaseTime isMyReply isShowTools={false}/>)
+                   return (<PostItem onCardClick={this.handlePostDetail.bind(this,item.entityId)} model={item.entity} closeRelease onlyReleaseTime isMyReply activeModel={item} isShowTools={false}/>)
                  })
                }
              <Preloading showLoading={showReplyLoading} isToBottom={isReplyToBottom}></Preloading>

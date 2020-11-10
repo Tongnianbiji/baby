@@ -41,6 +41,7 @@ export default class HomeSearchView extends Presenter {
                           { type: SearchResultType.POST, id: '34234' ,data:postResult},
                           { type: SearchResultType.ANSWER, id: '54334',data: questionResult},
                           { type: SearchResultType.CIRCLE, id: '12423' ,data:circleResult},
+                          { type: SearchResultType.USER, id: '12523' ,data:userResult},
                         ].map(item => {
                           return (<SearchResultCard type={item.type} kw={searchValue} model={item.data} key={item.id} onMore={this.onMore} />)
                         })
@@ -54,7 +55,7 @@ export default class HomeSearchView extends Presenter {
                           {
                             postResult.map((item, n) => {
                               return (
-                                <PostCard closeRelease model={item} key={n}>
+                                <PostCard closeRelease model={item} kw={searchValue} key={n}>
                                 </PostCard>
                               )
                             })
@@ -71,7 +72,7 @@ export default class HomeSearchView extends Presenter {
                           {
                              questionResult.map((item,n) => {
                               return (
-                                <PostCard needShared closeRelease key={n} model={item} isAnwser>
+                                <PostCard needShared closeRelease key={n} model={item} kw={searchValue} isAnwser>
                                 </PostCard>
                               )
                             })
@@ -92,7 +93,7 @@ export default class HomeSearchView extends Presenter {
                     <AtTabsPane index={4} className='tabs-pane' current={currentTopTab}>
                       {
                         currentTopTab === 4 && !!userResult.length &&
-                        userResult.map((item,n) => <UserInfoCard model={item} activeModel={item} key={n} />)
+                        userResult.map((item,n) => <UserInfoCard model={item} activeModel={item} key={n} kw={searchValue}/>)
                       }
                     </AtTabsPane>
                   </AtTabs> :

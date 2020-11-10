@@ -46,5 +46,18 @@ export default {
     } else {
       return false
     }
+  },
+
+  async isBlockFriend(forbid) {
+    let params = {
+      forbid
+    }
+    const ret = await request.postWithToken('/block/check', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0 && data.data) {
+      return true
+    } else {
+      return false
+    }
   }
 }

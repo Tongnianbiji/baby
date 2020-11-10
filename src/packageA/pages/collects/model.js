@@ -64,6 +64,34 @@ export default {
     }
   },
 
+  async likeQuestion(qid,replyId) {
+    let params = {
+      qid,
+      replyId
+    }
+    const ret = await req.postWithToken('/question/like', params)
+    const data = req.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async cancelLikeQuestion(qid,replyId) {
+    let params = {
+      qid,
+      replyId
+    }
+    const ret = await req.postWithToken('/question/like/cancel', params)
+    const data = req.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
   async markPost(pid) {
     let params = {
       pid
@@ -88,5 +116,31 @@ export default {
     } else {
       return false
     }
-  }
+  },
+
+  async cancelMarkQuestion(qid) {
+    let params = {
+     qid
+    }
+    const ret = await req.postWithToken('/question/mark/cancel', params)
+    const data = req.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async markQuestion(qid) {
+    let params = {
+     qid
+    }
+    const ret = await req.postWithToken('/question/mark', params)
+    const data = req.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
 }

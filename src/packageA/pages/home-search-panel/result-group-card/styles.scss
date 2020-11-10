@@ -248,4 +248,122 @@
       }
     }
   }
+  .anwser-part-wrapper:not(:last-child){
+    border-bottom: 20px solid #f5f5f5;
+  }
+  .post-part-wrapper:not(:last-child){
+    border-bottom: 20px solid #f5f5f5;
+  }
+}
+
+
+.wrapper{
+  padding: 24px;
+  background:rgba(255,255,255,1);
+  border-radius:16px;
+  margin-top: 24px;
+  .behavior{
+    font-size: 24px;
+    color: #999999;
+  }
+  position: relative;
+.ui-user-info-card {
+  display: flex;
+  position: relative;
+  .avatar-wrapper {
+    width: 100px;
+    padding-top: 2px;
+    .avatar {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      background: #eee;
+      overflow: hidden;
+      image{
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .info-wrapper {
+    padding-left: 24px;
+    .name-area {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 400px;
+      .name {
+        color: #3D3AFF;
+        font-size: 28px;
+        //width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        .matched-txt {
+          color: #FF473A;
+          margin-right: 10px;
+          display: inline-block;
+        }
+      }
+      .sex {
+        width: 26px;
+        height: 24px;
+        margin: 0 8px 0 10px;
+      }
+      .tags-warpper {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        .tag {
+          color: #666;
+          font-size: 24px;
+          padding: 0 16px;
+          height: 36px;
+          line-height: 36px;
+          background: #e9e9e9;
+          border-radius: 18px;
+          margin-right: 10px;
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    .sub-title {
+      padding-top: 16px;
+      color: #999;
+      font-size: 24px;
+    }
+    
+    .nubmers {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 29px;
+      width: 470px;
+      .num {
+        color: #666;
+        font-size: 24px;
+        text-align: center;
+      }
+    }
+  }
+}
+}
+
+
+.btn-attention {
+position: absolute;
+top: 0;
+right: -10px;
+background:linear-gradient(270deg,rgba(255,71,58,1) 0%,rgba(255,138,99,1) 100%);
+border-radius:30px;
+height: 48px;
+line-height: 48px;
+padding: 0;
+width: 120px;
+text-align: center;
+font-size: 28px;
+color: #fff;
+&.attentioned {
+  opacity: .5;
+}
 }

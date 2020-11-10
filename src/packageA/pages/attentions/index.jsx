@@ -9,14 +9,14 @@ import './index.scss'
 export default class AttentionsView extends Presenter {
  
   render() {
-    const { listData } = this.state;
+    const { listData,isSelf } = this.state;
     return (
       <View className='fans-vewport'>
         {
           listData.length ?
           listData.map((item, n) => {
               return (
-                <UserCard tip='关注' onGetUserDetail={this.getUserDetail.bind(this,item)} onSubscr={this.handleSubscr.bind(this)} model={item}></UserCard>
+                <UserCard tip='关注' isShowTip={isSelf} onGetUserDetail={this.getUserDetail.bind(this,item)} onSubscr={this.handleSubscr.bind(this)} model={item}></UserCard>
               )
             }) : null
         }

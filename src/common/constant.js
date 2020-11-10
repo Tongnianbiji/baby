@@ -12,6 +12,7 @@ import USER from '@ass/img/user.png'
 import DROP from '@ass/img/drop.gif'
 import ADD from '@ass/img/add.png'
 import BACK from '@ass/img/back.png'
+import BLOCK from '@ass/img/block.png'
 
 export const ICONS = {
   SHARE_BTN_GRAY: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/share-c.png',
@@ -62,7 +63,8 @@ export const ICONS = {
   USER:USER,
   DROP:DROP,
   ADD:ADD,
-  BACK:BACK
+  BACK:BACK,
+  BLOCK:BLOCK
 }
 
 
