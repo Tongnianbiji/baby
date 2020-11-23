@@ -91,6 +91,7 @@ export default class Presenter extends BaseComponent {
       })
       this.showNavLoading()
       Model.getCity(record.code, 'province').then(({ code, data }) => {
+        console.log('****',record,record.code)
         if (code === 0) {
           prevData[1].useable = true
           this.setState({

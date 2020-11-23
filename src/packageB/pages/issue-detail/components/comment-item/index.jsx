@@ -5,6 +5,7 @@ import { View, Image, Text } from '@tarojs/components'
 import { ICONS } from '@common/constant'
 import FormaDate from '@common/formaDate'
 import Model from '../../model'
+import staticData from '@src/store/common/static-data'
 
 import './index.scss'
 
@@ -25,6 +26,7 @@ export default class CommentItemView extends Component {
 
   handleLike = async(model, e) => {
     e.stopPropagation();
+    const {isLogin} = staticData;
     let { answerList, updateAnswerListIsLike } = this.props.issueDetailStore;
     let {postLock} = this.state;
     let preIndex = answerList.findIndex(item=>item.questionReplyBo.qid === model.qid && item.questionReplyBo.replyId === model.replyId);
@@ -33,29 +35,35 @@ export default class CommentItemView extends Component {
       isLikes:true,
       preIndex
     }
-    console.log()
     const { qid, replyId } = answerList[preIndex].questionReplyBo;
-    if(!postLock){
-      if (!answerList[preIndex].questionReplyBo.isDislikes) {
-        if (answerList[preIndex].questionReplyBo.isLikes) {
-          params.likes = -1;
-          params.isLikes = false;
-          const d = await Model.questionLikeCancel(qid, replyId);
-        } else {
-          const d = await Model.questionLike(qid, replyId);
+    if(isLogin){
+      if(!postLock){
+        if (!answerList[preIndex].questionReplyBo.isDislikes) {
+          if (answerList[preIndex].questionReplyBo.isLikes) {
+            params.likes = -1;
+            params.isLikes = false;
+            const d = await Model.questionLikeCancel(qid, replyId);
+          } else {
+            const d = await Model.questionLike(qid, replyId);
+          }
+          Taro.vibrateShort();
+          Taro.showToast({
+            title:`点赞${params.likes}`,
+            icon:'none'
+          })
+          updateAnswerListIsLike(params)
         }
-        Taro.vibrateShort();
-        Taro.showToast({
-          title:`点赞${params.likes}`,
-          icon:'none'
-        })
-        updateAnswerListIsLike(params)
       }
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
     }
   }
 
   handleDisLike = async (model, e) => {
     e.stopPropagation();
+    const {isLogin} = staticData;
     let { answerList, updateAnswerListIsDislike } = this.props.issueDetailStore;
     let {postLock} = this.state;
     let preIndex = answerList.findIndex(item=>item.questionReplyBo.qid === model.qid && item.questionReplyBo.replyId === model.replyId);
@@ -65,22 +73,28 @@ export default class CommentItemView extends Component {
       preIndex
     }
     const { qid, replyId } = answerList[preIndex].questionReplyBo;
-    if(!postLock){
-      if (!answerList[preIndex].questionReplyBo.isLikes) {
-        if (answerList[preIndex].questionReplyBo.isDislikes) {
-          params.dislikes = -1;
-          params.isDislikes = false;
-          const d = await Model.questionDislikeCancel(qid, replyId);
-        } else {
-          const d = await Model.questionDislike(qid, replyId);
+    if(isLogin){
+      if(!postLock){
+        if (!answerList[preIndex].questionReplyBo.isLikes) {
+          if (answerList[preIndex].questionReplyBo.isDislikes) {
+            params.dislikes = -1;
+            params.isDislikes = false;
+            const d = await Model.questionDislikeCancel(qid, replyId);
+          } else {
+            const d = await Model.questionDislike(qid, replyId);
+          }
+          Taro.vibrateShort();
+          Taro.showToast({
+            title:`点踩${params.dislikes}`,
+            icon:'none'
+          })
+          updateAnswerListIsDislike(params)
         }
-        Taro.vibrateShort();
-        Taro.showToast({
-          title:`点踩${params.dislikes}`,
-          icon:'none'
-        })
-        updateAnswerListIsDislike(params)
       }
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
     }
   }
 

@@ -57,7 +57,7 @@ export default class Presenter extends BaseComponent {
     this.setState({
       postLock:false
     })
-    if(res && res.items && res.items.length){
+    if(res && res.items){
       const {total,items} = res;
       if (!listData.length) {
         this.setState({
@@ -69,7 +69,7 @@ export default class Presenter extends BaseComponent {
           listData:pre.listData.concat(items || [])
         }))
       }
-      if (total <= this.state.listData.length) {
+      if (!total || total <= this.state.listData.length) {
         this.setState({
           showLoading:false,
           isToBottom:true
@@ -83,9 +83,9 @@ export default class Presenter extends BaseComponent {
   //关注/取消
   handleSubscr = async (model)=>{
     let {postLock,listData} = this.state;
-    let preIndex = listData.findIndex(item=>item.userId === model.userId)
+    let preIndex = listData.findIndex(item=>item.userInfo.userId === model.userId)
     if(!postLock){
-     if(model.isSubscr){
+     if(model.isSubscribe){
        this.setState({
          postLock:true
        })
@@ -93,7 +93,7 @@ export default class Presenter extends BaseComponent {
        this.setState({
          postLock:false
        })
-       listData[preIndex].isSubscr = false
+       listData[preIndex].userInfo.isSubscribe = false
        if(res){
          this.showToast('已取消');
        }
@@ -105,7 +105,7 @@ export default class Presenter extends BaseComponent {
        this.setState({
          postLock:false
        })
-       listData[preIndex].isSubscr = true
+       listData[preIndex].userInfo.isSubscribe = true
        if(res){
          this.showToast('已关注');
        }

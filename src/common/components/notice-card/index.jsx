@@ -5,6 +5,7 @@ import FormaDate from '@common/formaDate'
 import { ICONS } from '../../constant'
 import Behaviors from '@common/utils/behaviors'
 import './styles.scss'
+import staticData from '@src/store/common/static-data'
 
 export default class NoticeCard extends Component {
   static defaultProps = {
@@ -33,8 +34,15 @@ export default class NoticeCard extends Component {
   }
 
   handleFavorite = (qid, e) => {
+    const {isLogin} = staticData;
     e.stopPropagation();
-    this.props.onHandleFavorite(qid)
+    if(isLogin){
+      this.props.onHandleFavorite(qid)
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
   }
 
   handleNoticeClick = (data) => {
@@ -45,23 +53,45 @@ export default class NoticeCard extends Component {
       Taro.navigateTo({
         url: `/packageB/pages/issue-detail/index?qid=${qid}`
       })
+      getApp().sensors.track('click', {
+        contentIdList: [qid.toString()],
+        contentType: 3,
+        eventType:2
+      });
     }
     else if(activeModel.entity.qid){
       qid=activeModel.entity.qid
       Taro.navigateTo({
         url: `/packageB/pages/issue-detail/index?qid=${qid}`
       })
+      getApp().sensors.track('click', {
+        contentIdList: [qid.toString()],
+        contentType: 3,
+        eventType:2
+      });
     }else if(data.pid){
       Taro.navigateTo({
         url: `/packageB/pages/post-detail/index?pid=${data.pid}`
       })
+      getApp().sensors.track('click', {
+        contentIdList: [data.pid.toString()],
+        contentType: 1,
+        eventType:2
+      });
     }
     this.props.onNoticeClick(data)
   }
 
   handleLike = (model,e)=>{
+    const {isLogin} = staticData;
     e.stopPropagation();
-    this.props.onHandleLike(model)
+    if(isLogin){
+      this.props.onHandleLike(model)
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
   }
 
   viewCircleDetail = cid => {

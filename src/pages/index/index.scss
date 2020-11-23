@@ -12,7 +12,7 @@ page {
   height: 100%;
   .new-info-bar{
     position: fixed;
-    top:210px;
+    top:164px;
     left: 0;
     width: 100%;
     height: 50px;
@@ -24,8 +24,8 @@ page {
     text{
       display: inline-block;
       height: 100%;
-      width: 400px;
-      border-radius: 25px;
+      width: 100%;
+      //border-radius: 25px;
       background-color: #FF473A;
       font-size: 28px;
     }
@@ -55,6 +55,7 @@ page {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        text-align: center;
       }
       .icon-arrow-down {
         width: 12px;
@@ -129,6 +130,9 @@ page {
       .attention-tabs-pane {
         padding-top: 184px;
       }
+    }
+    .slider-tab-wrapper {
+      padding: 0 24px 0;
     }
     .attention-tabs {
       margin: 4px 32px 24px 32px;

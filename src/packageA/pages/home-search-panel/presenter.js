@@ -2,11 +2,11 @@ import Taro, {getCurrentInstance} from '@tarojs/taro'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
 import { SearchResultType } from '../../../common/enums'
+import circleIsReload from '@src/common/utils/circleIsReload'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
     super(props)
-
     this.state = {
       tabList: Model.tabList,
       searchData: null,
@@ -17,17 +17,28 @@ export default class Presenter extends BaseComponent {
       postResult:[],
       questionResult:[],
       userResult:[],
-      postLock:false
+      circlePostResult:[],
+      circleQuestionResult:[],
+      circleEssenceResult:[],
+      postLock:false,
+      cid:'',
+      sortObj:{}
     }
   }
 
   componentDidMount(){
-    const { searchScope='all', tab=0 } = getCurrentInstance().router.params;
+    const { searchScope='all', tab=0, cid } = getCurrentInstance().router.params;
     this.getTabList(searchScope);
     this.topTabChange(tab);
     this.setState({
-      searchScope:searchScope
+      searchScope:searchScope,
+      cid:cid
     })
+  }
+
+
+  componentWillUnmount(){
+    circleIsReload();
   }
 
   //获取不同的tabList
@@ -45,17 +56,64 @@ export default class Presenter extends BaseComponent {
     }
   }
 
+  saveSecachHistory = async(type,content,cid)=>{
+    return await Model.saveSecachHistory(type,content,cid)
+  }
+
+  clickDosearch = (value,e)=>{
+    this.setState({
+      searchValue:value
+    },()=>{
+      this.doSearch()
+    })
+  }
+
   async doSearch() {
-    const {type,searchValue} = this.state;
-    let res = await Model.search(type,searchValue);
-    if(res){
-      this.setState({
-        circleResult:res.circleResult && res.circleResult.items || [],
-        postResult:res.postResult && res.postResult.items|| [],
-        questionResult:res.questionResult && res.questionResult.items|| [],
-        userResult:res.userResult && res.userResult.items|| []
-      })
+    const {type,searchValue,searchScope,currentTopTab,cid,sortObj} = this.state;
+    let searchType = null,searchCid = null;
+    if(searchScope === 'all'){
+      let res = await Model.search(type,searchValue,sortObj);
+      searchType = 1;
+      searchCid = 0;
+      if(res){
+        this.setState({
+          circleResult:res.circleResult && res.circleResult.items || [],
+          postResult:res.postResult && res.postResult.items|| [],
+          questionResult:res.questionResult && res.questionResult.items|| [],
+          userResult:res.userResult && res.userResult.items|| []
+        })
+      }
+    }else{
+      searchType = 3;
+      searchCid = cid;
+      switch(currentTopTab){
+        case 0:
+          let res1 = await Model.getEssenceList(cid,searchValue,sortObj);
+          if(res1.items){
+            this.setState({
+              circleEssenceResult:res1.items
+            });
+          }
+          break;
+        case 1:
+          let res2 = await Model.getPostList(cid,searchValue,sortObj);
+          if(res2.items){
+            this.setState({
+              circlePostResult:res2.items
+            });
+          }
+          break;
+        case 2:
+          let res3 = await Model.getQuestionList(cid,searchValue,sortObj);
+          if(res3.items){
+            this.setState({
+              circleQuestionResult:res3.items
+            })
+          }
+          break;
+      }
     }
+    searchValue && this.saveSecachHistory(searchType,searchValue,searchCid)
   }
 
   onMore = t => {
@@ -82,14 +140,39 @@ export default class Presenter extends BaseComponent {
   }
 
   topTabChange = (current) => {
+    const {searchScope} = this.state;
     this.setState({
-      currentTopTab: +current
+      currentTopTab: +current,
+      sortObj:{_score:'desc'}
     })
+    if(searchScope === 'circle'){
+      this.doSearch()
+    }
   }
 
   handleChange = (e)=>{
     this.setState({
       searchValue:e.target.value
+    },()=>{
+      this.doSearch()
+    })
+  }
+
+  sortTabChange=(id)=>{
+    let sortObj = null;
+    switch(id){
+      case 0:
+        sortObj={_score:'desc'}
+        break;
+      case 1:
+        sortObj={heat_rate:'desc'}
+        break;
+      case 2:
+        sortObj={create_time:'desc'}
+        break;
+    }
+    this.setState({
+      sortObj
     },()=>{
       this.doSearch()
     })

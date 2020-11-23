@@ -3,9 +3,9 @@ import BaseRequest from '@common/baseRequest'
 const request = new BaseRequest();
 
 export default {
-  async blockUser(userId) {
+  async blockUser(forbid) {
     let params = {
-      userId
+      forbid
     }
     const ret = await request.getWithToken('/block/save', params)
     const data = request.standardResponse(ret)
@@ -16,9 +16,9 @@ export default {
     }
   },
 
-  async canCelBlockUser(userId) {
+  async canCelBlockUser(forbid) {
     let params = {
-      userId
+      forbid
     }
     const ret = await request.getWithToken('/block/delete', params)
     const data = request.standardResponse(ret)
@@ -29,9 +29,9 @@ export default {
     }
   },
 
-  async checkBlockUser(userId) {
+  async checkBlockUser(forbid) {
     let params = {
-      userId
+      forbid
     }
     const ret = await request.getWithToken('/block/check', params)
     const data = request.standardResponse(ret)

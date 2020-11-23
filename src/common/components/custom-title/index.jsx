@@ -2,6 +2,7 @@ import Taro from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import {ICONS} from '@common/constant'
+import HomeIcon from '@ass/img/tabbar/home.png'
 import './styles.scss'
 
 
@@ -9,6 +10,7 @@ export default class BehaviorCard extends Component {
   static defaultProps = {
     title:'微信',
     isCanEntranceCircle:true,
+    isShowBack:true,
     onEntrancePage:()=>{}
   }
 
@@ -23,6 +25,12 @@ export default class BehaviorCard extends Component {
     Taro.navigateBack()
   }
 
+  goHome =()=>{
+    Taro.switchTab({
+      url:'/pages/index/index'
+    })
+  }
+
   entrancePage = ()=>{
     this.props.onEntrancePage()
   }
@@ -34,11 +42,16 @@ export default class BehaviorCard extends Component {
   }
 
   render() {
-   const {title,isCanEntranceCircle} = this.props;
+   const {title,isCanEntranceCircle,isShowBack} = this.props;
    const {statusBarHeight} = this.state
     return (
       <View className="wrapper-custom" style={{height:`${statusBarHeight*2}px`}}>
-        <Image className="wrapper-custom-back" src={ICONS.BACK} onClick={this.goBack.bind(this)}></Image>
+        {
+          isShowBack ? 
+          <Image className="wrapper-custom-back" src={ICONS.BACK} onClick={this.goBack.bind(this)}></Image>
+          :
+          <Image className="wrapper-custom-back" src={HomeIcon} onClick={this.goHome.bind(this)}></Image>
+        }
         {
           isCanEntranceCircle ? 
           <View className="wrapper-custom-title" onClick={this.entrancePage.bind(this)}>

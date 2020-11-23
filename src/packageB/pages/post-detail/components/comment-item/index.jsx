@@ -4,6 +4,7 @@ import { View, Image, Text, Video } from '@tarojs/components'
 import { ICONS } from '@common/constant'
 import { observer, inject } from 'mobx-react'
 import FormaDate from '@common/formaDate'
+import staticData from '@src/store/common/static-data'
 
 import './index.scss'
 let videoContext = null;
@@ -45,18 +46,32 @@ export default class CommentItem extends Component {
   }
   handleLike = (model, e) => {
     const { getCurrentReplyPostData, handleLike, updateIsToPostOwnerStatus } = this.props.postDetail;
+    const {isLogin} = staticData;
     e.stopPropagation();
-    updateIsToPostOwnerStatus(false);
-    getCurrentReplyPostData(model);
-    handleLike()
+    if(isLogin){
+      updateIsToPostOwnerStatus(false);
+      getCurrentReplyPostData(model);
+      handleLike()
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
   }
 
   handleDisLike = (model, e) => {
     const { getCurrentReplyPostData, handleDisLike, updateIsToPostOwnerStatus } = this.props.postDetail;
+    const {isLogin} = staticData;
     e.stopPropagation();
-    updateIsToPostOwnerStatus(false);
-    getCurrentReplyPostData(model);
-    handleDisLike()
+    if(isLogin){
+      updateIsToPostOwnerStatus(false);
+      getCurrentReplyPostData(model);
+      handleDisLike()
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
   }
 
   handleDelete=(model)=>{

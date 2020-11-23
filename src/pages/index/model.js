@@ -82,9 +82,24 @@ export default {
     let params = {
       pageNum,
       pageSize:10
-
     }
     const ret = await request.postWithToken('/search/recommend', params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  },
+
+  
+
+  //获取热版的数据
+  async gethots(type=1) {
+    let params = {
+      type
+    }
+    const ret = await request.postWithToken('/search/hotspot', params)
     const data = request.standardResponse(ret)
     if (data.code === 0) {
       return data.data
@@ -223,9 +238,9 @@ export default {
   //清除曝光
   async clearRead(uid){
     let params = {
-      exp:`pid_${uid}`
+      keyword:`exp:pid_${uid}`
     }
-    const ret = await request.postWithToken('/test/cleanRead',params)
+    const ret = await request.postWithToken('/test/set/cleanRead',params)
     const d = request.standardResponse(ret)
     if(d.code == 0){
       return true

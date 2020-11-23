@@ -28,6 +28,9 @@ export default class UserInfoCard extends Component {
     if (!kw) {
       kw = '济阳'
     }
+    if (!originTxt) {
+      originTxt = '济阳'
+    }
     const reg = new RegExp(kw, 'gi');
     const contentReg = /^_#_([^_#_]+)_#_$/;
     const newList = [];
@@ -77,7 +80,7 @@ export default class UserInfoCard extends Component {
   }
 
   render() {
-    const { isShowDistance,kw,isShowTip,tip, model, model: { post, flow, funs, createDt, headImg, district, signature, nickName, city, country,sex,stared }, activeModel,isShowReleaseTime } = this.props;
+    const { isShowDistance,kw,isShowTip,tip, model, model: { post, flow, funs, subscribeTime, headImg, district, signature, nickName, city, country,sex,stared }, activeModel,isShowReleaseTime } = this.props;
     return (
       <View className="wrapper">
         {
@@ -87,7 +90,12 @@ export default class UserInfoCard extends Component {
         <View className='ui-user-info-card' onClick={this.handleGetUserDetail.bind(this, model)}>
           <View className='avatar-wrapper' onClick={this.viewProfileInfo.bind(this)}>
             <View className='avatar'>
-              <Image src={model.headImg || activeModel.userSnapshot && activeModel.userSnapshot.headImg}></Image>
+              {
+                (model && !model.headImg) ?
+                <Image src={''}></Image>
+                :
+                <Image src={model.headImg || activeModel.userSnapshot && activeModel.userSnapshot.headImg}></Image>
+              }
             </View>
           </View>
           <View className='info-wrapper'>
@@ -129,15 +137,15 @@ export default class UserInfoCard extends Component {
               <View className='num'>获赞: {stared}</View>
             </View>
             {
-              isShowTip && createDt && 
-              <View className='sub-title'>{`${createDt} ${tip}`}</View>
+              isShowTip && (activeModel.subscribeTime || subscribeTime) && 
+              <View className='sub-title'>{`${activeModel.subscribeTime || subscribeTime} ${tip}`}</View>
             }
           </View>
           {
             isShowDistance && 
             <View className="distance">{model.distance}</View>
           }
-          <View onClick={this.handleSubscr.bind(this, model)} className={`btn-attention${model.isSubscr ? ' attentioned' : ''}`}>{model.isSubscr ? '已关注' : '关注'}</View>
+          <View onClick={this.handleSubscr.bind(this, model)} className={`btn-attention${model.isSubscribe ? ' attentioned' : ''}`}>{model.isSubscribe ? '已关注' : '关注'}</View>
         </View>
       </View>
     )

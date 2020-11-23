@@ -198,7 +198,7 @@ export default class ProfileHomePresenter extends BaseComponent {
       postLock: false
     })
 
-    if (res && res.items && res.items.length) {
+    if (res && res.items) {
       const { total, items } = res;
       this.setState({
         activeDataTotal:total
@@ -213,7 +213,7 @@ export default class ProfileHomePresenter extends BaseComponent {
           activeData: pre.activeData.concat(items || [])
         }))
       }
-      if (total <= this.state.activeData.length) {
+      if (!total || total <= this.state.activeData.length) {
         this.setState({
           showActiveLoading: false,
           isActiveToBottom: true
@@ -240,7 +240,7 @@ export default class ProfileHomePresenter extends BaseComponent {
     this.setState({
       postLock: false
     })
-    if (res && res.items && res.items.length) {
+    if (res && res.items) {
       const { total, items } = res;
       this.setState({
         postDataTotal:total
@@ -255,7 +255,7 @@ export default class ProfileHomePresenter extends BaseComponent {
           postData: pre.postData.concat(items || [])
         }))
       }
-      if (total <= this.state.postData.length) {
+      if (!total || total <= this.state.postData.length) {
         this.setState({
           showPostLoading: false,
           isPostToBottom: true
@@ -281,7 +281,7 @@ export default class ProfileHomePresenter extends BaseComponent {
     this.setState({
       postLock: false
     })
-    if (res && res.items && res.items.length) {
+    if (res && res.items) {
       const { total, items } = res;
       this.setState({
         questionDataTotal:total
@@ -296,7 +296,7 @@ export default class ProfileHomePresenter extends BaseComponent {
           questionData: pre.questionData.concat(items || [])
         }))
       }
-      if (total <= this.state.questionData.length) {
+      if (!total || total <= this.state.questionData.length) {
         this.setState({
           showQuestionLoading: false,
           isQuestionToBottom: true
@@ -559,7 +559,7 @@ export default class ProfileHomePresenter extends BaseComponent {
     let {postLock,activeData} = this.state;
     let preIndex = activeData.findIndex(item=>item.entity.userId === model.entity.userId)
     if(!postLock){
-     if(model.entity.isSubscr){
+     if(model.entity.isSubscribe){
        this.setState({
          postLock:true
        })
@@ -567,7 +567,7 @@ export default class ProfileHomePresenter extends BaseComponent {
        this.setState({
          postLock:false
        })
-       activeData[preIndex].entity.isSubscr = false
+       activeData[preIndex].entity.isSubscribe = false
        if(res){
          this.showToast('已取消');
        }
@@ -579,7 +579,7 @@ export default class ProfileHomePresenter extends BaseComponent {
        this.setState({
          postLock:false
        })
-       activeData[preIndex].entity.isSubscr = true
+       activeData[preIndex].entity.isSubscribe = true
        if(res){
          this.showToast('已关注');
        }

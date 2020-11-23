@@ -28,16 +28,18 @@ export default class Presenter extends BaseComponent {
   }
 
   onReachBottom(){
-    const {postLock, isToBottom,kw} = this.state;
+    const {postLock, isToBottom,kw,current} = this.state;
     if(!postLock && !isToBottom){
       this.setState((pre)=>({
         pageNum:pre.pageNum+1
-      }),()=>{
-        if(kw){
-          this.getSearchData()
-        }else{
-          this.getData()
-        }
+      }),
+      ()=>{
+        // if(kw){
+        //   this.getSearchData()
+        // }else{
+        //   this.getData()
+        // }
+        this.getSearchData()
       })
     }
   }
@@ -89,13 +91,13 @@ export default class Presenter extends BaseComponent {
 
   getSearchData = async ()=>{
     const {kw,pageNum,childrenCircles,sortType} = this.state;
-    const {cid} = this.$router.params;
+    const {cid,pcid} = this.$router.params;
     this.setState({
       postLock:true
     })
     let res = await Model.getSearchData({
       keyword:kw,
-      parentCid:cid || '',
+      parentCid:pcid || cid || '',
       pageNum,
       sort:sortType
     });
@@ -103,7 +105,7 @@ export default class Presenter extends BaseComponent {
       postLock:false
     })
 
-    if(res && res.items && res.items.length){
+    if(res && res.items){
       const {total,items} = res;
       if (!childrenCircles.length) {
         this.setState({
@@ -139,7 +141,7 @@ export default class Presenter extends BaseComponent {
       postLock:false
     })
 
-    if(res && res.items && res.items.length){
+    if(res && res.items){
       const {total,items} = res;
       if (!childrenCircles.length) {
         this.setState({

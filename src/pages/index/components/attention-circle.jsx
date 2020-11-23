@@ -110,7 +110,7 @@ export default class AttentionCircle extends BaseComponent {
       pageNum: this.state.current,
       pageSize: this.state.pageSize
     })
-    if(res && res.items && res.items.length){
+    if(res && res.items){
       this.setState({
         circleList:res.items
       })

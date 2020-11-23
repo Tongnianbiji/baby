@@ -22,7 +22,7 @@ export default class QAListView extends Presenter {
               <View>
                 {
                   questionData.map((item)=>{
-                    return (<NoticeCard isShowUserInfo={false} ishowAvatar={false} key={item.qid} data={item} type='qa' onHandleFavorite={this.handleFavoriteQuestion.bind(this)} onNoticeClick={this.handlePostDetail.bind(this)} data={item} />)
+                    return (<NoticeCard isShowUserInfo={false} ishowAvatar={false} key={item.qid} data={item} type='qa' onHandleFavorite={this.handleFavoriteQuestion.bind(this)} data={item} />)
                   })
                 }
               <Preloading showLoading={showQuestionoading} isToBottom={isQuestionToBottom}></Preloading>
@@ -35,7 +35,7 @@ export default class QAListView extends Presenter {
              <View>
                {
                  answerData.map((item)=>{
-                   return (<NoticeCard isShowTime isShowUserInfo={false} ishowAvatar={false} isOldQuestion isShowQuestion={false} type='qa'  key={item.qid} onHandleFavorite={this.handleFavoriteAnswer.bind(this)} onNoticeClick={this.handlePostDetail.bind(this)} isShowReleaseTime={false} activeModel={item} data={item.entity}/>)
+                   return (<NoticeCard isShowTime isShowUserInfo={false} ishowAvatar={false} isOldQuestion isShowQuestion={false} type='qa'  key={item.qid} onHandleFavorite={this.handleFavoriteAnswer.bind(this)} isShowReleaseTime={false} activeModel={item} data={item.entity}/>)
                  })
                }
              <Preloading showLoading={showAnswerLoading} isToBottom={isAnswerToBottom}></Preloading>

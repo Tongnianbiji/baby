@@ -32,13 +32,13 @@ sa.setPara({
 	server_url: 'https://www.tongnian.world/tn-api/data/report/exposure',
 	// 全埋点控制开关
 	autoTrack:{ 
-		appLaunch:true, // 默认为 true，false 则关闭 $MPLaunch 事件采集
-		appShow:true, // 默认为 true，false 则关闭 $MPShow 事件采集
-		appHide:true, // 默认为 true，false 则关闭 $MPHide 事件采集
-		pageShow:true, // 默认为 true，false 则关闭 $MPViewScreen 事件采集
-		pageShare:true, // 默认为 true，false 则关闭 $MPShare 事件采集
-		mpClick: true, // 默认为 false，true 则开启 $MPClick 事件采集 
-		mpFavorite: true // 默认为 true，false 则关闭 $MPAddFavorites 事件采集
+		appLaunch:false, // 默认为 true，false 则关闭 $MPLaunch 事件采集
+		appShow:false, // 默认为 true，false 则关闭 $MPShow 事件采集
+		appHide:false, // 默认为 true，false 则关闭 $MPHide 事件采集
+		pageShow:false, // 默认为 true，false 则关闭 $MPViewScreen 事件采集
+		pageShare:false, // 默认为 true，false 则关闭 $MPShare 事件采集
+		mpClick: false, // 默认为 false，true 则开启 $MPClick 事件采集 
+		mpFavorite: false // 默认为 true，false 则关闭 $MPAddFavorites 事件采集
 	},
 	// 自定义渠道追踪参数，如source_channel: ["custom_param"]
 	source_channel: [],
@@ -57,11 +57,11 @@ sa.setPara({
   mobileModel:systemInfo.model,
   eventType:1,
   uid:'guest',
-  lat:0.0,
-  lon:0.0,
-  provinceCode:'',
-  cityCode:'',
-  countryCode:'',
+  lat:'31.22114',
+  lon:'121.54409',
+  provinceCode:'上海',
+  cityCode:'310100',
+  countryCode:'31011500',
   version:systemInfo.version,
 });
 
@@ -204,8 +204,13 @@ class App extends BaseComponent {
     }
   }
 
+  getCity(id, type) {
+    const query = type ? `?${type}=${id}` : ''
+    return request.get('/poi/locate' + query).then(request.standardResponse)
+  }
+
   //获取城市信息
-  getCityInfo(lon, lat) {
+  getCityInfo(lon='121.54409', lat='31.22114') {
     return request.get('https://restapi.amap.com/v3/geocode/regeo', {
       key: GMAP_API_KEY,
       location: `${lon},${lat}`
@@ -215,6 +220,7 @@ class App extends BaseComponent {
         const { regeocode = {} } = data.data
         const { addressComponent = {} } = regeocode
         const { province, city, adcode, citycode, country, district, towncode } = addressComponent;
+
         this.updateCityInfo({
           districtCode:adcode,
           districtName:district,

@@ -32,6 +32,10 @@ export default class Presenter extends BaseComponent {
     }
   }
 
+  saveSecachHistory = async(type,content,cid)=>{
+    return await Model.saveSecachHistory(type,content,cid)
+  }
+
   //获取搜索数据
   getSearchData = async ()=>{
     const {kw,pageNum,circlesList,sortType} = this.state;
@@ -41,13 +45,14 @@ export default class Presenter extends BaseComponent {
     let res = await Model.getData({
       keyword:kw,
       pageNum,
-      sortType
+      sort:sortType
     });
+    await saveSecachHistory(2,kw,0)
     this.setState({
       postLock:false
     })
 
-    if(res && res.items && res.items.length){
+    if(res && res.items){
       const {total,items} = res;
       if (!circlesList.length) {
         this.setState({

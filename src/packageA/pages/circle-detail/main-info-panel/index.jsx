@@ -3,6 +3,7 @@ import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { observer, inject } from 'mobx-react'
 import { View, Image, Swiper, SwiperItem } from '@tarojs/components'
 import DTO from '../../../../common/localStorage'
+import staticData from '@src/store/common/static-data'
 
 import './styles.scss'
 
@@ -33,13 +34,20 @@ class MainInfoPanel extends Component {
 
   doAttention = () => {
     const { cid } = this.props
-    if (this.$store.isAttentioned) {
-      this.$store.leaveCircle(cid).then(ok => {
-        console.log(ok, 'leave');
-      })
-    } else {
-      this.$store.joinCircle(cid).then(ok => {
-        console.log(ok, 'join');
+    const {isLogin} = staticData;
+    if(isLogin){
+      if (this.$store.isAttentioned) {
+        this.$store.leaveCircle(cid).then(ok => {
+          console.log(ok, 'leave');
+        })
+      } else {
+        this.$store.joinCircle(cid).then(ok => {
+          console.log(ok, 'join');
+        })
+      }
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
       })
     }
   }
@@ -61,13 +69,14 @@ class MainInfoPanel extends Component {
 
   //查看更多子圈子
   viewMoreChildCircles = (cid) => {
-    const { leaf, name } = this.$store.detailInfo
-    Taro.navigateTo({ url: `/packageA/pages/more-circle/index?cid=${cid}&cname=${name}&circleType=${leaf ? 'sibling' : 'child'}` })
+    const { leaf, name } = this.$store.detailInfo;
+    const {parentCircles} = this.$store
+    Taro.navigateTo({ url: `/packageA/pages/more-circle/index?pcid=${parentCircles[0].cid}&cid=${cid}&cname=${name}&circleType=${leaf ? 'sibling' : 'child'}` })
   }
 
   render() {
     const {
-      detailInfo: { description, name, imgUrl, subscribe, posts, questions, cid },
+      detailInfo: { description, name, imgUrl, subscribe, posts, questions, cid,leaf },
       parentCircles,
       childCircles,
       topPosts,
@@ -141,7 +150,7 @@ class MainInfoPanel extends Component {
               childCircles.length > 3 &&
               <View className='circle-item small-item' onClick={this.viewMoreChildCircles.bind(this, cid)}>
                 <View className='avatar'>{childCirclesLength}</View>
-                <View className='name'>子圈子</View>
+                <View className='name'>{!leaf?'子圈子':'相关圈子'}</View>
               </View>
             }
           </View>

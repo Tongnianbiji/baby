@@ -14,14 +14,33 @@ export default class Presenter extends BaseComponent {
       reply: 0,
       star: 0,
       total:0,
-      chatList:Model.chatList
+      chatList:[],
+      postLock:false,
+      showLoading:true,
+      isToBottom:false,
+      pageNum:1,
     }
   }
 
   componentDidMount(){}
 
   componentDidShow(){
-    this.getMessageCount()
+    this.initChatList();
+    this.getMessageCount();
+    this.getChatList();
+  }
+
+  onReachBottom(){
+    const {postLock, isToBottom,currentTab} = this.state;
+    if(currentTab == 1){
+      if(!postLock && !isToBottom){
+        this.setState((pre)=>({
+          pageNum:pre.pageNum+1
+        }),()=>{
+          this.getChatList()
+        })
+      }
+    }
   }
 
   getMessage() {
@@ -43,14 +62,55 @@ export default class Presenter extends BaseComponent {
     }
   }
 
-  //删除某一个聊天
-  deleteChat = (chat)=>{
-    let {chatList} = this.state;
-    let preIndex = chatList.findIndex(item=>item.id === chat.id)
-    chatList.splice(preIndex,1);
+  initChatList = ()=>{
     this.setState({
-      chatList
+      chatList:[],
+      postLock:false,
+      showLoading:true,
+      isToBottom:false,
+      pageNum:1,
     })
+  }
+
+  //获取聊天记录
+  getChatList=async()=>{
+    const {pageNum,chatList} = this.state;
+    this.setState({
+      postLock:true
+    })
+    let res = await Model.getChatList(pageNum);
+    this.setState({
+      postLock:false
+    })
+    if(res && res.items){
+      const {total,items} = res;
+      let newChatList = items.reverse()
+      if (!chatList.length) {
+        this.setState({
+          chatList : newChatList || []
+        })
+        
+      } else {
+        this.setState((pre)=>({
+          chatList:pre.chatList.concat(newChatList || [])
+        }))
+      }
+      if (total <= this.state.chatList.length) {
+        this.setState({
+          showLoading:false,
+          isToBottom:true
+        })
+      }
+    }
+  }
+
+  //删除某一个聊天
+  deleteChat = async (chat)=>{
+    const {fromUid,toUid} = chat.messageDo
+    let res = await Model.deleteChat(fromUid,toUid);
+    if(res){
+      this.getChatList();
+    }
   }
 
   tabChange = index => {
@@ -79,6 +139,6 @@ export default class Presenter extends BaseComponent {
   }
 
   toIM = (item) => {
-    this.navto({ url: `/packageA/pages/message-im/index?name=${item.name}&id=${item.id}` })
+    this.navto({ url: `/packageA/pages/message-im/index?name=${item.name}&id=${item.toUid}` })
   }
 }

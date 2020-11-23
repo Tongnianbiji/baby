@@ -1,0 +1,13 @@
+.qr-code{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  image{
+    margin-bottom: 100px;
+    width: 400px;
+    height: 400px;
+    background-color: #eeeeee;
+  }
+}

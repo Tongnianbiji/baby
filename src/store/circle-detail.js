@@ -54,6 +54,11 @@ const state = {
   questionPageNum: 1,
   loadingQuestion: true,
   isToBottomQuestion: false,
+  //对应圈子热版列表
+  circleHots: [],
+  hotsPageNum: 1,
+  loadinghots: true,
+  isToBottomhots: false,
   //对应圈子用户列表
   circleUser: [],
   userPageNum: 1,
@@ -88,6 +93,10 @@ const actions = {
     this.userPageNum=1;
     this.loadingUser=true;
     this.isToBottomUser=false;
+    this.circleHots=[];
+    this.hotsPageNum=1;
+    this.loadinghots=true;
+    this.isToBottomhots=false;
   },
 
   async getDetail(cid) {
@@ -182,8 +191,8 @@ const actions = {
         this.isToBottomPosts = true;
         this.loadingPosts = false;
       }
-
     }
+    return this.circlePosts
   },
 
   //获取圈子对应的精华列表
@@ -240,6 +249,21 @@ const actions = {
     }
   },
 
+  //获取圈子对应的热版列表
+  async getCircleHots(cid,type=1) {
+    let params = {
+      cid: cid,
+      type,
+    }
+    this.postLock = true;
+    const ret = await req.postWithToken('/search/circle/hotspot', params);
+    const d = req.standardResponse(ret);
+    this.postLock = false;
+    if (d.code === 0) {
+      this.circleHots = d.data || []
+    }
+  },
+
   //获取圈子对应的用户列表
   async getCircleUser(cid) {
     const {lat,lon} = (new BaseComponent()).getCurrentLocation()
@@ -247,7 +271,10 @@ const actions = {
       cid: cid,
       keyword: '',
       pageNum: this.userPageNum,
-      pageSize: 5
+      pageSize: 5,
+      sort:{
+        location:'asc'
+      }
     }
     this.postLock = true;
     const ret = await req.postWithToken('/search/circle/user', params)
@@ -255,9 +282,9 @@ const actions = {
     this.postLock = false;
     if (d.code === 0) {
       let userList = d.data.items;
-      userList.forEach(item=>{
-        item.distance = GetDistance(lat,lon,item.lat,item.lng)
-      })
+      // userList.forEach(item=>{
+      //   item.distance = GetDistance(lat,lon,item.lat,item.lng)
+      // })
       if (!this.circleUser.length) {
         this.circleUser = userList || []
       } else {
@@ -508,6 +535,9 @@ const actions = {
       case 2:
         await this.getCircleQuestion(cid);
         break;
+      case 3:
+        await this.getCircleHots(cid);
+        break;
       case 4:
         await this.getCircleUser(cid);
         break;
@@ -536,6 +566,9 @@ const actions = {
   },
   setCirclePostsEmpty() {
     this.circlePosts = []
+  },
+  updateCirclePosts(posts){
+    this.circlePosts = posts
   },
 
   updateCirclePostsByFavorite(pid) {
@@ -640,7 +673,56 @@ const actions = {
     })
   },
 
-
+  updateCircleHotsByFavorite(pid) {
+    Taro.showLoading();
+    let circleHots = this.circleHots;
+    this.postLock = true;
+    circleHots.forEach(async item => {
+      if (item.pid === pid) {
+        if (item.isMark) {
+          let code = await this.cancelFavoritePost(pid);
+          this.postLock = false;
+          Taro.hideLoading();
+          if (code === 0) {
+            item.isMark = false;
+            item.markes -= 1;
+            this.circleHots = JSON.parse(JSON.stringify(circleHots));
+            Taro.showToast({
+              title:'取消收藏',
+              icon: 'none',
+              duration:2e3
+            })
+          } else {
+            Taro.showToast({
+              title:'取消失败',
+              icon: 'none',
+              duration:2e3
+            })
+          }
+        } else {
+          let code = await this.favoritePost(pid);
+          this.postLock = false;
+          Taro.hideLoading();
+          if (code === 0) {
+            item.isMark = true;
+            item.markes += 1;
+            this.circleHots = JSON.parse(JSON.stringify(circleHots));
+            Taro.showToast({
+              title:'已收藏',
+              icon: 'success',
+              duration:2e3
+            })
+          } else {
+            Taro.showToast({
+              title:'收藏失败',
+              icon: 'none',
+              duration:2e3
+            })
+          }
+        }
+      }
+    })
+  },
 }
 
 export default observable(Object.assign(state, actions))

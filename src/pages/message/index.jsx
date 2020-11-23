@@ -3,6 +3,7 @@ import React from 'react'
 import { View, Image, Text } from '@tarojs/components'
 import { AtTabs, AtTabsPane, AtSwipeAction } from 'taro-ui'
 import { ICONS } from '../../common/constant'
+import Preloading from '@components/preloading'
 import Presenter from './presenter'
 import './index.scss'
 
@@ -13,7 +14,10 @@ export default class Index extends Presenter {
       mark,
       reply,
       star,
-      chatList } = this.state;
+      chatList,
+      showLoading,
+      isToBottom
+     } = this.state;
     return (
       <View className='message-viewport'>
         {
@@ -71,7 +75,7 @@ export default class Index extends Presenter {
           <AtTabsPane className='message-tabs-pane' index={1} current={currentTab}>
             <View className='chat-list'>
               {
-                chatList.map(item => {
+                chatList.map((item,index) => {
                   return (
                     <AtSwipeAction className="chat-action" onClick={this.deleteChat.bind(this,item)} options={[
                       {
@@ -81,17 +85,19 @@ export default class Index extends Presenter {
                         }
                       }
                     ]}>
-                      <View key={item.id} className="chat-item" onClick={this.toIM.bind(this, item)}>
+                      <View key={index} className="chat-item" onClick={this.toIM.bind(this, item)}>
                         <View className='avatar-wrapper'>
-                          <View className='avatar'></View>
+                          <View className='avatar'>
+                            <Image src={item.toUser.headImg}></Image>
+                          </View>
                         </View>
                         <View className='contents'>
                           <View className='ta-name'>
-                            <Text className='txt'>{item.name}</Text>
-                            <Text className='date'>04/05</Text>
+                            <Text className='txt'>{item.toUser.nickName}</Text>
+                            <Text className='date'>{item.messageDo.updateAt}</Text>
                           </View>
                           <View className='chat-line'>
-                            <Text className='chat'>{item.txt}</Text>
+                            <Text className='chat'>{item.messageDo.content}</Text>
                             <Image src='' className='icon-reply' />
                           </View>
                         </View>
@@ -100,6 +106,7 @@ export default class Index extends Presenter {
                   )
                 })
               }
+              <Preloading showLoading={showLoading} isToBottom={isToBottom}></Preloading>
             </View>
           </AtTabsPane>
         </AtTabs>

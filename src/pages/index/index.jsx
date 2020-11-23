@@ -6,6 +6,7 @@ import HomePage from './presenter'
 import { observer, inject } from 'mobx-react'
 import BehaviorCard from '@components/behavior-card'
 import UserInfoItem from '../../common/components/post-card'
+import SliderTab from '@components/ui-slider-tab'
 import AttentionCircle from './components/attention-circle'
 import iconSearch from '../../assets/img/icon-search.png'
 import arrowDown from '../../assets/img/arrow-down.png'
@@ -19,16 +20,13 @@ import './index.scss'
 @observer
 export default class Index extends HomePage {
   render() {
-    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isCollectMin, showAttentionLoading, isAttentionToBottom,isCollentMini,showNewInfoBar,total,recommends,showRecommendLoading,isRecommendToBottom} = this.state;
+    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isPullDownRefresh, showAttentionLoading, isAttentionToBottom,isCollentMini,showNewInfoBar,total,recommends,showRecommendLoading,isRecommendToBottom,hots,recommendsLength} = this.state;
     const {isGuide} = this.props.staticDataStore;
     return (
       <View className='home-page-viewport'>
-        {
-          showNewInfoBar && 
-          <View className="new-info-bar">
-            <Text>童年为你更新12条新信息</Text>
-          </View>
-        }
+        <View className="new-info-bar" style={{opacity:String(Number(showNewInfoBar))}}>
+          <Text>童年为你推荐了{recommendsLength}条新内容</Text>
+        </View>
         <View className='search-bar'>
           <View className='location-info' onClick={this.selectCity}>
             <Text className="location-info-text">{currentCity}</Text>
@@ -49,12 +47,8 @@ export default class Index extends HomePage {
         <View className='tabs-container'>
           <AtTabs className='tabs' tabList={topTabs} current={currentTopTab} swipeable={false} onClick={this.topTabChange}>
             <AtTabsPane current={currentTopTab} index={0} className='attention-tabs-pane'>
-              <View className='attention-tabs'>
-                <View className={`slider-view${attentionType === 2 ? ' left-status' : ''}`}></View>
-                <View className='tab-items'>
-                  <Text className='tab-item' onClick={this.attentionTabChange.bind(this, 1)}>关注的用户</Text>
-                  <Text className='tab-item' onClick={this.attentionTabChange.bind(this, 2)}>关注的圈子</Text>
-                </View>
+              <View className='slider-tab-wrapper'>
+                <SliderTab tabList={[{ title: '关注的用户' }, { title: '关注的圈子' }]} onChange={this.attentionTabChange.bind(this)} />
               </View>
               <View className='user-item-wrapper'>
                 {
@@ -63,7 +57,9 @@ export default class Index extends HomePage {
                         {
                           attentionUsers.map((item,key) => {
                             return (
-                              <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteAttention.bind(this,item)} onHandleSubscr={this.handleSubscrCircleAttention.bind(this,item)} onSubScrUser={this.subScrUser.bind(this,item)}></BehaviorCard>
+                              <View className={`target-item-${item.activityId}`}>
+                                <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteAttention.bind(this,item)} onHandleSubscr={this.handleSubscrCircleAttention.bind(this,item)} onSubScrUser={this.subScrUser.bind(this,item)}></BehaviorCard>
+                              </View>
                             )
                           })
                         }
@@ -81,39 +77,32 @@ export default class Index extends HomePage {
                     {
                       recommends.map((item,key) => {
                         return (
-                          <UserInfoItem model={item.entity} activeModel={item} needShared></UserInfoItem>
+                          <View className={`target-item-${item.entityId}`}>
+                            <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteRecommends.bind(this,item)} onSubScrUser={this.subScrUser.bind(this,item)}></BehaviorCard>
+                          </View>
                         )
                       })
                     }
-                  <Preloading showLoading={showRecommendLoading} isToBottom={isRecommendToBottom}></Preloading>
+                    {
+                      !isPullDownRefresh &&
+                      <Preloading showLoading={showRecommendLoading} isToBottom={isRecommendToBottom}></Preloading>
+                    }
+                  
                   </View>
                 }
               </View>
             </AtTabsPane>
-            {/* <AtTabsPane current={currentTopTab} index={2} className='attention-tabs-pane'>
-              <View className='user-item-wrapper'>
-                {
-                  [1, 2, 3, 4, 5].map(key => {
-                    return (
-                      <UserInfoItem key={key} needShared needDistance />
-                    )
-                  })
-                }
-              </View>
-            </AtTabsPane> */}
             <AtTabsPane current={currentTopTab} index={2} className='attention-tabs-pane'>
-              <View className='attention-tabs'>
-                <View className={`slider-view${hotTabType === 2 ? ' left-status' : ''}`}></View>
-                <View className='tab-items'>
-                  <Text className='tab-item' onClick={this.hotTabChange.bind(this, 1)}>近24小时</Text>
-                  <Text className='tab-item' onClick={this.hotTabChange.bind(this, 2)}>近7天</Text>
-                </View>
+              <View className='slider-tab-wrapper'>
+                <SliderTab tabList={[{ title: '近24小时' }, { title: '近7天' }]} onChange={this.hotTabChange.bind(this)} />
               </View>
               <View className='user-item-wrapper'>
                 {
-                  [1, 2, 3, 4, 5].map(key => {
+                  hots.map((item,num) => {
                     return (
-                      <UserInfoItem key={key} showOrder />
+                      <View className={`target-item-${item.pid}`}>
+                        <UserInfoItem key={item.pid} sortNum={num + 1} showOrder countryAble={false} model={item} closeRelease  onHandleFavorite={this.handleFavoriteHots.bind(this,item)}/>
+                      </View>
                     )
                   })
                 }
@@ -138,11 +127,4 @@ export default class Index extends HomePage {
       </View>
     )
   }
-
-  /**
-   * 分享
-   */
-  // onShareAppMessage() {
-  //   return this.setShareOptions()
-  // }
 }

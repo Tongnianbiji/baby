@@ -32,6 +32,9 @@ export default class CircleItem extends Component {
     if(!kw){
       kw='济阳'
     }
+    if (!originTxt) {
+      originTxt = '济阳'
+    }
     const reg = new RegExp(kw, 'gi');
     const contentReg = /^_#_([^_#_]+)_#_$/;
     const newList = [];

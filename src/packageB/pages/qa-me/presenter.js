@@ -55,7 +55,7 @@ export default class Presenter extends BaseComponent {
     this.setState({
       postLock:false
     })
-    if(res && res.items && res.items.length){
+    if(res && res.items){
       const {total,items} = res;
       if (!answerData.length) {
         this.setState({

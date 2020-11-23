@@ -2,6 +2,10 @@ import BaseComponent from '../../common/baseComponent'
 import React from 'react'
 import Model from './model'
 import Taro from '@tarojs/taro'
+import staticData from '@src/store/common/static-data'
+
+let exposureIdList = new Set();
+let timer = null;
 export default class HomePage extends BaseComponent {
   constructor(props) {
     super(props)
@@ -11,22 +15,25 @@ export default class HomePage extends BaseComponent {
       currentTopTab: 1,
       attentionType: 1, //1: 关注的用户   2: 关注的圈子
       hotTabType: 1, //1: 24小时   2: 7天
-      currentCity: this.getCurrentCity(),
+      currentCity: '',
       tabId: 110000,
       attentionUsers: [],
-      recommends:[],
+      recommends: [],
+      hots: [],
       isCollectMin: true,
       currentSharePid: '',
       currentShareQid: '',
       attentionPageNum: 1,
       showAttentionLoading: true,
       isAttentionToBottom: false,
-      showRecommendLoading: true,
+      showRecommendLoading: false,
       isRecommendToBottom: false,
       postLock: false,
       isCollentMini: true,
-      showNewInfoBar:false,
-      total:0
+      showNewInfoBar: false,
+      total: 0,
+      recommendsLength: 0,
+      isPullDownRefresh:false
     }
   }
 
@@ -36,7 +43,8 @@ export default class HomePage extends BaseComponent {
     //     isCollectMin:false
     //   })
     // }, 5e3);
-    this.getrecommends()
+    this.getrecommends();
+    this.gethots();
   }
 
   componentDidShow() {
@@ -47,7 +55,7 @@ export default class HomePage extends BaseComponent {
     //       const c = data.district || data.city
     //       console.log('c',c)
     //       this.setState({ currentCity: this.getSubCityName(c) })
-    //       this.setCurrentCity(c)
+    //       //this.setCurrentCity(c)
     //     })
     //   } else {
     //     this.setState({ currentCity: this.getSubCityName() })
@@ -56,17 +64,25 @@ export default class HomePage extends BaseComponent {
     // }).catch(() => {
     //   this.setState({ currentCity: '请选择' })
     // })
-    console.log('当前城市', this.getCurrentCity());
+    timer = setInterval(() => {
+      this.setState({
+        currentCity: this.getCurrentCity()
+      })
+      if(this.getCurrentCity()){
+        clearInterval(timer)
+      }
+   }, 300);
     const {
-      lat,
-      lon,
-      provinceCode,
+      lat='31.22114',
+      lon='121.54409',
+      provinceCode='上海',
       cityCode,
       countryCode,
       cityCodeCode,
       countryCodeCode
     } = this.getCurrentLocation();
     const { tabId } = this.state;
+  
     getApp().sensors.registerApp({
       lat: lat,
       lon: lon,
@@ -76,48 +92,52 @@ export default class HomePage extends BaseComponent {
       tabId: tabId,
       uid: this.getUserInfo().userId || 'guest'
     })
-    this.setState({
-      currentCity: this.getCurrentCity()
-    })
-    this.getMessageCount()
+    this.getMessageCount();
+    setTimeout(() => {
+      this.exposure()
+    }, 800);
   }
 
 
-  onPullDownRefresh() {
-    const {currentTopTab} = this.state;
-    if(currentTopTab === 1){
+  async onPullDownRefresh() {
+    const { currentTopTab } = this.state;
+    if (currentTopTab === 1) {
+      await this.getrecommends();
       this.setState({
-        showNewInfoBar:true
+        showNewInfoBar: true,
+        isPullDownRefresh:true
       })
+      setTimeout(() => {
+        this.setState({
+          showNewInfoBar: false,
+        }, () => {
+          Taro.stopPullDownRefresh()
+        })
+      }, 2e3)
+    } else {
+      Taro.stopPullDownRefresh()
     }
-    setTimeout(()=>{
-      this.setState({
-        showNewInfoBar:false
-      },()=>{
-        Taro.stopPullDownRefresh()
-      })
-    },2e3)
+    Taro.vibrateShort()
   }
 
-  onShareAppMessage (res){
-    let path= '';
-    console.log('分享',res)
+  onShareAppMessage(res) {
+    let path = '';
     if (res.from === 'button') {
-      const {pid,qid} =JSON.parse(res.target.id);
-      if(pid){
+      const { pid, qid } = JSON.parse(res.target.id);
+      if (pid) {
         path = `/packageB/pages/post-detail/index?pid=${pid}`
       }
-      if(qid){
+      if (qid) {
         path = `/packageB/pages/issue-detail/index?qid=${qid}`
       }
     }
     return {
       title: `欢迎加入童年`,
-      path:path
+      path: path
     }
   }
 
-  onReachBottom() {
+  async onReachBottom() {
     const { postLock, isAttentionToBottom, currentTopTab, attentionType, attentionUsers } = this.state;
     if (currentTopTab === 0) {
       if (attentionType === 1) {
@@ -127,13 +147,107 @@ export default class HomePage extends BaseComponent {
           }), () => {
             this.getAttentionUsers();
             let contentIdList = [];
-            attentionUsers.forEach(item=>{
-              contentIdList.push(item.activityId.toString())
+            attentionUsers.forEach(item => {
+              if (item.entity.pid) {
+                contentIdList.push(item.entity.pid.toString())
+              }
             })
             getApp().sensors.registerApp({
               contentIdList: contentIdList,
-              contentType:1
+              contentType: 1
             })
+          })
+        }
+      }
+    }
+    else if(currentTopTab === 1){
+      this.setState({
+        isPullDownRefresh:false,
+        showRecommendLoading:true,
+        isRecommendToBottom:false,
+      },async()=>{
+        if (!postLock){
+          // Taro.showLoading();
+          await this.getrecommends(2);
+          // Taro.hideLoading();
+          this.setState({
+            showRecommendLoading:false
+          })
+        }
+      }) 
+    }
+  }
+
+  onPageScroll() {
+    this.exposure()
+  }
+
+  exposure = ()=>{
+    const {attentionUsers,recommends,hots,currentTopTab,attentionType} = this.state;
+    if(currentTopTab === 0 && attentionType === 1){
+      for(let i=0;i<attentionUsers.length;i++){
+        let item = attentionUsers[i];
+        if(!exposureIdList.has(item.activityId)){
+          exposureIdList.add(item.activityId);
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0}).observe(`.target-item-${item.activityId}`, (res) => {
+            console.log('距离',res.intersectionRatio)
+            if (res.intersectionRatio >0) {
+              let contentIdList = [];
+              console.log(`进入页面${item.activityId}`)
+              if(item.entity.pid || item.entity.qid){
+                let entityId = item.entity.pid || item.entity.qid;
+                contentIdList.push(entityId.toString())
+                getApp().sensors.track('exposure', {
+                  contentIdList:contentIdList,
+                  contentType:item.entity.pid ? 1 : 3,
+                  eventType: 1
+                });
+              }
+            }
+          })
+        }
+      }
+    }else if(currentTopTab === 1){
+      for(let i=0;i<recommends.length;i++){
+        let item = recommends[i];
+        if(!exposureIdList.has(item.entityId)){
+          exposureIdList.add(item.entityId);
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0}).observe(`.target-item-${item.entityId}`, (res) => {
+            if (res.intersectionRatio >0) {
+              let contentIdList = [];
+              console.log(`进入页面${item.entityId}`)
+              if(item.entity && (item.entity.pid || item.entity.qid)){
+                let entityId = item.entity.pid || item.entity.qid;
+                contentIdList.push(entityId.toString())
+                getApp().sensors.track('exposure', {
+                  contentIdList:contentIdList,
+                  contentType:item.entity.pid ? 1 : 3,
+                  eventType: 1
+                });
+              }
+            }
+          })
+        }
+      }
+    }else if(currentTopTab === 2){
+      for (let i = 0; i < hots.length; i++) {
+        let item = hots[i];
+        if (!exposureIdList.has(item.pid)) {
+          exposureIdList.add(item.pid);
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.pid}`, (res) => {
+            if (res.intersectionRatio > 0) {
+              let contentIdList = [];
+              console.log(`进入页面${item.pid}`)
+              if (item.pid) {
+                let entityId = item.pid;
+                contentIdList.push(entityId.toString())
+                getApp().sensors.track('exposure', {
+                  contentIdList: contentIdList,
+                  contentType: 1,
+                  eventType: 1
+                });
+              }
+            }
           })
         }
       }
@@ -141,13 +255,13 @@ export default class HomePage extends BaseComponent {
   }
 
   topTabChange = (current) => {
-    const { attentionType, hotTabType,attentionUsers,recommends } = this.state;
+    const { attentionType, hotTabType, attentionUsers, recommends } = this.state;
     let tabId = null;
     switch (current) {
       case 0:
         if (attentionType === 1) {
           tabId = 100100;
-          if(!attentionUsers.length){
+          if (!attentionUsers.length) {
             this.getAttentionUsers()
           }
         }
@@ -157,7 +271,7 @@ export default class HomePage extends BaseComponent {
         break;
       case 1:
         tabId = 110000;
-        if(!recommends.length){
+        if (!recommends.length) {
           this.getrecommends()
         }
         break;
@@ -174,62 +288,69 @@ export default class HomePage extends BaseComponent {
       currentTopTab: current,
       tabId: tabId
     }, () => {
-      //const {tabId} = this.state;
-      getApp().sensors.registerApp({
+      getApp().sensors.track('click', {
         tabId: tabId,
-        eventType: 2
-      })
+        eventType: 2,
+        contentIdList:[]
+      });
+      this.exposure()
     })
+    
   }
 
-  attentionTabChange = attentionType => {
+  attentionTabChange = type => {
     let tabId = null;
-    const {attentionUsers } = this.state;
-    this.setState({ attentionType },
+    const { attentionUsers } = this.state;
+    this.setState({ attentionType: type+1},
       () => {
-        if (attentionType === 1) {
-          if(!attentionUsers.length){
+        if (type === 0) {
+          if (!attentionUsers.length) {
             this.getAttentionUsers()
           }
         }
       })
-    if (attentionType === 1) {
+    if (type === 0) {
       tabId = 100100;
       this.setState({
         tabId: 100100
       })
     }
-    else if (attentionType === 2) {
+    else if (type === 1) {
       tabId = 100204;
       this.setState({
         tabId: 100204//目前关注圈子只有圈子（其他暂时隐藏）
       })
     }
-    getApp().sensors.registerApp({
+    getApp().sensors.track('click', {
       tabId: tabId,
-      eventType: 2
-    })
+      eventType: 2,
+      contentIdList:[]
+    });
+    this.exposure();
   }
 
-  hotTabChange = hotTabType => {
+  hotTabChange = type => {
     let tabId = null;
-    this.setState({ hotTabType })
-    if (hotTabType === 1) {
+    this.setState({ hotTabType:type+1 })
+    if (type === 0) {
       tabId = 130100;
       this.setState({
         tabId: 130100
       })
     }
-    else if (hotTabType === 2) {
+    else if (type === 1) {
       tabId = 130200;
       this.setState({
         tabId: 130200
       })
     }
-    getApp().sensors.registerApp({
+    this.gethots()
+    getApp().sensors.track('click', {
       tabId: tabId,
-      eventType: 2
-    })
+      eventType: 2,
+      contentIdList:[]
+    });
+    this.exposure();
   }
 
   goSearch = () => {
@@ -264,7 +385,7 @@ export default class HomePage extends BaseComponent {
     this.setState({
       postLock: false
     })
-    if (res && res.items && res.items.length) {
+    if (res && res.items) {
       const { total, items } = res;
       if (!attentionUsers.length) {
         this.setState({
@@ -286,11 +407,9 @@ export default class HomePage extends BaseComponent {
   }
 
   //获取推荐数据
-  getrecommends = async () => {
-    const { recommends, attentionPageNum } = this.state;
-    const { userId } = this.getUserInfo();
-    let r = await Model.clearRead(userId);
-    console.log('*****',r)
+  getrecommends = async (type=1) => {
+    //type 1:下拉刷新；2:上拉刷新
+    let {recommends} = this.state;
     this.setState({
       postLock: true
     })
@@ -298,42 +417,52 @@ export default class HomePage extends BaseComponent {
     this.setState({
       postLock: false
     })
-    if (res){
+    if (res) {
+      let newRecommends = null;
+      if(type === 1){
+        newRecommends = res.concat(recommends)
+      }else{
+        newRecommends=recommends.concat(res)
+      }
       this.setState({
-        recommends: res || []
+        recommends:newRecommends,
+        recommendsLength: res.length
       })
     }
-    if(!res.length){
-      this.setState({
-        showRecommendLoading: false,
-        isRecommendToBottom: true,
-      })
-    }
-    // if (res && res.items && res.items.length) {
-    //   const { total, items } = res;
-    //   if (!recommends.length) {
-    //     this.setState({
-    //       recommends: items || []
-    //     })
+  }
 
-    //   } else {
-    //     this.setState((pre) => ({
-    //       recommends: pre.recommends.concat(items || [])
-    //     }))
-    //   }
-    //   if (total <= this.state.recommends.length) {
-    //     this.setState({
-    //       showRecommendLoading: false,
-    //       isRecommendToBottom: true,
-    //     })
-    //   }
-    // }
+  //获取热版数据
+  gethots = async () => {
+    const {hotTabType} = this.state;
+    if(hotTabType === 1){
+      let res = await Model.gethots(1);
+      if (res) {
+        this.setState({
+          hots: res || []
+        })
+      }
+    }else{
+      let res = await Model.gethots(2);
+      if (res) {
+        this.setState({
+          hots: res || []
+        })
+      }
+    }
+    
   }
 
   handleFavoriteAttention = async (model) => {
     let { postLock, attentionUsers } = this.state;
     let preIndex = null;
+    const {isLogin} = staticData;
     const { pid, qid } = model.entity;
+    if(!isLogin){
+      this.navto({
+        url:'/pages/login/index'
+      })
+      return
+    }
     if (pid) {
       preIndex = attentionUsers.findIndex(item => item.activityId === model.activityId)
     }
@@ -386,6 +515,125 @@ export default class HomePage extends BaseComponent {
     })
   }
 
+  handleFavoriteRecommends = async (model) => {
+    let { postLock, recommends } = this.state;
+    let preIndex = null;
+    const {isLogin} = staticData;
+    const { pid, qid } = model.entity;
+    if(!isLogin){
+      this.navto({
+        url:'/pages/login/index'
+      })
+      return
+    }
+    if (pid) {
+      preIndex = recommends.findIndex(item => item.activityId === model.activityId)
+    }
+    else if (qid) {
+      preIndex = recommends.findIndex(item => item.activityId === model.activityId)
+    }
+    if (!postLock) {
+      if (model.entity.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.cancelMarkPost(pid);
+        }
+        else if (qid) {
+          res = await Model.cancelMarkQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        recommends[preIndex].entity.isMark = false;
+        recommends[preIndex].entity.markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.markPost(pid);
+        }
+        else if (qid) {
+          res = await Model.markQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        recommends[preIndex].entity.isMark = true;
+        recommends[preIndex].entity.markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
+    }
+    this.setState({
+      recommends: recommends
+    })
+  }
+
+  handleFavoriteHots = async (model) => {
+    let { postLock, hots } = this.state;
+    let preIndex = null;
+    const { pid, qid } = model;
+    if (pid) {
+      preIndex = hots.findIndex(item => item.pid === model.pid)
+    }
+    else if (qid) {
+      preIndex = hots.findIndex(item => item.qid === model.qid)
+    }
+    if (!postLock) {
+      if (model.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.cancelMarkPost(pid);
+        }
+        else if (qid) {
+          res = await Model.cancelMarkQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        hots[preIndex].isMark = false;
+        hots[preIndex].markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.markPost(pid);
+        }
+        else if (qid) {
+          res = await Model.markQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        hots[preIndex].isMark = true;
+        hots[preIndex].markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
+    }
+    this.setState({
+      hots: hots
+    })
+  }
+
   //加入/取消
   handleSubscrCircleAttention = async (model) => {
     let { postLock, attentionUsers } = this.state;
@@ -422,40 +670,40 @@ export default class HomePage extends BaseComponent {
     })
   }
 
-  subScrUser = async (model)=>{
-    let {postLock,attentionUsers} = this.state;
-    let preIndex = attentionUsers.findIndex(item=>item.entity.userId === model.entity.userId)
-    if(!postLock){
-     if(model.entity.isSubscr){
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.cancelAttentionUser(model.entity.userId);
-       this.setState({
-         postLock:false
-       })
-       attentionUsers[preIndex].entity.isSubscr = false
-       if(res){
-         this.showToast('已取消');
-       }
-     }else{
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.attentionUser(model.entity.userId);
-       this.setState({
-         postLock:false
-       })
-       attentionUsers[preIndex].entity.isSubscr = true
-       if(res){
-         this.showToast('已关注');
-       }
-     }
+  subScrUser = async (model) => {
+    let { postLock, attentionUsers } = this.state;
+    let preIndex = attentionUsers.findIndex(item => item.entity.userId === model.entity.userId)
+    if (!postLock) {
+      if (model.entity.isSubscribe) {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.cancelAttentionUser(model.entity.userId);
+        this.setState({
+          postLock: false
+        })
+        attentionUsers[preIndex].entity.isSubscribe = false
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.attentionUser(model.entity.userId);
+        this.setState({
+          postLock: false
+        })
+        attentionUsers[preIndex].entity.isSubscribe = true
+        if (res) {
+          this.showToast('已关注');
+        }
+      }
     }
     this.setState({
-      attentionUsers:attentionUsers
+      attentionUsers: attentionUsers
     })
-   }
+  }
 
   share = (model) => {
     const { pid, qid } = model;
@@ -474,19 +722,20 @@ export default class HomePage extends BaseComponent {
     }
   }
 
-  getMessageCount = async ()=>{
+  getMessageCount = async () => {
     let res = await Model.getMessageCount();
-    if(res){
-      const {answer,funs,mark,reply,star} = res;
+    if (res) {
+      const { answer, funs, mark, reply, star } = res;
       this.setState({
-        total:answer+funs+mark+reply+star
+        total: answer + funs + mark + reply + star
       })
     }
   }
 
-  goMessage = ()=>{
+  goMessage = async () => {
+    const { userId } = this.getUserInfo();
     Taro.switchTab({
-      url:'/pages/message/index'
+      url: '/pages/message/index'
     })
   }
 

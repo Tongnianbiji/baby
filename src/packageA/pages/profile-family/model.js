@@ -97,6 +97,15 @@ export default {
     } else {
       return false
     }
-  }
+  },
 
+  async childMine() {
+    const ret = await request.getWithToken('/child/mine')
+    const data = request.standardResponse(ret);
+    if (data.code === 0) {
+      return data
+    } else {
+      return false
+    }
+  }
 }

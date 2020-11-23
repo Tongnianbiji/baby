@@ -13,36 +13,49 @@ export default class Presenter extends BaseComponent {
       messageList: [],
       myPublishMessage: {},
       userInfo: {},
+      toUserInfo:{},
       activeFocus: false,
       inputValue: '',
       inputBoxBottom: 0,
-      holdKeyboard: false
+      holdKeyboard: true,
+      files:{},
+      fromUid:'',
+      toUid:'',
+      mid:''
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const systemInfo = Taro.getSystemInfoSync();
     const { name, id } = this.$router.params;
-    let { messageList } = this.state;
     let windowHeight = systemInfo.windowHeight;
     let scrollStyle = { height: `${windowHeight - 48}px` }
     this.setState({
-      scrollStyle: scrollStyle
+      scrollStyle: scrollStyle,
+      toUid:id
     })
-    this.getProfileData();
-    Model.getData(id)
+    await this.getProfileData();
+    await this.getToProfileData();
+    await this.getMessageList();
+    let { messageList } = this.state;
     this.setNavigationBarTitle();
+
+    console.log('channel',goEasy)
+    goEasy.log(res=>{
+      console.log(res)
+    })
     goEasy.subscribe({
       channel: "tn1",
       onMessage: (message) => {
-        const { uid, content, headImg, nickName } = JSON.parse(message.content)
-        if (content) {
+        const { uid, content, headImg, nickName,files } = JSON.parse(message.content)
+        if (content || files.url) {
           messageList.push(
             {
               uid: uid,
               content: content,
               headImg: headImg,
               nickName: nickName,
+              files:files,
               isBlock:false
             }
           )
@@ -58,10 +71,52 @@ export default class Presenter extends BaseComponent {
    * 根据name设置nav bar title
    */
   setNavigationBarTitle() {
-    const { name, id } = getCurrentInstance().router.params;
+    const {toUserInfo} = this.state;
     wx.setNavigationBarTitle({
-      title: name
+      title: toUserInfo.nickName
     })
+  }
+
+  //获取历史消息
+  getMessageList = async ()=>{
+    const {fromUid,toUid,userInfo,toUserInfo,mid,messageList} = this.state;
+    let res = await Model.getData(fromUid,toUid,mid);
+    if(res){
+      let newMessageList = res.items.reverse();
+      newMessageList.forEach(item=>{
+        if(item.type !== 0){
+          item.files = {
+            type:item.type,
+            url:item.content
+          }
+        }else{
+          item.files = {
+            type:item.type
+          }
+        }
+        item.isBlock = Boolean(item.isBlock);
+        item.uid = item.fromUid;
+        if(item.fromUid === fromUid){
+          item.headImg = userInfo.headImg;
+          item.nickName = userInfo.nickName;
+        }else{
+          item.headImg = toUserInfo.headImg;
+          item.nickName = toUserInfo.nickName;
+        }
+      })
+      if(!messageList.length){
+        this.setState({
+          messageList:newMessageList
+        })
+      }else{
+        this.setState({
+          messageList:newMessageList.concat(messageList)
+        })
+      }
+      this.setState({
+        mid:newMessageList[0].mid
+      })
+    }
   }
 
   //获取个人信息
@@ -70,7 +125,19 @@ export default class Presenter extends BaseComponent {
     let res = await Model.getProfileData(userId);
     if (res) {
       this.setState({
-        userInfo: res
+        userInfo: res,
+        fromUid:res.userId,
+      })
+    }
+  }
+
+  //获取聊天朋友信息
+  getToProfileData = async () => {
+    const { id } = this.$router.params;
+    let res = await Model.getProfileData(id);
+    if (res) {
+      this.setState({
+        toUserInfo: res,
       })
     }
   }
@@ -86,6 +153,12 @@ export default class Presenter extends BaseComponent {
     console.log('往下滑')
   }
 
+  onScrollToUpper =async() => {
+    Taro.showLoading();
+    this.getMessageList();
+    Taro.hideLoading();
+  }
+
   inputMessage = (e) => {
     this.setState({
       publishContent: e.target.value,
@@ -93,12 +166,12 @@ export default class Presenter extends BaseComponent {
     })
   }
 
-  publishMessage = async () => {
-    const { publishContent, userInfo: { userId, nickName, headImg } } = this.state;
+  publishMessage = async (type=0) => {
+    const { publishContent,files,toUid,fromUid, userInfo: { userId, nickName, headImg } } = this.state;
     let {messageList} = this.state;
     const {id } = getCurrentInstance().router.params;
     let isBlock = await this.isBlockFriend();
-    if (publishContent) {
+    if (publishContent || files.url) {
       if (!isBlock) {
         goEasy.publish({
           channel: "tn1",
@@ -107,6 +180,7 @@ export default class Presenter extends BaseComponent {
             content: publishContent,
             nickName: nickName,
             headImg: headImg,
+            files:files,
             isBlock:false
           }),
         })
@@ -114,7 +188,6 @@ export default class Presenter extends BaseComponent {
           inputValue: '',
           //holdKeyboard:false
         })
-        Model.saveData(id, publishContent)
       }else{
         messageList.push(
           {
@@ -122,14 +195,15 @@ export default class Presenter extends BaseComponent {
             content: publishContent,
             headImg: headImg,
             nickName: nickName,
-            isBlock:true
+            isBlock:true,
+            files:files,
           }
         )
         this.setState({
           messageList: messageList
         })
       }
-
+      Model.saveData(fromUid,toUid,type,publishContent,Number(isBlock))
     } else {
       this.showToast('输入不能为空')
     }
@@ -138,7 +212,7 @@ export default class Presenter extends BaseComponent {
   onFocus = () => {
     this.setState({
       activeFocus: true,
-      inputBoxBottom: 300,
+      inputBoxBottom: 15,
       //holdKeyboard:true
     })
   }
@@ -153,6 +227,44 @@ export default class Presenter extends BaseComponent {
   isBlockFriend = async () => {
     const { id } = this.$router.params;
     let res = await Model.isBlockFriend(id);
-    console.log('是否被拉黑', res)
+    return res;
   }
+
+  publishText = ()=>{
+    this.setState({
+      files:{},
+    },()=>{
+      this.publishMessage(0)
+    })
+  }
+
+  getFiles = (files)=>{
+    console.log('files',files)
+    this.setState({
+      files:files,
+      publishContent:''
+    },()=>{
+      this.publishMessage(files.type)
+    })
+  }
+
+  preViewImage = (url,e)=>{
+    //const {files} = this.props.model;
+    e.stopPropagation();
+    // let newFiles = files.filter(item=>item.type == 1);
+    //let urls = newFiles.map(item=>item.url);
+    let urls = [url];
+    Taro.previewImage({
+      current: url,
+      urls: urls
+    })
+  }
+
+  blockInfo = ()=>{
+    Taro.showToast({
+      title:'已被对方加入黑名',
+      icon:'none'
+    })
+  }
+    
 }

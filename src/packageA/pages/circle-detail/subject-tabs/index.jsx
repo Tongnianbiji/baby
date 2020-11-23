@@ -68,7 +68,7 @@ export default class CircleTabs extends Component {
     const { getTagList } = this.props.staticDataStore;
     const { cid } = this.props.circleDetailStore;
     let res = await getTagList(cid);
-    if (res && res.items.length) {
+    if (res && res.items) {
       this.setState({
         tags: res.items
       })
@@ -82,9 +82,9 @@ export default class CircleTabs extends Component {
 
   //搜索
   onSearch = () => {
-    const { listType } = this.props.circleDetailStore;
+    const { listType,cid } = this.props.circleDetailStore;
     Taro.navigateTo({
-      url: '/packageA/pages/home-search-panel/index?searchScope=circle&tab=' + (listType + 1)
+      url: '/packageA/pages/home-search-panel/index?searchScope=circle&tab=' + (listType) + '&cid=' + cid
     })
   }
 

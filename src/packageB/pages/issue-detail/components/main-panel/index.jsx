@@ -7,6 +7,7 @@ import  FormaDate from '@common/formaDate'
 import BaseComponent from '@common/baseComponent'
 import './index.scss'
 import Model from '../../model'
+import staticData from '@src/store/common/static-data'
 
 @inject('issueDetailStore')
 @observer
@@ -20,20 +21,26 @@ export default class MainPanelComponent extends BaseComponent {
   handleFavorite = async() => {
     const {updateQuestionFavoriteMarks, issueDetail} = this.props.issueDetailStore;
     const { isMark, qid } = issueDetail;
+    const {isLogin} = staticData;
     let params = {
       markes: 1,
       isMark:true
     }
-    
-    if (isMark) {
-      params.markes = -1;
-      params.isMark = false;
-      const d = await Model.questionMarkCancel(qid);
-    } else {
-      const d = await Model.questionMark(qid);
+    if(isLogin){
+      if (isMark) {
+        params.markes = -1;
+        params.isMark = false;
+        const d = await Model.questionMarkCancel(qid);
+      } else {
+        const d = await Model.questionMark(qid);
+      }
+      Taro.vibrateShort();
+      updateQuestionFavoriteMarks(params)
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
     }
-    Taro.vibrateShort();
-    updateQuestionFavoriteMarks(params)
   }
 
 

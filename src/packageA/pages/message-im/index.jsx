@@ -1,12 +1,12 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text, Image, Textarea, ScrollView } from '@tarojs/components'
+import { View, Text, Image, Textarea, ScrollView, Video } from '@tarojs/components'
+import PhotoPickerIm from '@components/photo-picker-im'
 import {ICONS} from '@common/constant'
 import Presenter from './presenter'
 import './index.scss'
 
 export default class MessageIMView extends Presenter {
-
   render() {
     const { scrollStyle, messageList, activeFocus, inputValue, inputBoxBottom,holdKeyboard } = this.state;
     const { userId } = this.getUserInfo()
@@ -19,6 +19,7 @@ export default class MessageIMView extends Presenter {
             style={scrollStyle}
             scrollWithAnimation
             onScrollToLower={this.onScrollToLower.bind(this)}
+            onScrollToUpper={this.onScrollToUpper.bind(this)}
           >
             {
               messageList.map(item => {
@@ -29,12 +30,37 @@ export default class MessageIMView extends Presenter {
                         <View className="chat-box-item-right">
                           <View className="chat-box-item-right-content">
                             <View className="nickname">{item.nickName}</View>
-                            <View selectable={true} className="content">{item.content}
                             {
-                              item.isBlock &&
-                              <Image className="block" src={ICONS.BLOCK}></Image>
+                              item.content && 
+                              <View selectable={true} className="content">{item.content}
+                              {
+                                item.isBlock &&
+                                <Image className="block" src={ICONS.BLOCK} onClick={this.blockInfo.bind(this)}></Image>
+                              }
+                              </View>
                             }
-                            </View>
+                            {
+                              item.files.type == 1 && 
+                              <View style={{marginTop:'20px'}}>
+                                <Image onClick={this.preViewImage.bind(this,item.files.url)} style={{maxWidth:'200px'}} src={item.files.url}></Image>
+                              {
+                                item.isBlock &&
+                                <Image className="block" src={ICONS.BLOCK} onClick={this.blockInfo.bind(this)}></Image>
+                              }
+                              </View>
+                            }
+
+                            {
+                              item.files.type == 2 && 
+                              <View style={{marginTop:'20px'}}>
+                                <Video style={{maxWidth:'200px'}} src={item.files.url}></Video>
+                              {
+                                item.isBlock &&
+                                <Image className="block" src={ICONS.BLOCK} onClick={this.blockInfo.bind(this)}></Image>
+                              }
+                              </View>
+                            }
+                            
                           </View>
                           <Image className="chat-box-item-right-img" onClick={this.viewProfileInfo.bind(this,item.uid)} src={item.headImg}></Image>
                         </View>
@@ -43,7 +69,18 @@ export default class MessageIMView extends Presenter {
                           <Image className="chat-box-item-left-img" src={item.headImg}></Image>
                           <View className="chat-box-item-left-content">
                             <View className="nickname">{item.nickName}</View>
-                            <Text selectable={true} className="content">{item.content}</Text>
+                            {
+                              item.content && 
+                              <Text selectable={true} className="content">{item.content}</Text>
+                            }
+                            {
+                              item.files.type == 1 && 
+                              <Image onClick={this.preViewImage.bind(this,item.files.url)} style={{maxWidth:'200px'}} src={item.files.url}></Image>
+                            }
+                            {
+                              item.files.type == 2 && 
+                              <Video style={{maxWidth:'200px'}} src={item.files.url}></Video>
+                            }
                           </View>
                         </View>
                     }
@@ -54,10 +91,11 @@ export default class MessageIMView extends Presenter {
           </ScrollView>
         </View>
         <View className="input-box" style={{bottom:`${inputBoxBottom}px`}}>
-          <Textarea value={inputValue} className="input-box-textarea" adjustPosition={false} fixed placeholder="请输入" showConfirmBar={false} onFocus={this.onFocus.bind(this)} onBlur={this.onBlur.bind(this)} onInput={this.inputMessage.bind(this)} cursorSpacing={50} autoHeight maxlength="-1"  holdKeyboard={holdKeyboard} />
+          <Textarea value={inputValue} className="input-box-textarea" fixed placeholder="请输入" showConfirmBar={false} onFocus={this.onFocus.bind(this)} onBlur={this.onBlur.bind(this)} onInput={this.inputMessage.bind(this)} cursorSpacing={128} autoHeight maxlength="-1"  holdKeyboard={holdKeyboard} />
+          <PhotoPickerIm onGetFiles={this.getFiles.bind(this)}></PhotoPickerIm>
           {
             activeFocus && 
-            <View className="input-box-btn" onClick={this.publishMessage.bind(this)}>发送</View>
+            <View className="input-box-btn" onClick={this.publishText.bind(this)}>发送</View>
           }
         </View>
       </View>

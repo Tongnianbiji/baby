@@ -19,13 +19,13 @@ export default class IssueDetailView extends Presenter {
   }
 
   render() {
-    const {isCanEntranceCircle,issueDetail } = this.state;
+    const {isCanEntranceCircle,issueDetail,isShowBack } = this.state;
     const store = {
       issueDetailStore
     }
     return (
       <Provider {...store}>
-        <CustomTitle title={issueDetail.cName || '问答详情'} isCanEntranceCircle={isCanEntranceCircle} onEntrancePage={this.entrancePage.bind(this)}></CustomTitle>
+        <CustomTitle title={issueDetail.cName || '问答详情'} isCanEntranceCircle={isCanEntranceCircle} isShowBack={isShowBack} onEntrancePage={this.entrancePage.bind(this)}></CustomTitle>
         <View className='issue-detail-view' style={{marginTop:`59px`}}>
           <MainPanel onShare={this.share.bind(this)}/>
           <Comments />

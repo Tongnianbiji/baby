@@ -1,0 +1,26 @@
+.img-item1 {
+  width: 0;
+  height: 0;
+  position: relative;
+  opacity: 0;
+  //padding: 20px;
+  //background-color: #e8e8e8;
+  //margin-right: 20px;
+  //margin-bottom: 20px;
+  .img {
+    width: 0;
+    height: 0;
+  }
+  .btn-remove {
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 99;
+    border-radius: 50%;
+    //background-color: rgba(0,0,0,.4);
+    //padding:10px;
+    box-sizing: border-box;
+  }
+}

@@ -41,6 +41,9 @@
         button::after{
           border:none
         }
+        .button-hover{
+          background: #ffffff;
+        }
         .distance-info {
           font-size: 24px;
           color: #333;
@@ -126,6 +129,9 @@
             position: absolute;
             top: 2px;
             right: 0;
+          }
+          .button-hover{
+            background: #ffffff;
           }
         }
         .times {

@@ -10,7 +10,7 @@ export default {
       secondSubjectId:'',
       pageNum:1,
       pageSize:10,
-      sortType
+      sort
   }) {
     const ret = await request.postWithToken('/search/circle', params)
     const data = request.standardResponse(ret)
@@ -42,6 +42,22 @@ export default {
     const data = request.standardResponse(ret)
     if (data.code === 0) {
       return true
+    } else {
+      return false
+    }
+  },
+
+  //保存历史记录
+  async saveSecachHistory(type=1,content,cid=0) {
+    let params = {
+     content,
+     type,
+     cid
+    }
+    const ret = await request.postWithToken('/search/history/add',params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
     } else {
       return false
     }

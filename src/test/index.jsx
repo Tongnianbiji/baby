@@ -1,9 +1,11 @@
 import Taro from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View, Button } from '@tarojs/components'
+import BaseComponent from '../common/baseComponent'
+import Model from './model'
 import './index.scss'
 
-export default class Index extends Component {
+export default class Index extends BaseComponent {
 
   componentWillMount() { }
 
@@ -56,6 +58,11 @@ export default class Index extends Component {
     }
   }
 
+  clearRead = async()=>{
+    const { userId } = this.getUserInfo();
+    await Model.clearRead(userId);
+  }
+
   config = {
     navigationBarTitleText: '页面入口'
   }
@@ -73,6 +80,7 @@ export default class Index extends Component {
         <Button onClick={() => this.navigate('circle-list')}>圈子列表</Button>
         <Button onClick={() => this.navigate('post-detail')}>帖子详情</Button>
         <Button onClick={() => this.navigate('issue-detail')}>问答详情</Button>
+        <Button onClick={this.clearRead.bind(this)}>清除</Button>
         {/* <Button onClick={() => this.navigate('index')}>首页</Button>
         <Button onClick={() => this.navigate('discover')}>发现</Button>
         <Button onClick={() => this.navigate('message')}>消息</Button>

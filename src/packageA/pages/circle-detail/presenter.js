@@ -3,6 +3,8 @@ import BaseComponent from '../../../common/baseComponent'
 import Taro, {getCurrentInstance} from '@tarojs/taro'
 import Model from './model'
 import staticData from '@src/store/common/static-data'
+
+let exposureIdList = new Set();
 export default class Presenter extends BaseComponent {
 
   constructor(props) {
@@ -22,8 +24,9 @@ export default class Presenter extends BaseComponent {
     const { cid, cname = '' } = getCurrentInstance().router.params;
     const info = Taro.getSystemInfoSync();
     const { windowHeight, statusBarHeight, titleBarHeight } = info;
-    const tempHeight = (windowHeight - 130) + 'px';
+    const tempHeight = (windowHeight - 200 )+ 'px';
     this.$store.updateCircleId(cid);
+    //this.$store.updateCenterHeight(tempHeight)
     this.setState({
       cid: cid,
       tempHeight:tempHeight
@@ -48,14 +51,130 @@ export default class Presenter extends BaseComponent {
     this.freshList()
   }
 
-  onPageScroll(e) {
-    let { tempHeight } = this.state;
-    let scrollTop = e.scrollTop;
-    console.log(scrollTop)
-    if (scrollTop >= 130) {
-      this.$store.updateCenterHeight(tempHeight)
-      this.$store.updateIsFiexd(true)
+  //判断是否到底
+  isToBottom() {
+    return this.$store.isToBottom()
+  }
+
+  //切换tab请求不同tab接口
+  typeTabPost() {
+    this.$store.typeTabPost();
+  }
+
+  onReachBottom(){
+    const { postLock, listType } = this.$store;
+    this.$store.updateTabPageNum(listType);
+    if (!this.isToBottom() && !postLock) {
+      this.typeTabPost()
     }
+  }
+
+  onPageScroll(e) {
+    // let { tempHeight } = this.state;
+    // let scrollTop = e.scrollTop;
+    // console.log(scrollTop)
+    // if (scrollTop >= 130) {
+    //   this.$store.updateCenterHeight(tempHeight)
+    //   this.$store.updateIsFiexd(true)
+    // }
+    this.exposure()
+  }
+
+  exposure = () => {
+    let { circlePosts, circleEssence, circleQuestion,circleHots,listType } = this.$store;
+    switch (listType) {
+      case 0:
+        for (let i = 0; i < circleEssence.length; i++) {
+          let item = circleEssence[i];
+          if (!exposureIdList.has(item.pid)) {
+            exposureIdList.add(item.pid);
+            Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.pid}`, (res) => {
+              if (res.intersectionRatio > 0) {
+                let contentIdList = [];
+                console.log(`进入页面${item.pid}`)
+                if (item.pid) {
+                  let entityId = item.pid;
+                  contentIdList.push(entityId.toString())
+                  getApp().sensors.track('exposure', {
+                    contentIdList: contentIdList,
+                    contentType: 1
+                  });
+                }
+              }
+            })
+          }
+        }
+        break;
+      case 1:
+        for (let i = 0; i < circlePosts.length; i++) {
+          let item = circlePosts[i];
+          if (!exposureIdList.has(item.pid)) {
+            exposureIdList.add(item.pid);
+            Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.pid}`, (res) => {
+              if (res.intersectionRatio > 0) {
+                let contentIdList = [];
+                console.log(`进入页面${item.pid}`)
+                if (item.pid) {
+                  let entityId = item.pid;
+                  contentIdList.push(entityId.toString())
+                  getApp().sensors.track('exposure', {
+                    contentIdList: contentIdList,
+                    contentType: 1
+                  });
+                }
+              }
+            })
+          }
+        }
+        break;
+      case 2:
+        for (let i = 0; i < circleQuestion.length; i++) {
+          let item = circleQuestion[i];
+          if (!exposureIdList.has(item.qid)) {
+            exposureIdList.add(item.qid);
+            Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.qid}`, (res) => {
+              if (res.intersectionRatio > 0) {
+                let contentIdList = [];
+                console.log(`进入页面${item.qid}`)
+                if (item.qid) {
+                  let entityId = item.qid;
+                  contentIdList.push(entityId.toString())
+                  getApp().sensors.track('exposure', {
+                    contentIdList: contentIdList,
+                    contentType: 1
+                  });
+                }
+              }
+            })
+          }
+        }
+        break;
+        case 3:
+        for (let i = 0; i < circleHots.length; i++) {
+          let item = circleHots[i];
+          if (!exposureIdList.has(item.pid)) {
+            exposureIdList.add(item.pid);
+            Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.pid}`, (res) => {
+              if (res.intersectionRatio > 0) {
+                let contentIdList = [];
+                console.log(`进入页面${item.pid}`)
+                if (item.pid) {
+                  let entityId = item.pid;
+                  contentIdList.push(entityId.toString())
+                  getApp().sensors.track('exposure', {
+                    contentIdList: contentIdList,
+                    contentType: 1
+                  });
+                }
+              }
+            })
+          }
+        }
+        break;
+    }
+    getApp().sensors.track('exposure', {
+      eventType:1
+    });
   }
 
   async initData(cid) {
@@ -106,7 +225,6 @@ export default class Presenter extends BaseComponent {
         Taro.stopPullDownRefresh()
       }
     }, 500);
-    
   }
 
   //点击子tab获取帖子数据
@@ -129,7 +247,6 @@ export default class Presenter extends BaseComponent {
         this.getCirclePostsList();
       })
     }
-    
   }
 
   //收藏
@@ -149,13 +266,9 @@ export default class Presenter extends BaseComponent {
         this.$store.updateCustomStatus(true)
       }else{
         this.$store.updateCustomStatus(false)
-        
       }
     }
-    
   }
-
- 
 
   typeChange = (index, data) => {
     this.setState({ listType: index })
@@ -168,11 +281,25 @@ export default class Presenter extends BaseComponent {
 
   toCreatePost = () => {
     const { cid, cname = '' } = getCurrentInstance().router.params
-    this.navto({ url: `/packageB/pages/create-post/index?cid=${cid}&cname=${cname}` })
+    const {isLogin} = staticData;
+    if(isLogin){
+      this.navto({ url: `/packageB/pages/create-post/index?cid=${cid}&cname=${cname}` })
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
   }
 
   toCreateIssue = () => {
-    const { cid, cname = '' } = getCurrentInstance().router.params
-    this.navto({ url: `/packageB/pages/create-issue/index?cid=${cid}&cname=${cname}` })
+    const { cid, cname = '' } = getCurrentInstance().router.params;
+    const {isLogin} = staticData;
+    if(isLogin){
+      this.navto({ url: `/packageB/pages/create-issue/index?cid=${cid}&cname=${cname}` })
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
   }
 }

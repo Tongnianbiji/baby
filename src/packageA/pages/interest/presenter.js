@@ -30,7 +30,9 @@ export default class InterestPresenter extends BaseComponent {
   componentDidHide() { }
 
   onClickForSkip() {
-    console.log('skip');
+    Taro.switchTab({
+      url:'/pages/index/index'
+    })
   }
   //获取一级话题
   getFirstecondLeveData = async ()=>{

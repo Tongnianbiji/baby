@@ -9,21 +9,28 @@ export default class Presenter extends BaseComponent {
     this.state = {
       statusBarHeight:0,
       isCanEntranceCircle:true,
-      issueDetail:{}
+      issueDetail:{},
+      isShowBack:true
     }
   }
 
   async componentDidMount(){
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2];
-    if(prevPage.route === 'packageA/pages/circle-detail/index'){
+    if(!prevPage){
       this.setState({
-        isCanEntranceCircle:false
+        isShowBack:false
       })
     }else{
-      this.setState({
-        isCanEntranceCircle:true
-      })
+      if(prevPage.route === 'packageA/pages/circle-detail/index'){
+        this.setState({
+          isCanEntranceCircle:false
+        })
+      }else{
+        this.setState({
+          isCanEntranceCircle:true
+        })
+      }
     }
   }
 

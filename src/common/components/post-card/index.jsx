@@ -4,6 +4,7 @@ import { View, Text, Image, Button } from '@tarojs/components'
 import FormaDate from '@common/formaDate'
 import { ICONS } from '../../constant'
 import Behaviors from '@common/utils/behaviors'
+import staticData from '@src/store/common/static-data'
 import './styles.scss'
 
 
@@ -49,6 +50,9 @@ export default class UserInfoItem extends Component {
     if (!kw) {
       kw = '济阳'
     }
+    if (!originTxt) {
+      originTxt = '济阳'
+    }
     const reg = new RegExp(kw, 'gi');
     const contentReg = /^_#_([^_#_]+)_#_$/;
     const newList = [];
@@ -70,11 +74,21 @@ export default class UserInfoItem extends Component {
       Taro.navigateTo({
         url: `/packageB/pages/post-detail/index?pid=${model.pid}`
       })
+      getApp().sensors.track('click', {
+        contentIdList: [model.pid.toString()],
+        contentType: 1,
+        eventType:2
+      });
     }
     else if (model.qid) {
       Taro.navigateTo({
         url: `/packageB/pages/issue-detail/index?qid=${model.qid}`
       })
+      getApp().sensors.track('click', {
+        contentIdList: [model.qid.toString()],
+        contentType: 3,
+        eventType:2
+      });
     }
     else if (model.entity) {
       let { pid, qid } = model.entity;
@@ -82,23 +96,47 @@ export default class UserInfoItem extends Component {
         Taro.navigateTo({
           url: `/packageB/pages/post-detail/index?pid=${pid}`
         })
+        getApp().sensors.track('click', {
+          contentIdList: [pid.toString()],
+          contentType: 1,
+          eventType:2
+        });
       }
       else if (qid) {
         Taro.navigateTo({
           url: `/packageB/pages/issue-detail/index?qid=${qid}`
         })
+        getApp().sensors.track('click', {
+          contentIdList: [qid.toString()],
+          contentType: 3,
+          eventType:2
+        });
       }
     }
   }
 
   handleFavorite = (model, e) => {
+    const {isLogin} = staticData;
     e.stopPropagation();
-    this.props.onHandleFavorite(model)
+    if(isLogin){
+      this.props.onHandleFavorite(model)
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
   }
 
   handleLike = (model, e) => {
+    const {isLogin} = staticData;
     e.stopPropagation();
-    this.props.onHandleLike(model)
+    if(isLogin){
+      this.props.onHandleLike(model)
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
   }
 
   getNickNameColor = (sex) => {
@@ -129,7 +167,6 @@ export default class UserInfoItem extends Component {
     e.stopPropagation();
     //this.props.onShare(model)
   }
-
 
   render() {
     let { model, sortNum, activeModel, closeRelease, kw } = this.props;
@@ -168,7 +205,7 @@ export default class UserInfoItem extends Component {
                   this.props.showOrder &&
                   <View className='order'>
                     <Image className='icon-order' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/ranking.png' />
-                    <Text>{sortNum}</Text>
+                    <View>{sortNum}</View>
                   </View>
                 }
                 <View className='avatar' onClick={this.viewProfileInfo.bind(this, model.uid)}>
@@ -202,7 +239,7 @@ export default class UserInfoItem extends Component {
                       <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
                     } */}
                   </View>
-                  <Text className='times'>{(model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</Text>
+                  <View className='times'>{(activeModel.createAt && FormaDate(activeModel.createAt))||(model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</View>
                 </View>
                 {
                   this.props.needLike && <Image onClick={this.handleLike.bind(this, model)} className='btn-like' src={model.isLikes ? ICONS.FULLLIKE : ICONS.LIKE} alt=''></Image>
@@ -210,7 +247,7 @@ export default class UserInfoItem extends Component {
               </View>
             }
             {
-              this.props.onlyReleaseTime && <View className='release-time'>{(model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</View>
+              this.props.onlyReleaseTime && <View className='release-time'>{(activeModel.createAt && FormaDate(activeModel.createAt))||(model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</View>
             }
             {
               this.props.isAnwser ?
@@ -237,7 +274,11 @@ export default class UserInfoItem extends Component {
                     </View>
                   }
 
-                </View> : model.title ?
+                </View> :
+                activeModel.content ? 
+                <Text className='content'>{activeModel.content}</Text>
+                :
+                model.title ?
                   <View className='content'>
                     {
                       this.highLight(model.title, kw).map(t => {
@@ -250,7 +291,7 @@ export default class UserInfoItem extends Component {
                     }
                   </View>
                   :
-                  <Text className='content'>{activeModel.content || model.content}</Text>
+                  <Text className='content'>{model.content}</Text>
             }
             {
               this.props.isMyReply && model.title && <View className='content' style="color:#666666;;">原贴：{model.title}</View>
@@ -269,15 +310,15 @@ export default class UserInfoItem extends Component {
               <View className='tips'>
                 <View className='views'>
                   <Image className='img' src={ICONS.PREVIEW} />
-                  <Text>{model.views || 0}</Text>
+                  <View>{model.views || 0}</View>
                 </View>
                 <View className='comment'>
                   <Image className='img' src={ICONS.COMMENT} />
-                  <Text>{model.replys || 0}</Text>
+                  <View>{model.replys || 0}</View>
                 </View>
                 <View className='favorite'>
                   <Image className='img' onClick={this.handleFavorite.bind(this, model)} src={model.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} />
-                  <Text>{model.markes || 0}</Text>
+                  <View>{model.markes || 0}</View>
                 </View>
               </View>
             }

@@ -14,7 +14,7 @@ export default class FansView extends Presenter {
           listData.length ?
             listData.map((item, n) => {
               return (
-                <UserCard onGetUserDetail={this.getUserDetail.bind(this,item)} isShowTip={isSelf} onSubscr={this.handleSubscr.bind(this)} model={item}></UserCard>
+                <UserCard onGetUserDetail={this.getUserDetail.bind(this,item.userInfo)} isShowTip={isSelf} onSubscr={this.handleSubscr.bind(this)} activeModel={item} model={item.userInfo}></UserCard>
               )
             }) : null
         }

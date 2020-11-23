@@ -55,7 +55,7 @@ class IssueDetailStore{
   @action getAnswerList = async()=>{
     const {qid,activeSortType} = this;
     let res = await Model.getAnswerList(qid,activeSortType);
-    if(res && res.items.length){
+    if(res && res.items){
       this.answerList = res.items
     }
   }

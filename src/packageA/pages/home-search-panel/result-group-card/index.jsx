@@ -34,8 +34,11 @@ export default class SearchResultGroupCard extends Component {
   }
 
   highLight = (originTxt, kw) => {
-    if (!kw) {
-      kw = '济阳'
+    if (!originTxt) {
+      originTxt = '济阳'
+    }
+    if (!originTxt) {
+      originTxt = '济阳'
     }
     const reg = new RegExp(kw, 'gi');
     const contentReg = /^_#_([^_#_]+)_#_$/;
@@ -377,7 +380,9 @@ export default class SearchResultGroupCard extends Component {
                 this.props.type === SearchResultType.CIRCLE ?
                   this.renderCircle() : 
                   this.props.type === SearchResultType.POST ?
-                  this.renderPost() : this.renderUser()
+                  this.renderPost() :
+                  this.props.type === SearchResultType.USER ?
+                  this.renderUser() : this.renderPost()
             }
           </View>
         }

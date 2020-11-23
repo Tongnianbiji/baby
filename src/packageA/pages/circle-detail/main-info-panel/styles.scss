@@ -44,6 +44,9 @@
         height: 100%;
       }
     }
+    .button-hover{
+      background: #ffffff;
+    }
     .btn-attention1 {
       padding: 0 20px;
       height: 48px;
@@ -111,9 +114,10 @@
         font-size: 24px;
         color: #333;
         white-space: nowrap;
-        width: 60px;
+        width: 80px;
         text-overflow: ellipsis;
         overflow: hidden;
+        text-align: center;
         @extend .line1;
       }
       &.last-parent-one {

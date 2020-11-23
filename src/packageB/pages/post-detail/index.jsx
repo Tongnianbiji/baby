@@ -26,13 +26,13 @@ export default class PostDetailView extends Presenter {
 
 
   render() {
-    const { replys, postDetail,isCanEntranceCircle } = this.state;
+    const { replys, postDetail,isCanEntranceCircle,isShowBack } = this.state;
     const store = {
       postDetail
     }
     return (
       <Provider {...store}>
-        <CustomTitle title={postDetail.detailData.cName || '帖子详情'} isCanEntranceCircle={isCanEntranceCircle} onEntrancePage={this.entrancePage.bind(this)}></CustomTitle>
+        <CustomTitle title={postDetail.detailData.cName || '帖子详情'} isCanEntranceCircle={isCanEntranceCircle} isShowBack={isShowBack} onEntrancePage={this.entrancePage.bind(this)}></CustomTitle>
         <View className='post-detail-view' style={{marginTop:`59px`}}>
           <MainPanel onShare={this.share.bind(this)}/>
           <Comments replys={replys} selectSortType={this.getReplyList.bind(this)} onReplyPost={this.replyPost.bind(this)} />

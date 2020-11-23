@@ -149,6 +149,13 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
   //确认提交
   onClickForCreate = async ()=>{
     let {babyNickname,babySchool,babyBorn,sex,yearState,tabsCurrent, checkHospital,planHospital,preBornDate,grade} = this.state;
+    console.log('年级',grade)
+    if(grade==='请选择'){
+      grade=''
+    }
+    if(babySchool==='请选择'){
+      babySchool=''
+    }
     console.log('创建宝宝',tabsCurrent)
     if(this.isCanSave()){
       switch(tabsCurrent){

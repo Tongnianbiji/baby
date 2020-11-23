@@ -6,7 +6,8 @@ import { ICONS } from '@common/constant'
 import { observer, inject } from 'mobx-react'
 import BaseComponent from '@common/baseComponent'
 import Model from '../../model'
-import  FormaDate from '@common/formaDate'
+import FormaDate from '@common/formaDate'
+import staticData from '@src/store/common/static-data'
 
 import './index.scss'
 @inject('postDetail','staticDataStore')
@@ -25,20 +26,26 @@ export default class MainPanelComponent extends BaseComponent {
   handleFavorite = async() => {
     const {updatePostFavoriteMarks, detailData} = this.props.postDetail;
     const { isMark, pid } = detailData;
+    const {isLogin} = staticData;
     let params = {
       markes: 1,
       isMark:true
     }
-    
-    if (isMark) {
-      params.markes = -1;
-      params.isMark = false;
-      const d = await Model.postMarkCancel(pid);
-    } else {
-      const d = await Model.postMark(pid);
+    if(isLogin){
+      if (isMark) {
+        params.markes = -1;
+        params.isMark = false;
+        const d = await Model.postMarkCancel(pid);
+      } else {
+        const d = await Model.postMark(pid);
+      }
+      Taro.vibrateShort();
+      updatePostFavoriteMarks(params)
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
     }
-    Taro.vibrateShort();
-    updatePostFavoriteMarks(params)
   }
 
   reply = (e) => {

@@ -16,7 +16,7 @@ export default class AttentionsView extends Presenter {
           listData.length ?
           listData.map((item, n) => {
               return (
-                <UserCard tip='关注' isShowTip={isSelf} onGetUserDetail={this.getUserDetail.bind(this,item)} onSubscr={this.handleSubscr.bind(this)} model={item}></UserCard>
+                <UserCard tip='关注' isShowTip={isSelf} onGetUserDetail={this.getUserDetail.bind(this,item.userInfo)} onSubscr={this.handleSubscr.bind(this)} activeModel={item} model={item.userInfo}></UserCard>
               )
             }) : null
         }

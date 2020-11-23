@@ -10,7 +10,8 @@ export default class ScrollViewList extends Component {
     fixed: false,
     centerHeight: '',
     onScrollToLower:()=>{},
-    onScrollToUpper:()=>{}
+    onScrollToUpper:()=>{},
+    onScroll:()=>{}
   }
 
   constructor(props) {
@@ -25,6 +26,10 @@ export default class ScrollViewList extends Component {
     this.props.onScrollToUpper()
   }
 
+  scroll = ()=>{
+    this.props.onScroll()
+  }
+
   render() {
     const { showLoading, isToBottom, fixed,centerHeight } = this.props;
     const scrollStyle = {
@@ -37,6 +42,7 @@ export default class ScrollViewList extends Component {
           scrollWithAnimation
           onScrollToLower={this.scrollToLower.bind(this)}
           onScrollToUpper={this.scrollToUpper.bind(this)}
+          onScroll={this.scroll.bind(this)}
           className="scroll-view"
           style={fixed ? scrollStyle : null}
         >

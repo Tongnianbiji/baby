@@ -22,6 +22,34 @@ export default {
     }else{
       return false
     }
+  },
+
+  async getChatList(pageNum=1){
+    let params ={
+      pageNum,
+      pageSize:10
+    }
+    const ret = await req.postWithToken('/im/queryImGroup',params)
+    const d = req.standardResponse(ret)
+    if(d.code == 0){
+      return d.data
+    }else{
+      return false
+    }
+  },
+
+  async deleteChat(fromUid,toUid){
+    let params ={
+      fromUid,
+      toUid,
+    }
+    const ret = await req.postWithToken('/im/deleteIm',params)
+    const d = req.standardResponse(ret)
+    if(d.code == 0){
+      return true
+    }else{
+      return false
+    }
   }
   
 }

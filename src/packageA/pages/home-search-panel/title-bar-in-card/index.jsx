@@ -12,7 +12,8 @@ const tabList = [
 ]
 export default class PostTitleBar extends Component {
   static defaultProps = {
-    title: '帖子列表'
+    title: '帖子列表',
+    onSortTabChange:()=>{}
   }
 
   constructor(props) {
@@ -26,6 +27,7 @@ export default class PostTitleBar extends Component {
     this.setState({
       current: id
     })
+    this.props.onSortTabChange(id)
   }
 
   render() {

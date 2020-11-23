@@ -16,19 +16,31 @@ export default class ProfileBabyPresenter extends BaseComponent {
     }
   }
 
-  componentDidMount() {
-    const { officeName } = this.$router.params
-    this.getFamilyList();
-    this.getInviteData();
+  async componentDidMount() {
+    const { officeName, bid } = this.$router.params;
+    let newBid = null;
+    let newOfficeName = null;
+    if(bid){
+      newBid=bid;
+      newOfficeName=officeName
+    }else{
+      let res = await this.getBaby();
+      newBid = res.bid;
+      newOfficeName=res.officeName
+    }
+
+    this.getFamilyList(newBid);
+    this.getInviteData(newBid);
     this.setState({
       userInfo:this.getUserInfo(),
-      babyName:officeName
+      babyName:newOfficeName,
+      bid:newBid
     })
+   
   }
 
   onShareAppMessage (res){
-    const {userInfo,babyName,invtKey,otherMember} = this.state;
-    const { bid } = this.$router.params
+    const {userInfo,babyName,invtKey,otherMember,bid} = this.state;
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
@@ -43,8 +55,14 @@ export default class ProfileBabyPresenter extends BaseComponent {
     this.navto({ url: `/packageA/pages/profile-home/index?userId=${userId}` })
   }
 
-  getFamilyList = async ()=>{
-    const { bid } = this.$router.params
+  getBaby = async ()=>{
+    let res = await Model.childMine();
+    if(res){
+      return res.data[0]
+    }
+  }
+
+  getFamilyList = async (bid)=>{
     let res = await Model.getData(bid);
     if(res && res.data && res.data.family){
       const {family,emptyRoles} = res.data;
@@ -55,8 +73,7 @@ export default class ProfileBabyPresenter extends BaseComponent {
     }
   }
 
-  getInviteData = async ()=>{
-    const { bid } = this.$router.params
+  getInviteData = async (bid)=>{
     let res = await Model.getInviteData(bid);
     if(res){
       this.setState({

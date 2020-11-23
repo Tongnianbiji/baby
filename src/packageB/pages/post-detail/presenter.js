@@ -16,7 +16,8 @@ export default class Presenter extends BaseComponent {
       postDetail: postDetail,
       reLoad:null,
       statusBarHeight:0,
-      isCanEntranceCircle:true
+      isCanEntranceCircle:true,
+      isShowBack:true
     }
   }
 
@@ -24,18 +25,29 @@ export default class Presenter extends BaseComponent {
     this.showNavLoading()
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2]
-    if(prevPage.route === 'packageA/pages/circle-detail/index'){
+    if(!prevPage){
       this.setState({
-        isCanEntranceCircle:false
+        isShowBack:false
       })
     }else{
-      this.setState({
-        isCanEntranceCircle:true,
-      })
+      if(prevPage.route === 'packageA/pages/circle-detail/index'){
+        this.setState({
+          isCanEntranceCircle:false
+        })
+      }else{
+        this.setState({
+          isCanEntranceCircle:true,
+        })
+      }
     }
+    
   }
 
   componentDidShow() {
+    // const {pid} = this.$router.params;
+    // if(pid){
+
+    // }
     this.getData()
     this.getReplyList()
   }

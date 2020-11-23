@@ -105,7 +105,7 @@ page {
     }
   }
   .input-box{
-    position: fixed;
+    position: relative;
     bottom:0;
     left: 0;
     width: 100%;
@@ -121,6 +121,10 @@ page {
       background-color: #ffffff;
       border-radius: 30px;
       width: 550px;
+    }
+    &-img{
+      width: 40px;
+      height: 40px;
     }
     &-btn{
       width: 120px;

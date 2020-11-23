@@ -18,6 +18,11 @@ export default class QACardView extends Component {
     Taro.navigateTo({
       url:`/packageB/pages/issue-detail/index?qid=${qid}`
     })
+    getApp().sensors.track('click', {
+      contentIdList: [qid.toString()],
+      contentType: 3,
+      eventType:2
+    });
   }
 
   handleFavorite = (model,e)=>{

@@ -20,11 +20,15 @@ export default {
     }
   },
 
-  async getData(to) {
+  async getData( fromUid,toUid,mid='') {
     let params = {
-      to
+      fromUid,
+      toUid,
+      mid,
+      pageNum:1,
+      pageSize:10
     }
-    const ret = await request.getWithToken('/im/history', params)
+    const ret = await request.postWithToken('/im/queryIm', params)
     const data = request.standardResponse(ret)
     if (data.code === 0 && data.data) {
       return data.data
@@ -33,16 +37,18 @@ export default {
     }
   },
 
-  async saveData(friend,content) {
+  async saveData(fromUid,toUid,type,content,isBlock) {
     let params = {
-      friend,
-      direct:'send',
-      content
+      fromUid,
+      toUid,
+      type,
+      content,
+      isBlock
     }
-    const ret = await request.postWithToken('/im/save', params)
+    const ret = await request.postWithToken('/im/saveIm', params)
     const data = request.standardResponse(ret)
     if (data.code === 0 && data.data) {
-      return data.data
+      return true
     } else {
       return false
     }
@@ -52,10 +58,10 @@ export default {
     let params = {
       forbid
     }
-    const ret = await request.postWithToken('/block/check', params)
+    const ret = await request.getWithToken('/block/check', params)
     const data = request.standardResponse(ret)
     if (data.code === 0 && data.data) {
-      return true
+      return data.data
     } else {
       return false
     }
