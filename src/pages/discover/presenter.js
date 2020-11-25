@@ -17,12 +17,16 @@ export default class Presenter extends BaseComponent {
       r1Menu:{
         sid:'r1'
       },
-      r1Tag:[{}]
+      r1Tag:[{}],
+      recommendCircles:[],
+      profileInfo:{}
     }
   }
 
   componentDidMount() {
-    this.getMenus()
+    this.getMenus();
+    this.getRecommendCircle();
+    this.getProfile();
   }
 
   componentDidShow(){
@@ -37,6 +41,48 @@ export default class Presenter extends BaseComponent {
       })
     }
   }
+
+  onShareAppMessage (res){
+    const {profileInfo} = this.state;
+    console.log('昵称',profileInfo)
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: `${profileInfo.nickName}邀请加入童年`,
+      path: `/pages/index/index`
+    }
+  }
+
+  getProfile() {
+    this.showLoading();
+    let userId = this.getUserInfo().userId;
+    Model.profile(userId).then((ret) => {
+      if (!ret.code) {
+        this.hideLoading();
+        this.setState({ profileInfo: ret.data });
+      }
+      else {
+        this.hideLoading();
+      }
+    })
+    this.hideLoading();
+  }
+
+   /**
+   * 推荐
+   */
+
+  getRecommendCircle = async ()=>{
+    let res = await Model.getRecommendCircle();
+    if(res){
+      this.setState({
+        recommendCircles:res
+      })
+    }
+  }
+
 
   /**
    * 一级
@@ -62,7 +108,7 @@ export default class Presenter extends BaseComponent {
       this.setState(pre=>({
         activedTag:pre.r1Tag
       }),()=>{
-        this.getR1Circles()
+        this.getRecommendCircle()
       })
     }else{
       Model.getTags({ sid }).then(ret => {
@@ -82,9 +128,10 @@ export default class Presenter extends BaseComponent {
    */
   getCircles() {
     const { activedMenu, activedTag } = this.state;
-    const param = { psid: activedMenu.sid, sid: activedTag.sid, cid: 0 };
+    const param = { firstSubjectId: activedMenu.sid, secondSubjectId: activedTag.sid};
     Model.getCircle(param).then(ret => {
-      this.setState({ circles: ret.data.circles })
+      console.log('ret',ret)
+      this.setState({ circles: ret.items })
     })
   }
 

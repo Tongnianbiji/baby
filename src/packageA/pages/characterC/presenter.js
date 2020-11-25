@@ -21,6 +21,7 @@ export default class CharacterBPresenter extends BaseComponent {
 
   componentDidMount() { 
     const {inviter,babyName,invtKey,inviterRoles} = this.$router.params;
+    console.log('invtKey',invtKey)
     let chatacterList = JSON.parse(inviterRoles);
     chatacterList.forEach(item=>{
       if(item.roleText){
@@ -47,7 +48,7 @@ export default class CharacterBPresenter extends BaseComponent {
 
   selectRole = async (item)=>{
     const {updateRole,isRegiste,updateSex} = staticData;
-    const {chatacterList,familyMember,babyName,invtKey} = this.state;
+    const {babyName,invtKey} = this.state;
     const roleText = item.roleText.slice(2);
     if(!isRegiste){
       this.navto({

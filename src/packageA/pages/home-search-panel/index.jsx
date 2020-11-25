@@ -22,7 +22,7 @@ export default class HomeSearchView extends Presenter {
       <View className={`home-search-viewport${searchData ? ' graybg' : ''}`}>
         <View className='search-box'>
           <View className='inp-wrapper'>
-            <Input className='inp' placeholder='请输入关键字' value={searchValue} onInput={this.handleChange.bind(this)} placeholderClass='placehoder' confirmType='search' onConfirm={this.doSearch.bind(this)} />
+            <Input className='inp' placeholder='请输入关键字' value={searchValue} onInput={this.handleChange.bind(this)} placeholderClass='placehoder' confirmType='search' onConfirm={this.doSearchConfirm.bind(this)} />
             <Image src={ICONS.SEARCH} className='search-icon' />
           </View>
           <View className='cancel-btn' onClick={this.cancelSearch}>取消</View>
@@ -42,7 +42,19 @@ export default class HomeSearchView extends Presenter {
                           { type: SearchResultType.CIRCLE, id: '12423' ,data:circleResult},
                           { type: SearchResultType.USER, id: '12523' ,data:userResult},
                         ].map(item => {
-                          return (<SearchResultCard type={item.type} kw={searchValue} model={item.data} key={item.id} onMore={this.onMore} />)
+                          return (
+                          <SearchResultCard 
+                          type={item.type} 
+                          kw={searchValue} 
+                          model={item.data} 
+                          key={item.id} 
+                          onMore={this.onMore}
+                          onHandleFavoritePost={this.handleFavoritePost.bind(this)}
+                          onHandleFavoriteQuestion={this.handleFavoriteQuestion.bind(this)}
+                          onHandleSubscr={this.handleSubsrc.bind(this)}
+                          onSubscr={this.subScrUser.bind(this)}
+                          />
+                          )
                         })
                       }
                     </AtTabsPane>
@@ -54,7 +66,7 @@ export default class HomeSearchView extends Presenter {
                           {
                             postResult.map((item, n) => {
                               return (
-                                <PostCard closeRelease model={item} kw={searchValue} key={n}>
+                                <PostCard closeRelease model={item} kw={searchValue} key={n} onHandleFavorite={this.handleFavoritePost.bind(this)}>
                                 </PostCard>
                               )
                             })
@@ -70,7 +82,7 @@ export default class HomeSearchView extends Presenter {
                           {
                              questionResult.map((item,n) => {
                               return (
-                                <PostCard needShared closeRelease key={n} model={item} kw={searchValue} isAnwser>
+                                <PostCard needShared closeRelease key={n} model={item} kw={searchValue} onHandleFavorite={this.handleFavoriteQuestion.bind(this)} isAnwser>
                                 </PostCard>
                               )
                             })
@@ -90,7 +102,7 @@ export default class HomeSearchView extends Presenter {
                     <AtTabsPane index={4} className='tabs-pane' current={currentTopTab}>
                       {
                         currentTopTab === 4 && !!userResult.length &&
-                        userResult.map((item,n) => <UserInfoCard model={item} activeModel={item} key={n} kw={searchValue}/>)
+                        userResult.map((item,n) => <UserInfoCard model={item} activeModel={item} key={n} kw={searchValue} onSubscr={this.subScrUser.bind(this)} />)
                       }
                     </AtTabsPane>
                   </AtTabs> :
@@ -126,7 +138,7 @@ export default class HomeSearchView extends Presenter {
                         {
                           circleEssenceResult.map((item, n) => {
                             return (
-                              <PostCard closeRelease model={item} kw={searchValue} key={n}>
+                              <PostCard closeRelease model={item} kw={searchValue} onHandleFavorite={this.handleFavoriteCircleEssence.bind(this)} key={n}>
                               </PostCard>
                             )
                           })
@@ -142,7 +154,7 @@ export default class HomeSearchView extends Presenter {
                         {
                           circlePostResult.map((item, n) => {
                             return (
-                              <PostCard closeRelease model={item} kw={searchValue} key={n}>
+                              <PostCard closeRelease model={item} kw={searchValue} key={n} onHandleFavorite={this.handleFavoriteCirclePost.bind(this)}>
                               </PostCard>
                             )
                           })
@@ -158,7 +170,7 @@ export default class HomeSearchView extends Presenter {
                           {
                              circleQuestionResult.map((item,n) => {
                               return (
-                                <PostCard needShared closeRelease key={n} model={item} kw={searchValue} isAnwser>
+                                <PostCard needShared closeRelease key={n} model={item} kw={searchValue} isAnwser onHandleFavorite={this.handleFavoriteCircleQuestion.bind(this)}>
                                 </PostCard>
                               )
                             })

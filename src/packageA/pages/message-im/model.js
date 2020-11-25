@@ -58,7 +58,7 @@ export default {
     let params = {
       forbid
     }
-    const ret = await request.getWithToken('/block/check', params)
+    const ret = await request.getWithToken('/block/isBlocked', params)
     const data = request.standardResponse(ret)
     if (data.code === 0 && data.data) {
       return data.data

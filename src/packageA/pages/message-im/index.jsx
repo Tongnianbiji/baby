@@ -66,7 +66,7 @@ export default class MessageIMView extends Presenter {
                         </View>
                         :
                         <View className="chat-box-item-left">
-                          <Image className="chat-box-item-left-img" src={item.headImg}></Image>
+                          <Image className="chat-box-item-left-img" onClick={this.viewProfileInfo.bind(this,item.uid)} src={item.headImg}></Image>
                           <View className="chat-box-item-left-content">
                             <View className="nickname">{item.nickName}</View>
                             {

@@ -7,18 +7,10 @@ export default {
   async getTags(cid) {
     const ret = await req.post('post/getTag', { cid })
     const d = req.standardResponse(ret)
-    if (d.code === 0 && d.data && d.data.items.length) {
+    if (d.code === 0 && d.data) {
       return d.data.items
     } else {
-      return [
-        { tagName: '这是', tagId: '1' ,scrollId:'A'},
-        { tagName: '测试的', tagId: '2',scrollId:'B' },
-        { tagName: '数据', tagId: '3' ,scrollId:'C'},
-        { tagName: '生活1', tagId: '4',scrollId:'D' },
-        { tagName: '灌水1', tagId: '5',scrollId:'E' },
-        { tagName: '生活', tagId: '6',scrollId:'F' },
-        { tagName: '灌水', tagId: '7' ,scrollId:'G'}
-      ]
+      return false
     }
   },
 

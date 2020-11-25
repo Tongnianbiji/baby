@@ -113,7 +113,6 @@ export default class Presenter extends BaseComponent {
           break;
       }
     }
-    searchValue && this.saveSecachHistory(searchType,searchValue,searchCid)
   }
 
   onMore = t => {
@@ -156,6 +155,19 @@ export default class Presenter extends BaseComponent {
     },()=>{
       this.doSearch()
     })
+  }
+
+  doSearchConfirm = async (e)=>{
+    const {searchValue,searchScope,cid} = this.state;
+    let searchType = null,searchCid = null;
+    if(searchScope === 'all'){
+      searchType = 1;
+      searchCid = 0;
+    }else{
+      searchType = 3;
+      searchCid = cid;
+    }
+    searchValue && this.saveSecachHistory(searchType,e.target.value,searchCid)
   }
 
   sortTabChange=(id)=>{
@@ -215,6 +227,322 @@ export default class Presenter extends BaseComponent {
     }
     this.setState({
       circleResult:circleResult
+    })
+  }
+
+  //收藏
+  handleFavoritePost = async (model) => {
+    let { postLock, postResult } = this.state;
+    let preIndex = null;
+    const { pid, qid } = model;
+    if (pid) {
+      preIndex = postResult.findIndex(item => item.pid === model.pid)
+    }
+    else if (qid) {
+      preIndex = postResult.findIndex(item => item.qid === model.qid)
+    }
+    if (!postLock) {
+      if (model.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.cancelMarkPost(pid);
+        }
+        else if (qid) {
+          res = await Model.cancelMarkQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        postResult[preIndex].isMark = false;
+        postResult[preIndex].markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.markPost(pid);
+        }
+        else if (qid) {
+          res = await Model.markQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        postResult[preIndex].isMark = true;
+        postResult[preIndex].markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
+    }
+    this.setState({
+      postResult: postResult
+    })
+  }
+
+  handleFavoriteQuestion  = async (model) => {
+    let { postLock, questionResult } = this.state;
+    let preIndex = null;
+    const { pid, qid } = model;
+    if (pid) {
+      preIndex = questionResult.findIndex(item => item.pid === model.pid)
+    }
+    else if (qid) {
+      preIndex = questionResult.findIndex(item => item.qid === model.qid)
+    }
+    if (!postLock) {
+      if (model.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.cancelMarkPost(pid);
+        }
+        else if (qid) {
+          res = await Model.cancelMarkQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        questionResult[preIndex].isMark = false;
+        questionResult[preIndex].markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.markPost(pid);
+        }
+        else if (qid) {
+          res = await Model.markQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        questionResult[preIndex].isMark = true;
+        questionResult[preIndex].markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
+    }
+    this.setState({
+      questionResult: questionResult
+    })
+  }
+
+  handleFavoriteCirclePost  = async (model) => {
+    let { postLock, circlePostResult } = this.state;
+    let preIndex = null;
+    const { pid, qid } = model;
+    if (pid) {
+      preIndex = circlePostResult.findIndex(item => item.pid === model.pid)
+    }
+    else if (qid) {
+      preIndex = circlePostResult.findIndex(item => item.qid === model.qid)
+    }
+    if (!postLock) {
+      if (model.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.cancelMarkPost(pid);
+        }
+        else if (qid) {
+          res = await Model.cancelMarkQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        circlePostResult[preIndex].isMark = false;
+        circlePostResult[preIndex].markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.markPost(pid);
+        }
+        else if (qid) {
+          res = await Model.markQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        circlePostResult[preIndex].isMark = true;
+        circlePostResult[preIndex].markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
+    }
+    this.setState({
+      circlePostResult: circlePostResult
+    })
+  }
+
+  handleFavoriteCircleQuestion  = async (model) => {
+    let { postLock, circleQuestionResult } = this.state;
+    let preIndex = null;
+    const { pid, qid } = model;
+    if (pid) {
+      preIndex = circleQuestionResult.findIndex(item => item.pid === model.pid)
+    }
+    else if (qid) {
+      preIndex = circleQuestionResult.findIndex(item => item.qid === model.qid)
+    }
+    if (!postLock) {
+      if (model.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.cancelMarkPost(pid);
+        }
+        else if (qid) {
+          res = await Model.cancelMarkQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        circleQuestionResult[preIndex].isMark = false;
+        circleQuestionResult[preIndex].markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.markPost(pid);
+        }
+        else if (qid) {
+          res = await Model.markQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        circleQuestionResult[preIndex].isMark = true;
+        circleQuestionResult[preIndex].markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
+    }
+    this.setState({
+      circleQuestionResult: circleQuestionResult
+    })
+  }
+
+  handleFavoriteCircleEssence = async (model) => {
+    let { postLock, circleEssenceResult } = this.state;
+    let preIndex = null;
+    const { pid, qid } = model;
+    if (pid) {
+      preIndex = circleEssenceResult.findIndex(item => item.pid === model.pid)
+    }
+    else if (qid) {
+      preIndex = circleEssenceResult.findIndex(item => item.qid === model.qid)
+    }
+    if (!postLock) {
+      if (model.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.cancelMarkPost(pid);
+        }
+        else if (qid) {
+          res = await Model.cancelMarkQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        circleEssenceResult[preIndex].isMark = false;
+        circleEssenceResult[preIndex].markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = null;
+        if (pid) {
+          res = await Model.markPost(pid);
+        }
+        else if (qid) {
+          res = await Model.markQuestion(qid);
+        }
+        this.setState({
+          postLock: false
+        })
+        circleEssenceResult[preIndex].isMark = true;
+        circleEssenceResult[preIndex].markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
+    }
+    this.setState({
+      circleEssenceResult: circleEssenceResult
+    })
+  }
+
+  subScrUser = async (model) => {
+    let { postLock, userResult } = this.state;
+    let preIndex = userResult.findIndex(item => item.userId === model.userId)
+    if (!postLock) {
+      if (model.isSubscribe) {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.cancelAttentionUser(model.userId);
+        this.setState({
+          postLock: false
+        })
+        userResult[preIndex].isSubscribe = false
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.attentionUser(model.userId);
+        this.setState({
+          postLock: false
+        })
+        userResult[preIndex].isSubscribe = true
+        if (res) {
+          this.showToast('已关注');
+        }
+      }
+    }
+    this.setState({
+      userResult: userResult
     })
   }
 }

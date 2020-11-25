@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { View, Input, Image } from '@tarojs/components'
 import { ICONS } from '../../../common/constant'
 import Presenter from './presenter'
+import DefaultPanel from './default-panel'
 import SearchCircleItem from '../../../common/components/circle-card'
 import UITabs2 from '@common/components/ui-tabs2'
 import Preloading from '@components/preloading'
@@ -21,7 +22,7 @@ export default class SearchCircle extends Presenter {
       <View className='search-circle-viewport'>
         <View className='search-bar'>
           <View className='search-inp'>
-            <Input focus className='inp' onInput={this.onKwInput.bind(this)} value={this.state.kw} />
+            <Input focus className='inp' onInput={this.onKwInput.bind(this)} onConfirm={this.onKwConfirm.bind(this)} value={this.state.kw} />
             <Image src={ICONS.SEARCH} className='search-icon' />
             {/* {
               this.state.showCleanBtn && <Image src={ICONS.CLOSE_BTN} className='clean-icon' onClick={this.cleanKw} />
@@ -30,7 +31,7 @@ export default class SearchCircle extends Presenter {
           <View className='search-btn'>取消</View>
         </View>
         {
-          !!circlesList.length && 
+          !!circlesList.length &&
           <View className='tabs'>
             <View className='slider'>圈子列表</View>
             <View className='tab-items'>
@@ -44,16 +45,21 @@ export default class SearchCircle extends Presenter {
             </View>
           </View>
         }
-        <View className='item-wrapper'>
-          {
-            circlesList.map((item,n) => {
-              return (
-                <SearchCircleItem data={item} kw={kw} key={n} isShowDistance onHandleSubscr={this.handleSubsrc.bind(this)} />
-              )
-            })
-          }
-          <Preloading showLoading={showLoading} isToBottom={isToBottom}></Preloading>
-        </View>
+        {
+          !!circlesList.length ? 
+          <View className='item-wrapper'>
+            {
+              circlesList.map((item,n) => {
+                return (
+                  <SearchCircleItem data={item} kw={kw} key={n} isShowDistance onHandleSubscr={this.handleSubsrc.bind(this)} />
+                )
+              })
+            }
+            <Preloading showLoading={showLoading} isToBottom={isToBottom}></Preloading>
+          </View>
+          :
+          <DefaultPanel onDoSearch={this.clickDosearch.bind(this)} />
+        }
         {
           kw && !!circlesList.length &&
           <View className='no-data'>

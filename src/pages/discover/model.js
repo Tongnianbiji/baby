@@ -19,11 +19,36 @@ export default {
     })
   },
 
-  getCircle({ psid, sid, pn = 0, ps = 10 }) {
-    return request.get('/circle/query', { psid, sid, pn, ps }).then(result => {
+  getCircle({ firstSubjectId, secondSubjectId, pageNum = 1, pageSize = 10 }) {
+    return request.postWithToken('/search/circle', { firstSubjectId, secondSubjectId, pageNum, pageSize,sort:{
+      heat_rate:'desc',
+      online:'desc'
+    } }).then(result => {
       if (result.errMsg === request.okMsg) {
-        return result.data
+        return result.data.data
       }
     })
-  }
+  },
+
+  async getRecommendCircle() {
+    const ret = await request.postWithToken('/relation/circle/recommend')
+    const d = request.standardResponse(ret)
+    if (d.code) {
+      Taro.showToast({
+        title:d.message,
+        icon: 'none',
+        duration:2e3
+      })
+    } else {
+      return d.code === 0 && d.data
+    }
+  },
+
+  profile(userId) {
+    return request.getWithToken('/profile/get',{userId}).then(ret => {
+      if (ret.errMsg === request.okMsg) {
+        return ret.data
+      }
+    })
+  },
 }

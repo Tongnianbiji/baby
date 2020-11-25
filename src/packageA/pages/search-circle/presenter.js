@@ -36,6 +36,14 @@ export default class Presenter extends BaseComponent {
     return await Model.saveSecachHistory(type,content,cid)
   }
 
+  clickDosearch = (value,e)=>{
+    this.setState({
+      kw:value
+    },()=>{
+      this.getSearchData()
+    })
+  }
+
   //获取搜索数据
   getSearchData = async ()=>{
     const {kw,pageNum,circlesList,sortType} = this.state;
@@ -47,7 +55,6 @@ export default class Presenter extends BaseComponent {
       pageNum,
       sort:sortType
     });
-    await saveSecachHistory(2,kw,0)
     this.setState({
       postLock:false
     })
@@ -111,6 +118,10 @@ export default class Presenter extends BaseComponent {
       }
       return ret
     })
+  }
+
+  onKwConfirm = async (e) =>{
+    await this.saveSecachHistory(2,e.target.value,0)
   }
 
   cleanKw = () => {

@@ -4,6 +4,7 @@ import { View, Image, Text } from '@tarojs/components'
 import { SearchResultType } from '../../../../common/enums'
 import { ICONS } from '../../../../common/constant'
 import FormaDate from '@common/formaDate'
+import staticData from '@src/store/common/static-data'
 import './styles.scss'
 import model from '../../characterC/model'
 
@@ -19,7 +20,11 @@ export default class SearchResultGroupCard extends Component {
   static defaultProps = {
     type: SearchResultType.CIRCLE,
     kw: '浏阳',
-    model: {}
+    model: {},
+    onSubscr:()=>{},
+    onHandleFavoritePost:()=>{},
+    onHandleFavoriteQuestion:()=>{},
+    onHandleSubscr:()=>{}
   }
 
   constructor(props) {
@@ -92,6 +97,54 @@ export default class SearchResultGroupCard extends Component {
     }
   }
 
+  subscr = (model, e) => {
+    const {isLogin} = staticData;
+    e.stopPropagation();
+    if(isLogin){
+      this.props.onSubscr(model);
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
+  }
+
+  handleFavoritePost = (model,e)=>{
+    const {isLogin} = staticData;
+    e.stopPropagation();
+    if(isLogin){
+      this.props.onHandleFavoritePost(model)
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
+  }
+
+  handleFavoriteQuestion = (model,e)=>{
+    const {isLogin} = staticData;
+    e.stopPropagation();
+    if(isLogin){
+      this.props.onHandleFavoriteQuestion(model)
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
+  }
+
+  handleSubsrc = (model,e)=>{
+    const {isLogin} = staticData;
+    e.stopPropagation();
+    if(isLogin){
+      this.props.onHandleSubscr(model)
+    }else{
+      Taro.navigateTo({
+        url:'/pages/login/index'
+      })
+    }
+  }
+
   renderCircle() {
     const { model, kw } = this.props;
     return (
@@ -120,7 +173,7 @@ export default class SearchResultGroupCard extends Component {
                           })
                         }
                       </View>
-                      <View className={`btn-join ${item.isSubscribe ? 'btn-join-attentioned' : ''}`}>{item.isSubscribe ? '已加入' : '加入'}</View>
+                      <View className={`btn-join ${item.isSubscribe ? 'btn-join-attentioned' : ''}`} onClick={this.handleSubsrc.bind(this,item)}>{item.isSubscribe ? '已加入' : '加入'}</View>
                     </View>
                     <View className='sub-title'>
                       简介：{item.description}
@@ -218,7 +271,7 @@ export default class SearchResultGroupCard extends Component {
                       <Text>{item.replys}</Text>
                     </View>
                     <View className='favorite'>
-                      <Image className='img' src={ICONS.FAVORITE} />
+                      <Image className='img' src={item.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} onClick={this.handleFavoriteQuestion.bind(this,item)} />
                       <Text>{item.markes}</Text>
                     </View>
                   </View>
@@ -289,7 +342,7 @@ export default class SearchResultGroupCard extends Component {
                       <Text>{item.replys}</Text>
                     </View>
                     <View className='favorite'>
-                      <Image className='img' src={ICONS.FAVORITE} />
+                      <Image className='img' src={item.isMark ? ICONS.ISFAVORITED : ICONS.FAVORITE} onClick={this.handleFavoritePost.bind(this,item)} />
                       <Text>{item.markes}</Text>
                     </View>
                   </View>
@@ -350,7 +403,7 @@ export default class SearchResultGroupCard extends Component {
                     <View className='num'>收藏: {item.flow}</View>
                   </View>
                 </View>
-                <View className={`btn-attention${item.isSubscr ? ' attentioned' : ''}`}>{item.isSubscr ? '已关注' : '关注'}</View>
+                <View className={`btn-attention${item.isSubscribe ? ' attentioned' : ''}`} onClick={this.subscr.bind(this,item)}>{item.isSubscribe ? '已关注' : '关注'}</View>
               </View>
             </View>
             )

@@ -63,7 +63,14 @@ export default class Index extends Presenter {
               <View className='data-list'>
                 <ScrollView style={{ height: '100%' }} scrollY>
                   {
+                    this.state.activedMenu.sid !== 'r1' ?
                     this.state.circles.map(n => {
+                      return (
+                        <CircleItem key={n.cid} {...n} />
+                      )
+                    })
+                    :
+                    this.state.recommendCircles.map(n => {
                       return (
                         <CircleItem key={n.cid} {...n} />
                       )
@@ -80,12 +87,5 @@ export default class Index extends Presenter {
         }
       </View>
     )
-  }
-
-  /**
-   * 分享
-   */
-  onShareAppMessage() {
-    return this.setShareOptions()
   }
 }

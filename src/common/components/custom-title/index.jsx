@@ -2,7 +2,7 @@ import Taro from '@tarojs/taro'
 import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import {ICONS} from '@common/constant'
-import HomeIcon from '@ass/img/tabbar/home.png'
+import HomeIcon from '@ass/img/home.png'
 import './styles.scss'
 
 

@@ -113,6 +113,7 @@ export default class Presenter extends BaseComponent {
           messageList:newMessageList.concat(messageList)
         })
       }
+      newMessageList.length && 
       this.setState({
         mid:newMessageList[0].mid
       })

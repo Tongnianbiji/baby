@@ -61,5 +61,65 @@ export default {
     } else {
       return false
     }
-  }
+  },
+
+  //历史记录
+  async getHistoryRecord(type=1,cid=0) {
+    let params = {
+      type,
+      cid
+    }
+    const ret = await request.postWithToken('/search/history/query',params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  },
+
+   //附近历史记录
+   async getNearHistoryRecord(type=2,cid=0) {
+    let params = {
+      type,
+      cid
+    }
+    const ret = await request.postWithToken('/search/history/nearby',params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  },
+
+   //热门历史记录
+   async getHotHistoryRecord(type=2,cid=0) {
+    let params = {
+      type,
+      cid
+    }
+    const ret = await request.postWithToken('/search/history/recommend',params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  },
+
+  //清除历史记录
+  async clearHistoryRecord(type=2,cid=0) {
+    let params = {
+      type,
+      cid
+    }
+    const ret = await request.postWithToken('/search/history/delete',params)
+    const data = request.standardResponse(ret)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  },
 }

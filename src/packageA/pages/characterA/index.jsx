@@ -83,7 +83,7 @@ export default class CharacterA extends Presenter {
           topTabsCurrent === 2 &&
           <View className='baby-item-special'>
             <View className='item-group-special'>
-              <View className='item-title'>选择角色</View>
+              {/* <View className='item-title'>选择角色</View> */}
               <View className='item-content select-item' onClick={this.selectRole.bind(this)}>
                 <View>
                   <View className='width-100' style={{ fontSize: '14px' }}>请选择角色</View>
