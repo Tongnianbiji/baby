@@ -291,6 +291,11 @@ export default class TypeTabsView extends Component {
     this.circleDetailStore.updateCircleHotsByFavorite(model.pid)
   }
 
+  //用户关注与取消
+  handleSubScr = (model)=>{
+    this.circleDetailStore.updateCircleUserSubsrc(model)
+  }
+
   //滚动曝光埋点
   onScroll = () => {
     //this.exposure()
@@ -466,7 +471,7 @@ export default class TypeTabsView extends Component {
               {
                 circleUser.map((item, num) => {
                   return (
-                    <UserCard model={item} key={num} isShowDistance={isShowDistance} />
+                    <UserCard model={item} key={num} isShowDistance={isShowDistance} onSubscr={this.handleSubScr.bind(this)}/>
                   )
                 })
               }

@@ -77,9 +77,16 @@ export default class Index extends HomePage {
                     {
                       recommends.map((item,key) => {
                         return (
-                          <View className={`target-item-${item.entityId}`}>
-                            <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteRecommends.bind(this,item)} onSubScrUser={this.subScrUser.bind(this,item)}></BehaviorCard>
+                          <View>
+                            {
+                              item.entity && 
+                              <View className={`target-item-${item.entityId}`}>
+                                <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteRecommends.bind(this,item)} onSubScrUser={this.subScrUser.bind(this,item)}></BehaviorCard>
+                              </View>
+                            }
                           </View>
+                         
+                          
                         )
                       })
                     }

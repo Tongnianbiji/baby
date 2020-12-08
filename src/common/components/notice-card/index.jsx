@@ -19,14 +19,14 @@ export default class NoticeCard extends Component {
     isShowAnswer: true,
     isOldQuestion: false,
     isShowTime: false,
-    isShowReleaseTime:true,
-    needLike:false,
-    needShared:false,
-    tip:'',
+    isShowReleaseTime: true,
+    needLike: false,
+    needShared: false,
+    tip: '',
     type: 'post', //post|qa,
     onHandleFavorite: () => { },
     onNoticeClick: () => { },
-    onHandleLike:()=>{}
+    onHandleLike: () => { }
   }
 
   constructor(props) {
@@ -34,13 +34,13 @@ export default class NoticeCard extends Component {
   }
 
   handleFavorite = (qid, e) => {
-    const {isLogin} = staticData;
+    const { isLogin } = staticData;
     e.stopPropagation();
-    if(isLogin){
+    if (isLogin) {
       this.props.onHandleFavorite(qid)
-    }else{
+    } else {
       Taro.navigateTo({
-        url:'/pages/login/index'
+        url: '/pages/login/index'
       })
     }
   }
@@ -48,48 +48,48 @@ export default class NoticeCard extends Component {
   handleNoticeClick = (data) => {
     const { activeModel } = this.props;
     let qid = '';
-    if(data.qid){
-      qid=data.qid;
+    if (data.qid) {
+      qid = data.qid;
       Taro.navigateTo({
         url: `/packageB/pages/issue-detail/index?qid=${qid}`
       })
       getApp().sensors.track('click', {
         contentIdList: [qid.toString()],
         contentType: 3,
-        eventType:2
+        eventType: 2
       });
     }
-    else if(activeModel.entity.qid){
-      qid=activeModel.entity.qid
+    else if (activeModel.entity.qid) {
+      qid = activeModel.entity.qid
       Taro.navigateTo({
         url: `/packageB/pages/issue-detail/index?qid=${qid}`
       })
       getApp().sensors.track('click', {
         contentIdList: [qid.toString()],
         contentType: 3,
-        eventType:2
+        eventType: 2
       });
-    }else if(data.pid){
+    } else if (data.pid) {
       Taro.navigateTo({
         url: `/packageB/pages/post-detail/index?pid=${data.pid}`
       })
       getApp().sensors.track('click', {
         contentIdList: [data.pid.toString()],
         contentType: 1,
-        eventType:2
+        eventType: 2
       });
     }
     this.props.onNoticeClick(data)
   }
 
-  handleLike = (model,e)=>{
-    const {isLogin} = staticData;
+  handleLike = (model, e) => {
+    const { isLogin } = staticData;
     e.stopPropagation();
-    if(isLogin){
+    if (isLogin) {
       this.props.onHandleLike(model)
-    }else{
+    } else {
       Taro.navigateTo({
-        url:'/pages/login/index'
+        url: '/pages/login/index'
       })
     }
   }
@@ -103,10 +103,10 @@ export default class NoticeCard extends Component {
     })
   }
 
-  viewProfileInfo = (uid,e)=>{
+  viewProfileInfo = (uid, e) => {
     e.stopPropagation();
     Taro.navigateTo({
-      url:`/packageA/pages/profile-home/index?userId=${uid}`
+      url: `/packageA/pages/profile-home/index?userId=${uid}`
     })
   }
 
@@ -120,23 +120,23 @@ export default class NoticeCard extends Component {
     )
   }
 
-  share = (e)=>{
+  share = (e) => {
     e.stopPropagation();
   }
 
-  formateType(type){
-    const type1 = [3003,3005,3008];
-    const type2 = [4003,4005,4008];
-    if(type1.includes(type)){
+  formateType(type) {
+    const type1 = [3003, 3005, 3008];
+    const type2 = [4003, 4005, 4008];
+    if (type1.includes(type)) {
       return '原帖：'
     }
-    else if(type2.includes(type)){
+    else if (type2.includes(type)) {
       return '原提问：'
     }
   }
 
   renderQA() {
-    const { data, isShowTools, isShowQuestion, isShowAnswer, isOldQuestion, isShowTime ,activeModel,activeModel:{type}} = this.props;
+    const { data, isShowTools, isShowQuestion, isShowAnswer, isOldQuestion, isShowTime, activeModel, activeModel: { type } } = this.props;
     return (
       <View className='qa-wrapper'>
 
@@ -149,7 +149,9 @@ export default class NoticeCard extends Component {
         {
           isShowQuestion &&
           <View className='questions'>
-            <View className='icon'>问</View>
+            <View className='icon'>
+              <View className='icon'>问</View>
+            </View>
             <View className='txt'>{data.title && data.title}</View>
           </View>
         }
@@ -157,7 +159,9 @@ export default class NoticeCard extends Component {
         {
           isShowAnswer && ((type !== 4003 && type !== 4008) ? data.answer : activeModel.content) &&
           <View className='anwser'>
-            <View className='icon'>答</View>
+            <View className='icon'>
+              <View className='icon'>答</View>
+            </View>
             <View className='txt'>{(type !== 4003 && type !== 4008) ? data.answer : activeModel.content}</View>
           </View>
         }
@@ -165,7 +169,7 @@ export default class NoticeCard extends Component {
           {
             isOldQuestion &&
             <View className='anwser'>
-              <View className='txt no-active' style="padding:0">原问题：{data.title || activeModel.entity && (activeModel.entity.title || activeModel.entity.content)}</View>
+              <View className='txt no-active' style="padding:0;width:300px;">原问题：{data.title || activeModel.entity && (activeModel.entity.title || activeModel.entity.content)}</View>
             </View>
           }
         </View>
@@ -202,32 +206,32 @@ export default class NoticeCard extends Component {
   }
 
   renderFav() {
-    const { activeModel,isOldQuestion,data} = this.props;
+    const { activeModel, isOldQuestion, data } = this.props;
     return (
       <View>
         <View className='fav-txt'>{activeModel.content || data.title}</View>
         {
-          isOldQuestion && 
+          isOldQuestion &&
           <View className='fav-txt' style="color:#999999">{this.formateType(activeModel.type)}{activeModel.entity.title}</View>
         }
       </View>
-   
+
     )
   }
 
   render() {
-    const { ishowAvatar, isShowUserInfo, activeModel,tip ,isShowReleaseTime,data,needLike,needShared} = this.props;
+    const { ishowAvatar, isShowUserInfo, activeModel, tip, isShowReleaseTime, data, needLike, needShared } = this.props;
     return (
       <View className="wrapper" onClick={this.handleNoticeClick.bind(this, data)}>
         {
-          activeModel.userSnapshot && isShowReleaseTime && 
+          activeModel.userSnapshot && isShowReleaseTime &&
           <View className="behavior">{`${activeModel.userSnapshot && activeModel.userSnapshot.nickName}${Behaviors(activeModel.type)} | ${activeModel.updateAt && FormaDate(activeModel.updateAt)}`}</View>
         }
         {
-          needLike && <Image onClick={this.handleLike.bind(this,data)} className='btn-like' src={data.isLikes ? ICONS.FULLLIKE : ICONS.LIKE} alt=''></Image>
+          needLike && <Image onClick={this.handleLike.bind(this, data)} className='btn-like' src={data.isLikes ? ICONS.FULLLIKE : ICONS.LIKE} alt=''></Image>
         }
         {
-        needShared && 
+          needShared &&
           <View onClick={this.share.bind(this)}>
             <Button className='btn-share' openType="share" id={JSON.stringify(data)}>
               <Image src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
@@ -235,38 +239,37 @@ export default class NoticeCard extends Component {
           </View>
         }
         <View className='ui-notice-card'>
-        {
-          ishowAvatar &&
-          <View className='avatar-wrapper' onClick={this.viewProfileInfo.bind(this,activeModel.uid)}>
-            <View className='avatar'>
-              <Image src={activeModel && activeModel.userSnapshot.headImg}></Image>
-            </View>
-          </View>
-        }
-
-        <View className='contents'>
           {
-            isShowUserInfo &&
-            <View className='title-line'>
-              <View className='title'>
-              <View className='txt'>{activeModel && activeModel.userSnapshot.nickName}</View>
-                <View className='sub'>{Behaviors(activeModel && activeModel.type,tip)}</View>
+            ishowAvatar &&
+            <View className='avatar-wrapper' onClick={this.viewProfileInfo.bind(this, activeModel.uid)}>
+              <View className='avatar'>
+                <Image src={activeModel && activeModel.userSnapshot.headImg}></Image>
               </View>
-              <View className='time'>{FormaDate(activeModel && activeModel.updateAt)}</View>
             </View>
           }
+          <View className='contents'>
+            {
+              isShowUserInfo &&
+              <View className='title-line'>
+                <View className='title'>
+                  <View className='txt'>{activeModel && activeModel.userSnapshot.nickName}</View>
+                  <View className='sub'>{Behaviors(activeModel && activeModel.type, tip)}</View>
+                </View>
+                <View className='time'>{FormaDate(activeModel && activeModel.updateAt)}</View>
+              </View>
+            }
 
-          {
-            this.props.type === 'post' ?
-              this.renderPost() :
-              this.props.type === 'qa' ?
-                this.renderQA() :
-                this.renderFav()
-          }
+            {
+              this.props.type === 'post' ?
+                this.renderPost() :
+                this.props.type === 'qa' ?
+                  this.renderQA() :
+                  this.renderFav()
+            }
+          </View>
         </View>
       </View>
-      </View>
-      
+
     )
   }
 }

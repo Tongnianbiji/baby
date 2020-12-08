@@ -25,28 +25,38 @@ export default class CustomCircle extends Component {
     this.circleDetailStore = this.props.circleDetailStore;
   }
 
-  updateCostomConfig = (params)=>{
-    Model.configCustom(params)
+  updateCostomConfig = async (params)=>{
+    return await Model.configCustom(params)
   }
 
-  toggleArea = d => {
+  toggleArea = async (d) => {
     this.setState({
       openArea: d.detail.value
     });
     this.circleDetailStore.updateCustomRegionFlag(d.detail.value);
-    this.updateCostomConfig({
+    let res = await this.updateCostomConfig({
       defaultRegionFlag:d.detail.value
     })
+    if(!res){
+      setTimeout(()=>{
+        this.circleDetailStore.updateCustomRegionFlag(!d.detail.value);
+      },500)
+    }
   }
 
-  toggleFeature = ({ detail: { value = false } }) => {
+  toggleFeature = async ({ detail: { value = false } }) => {
     this.setState({
       openFeature: value
     });
     this.circleDetailStore.updateCustomAgeGroupFlag(value);
-    this.updateCostomConfig({
+    let res = await this.updateCostomConfig({
       defaultGroupFlag:value
     })
+    if(!res){
+      setTimeout(()=>{
+        this.circleDetailStore.updateCustomAgeGroupFlag(!value);
+      },500)
+    }
   }
 
   selectRegion = (value)=>{

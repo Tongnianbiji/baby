@@ -9,11 +9,39 @@ export default {
   babyList: [{ title: '单胞胎', value: 1 }, { title: '双胞胎', value: 2 }, { title: '三胞胎', value: 3 }, { title: '未知', value: 0 }],
   maxBabyCount: 8,
 
-  async submit(officeName, yearState, yearDesc) {
+  roleTable:{
+    "MAMA": "妈妈",
+    "GRANDMA": "奶奶",
+    "XIAOYI": "小姨",
+    "DADY": "爸爸",
+    "GRANDFATHER": "爷爷",
+    "YIMA": "姨妈",
+    "WAIGONG": "外公",
+    "GANMA": "干妈",
+    "OTHER": "",
+    "AYI": "阿姨",
+    "UNCLE": "叔叔",
+    "JIUJIU": "舅舅",
+    "GANBA": "干爸",
+    "WAIPO": "外婆",
+    "GUGU": "姑姑",
+    "JIUMA": "舅妈"
+  },
+  getRoleText (role){
+    for(let i in this.roleTable){
+      if(this.roleTable[i] === role){
+        return i
+      }
+    }
+  },
+
+  async submit(officeName, yearState, yearDesc,roleText) {
     let params = {
       officeName,
       yearState,
-      yearDesc
+      yearDesc,
+      role:this.getRoleText(roleText),
+      roleText
     }
     const ret = await request.postWithToken('/child/create', params)
     const data = request.standardResponse(ret);

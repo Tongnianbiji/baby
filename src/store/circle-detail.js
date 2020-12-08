@@ -387,6 +387,33 @@ const actions = {
     return d.code;
   },
 
+  //关注用户与取消
+  async cancelAttentionUser(userId) {
+    let params = {
+      userId
+    }
+    const ret = await req.postWithToken('/subscr/delete', params)
+    const data = req.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
+  async attentionUser(userId) {
+    let params = {
+      userId
+    }
+    const ret = await req.postWithToken('/subscr/submit', params)
+    const data = req.standardResponse(ret)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
+
   //更新是否显示定制圈子
   updateCustomStatus(status){
     this.isCustomCircle = status
@@ -723,6 +750,37 @@ const actions = {
       }
     })
   },
+
+  async updateCircleUserSubsrc(model){
+    let {postLock,circleUser} = this;
+    let preIndex = circleUser.findIndex(item=>item.userId === model.userId)
+    if(!postLock){
+     if(model.isSubscribe){
+       this.postLock = true;
+       let res = await this.cancelAttentionUser(model.userId);
+       this.postLock = false;
+       circleUser[preIndex].isSubscribe = false
+       if(res){
+         Taro.showToast({
+           title:'已取消',
+           icon:'none'
+         });
+       }
+     }else{
+      this.postLock = true;
+       let res = await this.attentionUser(model.userId);
+       this.postLock = false;
+       circleUser[preIndex].isSubscribe = true
+       if(res){
+        Taro.showToast({
+          title:'已关注',
+          icon:'none'
+        });
+       }
+     }
+    }
+    this.circleUser=circleUser
+   }
 }
 
 export default observable(Object.assign(state, actions))

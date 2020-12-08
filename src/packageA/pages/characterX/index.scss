@@ -34,4 +34,7 @@
       color: rgba(255, 255, 255, 1);
     }
   }
+  button::after{
+    border:none
+  }
 }

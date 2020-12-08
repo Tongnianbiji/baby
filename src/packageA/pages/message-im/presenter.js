@@ -5,6 +5,7 @@ import staticData from '@src/store/common/static-data'
 import Model from './model'
 
 const { goEasy } = staticData;
+let temScrollTop = 0;
 export default class Presenter extends BaseComponent {
   constructor(props) {
     super(props)
@@ -21,7 +22,8 @@ export default class Presenter extends BaseComponent {
       files:{},
       fromUid:'',
       toUid:'',
-      mid:''
+      mid:'',
+      scrollTop:0
     }
   }
 
@@ -37,18 +39,22 @@ export default class Presenter extends BaseComponent {
     await this.getProfileData();
     await this.getToProfileData();
     await this.getMessageList();
+    this.setState({
+      scrollTop:19000
+    })
     let { messageList } = this.state;
     this.setNavigationBarTitle();
 
     console.log('channel',goEasy)
-    goEasy.log(res=>{
-      console.log(res)
-    })
+    // goEasy.latestConversations(res=>{
+    //   console.log('最近一次通话',res)
+    // })
     goEasy.subscribe({
       channel: "tn1",
       onMessage: (message) => {
         const { uid, content, headImg, nickName,files } = JSON.parse(message.content)
         if (content || files.url) {
+          console.log('发送')
           messageList.push(
             {
               uid: uid,
@@ -62,10 +68,19 @@ export default class Presenter extends BaseComponent {
           this.setState({
             messageList: messageList
           })
+          this.scrollToChatBottom();
         }
       }
     })
   }
+  //自动滑动到最底下
+  scrollToChatBottom() { // 滑动到最底部
+    const {scrollTop} = this.state;
+    console.log('****',scrollTop)
+    this.setState({
+      scrollTop : scrollTop + 20000
+    })
+	}
 
   /**
    * 根据name设置nav bar title
@@ -160,6 +175,14 @@ export default class Presenter extends BaseComponent {
     Taro.hideLoading();
   }
 
+  onScroll = (e)=>{
+    //console.log(e.target)
+    // this.setState({
+    //   scrollTop:e.target.scrollTop
+    // })
+    //temScrollTop = e.target.scrollTop
+  }
+
   inputMessage = (e) => {
     this.setState({
       publishContent: e.target.value,
@@ -168,11 +191,11 @@ export default class Presenter extends BaseComponent {
   }
 
   publishMessage = async (type=0) => {
-    const { publishContent,files,toUid,fromUid, userInfo: { userId, nickName, headImg } } = this.state;
+    const { publishContent,files,toUid,fromUid, userInfo: { userId, nickName, headImg },inputValue } = this.state;
     let {messageList} = this.state;
     const {id } = getCurrentInstance().router.params;
     let isBlock = await this.isBlockFriend();
-    if (publishContent || files.url) {
+    if (inputValue && (publishContent || files.url)) {
       if (!isBlock) {
         goEasy.publish({
           channel: "tn1",
@@ -184,10 +207,6 @@ export default class Presenter extends BaseComponent {
             files:files,
             isBlock:false
           }),
-        })
-        this.setState({
-          inputValue: '',
-          //holdKeyboard:false
         })
       }else{
         messageList.push(
@@ -203,8 +222,15 @@ export default class Presenter extends BaseComponent {
         this.setState({
           messageList: messageList
         })
+        this.scrollToChatBottom();
       }
-      Model.saveData(fromUid,toUid,type,publishContent,Number(isBlock))
+      Model.saveData(fromUid,toUid,type,publishContent,Number(isBlock));
+
+      this.setState({
+        inputValue: '',
+        //holdKeyboard:false,
+      })
+      //this.scrollToChatBottom();
     } else {
       this.showToast('输入不能为空')
     }
@@ -215,6 +241,8 @@ export default class Presenter extends BaseComponent {
       activeFocus: true,
       inputBoxBottom: 15,
       //holdKeyboard:true
+    },()=>{
+      this.scrollToChatBottom()
     })
   }
 

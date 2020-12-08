@@ -1,5 +1,5 @@
 import Request from '@common/baseRequest'
-
+import Taro from '@tarojs/taro'
 const request = new Request()
 export default {
 
@@ -68,7 +68,26 @@ export default {
     if (data.code === 0) {
       return true
     } else {
+      Taro.showToast({
+        title:`包含非法字符，麻烦修改后再次尝试`,
+        icon:'none',
+        duration:2e3
+      })
       return false
     }
-  }
+  },
+
+  async getOssUrl(url) {
+    let params = {
+      url
+    }
+    const ret = await request.postWithToken('/upload/uploadByUrl', params);
+    const data = request.standardResponse(ret)
+    console.log(data)
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  },
 }

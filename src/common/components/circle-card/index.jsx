@@ -92,7 +92,7 @@ export default class CircleItem extends Component {
                     return (
                       t.type === 'view' ?
                         <View className='matched-txt' key={t.id}>{t.value}</View> :
-                        <Text key={t.id}>{t.value}</Text>
+                        <View style="display:inline-block" key={t.id}>{t.value}</View>
                     )
                   })
                 }

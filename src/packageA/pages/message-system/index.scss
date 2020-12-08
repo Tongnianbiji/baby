@@ -1,4 +1,5 @@
 @import "../../../app.scss";
+@import "~taro-ui/dist/style/components/swipe-action.scss";
 page {
   @extend .page100;
 }
@@ -17,7 +18,7 @@ page {
     box-sizing: border-box;
     .message-card {
       display: flex;
-      margin-bottom: 20px;
+      //margin-bottom: 20px;
       .icon-wrapper {
         width: 62px;
         min-width: 62px;
@@ -56,5 +57,13 @@ page {
         }
       }
     }
+  }
+}
+
+.message-action{
+  border-bottom: 1px solid #dddfe8;
+  margin-bottom: 20px;
+  &:nth-last-child(1) {
+    border-bottom: 0;
   }
 }

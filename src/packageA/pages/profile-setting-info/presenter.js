@@ -100,7 +100,8 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
     this.setState({
       headImg:file.url
     })
-    let res = await Model.updateHeadImgInfo(file.url);
+    let url = await Model.getOssUrl(file.url);
+    let res = await Model.updateHeadImgInfo(url);
     if(res){
       this.showToast('更新成功');
     }else{
@@ -123,7 +124,8 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
   nextStep = async ()=>{
     const {nickName,signature,role} = staticData;
     const {headImg} = this.state;
-    await Model.updateInfo(headImg,nickName,signature,getSex(role));
+    const headUrl = await Model.getOssUrl(headImg);
+    await Model.updateInfo(headUrl,nickName,signature,getSex(role));
     this.navto({
       url:'/packageA/pages/interest/index'
     })

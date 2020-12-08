@@ -29,10 +29,12 @@ export default class ProfileBabyPresenter extends BaseComponent {
       newOfficeName=res.officeName
     }
 
+    await this.getProfile();
+
     this.getFamilyList(newBid);
     this.getInviteData(newBid);
     this.setState({
-      userInfo:this.getUserInfo(),
+      //userInfo:this.getUserInfo(),
       babyName:newOfficeName,
       bid:newBid
     })
@@ -47,7 +49,7 @@ export default class ProfileBabyPresenter extends BaseComponent {
     }
     return {
       title: `${userInfo.nickName}邀请加入童年`,
-      path: `/packageA/pages/characterC/index?inviter=${userInfo.nickName}&bid=${bid}&babyName=${babyName}&invtKey=${invtKey}&inviterRoles=${JSON.stringify(otherMember)}`
+      path: `/packageA/pages/characterC/index?inviter=${userInfo.nickName}&newInviter=${userInfo.userId}&bid=${bid}&babyName=${babyName}&invtKey=${invtKey}&inviterRoles=${JSON.stringify(otherMember)}`
     }
   }
 
@@ -80,5 +82,14 @@ export default class ProfileBabyPresenter extends BaseComponent {
         invtKey:res.data,
       })
     }
+  }
+
+  getProfile = async ()=>{
+    let userId = this.getUserInfo().userId;
+    let res = await Model.getpProfile(userId);
+    console.log('个人信息',res)
+    this.setState({
+      userInfo:res
+    })
   }
 }

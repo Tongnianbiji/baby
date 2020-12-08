@@ -80,7 +80,8 @@ export default class UserInfoCard extends Component {
   }
 
   render() {
-    const { isShowDistance,kw,isShowTip,tip, model, model: { post, flow, funs, subscribeTime, headImg, district, signature, nickName, city, country,sex,stared }, activeModel,isShowReleaseTime } = this.props;
+    const { isShowDistance,kw,isShowTip,tip, model, model: { post, flow, funs, subscribeTime, headImg, district, city, country,sex,stared,child }, activeModel,isShowReleaseTime } = this.props;
+    console.log('model',model)
     return (
       <View className="wrapper">
         {
@@ -104,7 +105,7 @@ export default class UserInfoCard extends Component {
                 kw ? 
                 <View className='name'>
                 {
-                  this.highLight(nickName, kw).map(t => {
+                  this.highLight(model.nickName, kw).map(t => {
                     return (
                       t.type === 'view' ?
                         <View className='matched-txt' key={t.id}>{t.value}</View> :
@@ -114,23 +115,25 @@ export default class UserInfoCard extends Component {
                 }
               </View>
               :
-              <Text className='name' style={{ color: this.getNickNameColor(sex || activeModel.userSnapshot && activeModel.userSnapshot.sex || 'FEMALE') }}>{nickName || activeModel.userSnapshot.nickName}</Text>
+              <Text className='name' style={{ color: this.getNickNameColor(sex || activeModel.userSnapshot && activeModel.userSnapshot.sex || 'FEMALE') }}>{model.nickName || (activeModel.userSnapshot && activeModel.userSnapshot.nickName)}</Text>
               }
               
               <Image className='sex' src={sex === 'MALE' ? ICONS.MALE_ICON : ICONS.FEMALE_ICON}></Image>
               <View className='tags-warpper'>
                 <View className='tag'>{district || `${city} ${country}` || `${activeModel.userSnapshot.city} ${activeModel.userSnapshot.country}`}</View>
                 {
-                  [1,2].map(item=>{
+                  child.map(item=>{
                     return(
-                      <View className='tag'>大宝:两岁一个月</View>
+                      <View>
+                        <View className='tag'>{item}</View>
+                      </View>
                     )
                   })
                 }
               </View>
 
             </View>
-            <View className='sub-title'>{signature}</View>
+            <View className='sub-title'>{model.signature}</View>
             <View className='nubmers'>
               <View className='num'>粉丝: {funs}</View>
               <View className='num'>帖子: {post}</View>

@@ -4,8 +4,8 @@ import Presenter from './presenter'
 import './index.scss'
 
 export default class ProfileBaby extends Presenter {
- 
-  
+
+
   render() {
     const { familyMember, otherMember } = this.state;
     return (
@@ -26,21 +26,25 @@ export default class ProfileBaby extends Presenter {
             )
           })
         }
-        <View className='other-wrapper '>
-          <View className='other-tips'>您还可以邀请</View>
-          <View className='other-items'>
-            {
-              otherMember.map((item, index) => {
-                return (
-                  <View style="margin-right:5px">
-                    <Button open-type="share" className='other-item' key={`item_${item.role}_${index}`}>{item.roleText || '其他'}</Button>
-                  </View>
-                  
-                )
-              })
-            }
+        {
+          !!otherMember.length &&
+          <View className='other-wrapper '>
+            <View className='other-tips'>您还可以邀请</View>
+            <View className='other-items'>
+              {
+                otherMember.map((item, index) => {
+                  return (
+                    <View style="margin-right:5px">
+                      <Button open-type="share" className='other-item' key={`item_${item.role}_${index}`}>{item.roleText || '其他'}</Button>
+                    </View>
+
+                  )
+                })
+              }
+            </View>
           </View>
-        </View>
+        }
+
       </View>
     )
   }

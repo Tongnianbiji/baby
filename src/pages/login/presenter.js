@@ -67,28 +67,36 @@ export default class Presenter extends BaseComponent {
   }
 
   authLogin(code, phone, iv) {
-    const { isRegiste, updateIsLoginStatus } = staticDataStore;
+    const { isRegiste, updateIsLoginStatus, inviter,invtKey,updateWxUserInfo } = staticDataStore;
     this.setState({ loging: true })
     Model.getToken({
       oauthCode: code,
       mobile: phone,
-      iv
+      iv,
+      inviter
     }).then(({ errMsg: msg, data }) => {
-      //console.log(data, 'data...')
+      console.log(data, 'data...')
       this.setState({ loging: false })
       const { data: ret, code: status } = data
       if (msg === 'request:ok' && status === 0) {
         this.storage.setToken(ret.token)
         this.storage.setValue(USER_INFO_KEY, ret.profile)
+        //updateWxUserInfo(ret.profile)
         if (isRegiste) {
           updateIsLoginStatus(true)
           this.return2caller()
         } else {
-          Taro.navigateTo({
-            url: '/packageA/pages/characterA/index'
-          })
+          if(invtKey){
+            Taro.navigateTo({
+              //url: `/packageA/pages/profile-setting-info/index?newUser=true&wxInfo=${false}`
+              url:`/packageA/pages/characterC/index?newInvtKey=${invtKey}`
+            })
+          }else{
+            Taro.navigateTo({
+              url: '/packageA/pages/characterA/index'
+            })
+          }
         }
-
       } else {
         this.showToast('登录失败, 请稍候再试.')
       }
@@ -130,26 +138,35 @@ export default class Presenter extends BaseComponent {
   }
 
   doLogin = () => {
-    const { isRegiste, updateIsLoginStatus } = staticDataStore;
+    const { isRegiste, updateIsLoginStatus, inviter,invtKey,updateWxUserInfo } = staticDataStore;
     const { phoneNum, verifyCode, loging } = this.state
     if (this.verifyCodeLogin() && !loging) {
       Model.getToken({
         mobile: phoneNum,
-        msgCode: verifyCode
+        msgCode: verifyCode,
+        inviter
       }).then(({ errMsg: msg, data }) => {
         this.setState({ loging: false })
         const { data: ret, code: status } = data
-        // console.log(code, data, 'cdoe , data')
+        console.log(code, data, 'cdoe , data')
         if (msg === 'request:ok' && status === 0) {
           this.storage.setToken(ret.token)
           this.storage.setValue(USER_INFO_KEY, ret.profile)
+          //updateWxUserInfo(ret.profile)
           if (isRegiste) {
             updateIsLoginStatus(true)
             this.return2caller()
           } else {
-            Taro.navigateTo({
-              url: '/packageA/pages/characterA/index'
-            })
+            if(invtKey){
+              Taro.navigateTo({
+                //url: `/packageA/pages/profile-setting-info/index?newUser=true&wxInfo=${false}`,
+                url:`/packageA/pages/characterC/index?newInvtKey=${invtKey}`
+              })
+            }else{
+              Taro.navigateTo({
+                url: '/packageA/pages/characterA/index'
+              })
+            }
           }
         } else if (status === 3) {
           this.showToast('验证码错误')

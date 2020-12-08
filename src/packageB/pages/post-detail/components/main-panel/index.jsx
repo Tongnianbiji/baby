@@ -111,6 +111,21 @@ export default class MainPanelComponent extends BaseComponent {
       })
     }
   }
+
+  preViewImage = (url,e)=>{
+    const {files} = this.props.postDetail.detailData;
+    e.stopPropagation();
+    let newFiles = files.filter(item=>item.type == 1);
+    let urls = newFiles.map(item=>item.url);
+    Taro.previewImage({
+      current: url,
+      urls: urls
+    })
+  }
+
+  preViewVideo = (e)=>{
+    e.stopPropagation();
+  }
   
   render() {
     const {
@@ -123,6 +138,7 @@ export default class MainPanelComponent extends BaseComponent {
       isMark = false,
       createTime = '2020-03-29 21:29:00',
       uid,
+      files,
       
       userSnapshot: {
         city='上海',
@@ -165,6 +181,18 @@ export default class MainPanelComponent extends BaseComponent {
           <View onClick={this.reply.bind(this)} onLongPress={this.deletePost.bind(this,this.props.postDetail.detailData)}>
             <View className='title'>{title}</View>
             <View className='content'>{content}</View>
+            <View className='contents'>
+                {
+                  files.map(item => {
+                    return <View>
+                      { item.type == 1 ?
+                        <Image onClick={this.preViewImage.bind(this,item.url)} mode={'aspectFit'} src={item.url}></Image>
+                        : <Video id={item.url} playBtnPosition={"center"} onClick={this.preViewVideo.bind(this,item.url)} src={item.url}></Video>
+                      }
+                      </View>
+                  })
+                }
+              </View>
           </View>
          
           <View className='tags'>

@@ -34,14 +34,15 @@ class CircleDetailView extends Presenter {
 
   onShareAppMessage (res){
     let path= '';
+    const userId = this.getUserInfo().userId;
     const {updateReLoadCirclePage} = staticData;
     if (res.from === 'button') {
       const {pid,qid} =JSON.parse(res.target.id);
       if(pid){
-        path = `/packageB/pages/post-detail/index?pid=${pid}`
+        path = `/packageB/pages/post-detail/index?pid=${pid}&inviter=${userId}`
       }
       if(qid){
-        path = `/packageB/pages/issue-detail/index?qid=${qid}`
+        path = `/packageB/pages/issue-detail/index?qid=${qid}&inviter=${userId}`
       }
       updateReLoadCirclePage(false)
     }

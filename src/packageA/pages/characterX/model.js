@@ -32,7 +32,8 @@ export default {
   async acceptInvite(invtKey,roleText){
     let params ={
       invtKey,
-      roleText:this.getRoleText(roleText),
+      //roleText:this.getRoleText(roleText),
+      roleText:roleText,
       role:'OTHER'
     }
     const ret = await request.getWithToken('/child/accept', params)

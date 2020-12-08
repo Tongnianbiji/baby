@@ -1,5 +1,6 @@
 import Request from '../../../common/baseRequest'
 import circleDetail from '@src/store/circle-detail'
+import Taro from '@tarojs/taro'
 const request = new Request()
 const {defaultGroupFlag,defaultRegionFlag,defaultGroup,defaultRegion} = circleDetail.customConfig
 export default {
@@ -45,6 +46,11 @@ export default {
     if (data.code === 0) {
       return data.data
     } else {
+      Taro.showToast({
+        title:`关注圈子后才可定制圈子哦`,
+        icon:'none',
+        duration:2e3
+      })
       return false
     }
   }

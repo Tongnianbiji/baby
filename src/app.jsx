@@ -6,6 +6,7 @@ import { Provider } from 'mobx-react'
 import BaseComponent from '@common/baseComponent'
 import { setGlobalData } from './global_data'
 import GoEasy from './libs/goeasy-1.0.17'
+//import GoEasy from './libs/goeasy-im-1.1.0.js'
 import BaseRequest from '@common/baseRequest'
 import { GMAP_API_KEY } from '@common/constant'
 import circleDetailStore from './store/circle-detail'
@@ -96,6 +97,22 @@ class App extends BaseComponent {
     })
 
     const {getGoEasy} =staticDataStore;
+    // getGoEasy(
+    //   GoEasy.getInstance({
+    //     host: 'hangzhou.goeasy.io',
+    //     appkey: 'BC-6ad253de75d242f5a8917e75e14e1eca',
+    //     onConnected() {
+    //       console.log('连接成功')
+    //     },
+    //     onDisconnected() {
+    //       console.log('断开连接')
+    //     },
+    //     onConnectFailed(error) {
+    //       console.log('连接失败', error)
+    //     }
+    //   })
+    // )
+
     getGoEasy(
       new GoEasy({
         host: 'hangzhou.goeasy.io',

@@ -36,10 +36,16 @@ export default class CharacterXPresenter extends BaseComponent {
       role:e.detail.value
     })
   }
-  nextStep = async ()=>{
+  nextStep = async (e)=>{
     const {babyName,invtKey} = this.$router.params;
     const {role,isInvite} = this.state;
-    const {updateRole,updateSex} = staticData;
+    const {updateRole,updateSex,isRegiste,updateWxUserInfo} = staticData;
+    let isHasWxInfo = false;
+    console.log('微信信息',e)
+    if(e&&e.detail&&e.detail.userInfo){
+      updateWxUserInfo(e.detail.userInfo);
+      isHasWxInfo = true
+    }
     if(role){
       updateRole(role);
       if(!isInvite){
@@ -55,9 +61,16 @@ export default class CharacterXPresenter extends BaseComponent {
             showCancel:false,
             success: function (res) {
               if (res.confirm) {
+                if(isRegiste){
                   Taro.switchTab({
                     url: `/pages/index/index`
                   })
+                }else{
+                  Taro.navigateTo({
+                    url: `/packageA/pages/profile-setting-info/index?newUser=true&wxInfo=${isHasWxInfo}`
+                  })
+                }
+                  
               } 
               else if (res.cancel) {
                 console.log('用户点击取消')

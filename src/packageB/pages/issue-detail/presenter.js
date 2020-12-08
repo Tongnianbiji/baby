@@ -2,6 +2,7 @@ import BaseComponent from '@common/baseComponent'
 import Model from './model'
 import issueDetailStore from './store/issue-detail'
 import circleIsReload from '@src/common/utils/circleIsReload'
+import staticDataStore from '@src/store/common/static-data'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -32,6 +33,7 @@ export default class Presenter extends BaseComponent {
         })
       }
     }
+    this.getInviter()
   }
 
   async componentDidShow(){
@@ -62,8 +64,23 @@ export default class Presenter extends BaseComponent {
   //去回答
   goAnswer = ()=>{
     const {qid} = issueDetailStore;
-    this.navto({
-      url:`/packageB/pages/create-answer/index?qid=${qid}`
-    })
+    const { isRegiste } = staticDataStore;
+    if (isRegiste){
+      this.navto({
+        url:`/packageB/pages/create-answer/index?qid=${qid}`
+      })
+    }else {
+      Taro.navigateTo({
+        url: '/pages/login/index'
+      })
+    }
+  }
+
+  getInviter(){
+    const { updateInviter } = staticDataStore;
+    const {inviter} = this.$router.params;
+    if(inviter){
+      updateInviter(inviter)
+    }
   }
 }

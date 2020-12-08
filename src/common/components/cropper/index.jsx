@@ -227,7 +227,7 @@ export default class Cropper extends Component {
 
 
   drawCanvas = () => {
-    const { canvasHeight, canvasWidth, imageHeight,defaultCropperWidth} = this.state;
+    const { canvasHeight, canvasWidth,defaultCropperWidth} = this.state;
     const { imagePath ,scale} = this.props;
     const cvsCtx = Taro.createCanvasContext('cropper', this.$scope);
     const offset = 5;
@@ -237,20 +237,21 @@ export default class Cropper extends Component {
         imageHeight:res.height
       })
       cvsCtx.drawImage(imagePath, (canvasWidth-res.width)/2, 0, res.width, res.height);
-      cvsCtx.rect((canvasWidth-defaultCropperWidth)/2, (canvasHeight-defaultCropperWidth/scale)/2, defaultCropperWidth, defaultCropperWidth/scale);
+      let initX =(canvasWidth-defaultCropperWidth)/2 ,initY=(res.height-defaultCropperWidth/scale)/2;//(canvasHeight-defaultCropperWidth/scale)/2
+      cvsCtx.rect(initX, initY, defaultCropperWidth, defaultCropperWidth/scale);
       this.setState({
         cropperW: defaultCropperWidth,
         cropperH: defaultCropperWidth/scale,
-        cropperX:(canvasWidth-defaultCropperWidth)/2,
-        cropperY:(canvasHeight-defaultCropperWidth/scale)/2,
-        topRightX:(canvasWidth-defaultCropperWidth)/2 + defaultCropperWidth,
-        topRightY:(canvasHeight-defaultCropperWidth/scale)/2,
-        bottomLeftX:(canvasWidth-defaultCropperWidth)/2,
-        bottomLeftY:(canvasHeight-defaultCropperWidth/scale)/2 + defaultCropperWidth/scale,
-        bottomRightX:(canvasWidth-defaultCropperWidth)/2 + defaultCropperWidth,
-        bottomRightY:(canvasHeight-defaultCropperWidth/scale)/2 + defaultCropperWidth/scale,
+        cropperX:initX,
+        cropperY:initY,
+        topRightX:initX + defaultCropperWidth,
+        topRightY:initY,
+        bottomLeftX:initX,
+        bottomLeftY:initY + defaultCropperWidth/scale,
+        bottomRightX:initX + defaultCropperWidth,
+        bottomRightY:initY + defaultCropperWidth/scale,
       })
-      let x =(canvasWidth-defaultCropperWidth)/2 ,y = (canvasHeight-defaultCropperWidth/scale)/2,
+      let x =initX ,y = initY,
       cropperW = defaultCropperWidth,cropperH=defaultCropperWidth/scale;
       cvsCtx.strokeStyle = '#eeeeee';
       cvsCtx.stroke();

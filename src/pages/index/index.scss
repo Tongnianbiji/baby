@@ -104,6 +104,10 @@ page {
   }
   .tabs-container {
     flex: 1;
+    //margin: 20px 0 0;
+    //background:rgba(255,255,255,1);
+    //border-radius:16px;
+    overflow: hidden;
     .tabs {
       & > .at-tabs__header {
         position: fixed;
@@ -132,43 +136,43 @@ page {
       }
     }
     .slider-tab-wrapper {
-      padding: 0 24px 0;
+      padding: 24px 24px 32px;
     }
-    .attention-tabs {
-      margin: 4px 32px 24px 32px;
-      height: 60px;
-      border-radius: 8px;
-      background: #e3e3e3;
-      padding: 3px;
-      box-sizing: border-box;
-      position: relative;
-      .slider-view {
-        width: 50%;
-        background: #fff;
-        border-radius: 8px;
-        height: 100%;
-        transition: all 0.2s ease;
-        &.left-status {
-          transform: translateX(100%);
-        }
-      }
-      .tab-items {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 32px;
-        right: 32px;
-        background: transparent;
-        display: flex;
-        .tab-item {
-          flex: 1;
-          @extend .flex-center;
-          font-size: 28px;
-          font-weight: 400;
-          color: #333;
-        }
-      }
-    }
+    // .attention-tabs {
+    //   margin: 4px 32px 24px 32px;
+    //   height: 60px;
+    //   border-radius: 8px;
+    //   background: #e3e3e3;
+    //   padding: 3px;
+    //   box-sizing: border-box;
+    //   position: relative;
+    //   .slider-view {
+    //     width: 50%;
+    //     background: #fff;
+    //     border-radius: 8px;
+    //     height: 100%;
+    //     transition: all 0.2s ease;
+    //     &.left-status {
+    //       transform: translateX(100%);
+    //     }
+    //   }
+    //   .tab-items {
+    //     position: absolute;
+    //     top: 0;
+    //     bottom: 0;
+    //     left: 32px;
+    //     right: 32px;
+    //     background: transparent;
+    //     display: flex;
+    //     .tab-item {
+    //       flex: 1;
+    //       @extend .flex-center;
+    //       font-size: 28px;
+    //       font-weight: 400;
+    //       color: #333;
+    //     }
+    //   }
+    // }
     .user-item-wrapper {
       padding: 0 32px;
       box-sizing: border-box;

@@ -40,16 +40,12 @@ export default class Presenter extends BaseComponent {
         })
       }
     }
-    
+    this.getInviter()
   }
 
   componentDidShow() {
-    // const {pid} = this.$router.params;
-    // if(pid){
-
-    // }
-    this.getData()
-    this.getReplyList()
+    this.getData();
+    this.getReplyList();
   }
 
   componentWillUnmount(){
@@ -138,7 +134,14 @@ export default class Presenter extends BaseComponent {
         duration: 2e3
       })
     }
+  }
 
+  getInviter(){
+    const { updateInviter } = staticDataStore;
+    const {inviter} = this.$router.params;
+    if(inviter){
+      updateInviter(inviter)
+    }
   }
 
   async getData(pid = this.$router.params.pid) {

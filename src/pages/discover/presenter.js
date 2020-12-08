@@ -51,7 +51,7 @@ export default class Presenter extends BaseComponent {
     }
     return {
       title: `${profileInfo.nickName}邀请加入童年`,
-      path: `/pages/index/index`
+      path: `/pages/index/index?inviter=${profileInfo.userId}`
     }
   }
 

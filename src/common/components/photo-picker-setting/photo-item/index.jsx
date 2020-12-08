@@ -41,7 +41,7 @@ export default class PhotoItemView extends Component {
     Taro.showLoading({
       title:'上传中,请稍后'
     });
-    req.post('/upload/result', { ticket }).then(res => {
+    req.postWithToken('/upload/result', { ticket }).then(res => {
        console.log(res, 'ticket..');
       const d = res.data
       if (d.code === 0) {

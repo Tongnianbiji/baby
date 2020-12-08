@@ -1,5 +1,5 @@
 import BaseRequest from '@common/baseRequest'
-import Taro, { getCurrentInstance } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 const request = new BaseRequest();
 
 export default {
@@ -14,7 +14,7 @@ export default {
       return true
     } else {
       Taro.showToast({
-        title:`${data.message}`,
+        title:`包含非法字符，麻烦修改后再次尝试`,
         icon:'none',
         duration:2e3
       })

@@ -1,5 +1,8 @@
 @import "../../../app.scss";
 @import "../../../assets/scss/theme.scss";
+@import "~taro-ui/dist/style/components/tabs.scss";
+@import "~taro-ui/dist/style/components/list.scss";
+@import "~taro-ui/dist/style/components/swipe-action.scss";
 
 .characterB-viewport {
   min-height: 100vh;
@@ -34,6 +37,37 @@
     }
     .item:not(:last-child) {
       border-bottom: 1px solid #dddfe8;
+      border-radius: 0;
     }
+  }
+  .next-btn-wrapper {
+    padding: 70px 56px 45px 56px;
+    .active {
+      background:$sys-active-bg !important;
+      color: rgba(255, 255, 255, 1);
+      opacity: 1 !important;
+    }
+    .next-btn {
+      @extend .flex-center;
+      margin-bottom: 24px;
+      height: 72px;
+      background: $sys-linear-active;
+      border-radius: 36px;
+      opacity: 0.49;
+      font-size: 32px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
+    }
+    .next-tips {
+      @extend .flex-center;
+      font-size: 24px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: rgba(153, 153, 153, 1);
+    }
+  }
+  button::after{
+    border:none
   }
 }

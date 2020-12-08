@@ -12,7 +12,7 @@ export default class InterestPresenter extends BaseComponent {
       typeIndex:0,
       subTypeIndex:0,
       sid:1,
-      activeSids: new Set([2])
+      activeSids: new Set([])
     }
   }
 
@@ -30,6 +30,9 @@ export default class InterestPresenter extends BaseComponent {
   componentDidHide() { }
 
   onClickForSkip() {
+    const {updateGuideStatus,updateIsLoginStatus} = staticDataStore;
+    updateGuideStatus(false); 
+    updateIsLoginStatus(true);
     Taro.switchTab({
       url:'/pages/index/index'
     })

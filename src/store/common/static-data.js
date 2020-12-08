@@ -23,6 +23,12 @@ class Data {
   @observable signature='';
   @observable reLoadCirclePage=true;
   @observable goEasy=null;
+  @observable inviter='';
+  @observable invtKey='';
+  @observable bid='';
+  @observable inviterRoles='';
+  @observable newInviter = '';
+  @observable inviterName = ''
 
   @action getGoEasy = (goEasy)=>{
     this.goEasy = goEasy
@@ -86,6 +92,31 @@ class Data {
 
   @action updateFromHomeMoreStatus= (status)=>{
     this.fromHomeMore = status
+  }
+
+  @action updateInviter = (inviter)=>{
+    console.log('inviter',inviter)
+    this.inviter = inviter
+  }
+
+  @action updateInviterName = (inviter)=>{
+    this.inviterName = inviter
+  }
+
+  @action updateInvtKey = (invtKey)=>{
+    this.invtKey = invtKey
+  }
+
+  @action updateBid = (bid)=>{
+    this.bid = bid
+  }
+
+  @action updateInviterRoles = (inviterRoles)=>{
+    this.inviterRoles = inviterRoles
+  }
+
+  @action updateNewInvtKey = (newInviter)=>{
+    this.newInviter = newInviter
   }
 
   @action getTagList = async (cid) => {

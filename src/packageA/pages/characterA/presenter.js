@@ -324,7 +324,7 @@ export default class CharacterAPresenter extends BaseComponent {
     let isHasWxInfo = false;
     console.log('微信信息',e)
     const {subTabsCurrent,babyList,pregnancyBornDate,preHospital} =this.state;
-    const {isRegiste,updateWxUserInfo} = staticData;
+    const {isRegiste,updateWxUserInfo,role} = staticData;
     if(e&&e.detail&&e.detail.userInfo){
       updateWxUserInfo(e.detail.userInfo);
       isHasWxInfo = true
@@ -341,7 +341,7 @@ export default class CharacterAPresenter extends BaseComponent {
               school:item.babySchool
             }
             officeName = item.babyName;
-            let res1 = await Model.submit(officeName,yearState,yearDesc);
+            let res1 = await Model.submit(officeName,yearState,yearDesc,role);
             if(!res1){
               status = false
             }
@@ -359,7 +359,7 @@ export default class CharacterAPresenter extends BaseComponent {
             checkHospital:'',
             planHospita:preHospital
           }
-          let res2 = await Model.submit('孕育中',yearState,yearDesc);
+          let res2 = await Model.submit('孕育中',yearState,yearDesc,role);
           if(res2){
             this.navto({
               url: `/packageA/pages/profile-setting-info/index?newUser=true&wxInfo=${isHasWxInfo}`
@@ -371,7 +371,7 @@ export default class CharacterAPresenter extends BaseComponent {
           yearDesc={
             birthday:pregnancyBornDate
           }
-          let res3 = await Model.submit('备孕中',yearState,yearDesc);
+          let res3 = await Model.submit('备孕中',yearState,yearDesc,role);
           if(res3){
             this.navto({
               url: `/packageA/pages/profile-setting-info/index?newUser=true&wxInfo=${isHasWxInfo}`

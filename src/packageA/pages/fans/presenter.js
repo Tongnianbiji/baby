@@ -58,6 +58,7 @@ export default class Presenter extends BaseComponent {
       postLock:true
     })
     let res = await Model.getData(uid,pageNum);
+    console.log('粉丝列表',res)
     this.setState({
       postLock:false
     })

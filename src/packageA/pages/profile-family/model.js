@@ -107,5 +107,18 @@ export default {
     } else {
       return false
     }
-  }
+  },
+
+  async getpProfile(userId) {
+    let params ={
+      userId
+    }
+    const ret = await request.getWithToken('/profile/get', params)
+    const data = request.standardResponse(ret);
+    if (data.code === 0) {
+      return data.data
+    } else {
+      return false
+    }
+  },
 }

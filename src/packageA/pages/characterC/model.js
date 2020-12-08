@@ -1,5 +1,5 @@
 import BaseRequest from '@common/baseRequest'
-
+import Taro from '@tarojs/taro'
 const request = new BaseRequest();
 
 export default {
@@ -59,10 +59,10 @@ export default {
       return false
     }
   },
-  async acceptInvite(invtKey,role,roleText=''){
+  async acceptInvite(invtKey,roleText){
     let params ={
       invtKey,
-      role:this.getRoleText(role),
+      role:this.getRoleText(roleText),
       roleText
     }
     const ret = await request.getWithToken('/child/accept', params)
@@ -72,5 +72,5 @@ export default {
     } else {
       return false
     }
-  }
+  },
 }

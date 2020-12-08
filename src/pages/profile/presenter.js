@@ -36,7 +36,7 @@ export default class ProfilePresenter extends BaseComponent {
     }
     return {
       title: `${profileInfo.nickName}邀请加入童年`,
-      path: `/pages/index/index`
+      path: `/pages/index/index?inviter=${profileInfo.userId}`
     }
   }
 
@@ -63,7 +63,7 @@ export default class ProfilePresenter extends BaseComponent {
     })
   }
 
-  onClickNavTo(type) {
+  async onClickNavTo(type) {
     const {isLogin} = staticData;
     const {profileInfo} = this.state;
     switch (type) {
@@ -113,7 +113,8 @@ export default class ProfilePresenter extends BaseComponent {
         break;
       case 'family'://我的家
         if(isLogin){
-          if(profileInfo.child.length>1){
+          let r = await Model.childMine();
+          if(r.length>1){
             this.navto({ url: '/packageA/pages/profile-baby/index?isToFamily=true' })
           }else{
             this.navto({ url: '/packageA/pages/profile-family/index' })

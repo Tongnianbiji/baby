@@ -182,7 +182,11 @@ export default class UserInfoItem extends Component {
             {
 
               <View className='release-info'>
-                {!closeRelease && <Text className='release'>{`${activeModel.userSnapshot ? activeModel.userSnapshot.nickName : ''}${activeModel.type ? Behaviors(activeModel.type) : ''} | ${activeModel.createAt ? FormaDate(activeModel.createAt) : ''}`}</Text>}
+                {!closeRelease && 
+                <View>
+                  <View className='release'>{`${activeModel.userSnapshot ? activeModel.userSnapshot.nickName : ''}${activeModel.type ? Behaviors(activeModel.type) : ''} | ${activeModel.createAt ? FormaDate(activeModel.createAt) : ''}`}</View>
+                </View>
+                }
                 <View className='info'>
                   {
                     this.props.needDistance && <View className='distance-info'>0.9km</View>
@@ -221,7 +225,9 @@ export default class UserInfoItem extends Component {
                     <View className='is-not-text'>
                       {
                         model.userSnapshot && model.userSnapshot.city ?
-                          <View className='years-old'>{(model.userSnapshot && model.userSnapshot.city) + ' ' + (model.userSnapshot && model.userSnapshot.country)}</View>
+                          <View>
+                            <View className='years-old'>{(model.userSnapshot && model.userSnapshot.city) + ' ' + (model.userSnapshot && model.userSnapshot.country)}</View>
+                          </View>
                           : null
                       }
                     </View>
@@ -229,7 +235,11 @@ export default class UserInfoItem extends Component {
                       {
                         model.userSnapshot && model.userSnapshot.customLevel && model.userSnapshot.customLevel.length ?
                           model.userSnapshot.customLevel.map((item) => {
-                            return <View className='babys'>{item.desc}</View>
+                            return(
+                              <View>
+                                <View className='babys'>{item.desc}</View>
+                              </View>
+                            )
                           })
                           : null
                       }
@@ -276,9 +286,12 @@ export default class UserInfoItem extends Component {
 
                 </View> :
                 activeModel.content ? 
-                <Text className='content'>{activeModel.content}</Text>
+                <View>
+                  <View className='content'>{activeModel.content}</View>
+                </View>
                 :
                 model.title ?
+                <View>
                   <View className='content'>
                     {
                       this.highLight(model.title, kw).map(t => {
@@ -290,8 +303,12 @@ export default class UserInfoItem extends Component {
                       })
                     }
                   </View>
+                </View>
+                  
                   :
-                  <Text className='content'>{model.content}</Text>
+                  <View>
+                    <View className='content'>{model.content}</View>
+                  </View>
             }
             {
               this.props.isMyReply && model.title && <View className='content' style="color:#666666;;">原贴：{model.title}</View>
@@ -302,7 +319,7 @@ export default class UserInfoItem extends Component {
               this.props.countryAble &&
               <View className='community-area' onClick={this.viewCircleDetail.bind(this, model.cid)}>
                 {/* <Text className='community-name'>{(model && model.userSnapshot && model.userSnapshot.city  && `${model.userSnapshot.city} ${model.userSnapshot.country}`) || '上海 新城'}</Text> */}
-                <Text className='community-name'>{(model && model.cName && `${model.cName}`) || '备孕交流'}</Text>
+                <View className='community-name'>{(model && model.cName && `${model.cName}`) || '备孕交流'}</View>
               </View>
             }
             {
