@@ -148,7 +148,7 @@ export default class Presenter extends BaseComponent {
       }).then(({ errMsg: msg, data }) => {
         this.setState({ loging: false })
         const { data: ret, code: status } = data
-        console.log(code, data, 'cdoe , data')
+        console.log(status, data, 'cdoe , data')
         if (msg === 'request:ok' && status === 0) {
           this.storage.setToken(ret.token)
           this.storage.setValue(USER_INFO_KEY, ret.profile)
