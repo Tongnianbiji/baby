@@ -43,6 +43,7 @@
     "qrcode.react": "^1.0.0",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
+    "sa-sdk-miniprogram": "^1.14.2",
     "taro-code": "^3.2.0",
     "taro-cropper": "^1.2.3",
     "taro-ui": "^3.0.0-alpha.3"
