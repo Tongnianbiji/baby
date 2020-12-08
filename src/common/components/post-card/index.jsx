@@ -65,6 +65,8 @@ export default class UserInfoItem extends Component {
         value: isView ? t.match(contentReg)[1] : t
       })
     })
+
+    console.log(333, newList)
     return newList;
   }
 
@@ -268,9 +270,7 @@ export default class UserInfoItem extends Component {
                       {
                         this.highLight(model.title, kw).map(t => {
                           return (
-                            t.type === 'view' ?
-                              <View className='matched-txt' key={t.id}>{t.value}</View> :
-                              <Text key={t.id}>{t.value}</Text>
+                            <View className={t.type === 'view' ? 'matched-txt' : ''} key={t.id}>{t.value}</View> 
                           )
                         })
                       }
@@ -296,9 +296,7 @@ export default class UserInfoItem extends Component {
                     {
                       this.highLight(model.title, kw).map(t => {
                         return (
-                          t.type === 'view' ?
-                            <View className='matched-txt' key={t.id}>{t.value}</View> :
-                            <Text key={t.id}>{t.value}</Text>
+                          <View className={t.type === 'view' ? 'matched-txt' : ''} key={t.id}>{t.value}</View> 
                         )
                       })
                     }
