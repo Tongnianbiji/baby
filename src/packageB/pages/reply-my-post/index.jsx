@@ -13,14 +13,14 @@ export default class ReplyMyPostView extends Presenter {
   }
  
   render() {
-    const { replyData,showReplyLoading,isReplyToBottom} = this.state;
+    const { replyData, showReplyLoading, isReplyToBottom } = this.state;
     return (
       <View className='my-post-view'>
         {
           replyData.length ? 
           <View>
             {
-              replyData.map((item)=>{
+                replyData.filter(item => !!item.entity).map((item)=>{
                 return(
                   <NoticeCard onCardClick={this.handlePostDetail.bind(this,item.entity.pid)} isOldQuestion tip={true} type={''} isShowReleaseTime={false} data={item.entity} activeModel={item}/>
                 )
