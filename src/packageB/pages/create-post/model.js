@@ -1,5 +1,5 @@
 import Request from '@common/baseRequest'
-import Taro, {getCurrentInstance} from '@tarojs/taro'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
 
 const req = new Request()
 
@@ -17,11 +17,11 @@ export default {
   async savePost(params) {
     const ret = await req.postWithToken('/post/submit', params)
     const d = req.standardResponse(ret);
-    if (d.code) {
+    if (d.code > 0) {
       Taro.showToast({
-        title:'今天已发布过多未通过审核的内容，麻烦明天再试',
+        title: d.message,
         icon: 'none',
-        duration:2e3
+        duration: 2e3
       })
     } else {
       return d.code === 0 && d.data
