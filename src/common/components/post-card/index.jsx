@@ -66,7 +66,6 @@ export default class UserInfoItem extends Component {
       })
     })
 
-    console.log(333, newList)
     return newList;
   }
 

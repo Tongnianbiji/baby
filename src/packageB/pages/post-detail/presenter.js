@@ -138,7 +138,7 @@ export default class Presenter extends BaseComponent {
 
   getInviter(){
     const { updateInviter } = staticDataStore;
-    const {inviter} = this.$router.params;
+    const { inviter } = this.$router.params;
     if(inviter){
       updateInviter(inviter)
     }

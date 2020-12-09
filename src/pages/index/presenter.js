@@ -124,6 +124,7 @@ export default class HomePage extends BaseComponent {
   onShareAppMessage(res) {
     let path = '';
     const userId = this.getUserInfo().userId;
+    
     if (res.from === 'button') {
       const { pid, qid } = JSON.parse(res.target.id);
       if (pid) {
@@ -186,10 +187,11 @@ export default class HomePage extends BaseComponent {
 
   getInviter(){
     const { updateInviter } = staticData;
-    const {inviter} = this.$router.params;
-    console.log('测试',this.$router.params)
-    if(inviter){
-      updateInviter(inviter)
+    const {inviter, scene} = this.$router.params;
+    console.log('scene', scene)
+    console.log('测试', this.$router.params)
+    if (inviter || scene){
+      updateInviter(inviter || scene)
     }
   }
 
