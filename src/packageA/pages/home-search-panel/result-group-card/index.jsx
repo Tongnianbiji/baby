@@ -357,7 +357,8 @@ export default class SearchResultGroupCard extends Component {
 
 
   renderUser() {
-    const { model, kw} = this.props;
+    const { model, kw } = this.props;
+    console.log(1111, model)
     return (
       model && !!model.length &&
           model.slice(0, 2).map(item=>{
@@ -387,9 +388,9 @@ export default class SearchResultGroupCard extends Component {
                     <View className='tags-warpper'>
                       <View className='tag'>{`${item.city} ${item.country}`}</View>
                       {
-                        [1,2].map(item=>{
+                        item.child.slice(0,2).map(item=>{
                           return(
-                            <View className='tag'>大宝:两岁一个月</View>
+                            <View className='tag'>{item}</View>
                           )
                         })
                       }
