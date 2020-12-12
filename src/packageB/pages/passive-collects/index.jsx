@@ -43,7 +43,7 @@ export default class PassiveCollectsView extends Presenter {
              collectData.length ? 
              <View>
                {
-                 collectData.map((item)=>{
+                collectData.filter(item => !!item.entity).map((item)=>{
                    return (<NoticeCard type={''} isShowReleaseTime={false} tip={true} data={item.entity} activeModel={item}/>)
                  })
                }
@@ -56,7 +56,7 @@ export default class PassiveCollectsView extends Presenter {
              likeData.length ? 
              <View>
                {
-                 likeData.map((item)=>{
+                likeData.filter(item => !!item.entity).map((item)=>{
                   return (<NoticeCard type={''} isOldQuestion isShowReleaseTime={false} tip={true} data={item.entity} activeModel={item}/>)
                  })
                }

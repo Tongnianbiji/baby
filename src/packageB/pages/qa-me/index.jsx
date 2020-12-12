@@ -16,7 +16,7 @@ export default class QAListView extends Presenter {
             answerData.length ? 
             <View>
               {
-                answerData.map((item)=>{
+                answerData.filter(item => !!item.entity).map((item)=>{
                   return (<NoticeCard onCardClick={this.handlePostDetail.bind(this,item.entity.pid)} type={''} isOldQuestion tip={true}  isShowReleaseTime={false} data={item.entity} activeModel={item}/>)
                 })
               }
