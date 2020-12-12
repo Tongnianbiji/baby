@@ -22,7 +22,7 @@ export default class Login extends Presenter {
             <View>
               {/* <Button className='btn-wechat' loading={this.state.loging} openType='getUserInfo' onGetUserInfo={this.onGetUserInfo}>微信一键登陆</Button> */}
               <Button className='btn-wechat' loading={this.state.loging} openType='getPhoneNumber' onGetPhoneNumber={this.onGetPhoneNumber.bind(this)}>微信一键登陆</Button>
-              <Button className='btn-phone' onClick={this.changeLoginType.bind(this)}>手机号验证登陆</Button>
+              {/* <Button className='btn-phone' onClick={this.changeLoginType.bind(this)}>手机号验证登陆</Button> */}
             </View> :
             <View>
               <Input placeholder='输入手机号' type='number' className='inp-phone' onInput={this.phoneNumInput.bind(this)} />
