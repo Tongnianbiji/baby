@@ -11,6 +11,7 @@ export default class HomePage extends BaseComponent {
     super(props)
 
     this.state = {
+      ...this.state,
       topTabs: Model.tabConfig.top,
       currentTopTab: 1,
       attentionType: 1, //1: 关注的用户   2: 关注的圈子
@@ -445,7 +446,8 @@ export default class HomePage extends BaseComponent {
       }
       this.setState({
         recommends:newRecommends,
-        recommendsLength: newRes.length
+        recommendsLength: newRes.length,
+        pageState: newRecommends.length == 0? 'noData':'over',
       })
     }
   }

@@ -3,8 +3,9 @@ import React, { Component } from 'react'
 import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY,USER_INFO_KEY_USERID,CURRENT_LOCATION_INFO,IS_COLLECT_MINI } from '../common/constant'
 import Dto from '../common/localStorage'
 import { View, Button,Text, Icon,Image } from '@tarojs/components'
-import {ICONS} from '@common/constant'
+import { ICONS } from '@common/constant'
 import staticData from '@src/store/common/static-data.js'
+
 /**
  * 所有 页面视图 都应该继承自这个类
  * 提供一些基础动作和封装
@@ -255,5 +256,14 @@ export default class BaseComponent extends Component {
 
   renderLoading() {
     return <View className='base-loading'></View>
+  }
+
+  renderEmptyPage() {
+    return (
+      <View className='noTemplate-wrap'>
+        <Image src={ICONS.NODATA} mode='widthFix' />
+        <Text style='margin-top:20px'>当前暂无数据</Text>
+      </View>
+    )
   }
 }

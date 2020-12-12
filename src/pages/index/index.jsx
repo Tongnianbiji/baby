@@ -20,8 +20,11 @@ import './index.scss'
 @observer
 export default class Index extends HomePage {
   render() {
-    const { topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isPullDownRefresh, showAttentionLoading, isAttentionToBottom,isCollentMini,showNewInfoBar,total,recommends,showRecommendLoading,isRecommendToBottom,hots,recommendsLength} = this.state;
-    const {isGuide} = this.props.staticDataStore;
+    const { pageState, topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isPullDownRefresh, showAttentionLoading, isAttentionToBottom,isCollentMini,showNewInfoBar,total,recommends,showRecommendLoading,isRecommendToBottom,hots,recommendsLength} = this.state;
+    const { isGuide } = this.props.staticDataStore;
+    if (pageState == 'loading') {
+      return this.renderLoading();
+    }
     return (
       <View className='home-page-viewport'>
         <View className="new-info-bar" style={{opacity:String(Number(showNewInfoBar))}}>
@@ -72,21 +75,23 @@ export default class Index extends HomePage {
             </AtTabsPane>
             <AtTabsPane current={currentTopTab} index={1} className='attention-tabs-pane'>
               <View className='user-item-wrapper'>
-                {
-                    <View>
+                {pageState == 'noData' ?
+                  this.renderEmptyPage()
+                  :
+                  <View>
                     {
-                      recommends.map((item,key) => {
+                      recommends.map((item, key) => {
                         return (
                           <View>
                             {
-                              item.entity && 
+                              item.entity &&
                               <View className={`target-item-${item.entityId}`}>
-                                <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteRecommends.bind(this,item)} onSubScrUser={this.subScrUser.bind(this,item)}></BehaviorCard>
+                                <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteRecommends.bind(this, item)} onSubScrUser={this.subScrUser.bind(this, item)}></BehaviorCard>
                               </View>
                             }
                           </View>
-                         
-                          
+
+
                         )
                       })
                     }
@@ -94,7 +99,7 @@ export default class Index extends HomePage {
                       !isPullDownRefresh &&
                       <Preloading showLoading={showRecommendLoading} isToBottom={isRecommendToBottom}></Preloading>
                     }
-                  
+
                   </View>
                 }
               </View>
