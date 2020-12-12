@@ -1,6 +1,7 @@
 import React from 'react'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
+import Taro from '@tarojs/taro'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -25,6 +26,8 @@ export default class Presenter extends BaseComponent {
   }
 
   componentDidMount() {
+    this.handleLocationAuth()
+
     this.doLocation()
     this.showNavLoading()
     Model.getCity().then(ret => {
@@ -39,7 +42,37 @@ export default class Presenter extends BaseComponent {
       this.hideNavLoading()
     })
   }
-
+  handleLocationAuth() {
+    Taro.getSetting().then(res => {
+      if (!res.authSetting['scope.userLocation']) { 
+        Taro.getStorage({
+          key: 'locationShowedCount',
+          complete: function (res) {
+            console.log('---locationShowedCount---', res)
+            const showedCount = res.data || 0;
+            if (showedCount < 3) {
+              Taro.showModal({
+                title: '获取你的地理位置信息',
+                content: '位置信息将用于定位所在城市和提供相关的信息',
+                cancelText: '拒绝',
+                confirmText: '允许',
+                confirmColor: '#FF473A',
+                success(res) {
+                  if (res.confirm) {
+                    Taro.openSetting()
+                  }
+                }
+              })
+              Taro.setStorage({
+                key: "locationShowedCount",
+                data: showedCount + 1,
+              })
+            }
+          }
+        })
+      }
+    })
+  }
   doLocation() {
     this.getLocation().then(info => {
       Model.getCityInfo(info.longitude, info.latitude).then(data => {
