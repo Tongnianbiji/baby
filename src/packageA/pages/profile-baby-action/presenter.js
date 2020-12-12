@@ -11,7 +11,8 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
       babyNickname:'',
       babySchool:'请选择',
       babyBorn:'请选择',
-      sex:'MALE',
+      sex: 'MALE',
+      role: '',
       canSave:false,
       yearState:'BRINGUP',
       checkHospital:'',
@@ -24,7 +25,7 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
     }
   }
 
-  componentDidMount() { 
+  componentWillMount() { 
     // const {update,tab,bid} = getCurrentInstance().router.params;
     // console.log("888",bid)
     // if(bid){
@@ -35,15 +36,19 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
     //     isUpdateInfo:update
     //   })
     // }
+    this.setState({
+      role: this.getUserInfo().sex == 'MALE' ? '爸爸' : '妈妈',
+    })
   }
 
-  componentDidShow(){
-    const {babyNickname,school,hospital} = staticDataStore;
-    const {hType} = this.state;
+  componentDidShow() {
+    const { babyNickname, school, hospital, getTempRole } = staticDataStore;
+    const { hType, role } = this.state;
     this.setState({
-      babyNickname:babyNickname,
-      babySchool:school
-    })
+      role: getTempRole() || role,
+      babyNickname: babyNickname,
+      babySchool: school
+    });
     if(hType == 1){
       this.setState({
         checkHospital:hospital,
@@ -84,6 +89,12 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
   selectBabySchool = ()=>{
     this.navto({
       url:'/packageA/pages/schools/index'
+    })
+  }
+  //选择身份
+  selectRole = () => {
+    this.navto({
+      url: '/packageA/pages/characterB/index?from=me'
     })
   }
 
@@ -148,7 +159,7 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
   }
   //确认提交
   onClickForCreate = async ()=>{
-    let {babyNickname,babySchool,babyBorn,sex,yearState,tabsCurrent, checkHospital,planHospital,preBornDate,grade} = this.state;
+    let {babyNickname,babySchool,babyBorn,sex,yearState,tabsCurrent, checkHospital,planHospital,preBornDate,grade,role} = this.state;
     console.log('年级',grade)
     if(grade==='请选择'){
       grade=''
@@ -160,19 +171,19 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
     if(this.isCanSave()){
       switch(tabsCurrent){
         case 0:
-          let res1 = await Model.submit(babyNickname,yearState,{sex,birthday:babyBorn,school:babySchool,grade});
+          let res1 = await Model.submit(babyNickname, yearState, { sex, birthday: babyBorn, school: babySchool, grade }, role);
           if(res1){
             this.navback()
           }
           break;
         case 1:
-          let res2 = await Model.submit(babyNickname='孕育中',yearState,{birthday:preBornDate,checkHospital,planHospital});
+          let res2 = await Model.submit(babyNickname = '孕育中', yearState, { birthday: preBornDate, checkHospital, planHospital }, role);
           if(res2){
             this.navback()
           }
           break;
         case 2:
-          let res3 = await Model.submit(babyNickname='备孕中',yearState,{birthday:babyBorn});
+          let res3 = await Model.submit(babyNickname = '备孕中', yearState, { birthday: babyBorn }, role);
           if(res3){
             this.navback()
           }

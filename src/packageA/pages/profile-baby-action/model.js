@@ -91,8 +91,7 @@ export default {
     return request.post('/search/school', data).then(ret => ret)
   },
 
-  async submit(officeName, yearState, yearDesc) {
-    const {role} = staticData;
+  async submit(officeName, yearState, yearDesc, role) {
     let params = {
       officeName,
       yearState,

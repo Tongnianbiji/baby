@@ -32,9 +32,18 @@ export default class ProfileBabyAction extends Presenter {
   }
 
   renderParenting() {
-    const {babyNickname, babySchool,babyBorn,sex,grade,gradeSelector} = this.state;
+    const { babyNickname, babySchool, babyBorn, sex, grade, gradeSelector, role} = this.state;
     return (
       <View>
+        <View className='item' onClick={this.selectRole.bind(this)}>
+          <View className='item-label'>
+            <View className='item-txt'>选择角色</View>
+          </View>
+          <View className='item-value'>
+            <View className='item-txt'>{role}</View>
+            <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
+          </View>
+        </View>
         <View className='item' onClick={this.createBabyNickname.bind(this)}>
           <View className='item-label'>
             <View className='item-txt'>宝宝小名</View>

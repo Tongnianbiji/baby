@@ -9,11 +9,16 @@ export default class CharacterXPresenter extends BaseComponent {
     super(props);
     this.state = {
       role:'',
-      isInvite:false
+      isInvite: false,
+      from: '',
     }
   }
 
-  componentWillMount() { }
+  componentWillMount() {
+    this.setState({
+      from: this.$router.params.from,
+    })
+   }
 
   componentDidMount() { 
     const {isInvite} = this.$router.params;
@@ -36,12 +41,19 @@ export default class CharacterXPresenter extends BaseComponent {
       role:e.detail.value
     })
   }
+  setRole() {
+    const { setTempRole } = staticData;
+    const { role } = this.state;
+    setTempRole(role);
+    Taro.navigateBack({delta: 2});
+  }
   nextStep = async (e)=>{
     const {babyName,invtKey} = this.$router.params;
     const {role,isInvite} = this.state;
     const {updateRole,updateSex,isRegiste,updateWxUserInfo} = staticData;
     let isHasWxInfo = false;
-    console.log('微信信息',e)
+    console.log('微信信息', e)
+
     if(e&&e.detail&&e.detail.userInfo){
       updateWxUserInfo(e.detail.userInfo);
       isHasWxInfo = true

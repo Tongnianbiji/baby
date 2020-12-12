@@ -53,6 +53,14 @@ class Data {
   @action updateRole = (role)=>{
     this.role = role
   }
+  @action getTempRole = () => {
+    const value = this.tempRole;
+    this.tempRole = '';
+    return value;
+  }
+  @action setTempRole = (tempRole) => {
+    this.tempRole = tempRole
+  }
 
   @action updateSex = (sex)=>{
     this.sex = sex

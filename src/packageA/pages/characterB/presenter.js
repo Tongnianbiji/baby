@@ -23,13 +23,17 @@ export default class CharacterBPresenter extends BaseComponent {
   componentDidHide() { }
 
   selectRole = (item)=>{
-    const {updateRole} = staticData;
+    const {updateRole, setTempRole} = staticData;
     if(!item.value){
       this.navto({
-        url:'/packageA/pages/characterX/index'
+        url:`/packageA/pages/characterX/index?from=${this.$router.params.from}`
       })
-    }else{
-      updateRole(item.title.slice(2))
+    } else {
+      if (this.$router.params.from == 'me') {
+        setTempRole(item.title.slice(2))
+      } else {
+        updateRole(item.title.slice(2))
+      }
       this.navback()
     }
   }
