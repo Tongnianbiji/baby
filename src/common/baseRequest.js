@@ -4,6 +4,7 @@ import localStorage from './localStorage'
 import {
   EnvType
 } from './enums'
+import './baseCss.scss'
 
 const Hosts = {
   [EnvType.DEVELOPMENT]: 'https://www.tongnian.world',

@@ -5,7 +5,6 @@ import Dto from '../common/localStorage'
 import { View, Button,Text, Icon,Image } from '@tarojs/components'
 import {ICONS} from '@common/constant'
 import staticData from '@src/store/common/static-data.js'
-
 /**
  * 所有 页面视图 都应该继承自这个类
  * 提供一些基础动作和封装
@@ -14,6 +13,9 @@ export default class BaseComponent extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      pageState: 'loading',
+    }
 
     this.__local_dto = Dto.getInstance();
 
@@ -238,7 +240,7 @@ export default class BaseComponent extends Component {
 
 
   //全局引导
-  guide(){
+  guide() {
     return(
       <View>
         {
@@ -249,5 +251,9 @@ export default class BaseComponent extends Component {
         }
       </View>
     )
+  }
+
+  renderLoading() {
+    return <View className='base-loading'></View>
   }
 }

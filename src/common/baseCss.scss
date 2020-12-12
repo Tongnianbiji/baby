@@ -1,0 +1,28 @@
+
+/* 加载动画start */
+.base-loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 99;
+  width: 42px;
+  height: 42px;
+  border: 6px solid #fff;
+  border-left: 6px solid #ff473a;
+  border-top: 6px solid #ff473a;
+  border-right: 6px solid #ff473a;
+  border-radius: 50%;
+  transition: center center;
+  animation: roundRound 0.7s linear infinite;
+}
+@keyframes roundRound {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+/* 加载动画end */
+
+// TODO - scss制定主题色等

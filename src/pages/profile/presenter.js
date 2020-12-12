@@ -11,6 +11,7 @@ export default class ProfilePresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
+      ...this.state, // 保留父类state
       profileInfo: {},
       isLogin:false
     }
@@ -182,7 +183,8 @@ export default class ProfilePresenter extends BaseComponent {
         const {regist} = res;
         if(regist){
           this.setState({
-            isLogin:true
+            isLogin: true,
+            pageState: 'over'
           })
         }
       }
