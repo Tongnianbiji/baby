@@ -23,60 +23,64 @@ const systemInfo = Taro.getSystemInfoSync()
 //   require('nerv-devtools')
 // }
 
+// TODO - 整理globalData
+const defaultPositon = {
+  lat: '31.245944',
+  lon: '121.567706',
+}
 const store = {
   circleDetailStore,
   staticDataStore
 }
 //神策数据埋点设置
 sa.setPara({
-	name: 'sensors',
-	server_url: 'https://www.tongnian.world/tn-api/data/report/exposure',
-	// 全埋点控制开关
-	autoTrack:{ 
-		appLaunch:false, // 默认为 true，false 则关闭 $MPLaunch 事件采集
-		appShow:false, // 默认为 true，false 则关闭 $MPShow 事件采集
-		appHide:false, // 默认为 true，false 则关闭 $MPHide 事件采集
-		pageShow:false, // 默认为 true，false 则关闭 $MPViewScreen 事件采集
-		pageShare:false, // 默认为 true，false 则关闭 $MPShare 事件采集
-		mpClick: false, // 默认为 false，true 则开启 $MPClick 事件采集 
-		mpFavorite: false // 默认为 true，false 则关闭 $MPAddFavorites 事件采集
-	},
-	// 自定义渠道追踪参数，如source_channel: ["custom_param"]
-	source_channel: [],
-	// 是否允许控制台打印查看埋点数据(建议开启查看)
-	show_log: true,
-	// 是否允许修改 onShareAppMessage 里 return 的 path，用来增加(登录 ID，分享层级，当前的 path)，在 app onShow 中自动获取这些参数来查看具体分享来源、层级等
-	allow_amend_share_path: true
+  name: 'sensors',
+  server_url: 'https://www.tongnian.world/tn-api/data/report/exposure',
+  // 全埋点控制开关
+  autoTrack: {
+    appLaunch: false, // 默认为 true，false 则关闭 $MPLaunch 事件采集
+    appShow: false, // 默认为 true，false 则关闭 $MPShow 事件采集
+    appHide: false, // 默认为 true，false 则关闭 $MPHide 事件采集
+    pageShow: false, // 默认为 true，false 则关闭 $MPViewScreen 事件采集
+    pageShare: false, // 默认为 true，false 则关闭 $MPShare 事件采集
+    mpClick: false, // 默认为 false，true 则开启 $MPClick 事件采集 
+    mpFavorite: false // 默认为 true，false 则关闭 $MPAddFavorites 事件采集
+  },
+  // 自定义渠道追踪参数，如source_channel: ["custom_param"]
+  source_channel: [],
+  // 是否允许控制台打印查看埋点数据(建议开启查看)
+  show_log: true,
+  // 是否允许修改 onShareAppMessage 里 return 的 path，用来增加(登录 ID，分享层级，当前的 path)，在 app onShow 中自动获取这些参数来查看具体分享来源、层级等
+  allow_amend_share_path: true
 });
 
- // 初始化 SDK
- sa.init();
+// 初始化 SDK
+sa.init();
 
- sa.registerApp({
-  channel:1,
-  deviceId:'',
-  mobileModel:systemInfo.model,
-  eventType:1,
-  uid:'guest',
-  lat:'31.22114',
-  lon:'121.54409',
-  provinceCode:'上海',
-  cityCode:'310100',
-  countryCode:'31011500',
-  version:systemInfo.version,
+sa.registerApp({
+  ...defaultPositon,
+  channel: 1,
+  deviceId: '',
+  mobileModel: systemInfo.model,
+  eventType: 1,
+  uid: 'guest',
+  provinceCode: '上海',
+  cityCode: '310100',
+  countryCode: '31011500',
+  version: systemInfo.version,
 });
 
 class App extends BaseComponent {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      isGuide:false
+      isGuide: false
     }
     this.storage = Storage.getInstance()
   }
   componentDidMount() {
-      const updateManager = Taro.getUpdateManager()
-      updateManager.onCheckForUpdate(function (res) {
+    const updateManager = Taro.getUpdateManager()
+    updateManager.onCheckForUpdate(function (res) {
       // 请求完新版本信息的回调
       console.log(res.hasUpdate)
     })
@@ -96,7 +100,7 @@ class App extends BaseComponent {
       // 新的版本下载失败
     })
 
-    const {getGoEasy} =staticDataStore;
+    const { getGoEasy } = staticDataStore;
     // getGoEasy(
     //   GoEasy.getInstance({
     //     host: 'hangzhou.goeasy.io',
@@ -140,20 +144,20 @@ class App extends BaseComponent {
 
   //判断是否是游客还是用户
   isRegiest = () => {
-    const {updateIsRegisteStatus, updateIsLoginStatus} = staticDataStore;
-    if(!this.getCurrentIsCollentMini()){
+    const { updateIsRegisteStatus, updateIsLoginStatus } = staticDataStore;
+    if (!this.getCurrentIsCollentMini()) {
       this.setCurrentIsCollentMini(1)
     }
     Taro.login().then(({ errMsg, code }) => {
       console.log('code', code);
-      request.get('/user/checkregist',{code}).then((e)=>{
-        const {userId,token,regist} = e.data.data;
-        if(regist){
+      request.get('/user/checkregist', { code }).then((e) => {
+        const { userId, token, regist } = e.data.data;
+        if (regist) {
           updateIsRegisteStatus(true);
           updateIsLoginStatus(true);
           this.storage.setToken(token);
-          this.storage.setValue(USER_INFO_KEY_USERID, {userId:userId})
-        }else{
+          this.storage.setValue(USER_INFO_KEY_USERID, { userId: userId })
+        } else {
           this.guideRegiste();
           updateIsRegisteStatus(false);
           updateIsLoginStatus(false);
@@ -183,22 +187,35 @@ class App extends BaseComponent {
 
   //获取定位
   getCurrentLocation = () => {
+    // 获取经纬度
+    this.getLatAndLon().then(res => {
+      console.log('---getLatAndLon---', res)
+      const { updateCurrentCity } = staticDataStore;
+      this.getCityInfo(res.longitude, res.latitude).then(data => {
+        const c = data.district || data.city
+        updateCurrentCity(this.getSubCityName(c))
+        this.setCurrentCity(c)
+      })
+    })
+  }
+  getLatAndLon() {
     const permissionName = 'scope.userLocation';
-    Taro.getSetting().then(res => {
+    return Taro.getSetting().then(res => {
       if (!res.authSetting[permissionName]) {
-        Taro.authorize({
+        return Taro.authorize({
           scope: permissionName
-        }).then(() => {
-          this.getLocation()
-          console.log('未授权')
-        }, reason => {
+        }).then((res) => {
+          console.log('---成功授权---', res)
+          return Taro.getLocation();
+        }, err => {
+          console.log('---拒绝授权---', err)
+          return Promise.resolve({ longitude: defaultPositon.lon, latitude: defaultPositon.lat });
         })
       } else {
-        this.getLocation()
+        return Taro.getLocation();
       }
     })
   }
-
   getLocation = () => {
     const { updateCurrentCity } = staticDataStore;
     Taro.getLocation().then((info) => {
@@ -210,8 +227,8 @@ class App extends BaseComponent {
     })
   }
 
-    //更新城市信息
-  async updateCityInfo(params){
+  //更新城市信息
+  async updateCityInfo(params) {
     const ret = await request.postWithToken('/poi/update', params)
     const data = request.standardResponse(ret)
     if (data.code === 0) {
@@ -227,31 +244,31 @@ class App extends BaseComponent {
   }
 
   //获取城市信息
-  getCityInfo(lon='121.54409', lat='31.22114') {
+  getCityInfo(lon = '121.54409', lat = '31.22114') {
     return request.get('https://restapi.amap.com/v3/geocode/regeo', {
       key: GMAP_API_KEY,
       location: `${lon},${lat}`
     }).then(data => {
       if (data.data && data.data.infocode === '10000') {
-        console.log('定位信息',data.data)
+        console.log('定位信息', data.data)
         const { regeocode = {} } = data.data
         const { addressComponent = {} } = regeocode
         const { province, city, adcode, citycode, country, district, towncode } = addressComponent;
 
         this.updateCityInfo({
-          districtCode:adcode,
-          districtName:district,
-          lat:lat,
-          lng:lon
+          districtCode: adcode,
+          districtName: district,
+          lat: lat,
+          lng: lon
         })
         this.setCurrentLocation({
-          lat:lat,
-          lon:lon,
-          provinceCode:province,
-          cityCode:city,
-          countryCode:district,
-          cityCodeCode:adcode,
-          countryCodeCode:towncode
+          lat: lat,
+          lon: lon,
+          provinceCode: province,
+          cityCode: city,
+          countryCode: district,
+          cityCodeCode: adcode,
+          countryCodeCode: towncode
         })
         return {
           msg: 'ok',
@@ -276,11 +293,11 @@ class App extends BaseComponent {
   }
 
   //5s提示
-  guideRegiste = ()=>{
-    const {updateGuideStatus} = staticDataStore
-    setTimeout(()=>{
+  guideRegiste = () => {
+    const { updateGuideStatus } = staticDataStore
+    setTimeout(() => {
       updateGuideStatus(true)
-    },2e3)
+    }, 2e3)
   }
 
   // 在 App 类中的 render() 函数没有实际作用
