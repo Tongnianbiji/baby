@@ -8,7 +8,7 @@ import './index.scss'
 
 export default class MessageIMView extends Presenter {
   render() {
-    const { scrollStyle, messageList, activeFocus, inputValue, inputBoxBottom,holdKeyboard,scrollTop } = this.state;
+    const { scrollStyle, messageList, activeFocus, inputValue, inputBoxBottom, holdKeyboard, scrollTop, isFocus } = this.state;
     const { userId } = this.getUserInfo()
     return (
       <View className='message-im-viewport'>
@@ -17,6 +17,7 @@ export default class MessageIMView extends Presenter {
             className='chat-box'
             scrollY
             style={scrollStyle}
+            onClick={this.clickChatBox.bind(this)}
             scrollWithAnimation
             onScrollToLower={this.onScrollToLower.bind(this)}
             onScrollToUpper={this.onScrollToUpper.bind(this)}
@@ -94,7 +95,7 @@ export default class MessageIMView extends Presenter {
           </ScrollView>
         </View>
         <View className="input-box" style={{bottom:`${inputBoxBottom}px`}}>
-          <Textarea value={inputValue} className="input-box-textarea" fixed placeholder="请输入" showConfirmBar={false} onFocus={this.onFocus.bind(this)} onBlur={this.onBlur.bind(this)} onInput={this.inputMessage.bind(this)} cursorSpacing={128} autoHeight maxlength="-1" adjustPosition={true} holdKeyboard={holdKeyboard} />
+          <Textarea value={inputValue} className="input-box-textarea" focus={isFocus} fixed placeholder="请输入" showConfirmBar={false} onFocus={this.onFocus.bind(this)} onBlur={this.onBlur.bind(this)} onInput={this.inputMessage.bind(this)} cursorSpacing={128} autoHeight maxlength="-1" adjustPosition={true} holdKeyboard={holdKeyboard} />
           <PhotoPickerIm onGetFiles={this.getFiles.bind(this)}></PhotoPickerIm>
           {
             activeFocus && 

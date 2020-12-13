@@ -22,7 +22,8 @@ export default class Presenter extends BaseComponent {
       files:{},
       fromUid:'',
       toUid:'',
-      mid:'',
+      mid: '',
+      isFocus: false,
       scrollTop:0
     }
   }
@@ -67,8 +68,11 @@ export default class Presenter extends BaseComponent {
           )
           this.setState({
             messageList: messageList
+          }, () => {
+            setTimeout(() => {
+              this.scrollToChatBottom();
+            }, 200);
           })
-          this.scrollToChatBottom();
         }
       }
     })
@@ -91,7 +95,11 @@ export default class Presenter extends BaseComponent {
       title: toUserInfo.nickName
     })
   }
-
+  clickChatBox() {
+    this.setState({
+      isFocus: false,
+    })
+  }
   //获取历史消息
   getMessageList = async ()=>{
     const {fromUid,toUid,userInfo,toUserInfo,mid,messageList} = this.state;
@@ -221,8 +229,11 @@ export default class Presenter extends BaseComponent {
         )
         this.setState({
           messageList: messageList
+        }, () => {
+          setTimeout(() => {
+            this.scrollToChatBottom();
+          }, 200);
         })
-        this.scrollToChatBottom();
       }
       Model.saveData(fromUid,toUid,type,publishContent,Number(isBlock));
 
@@ -240,9 +251,10 @@ export default class Presenter extends BaseComponent {
     this.setState({
       activeFocus: true,
       inputBoxBottom: 15,
+      isFocus: true,
       //holdKeyboard:true
     },()=>{
-      this.scrollToChatBottom()
+      // this.scrollToChatBottom()
     })
   }
 
