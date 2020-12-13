@@ -119,8 +119,10 @@ page {
     justify-content: space-between;
     align-items: center;
     &-textarea{
+      box-sizing: border-box;
+      padding-left: 20px;
       background-color: #ffffff;
-      border-radius: 30px;
+      border-radius: 10px;
       width: 550px;
     }
     &-img{
