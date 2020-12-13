@@ -42,7 +42,7 @@ export default class PhotoItemView extends Component {
 
   checkResult = (ticket, time = 1) => {
     Taro.showLoading({
-      title:'上传中,请稍后'
+      title: this.props.uploadingTip ||'上传中,请稍后'
     });
     req.postWithToken('/upload/result', { ticket }).then(res => {
        console.log(res, 'ticket..');
@@ -74,7 +74,7 @@ export default class PhotoItemView extends Component {
             this.setState({ status: 'success' });
             Taro.hideLoading();
             Taro.showToast({
-              title:'上传成功',
+              title: this.props.uploadedTip||'上传成功',
               icon: 'success',
               duration:2e3
             })

@@ -13,7 +13,6 @@ export default class PhotoPickerView extends Component {
 
   constructor(props) {
     super(props)
-
     this.state = {
       medias: [],
       showCropper:false
@@ -53,7 +52,7 @@ export default class PhotoPickerView extends Component {
       <View className='photo-picker-view' onClick={this.choosePhoto.bind(this)}>
         {
           this.state.medias.map(media => (
-            <PhotoItem model={media} key={media.key} onRemove={this.removePhoto.bind(this)} onGetFile={this.onGetFile.bind(this)}/>
+            <PhotoItem {...this.props} model={media} key={media.key} onRemove={this.removePhoto.bind(this)} onGetFile={this.onGetFile.bind(this)}/>
           ))
         }
         <Image src={ICONS.IMG} className='plus-img' />

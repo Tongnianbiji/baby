@@ -7,6 +7,9 @@ import Presenter from './presenter'
 import './index.scss'
 
 export default class MessageIMView extends Presenter {
+  constructor(props) {
+    super(props);
+  }
   render() {
     const { scrollStyle, messageList, activeFocus, inputValue, inputBoxBottom, holdKeyboard, scrollTop, isFocus } = this.state;
     const { userId } = this.getUserInfo()
@@ -98,7 +101,7 @@ export default class MessageIMView extends Presenter {
         </View>
         <View className="input-box" style={{bottom:`${inputBoxBottom}px`}}>
           <Textarea value={inputValue} className="input-box-textarea" focus={isFocus} fixed placeholder="请输入" showConfirmBar={false} onFocus={this.onFocus.bind(this)} onBlur={this.onBlur.bind(this)} onInput={this.inputMessage.bind(this)} cursorSpacing={128} autoHeight maxlength="-1" adjustPosition={true} holdKeyboard={holdKeyboard} />
-          <PhotoPickerIm onGetFiles={this.getFiles.bind(this)}></PhotoPickerIm>
+          <PhotoPickerIm uploadedTip="发送成功" uploadingTip="发送中" onGetFiles={this.getFiles.bind(this)}></PhotoPickerIm>
           {
             activeFocus && 
             <View className="input-box-btn" onClick={this.publishText.bind(this)}>发送</View>
