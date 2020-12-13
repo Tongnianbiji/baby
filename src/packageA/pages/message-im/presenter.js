@@ -41,7 +41,7 @@ export default class Presenter extends BaseComponent {
     await this.getToProfileData();
     await this.getMessageList();
     this.setState({
-      scrollTop:19000
+      scrollTop:0
     })
     let { messageList } = this.state;
     this.setNavigationBarTitle();
@@ -56,7 +56,7 @@ export default class Presenter extends BaseComponent {
         const { uid, content, headImg, nickName,files } = JSON.parse(message.content)
         if (content || files.url) {
           console.log('发送')
-          messageList.push(
+          messageList.unshift(
             {
               uid: uid,
               content: content,
@@ -69,6 +69,7 @@ export default class Presenter extends BaseComponent {
           this.setState({
             messageList: messageList
           }, () => {
+              
             setTimeout(() => {
               this.scrollToChatBottom();
             }, 200);
@@ -82,7 +83,7 @@ export default class Presenter extends BaseComponent {
     const {scrollTop} = this.state;
     console.log('****',scrollTop)
     this.setState({
-      scrollTop : scrollTop + 20000
+      scrollTop : scrollTop == 0? -1: 0
     })
 	}
 
@@ -105,7 +106,7 @@ export default class Presenter extends BaseComponent {
     const {fromUid,toUid,userInfo,toUserInfo,mid,messageList} = this.state;
     let res = await Model.getData(fromUid,toUid,mid);
     if(res){
-      let newMessageList = res.items.reverse();
+      let newMessageList = res.items;
       newMessageList.forEach(item=>{
         if(item.type !== 0){
           item.files = {
@@ -133,12 +134,12 @@ export default class Presenter extends BaseComponent {
         })
       }else{
         this.setState({
-          messageList:newMessageList.concat(messageList)
+          messageList: [...messageList,...newMessageList]
         })
       }
       newMessageList.length && 
       this.setState({
-        mid:newMessageList[0].mid
+        mid: newMessageList[newMessageList.length - 1].mid
       })
     }
   }
@@ -203,28 +204,28 @@ export default class Presenter extends BaseComponent {
     let {messageList} = this.state;
     const {id } = getCurrentInstance().router.params;
     let isBlock = await this.isBlockFriend();
-    if (inputValue && (publishContent || files.url)) {
+    if (inputValue && (publishContent || files.url) || files.url) {
       if (!isBlock) {
         goEasy.publish({
           channel: "tn1",
           message: JSON.stringify({
             uid: userId,
-            content: publishContent,
+            content: type>0?'':publishContent,
             nickName: nickName,
             headImg: headImg,
-            files:files,
+            files:type>0?files:{},
             isBlock:false
           }),
         })
       }else{
-        messageList.push(
+        messageList.unshift(
           {
             uid: userId,
-            content: publishContent,
+            content: type > 0 ?'': publishContent,
             headImg: headImg,
             nickName: nickName,
             isBlock:true,
-            files:files,
+            files: type > 0 ? files : {},
           }
         )
         this.setState({
@@ -235,7 +236,7 @@ export default class Presenter extends BaseComponent {
           }, 200);
         })
       }
-      Model.saveData(fromUid,toUid,type,publishContent,Number(isBlock));
+      Model.saveData(fromUid,toUid,type,type>0?files.url:publishContent,Number(isBlock));
 
       this.setState({
         inputValue: '',

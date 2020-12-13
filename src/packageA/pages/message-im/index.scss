@@ -9,8 +9,23 @@ page {
   .chat-box{
     background-color: #fff;
     padding: 20px;
-    padding-bottom:40px;
+    // padding-top:40px;
     box-sizing: border-box;
+    transform-origin: center center;
+    transform: rotate(180deg);
+    &:first-child {
+      padding-top: 20px;
+    }
+    .chat-rotate-wraper {
+       transform-origin: center center;
+        transform: rotate(180deg);
+    }
+    .message-wraper {
+      height: 20000px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
     &-item-left{
       display: flex;
       margin-bottom: 20px;

@@ -19,23 +19,25 @@ export default class MessageIMView extends Presenter {
             style={scrollStyle}
             onClick={this.clickChatBox.bind(this)}
             scrollWithAnimation
-            onScrollToLower={this.onScrollToLower.bind(this)}
-            onScrollToUpper={this.onScrollToUpper.bind(this)}
+            lowerThreshold='200'
+            // onScrollToLower={this.onScrollToLower.bind(this)}
+            // onScrollToUpper={this.onScrollToUpper.bind(this)}
+            onScrollToUpper={this.onScrollToLower.bind(this)}
+            onScrollToLower={this.onScrollToUpper.bind(this)}
             onScroll={this.onScroll.bind(this)}
             scrollTop={scrollTop}
-            
           >
             {
               messageList.map(item => {
                 return (
-                  <View>
+                  <View className="chat-rotate-wraper">
                     {
                       item.uid === userId ?
                         <View className="chat-box-item-right">
                           <View className="chat-box-item-right-content">
                             <View className="nickname">{item.nickName}</View>
                             {
-                              item.content && 
+                              !item.files.type && item.content && 
                               <View selectable={true} className="content">{item.content}
                               {
                                 item.isBlock &&
