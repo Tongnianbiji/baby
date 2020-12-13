@@ -208,7 +208,7 @@ export default class HomePage extends BaseComponent {
             if (res.intersectionRatio >0) {
               let contentIdList = [];
               console.log(`进入页面${item.activityId}`)
-              if(item.entity.pid || item.entity.qid){
+              if (item.entity && (item.entity.pid || item.entity.qid)){
                 let entityId = item.entity.pid || item.entity.qid;
                 contentIdList.push(entityId.toString())
                 getApp().sensors.track('exposure', {

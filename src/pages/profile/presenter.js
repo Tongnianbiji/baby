@@ -177,16 +177,15 @@ export default class ProfilePresenter extends BaseComponent {
 
   //判断是否已登录过
   isUserLogin = ()=>{
+    const { isLogin } = staticData;
     Taro.login().then(async ({ errMsg, code }) => {
       let res = await Model.checkregist(code);
       if(res){
-        const {regist} = res;
-        if(regist){
-          this.setState({
-            isLogin: true,
-            pageState: 'over'
-          })
-        }
+        const { regist } = res;
+        this.setState({
+          isLogin: regist && isLogin,
+          pageState: 'over'
+        })
       }
     })
   }

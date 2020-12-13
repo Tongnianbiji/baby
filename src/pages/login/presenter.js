@@ -29,8 +29,8 @@ export default class Presenter extends BaseComponent {
   }
 
   componentDidMount() {
-    const { isRegiste } = staticDataStore;
-    if (isRegiste) {
+    const { isLogin } = staticDataStore;
+    if (isLogin) {
       if (this.isLogin()) {
         this.showToast('登录成功, 即将跳转')
         setTimeout(() => {

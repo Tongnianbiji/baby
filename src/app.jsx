@@ -154,7 +154,7 @@ class App extends BaseComponent {
         const { userId, token, regist } = e.data.data;
         if (regist) {
           updateIsRegisteStatus(true);
-          updateIsLoginStatus(true);
+          updateIsLoginStatus(!!this.storage.getToken());
           this.storage.setToken(token);
           this.storage.setValue(USER_INFO_KEY_USERID, { userId: userId })
         } else {
