@@ -46,8 +46,10 @@ export default class ProfileSettingInfoNickNamePresenter extends BaseComponent {
 
     let res = await Model.postSuggest(suggest, contact);
     if (res) {
-      this.navback();
-      this.showToast('提交成功')
+      this.showToast('宝贵意见已收到')
+      setTimeout(() => {
+        this.navback();
+      }, 2000);
     } else {
       this.showToast('系统异常')
     }
