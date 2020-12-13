@@ -1,5 +1,6 @@
 import BaseComponent from '../../common/baseComponent'
 import Model from './model'
+import staticData from '@src/store/common/static-data'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -20,11 +21,13 @@ export default class Presenter extends BaseComponent {
       isToBottom:false,
       pageNum:1,
     }
+   
   }
 
   componentDidMount(){}
 
-  componentDidShow(){
+  componentDidShow() {
+    this.isLogin = staticData.isLogin;
     this.initChatList();
     this.getMessageCount();
     this.getChatList();
@@ -114,22 +117,52 @@ export default class Presenter extends BaseComponent {
   }
 
   tabChange = index => {
+    if (!this.isLogin) {
+      this.navto({
+        url: '/pages/login/index'
+      })
+      return;
+    }
     this.setState({ currentTab: index })
   }
 
   toFans = () => {
+    if (!this.isLogin) {
+      this.navto({
+        url: '/pages/login/index'
+      })
+      return;
+    }
     this.navto({ url: '/packageA/pages/fans/index' })
   }
 
   toPostReply = () => {
+    if (!this.isLogin) {
+      this.navto({
+        url: '/pages/login/index'
+      })
+      return;
+    }
     this.navto({ url: '/packageB/pages/reply-my-post/index' })
   }
 
   toQaList = () => {
+    if (!this.isLogin) {
+      this.navto({
+        url: '/pages/login/index'
+      })
+      return;
+    }
     this.navto({ url: '/packageB/pages/qa-me/index' })
   }
 
   toCollect = () => {
+    if (!this.isLogin) {
+      this.navto({
+        url: '/pages/login/index'
+      })
+      return;
+    }
     const {mark,star} = this.state;
     this.navto({ url: `/packageB/pages/passive-collects/index?mark=${mark}&star=${star}` })
   }
@@ -139,6 +172,12 @@ export default class Presenter extends BaseComponent {
   }
 
   toIM = (item) => {
+    if (!this.isLogin) {
+      this.navto({
+        url: '/pages/login/index'
+      })
+      return;
+    }
     this.navto({ url: `/packageA/pages/message-im/index?name=${item.name}&id=${item.toUid}` })
   }
 }
