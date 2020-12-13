@@ -61,6 +61,7 @@ export default {
         return i
       }
     }
+    return 'OTHER'
   },
   childCreate() {
     const data = {
