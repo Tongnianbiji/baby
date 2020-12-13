@@ -152,7 +152,7 @@ export default class HomePage extends BaseComponent {
             this.getAttentionUsers();
             let contentIdList = [];
             attentionUsers.forEach(item => {
-              if (item.entity.pid) {
+              if (item.entity && item.entity.pid) {
                 contentIdList.push(item.entity.pid.toString())
               }
             })
