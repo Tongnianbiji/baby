@@ -103,6 +103,7 @@ export default class HomePage extends BaseComponent {
   }
 
   connectGoeasyIm() {
+    if (!staticData.isLogin) return;
     const { userId } = this.getUserInfo();
     console.log('---userId---', userId)
     //连接GoEasy
