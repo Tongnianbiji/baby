@@ -1,7 +1,8 @@
 import BaseComponent from '../../common/baseComponent'
 import Model from './model'
 import staticData from '@src/store/common/static-data'
-
+import GoEasyIM from 'goeasy-im';
+const { goEasy: im } = staticData;
 export default class Presenter extends BaseComponent {
   constructor(props) {
     super(props)
@@ -14,32 +15,55 @@ export default class Presenter extends BaseComponent {
       mark: 0,
       reply: 0,
       star: 0,
-      total:0,
-      chatList:[],
-      postLock:false,
-      showLoading:true,
-      isToBottom:false,
-      pageNum:1,
+      total: 0,
+      chatList: [],
+      postLock: false,
+      showLoading: true,
+      isToBottom: false,
+      pageNum: 1,
     }
-   
+
   }
 
-  componentDidMount(){}
+  componentDidMount() {
+  }
 
-  componentDidShow() {
+  async componentDidShow() {
     this.isLogin = staticData.isLogin;
     this.initChatList();
-    this.getMessageCount();
+     this.getMessageCount();
     this.getChatList();
   }
 
-  onReachBottom(){
-    const {postLock, isToBottom,currentTab} = this.state;
-    if(currentTab == 1){
-      if(!postLock && !isToBottom){
-        this.setState((pre)=>({
-          pageNum:pre.pageNum+1
-        }),()=>{
+  getUnreadCount() {
+    im.latestConversations().then((res) => {
+      console.log('---latestConversations---', res)
+      const { code, content } = res;
+      if (code == 200) {
+        
+        const unReadDaraList = content.conversations;
+        const chatList = this.state.chatList;
+        unReadDaraList.forEach(unReadItem => {
+          const chartItem = chatList.find(item => item.toUid == unReadItem.userId);
+          chartItem.unreadCount = unReadItem.unread;
+        })
+        this.setState({
+          chatList,
+          unreadTotalCount: content.unreadTotal,
+        })
+      }
+    }).catch(function (error) {
+      console.log("Failed to get the latest conversations, code:" + error.code + " content:" + error.content);
+    });
+  }
+
+  onReachBottom() {
+    const { postLock, isToBottom, currentTab } = this.state;
+    if (currentTab == 1) {
+      if (!postLock && !isToBottom) {
+        this.setState((pre) => ({
+          pageNum: pre.pageNum + 1
+        }), () => {
           this.getChatList()
         })
       }
@@ -50,68 +74,70 @@ export default class Presenter extends BaseComponent {
     Model.getMessage()
   }
 
-  getMessageCount = async ()=>{
+  async getMessageCount() {
     let res = await Model.getMessageCount();
-    if(res){
-      const {answer,funs,mark,reply,star} = res;
+    if (res) {
+      const { answer, funs, mark, reply, star } = res;
       this.setState({
         answer,
         funs,
         mark,
         reply,
         star,
-        total:answer+funs+mark+reply+star
+        total: answer + funs + mark + reply + star
       })
     }
   }
 
-  initChatList = ()=>{
+  initChatList = () => {
     this.setState({
-      chatList:[],
-      postLock:false,
-      showLoading:true,
-      isToBottom:false,
-      pageNum:1,
+      chatList: [],
+      postLock: false,
+      showLoading: true,
+      isToBottom: false,
+      pageNum: 1,
     })
   }
 
   //获取聊天记录
-  getChatList=async()=>{
-    const {pageNum,chatList} = this.state;
+  getChatList = async () => {
+    const { pageNum, chatList } = this.state;
     this.setState({
-      postLock:true
+      postLock: true
     })
     let res = await Model.getChatList(pageNum);
     this.setState({
-      postLock:false
+      postLock: false
     })
-    if(res && res.items){
-      const {total,items} = res;
+    if (res && res.items) {
+      const { total, items } = res;
       let newChatList = items.reverse()
       if (!chatList.length) {
         this.setState({
-          chatList : newChatList || []
+          chatList: newChatList || []
         })
-        
+
       } else {
-        this.setState((pre)=>({
-          chatList:pre.chatList.concat(newChatList || [])
+        this.setState((pre) => ({
+          chatList: pre.chatList.concat(newChatList || [])
         }))
       }
       if (total <= this.state.chatList.length) {
         this.setState({
-          showLoading:false,
-          isToBottom:true
+          showLoading: false,
+          isToBottom: true
         })
       }
     }
+    this.getUnreadCount();
+    
   }
 
   //删除某一个聊天
-  deleteChat = async (chat)=>{
-    const {fromUid,toUid} = chat.messageDo
-    let res = await Model.deleteChat(fromUid,toUid);
-    if(res){
+  deleteChat = async (chat) => {
+    const { fromUid, toUid } = chat.messageDo
+    let res = await Model.deleteChat(fromUid, toUid);
+    if (res) {
       this.getChatList();
     }
   }
@@ -163,7 +189,7 @@ export default class Presenter extends BaseComponent {
       })
       return;
     }
-    const {mark,star} = this.state;
+    const { mark, star } = this.state;
     this.navto({ url: `/packageB/pages/passive-collects/index?mark=${mark}&star=${star}` })
   }
 

@@ -5,8 +5,8 @@ import sa from 'sa-sdk-miniprogram'
 import { Provider } from 'mobx-react'
 import BaseComponent from '@common/baseComponent'
 import { setGlobalData } from './global_data'
-import GoEasy from './libs/goeasy-1.0.17'
-//import GoEasy from './libs/goeasy-im-1.1.0.js'
+// import GoEasy from './libs/goeasy-1.0.17'
+import GoEasyIM from 'goeasy-im'
 import BaseRequest from '@common/baseRequest'
 import { GMAP_API_KEY } from '@common/constant'
 import circleDetailStore from './store/circle-detail'
@@ -38,13 +38,13 @@ sa.setPara({
   server_url: 'https://www.tongnian.world/tn-api/data/report/exposure',
   // 全埋点控制开关
   autoTrack: {
-    appLaunch: false, // 默认为 true，false 则关闭 $MPLaunch 事件采集
-    appShow: false, // 默认为 true，false 则关闭 $MPShow 事件采集
-    appHide: false, // 默认为 true，false 则关闭 $MPHide 事件采集
-    pageShow: false, // 默认为 true，false 则关闭 $MPViewScreen 事件采集
-    pageShare: false, // 默认为 true，false 则关闭 $MPShare 事件采集
-    mpClick: false, // 默认为 false，true 则开启 $MPClick 事件采集 
-    mpFavorite: false // 默认为 true，false 则关闭 $MPAddFavorites 事件采集
+    appLaunch: true, // 默认为 true，false 则关闭 $MPLaunch 事件采集
+    appShow: true, // 默认为 true，false 则关闭 $MPShow 事件采集
+    appHide: true, // 默认为 true，false 则关闭 $MPHide 事件采集
+    pageShow: true, // 默认为 true，false 则关闭 $MPViewScreen 事件采集
+    pageShare: true, // 默认为 true，false 则关闭 $MPShare 事件采集
+    mpClick: true, // 默认为 false，true 则开启 $MPClick 事件采集 
+    mpFavorite: true // 默认为 true，false 则关闭 $MPAddFavorites 事件采集
   },
   // 自定义渠道追踪参数，如source_channel: ["custom_param"]
   source_channel: [],
@@ -101,35 +101,10 @@ class App extends BaseComponent {
     })
 
     const { getGoEasy } = staticDataStore;
-    // getGoEasy(
-    //   GoEasy.getInstance({
-    //     host: 'hangzhou.goeasy.io',
-    //     appkey: 'BC-6ad253de75d242f5a8917e75e14e1eca',
-    //     onConnected() {
-    //       console.log('连接成功')
-    //     },
-    //     onDisconnected() {
-    //       console.log('断开连接')
-    //     },
-    //     onConnectFailed(error) {
-    //       console.log('连接失败', error)
-    //     }
-    //   })
-    // )
-
     getGoEasy(
-      new GoEasy({
+      GoEasyIM.getInstance({
         host: 'hangzhou.goeasy.io',
         appkey: 'BC-6ad253de75d242f5a8917e75e14e1eca',
-        onConnected() {
-          console.log('连接成功')
-        },
-        onDisconnected() {
-          console.log('断开连接')
-        },
-        onConnectFailed(error) {
-          console.log('连接失败', error)
-        }
       })
     )
   }

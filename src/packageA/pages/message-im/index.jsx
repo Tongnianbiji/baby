@@ -30,6 +30,7 @@ export default class MessageIMView extends Presenter {
             onScroll={this.onScroll.bind(this)}
             scrollTop={scrollTop}
           >
+            <View className='content-wrapper'>
             {
               messageList.map(item => {
                 return (
@@ -84,7 +85,9 @@ export default class MessageIMView extends Presenter {
                             }
                             {
                               item.files.type == 1 && 
-                              <Image onClick={this.preViewImage.bind(this,item.files.url)} style={{maxWidth:'200px'}} src={item.files.url}></Image>
+                              <View className='image-wrapper' style={{ backgroundImage: `url(${item.files.url})`}} onClick={this.preViewImage.bind(this, item.files.url)}>
+                                {/* <Image  style={{maxWidth:'200px'}} src={item.files.url} mode='widthFix'></Image> */}
+                              </View>
                             }
                             {
                               item.files.type == 2 && 
@@ -96,7 +99,8 @@ export default class MessageIMView extends Presenter {
                   </View>
                 )
               })
-            }
+              }
+            </View>
           </ScrollView>
         </View>
         <View className="input-box" style={{bottom:`${inputBoxBottom}px`}}>

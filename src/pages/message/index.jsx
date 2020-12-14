@@ -9,7 +9,7 @@ import './index.scss'
 
 export default class Index extends Presenter {
   render() {
-    const { currentTab, total, answer,
+    const { currentTab, total, answer, unreadTotalCount,
       funs,
       mark,
       reply,
@@ -17,12 +17,13 @@ export default class Index extends Presenter {
       chatList,
       showLoading,
       isToBottom
-     } = this.state;
+    } = this.state;
     return (
       <View className='message-viewport'>
         {
           !!total && <View className="total">{total}</View>
         }
+        {unreadTotalCount ? <View className="unread-total">{unreadTotalCount}</View> : ''}
         <AtTabs tabList={this.state.tabList} current={currentTab} swipeable={false} className='tabs' onClick={this.tabChange}>
           <AtTabsPane className='message-tabs-pane' index={0} current={currentTab}>
             <View className='entry-wrapper'>
@@ -88,6 +89,7 @@ export default class Index extends Presenter {
                       <View key={index} className="chat-item" onClick={this.toIM.bind(this, item)}>
                         <View className='avatar-wrapper'>
                           <View className='avatar'>
+                            {item.unreadCount ? <View className='unread-count'>{item.unreadCount}</View>:''}
                             <Image src={item.toUser.headImg}></Image>
                           </View>
                         </View>

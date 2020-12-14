@@ -6,7 +6,7 @@
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
-  .total{
+  .total,.unread-total {
     width: 35px;
     height: 35px;
     background-color: #FF473A;
@@ -19,6 +19,9 @@
     font-size: 20px;
     line-height: 35px;
     text-align: center;
+  }
+  .unread-total {
+    left: 594px;
   }
   .tabs {
     position: relative;
@@ -157,6 +160,22 @@
       .avatar-wrapper {
         width: 60px;
         min-width: 60px;
+        position: relative;
+        .unread-count {
+          position: absolute;
+          right: -4px;
+          top: -4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 28px;
+          height: 28px;
+          background: #FF2003;
+          border-radius: 50%;
+          font-weight: 500;
+          font-size: 20px;
+          color: #fff;
+        }
         .avatar {
           width: 60px;
           height: 60px;

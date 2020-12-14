@@ -3,8 +3,8 @@ import { getCurrentInstance } from '@tarojs/taro'
 import Taro from '@tarojs/taro'
 import staticData from '@src/store/common/static-data'
 import Model from './model'
-
-const { goEasy } = staticData;
+import GoEasyIM from 'goeasy-im';
+const { goEasy: im } = staticData;
 let temScrollTop = 0;
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -14,17 +14,17 @@ export default class Presenter extends BaseComponent {
       messageList: [],
       myPublishMessage: {},
       userInfo: {},
-      toUserInfo:{},
+      toUserInfo: {},
       activeFocus: false,
       inputValue: '',
       inputBoxBottom: 0,
       holdKeyboard: true,
-      files:{},
-      fromUid:'',
-      toUid:'',
+      files: {},
+      fromUid: '',
+      toUid: '',
       mid: '',
       isFocus: false,
-      scrollTop:0
+      scrollTop: 0
     }
   }
 
@@ -35,63 +35,80 @@ export default class Presenter extends BaseComponent {
     let scrollStyle = { height: `${windowHeight - 48}px` }
     this.setState({
       scrollStyle: scrollStyle,
-      toUid:id
+      toUid: id
     })
     await this.getProfileData();
     await this.getToProfileData();
     await this.getMessageList();
     this.setState({
-      scrollTop:0
+      scrollTop: 0
     })
     let { messageList } = this.state;
     this.setNavigationBarTitle();
 
-    console.log('channel',goEasy)
-    // goEasy.latestConversations(res=>{
-    //   console.log('最近一次通话',res)
-    // })
-    goEasy.subscribe({
-      channel: "tn1",
-      onMessage: (message) => {
-        const { uid, content, headImg, nickName,files } = JSON.parse(message.content)
-        if (content || files.url) {
-          console.log('发送')
-          messageList.unshift(
-            {
-              uid: uid,
-              content: content,
-              headImg: headImg,
-              nickName: nickName,
-              files:files,
-              isBlock:false
-            }
-          )
-          this.setState({
-            messageList: messageList
-          }, () => {
-              
-            setTimeout(() => {
-              this.scrollToChatBottom();
-            }, 200);
-          })
-        }
+    const { userId } = this.getUserInfo();
+    //连接GoEasy
+    im.connect({
+      id: userId,
+      data: '{"avatar":"/www/xxx.png","nickname":"Neo"}'
+    }).then(function () {
+      console.log("Connection successful.");
+    }).catch(function (error) {
+      console.log("Failed to connect GoEasy, code:" + error.code + ",error:" + error.content);
+    });
+
+    //监听和接收单聊消息
+    im.on(GoEasyIM.EVENT.PRIVATE_MESSAGE_RECEIVED, (message) => {
+      console.log('---message----', message)
+      if (message.payload.text) {
+        const { text, files} = JSON.parse(message.payload.text)
+        messageList.unshift(
+          {
+            uid: message.senderId,
+            content: text,
+            headImg: this.state.toUserInfo.headImg,
+            nickName: this.state.toUserInfo.nickName,
+            files: files || {},
+            isBlock: false
+          }
+        )
+        this.setState({
+          messageList: messageList
+        }, () => {
+          setTimeout(() => {
+            this.scrollToChatBottom();
+          }, 200);
+        })
       }
     })
+    this.markMessageAsRead();
   }
+  componentDidHide() {
+    this.markMessageAsRead();
+  }
+
+  markMessageAsRead() {
+    // 清空未读数量
+    im.markPrivateMessageAsRead(this.$router.params.id).then(function (result) {
+    }).catch(function (error) {
+      console.log("Failed to mark as read, code:" + error.code + " content:" + error.content);
+    });
+  }
+
   //自动滑动到最底下
   scrollToChatBottom() { // 滑动到最底部
-    const {scrollTop} = this.state;
-    console.log('****',scrollTop)
+    const { scrollTop } = this.state;
+    console.log('****', scrollTop)
     this.setState({
-      scrollTop : scrollTop == 0? -1: 0
+      scrollTop: scrollTop == 0 ? -1 : 0
     })
-	}
+  }
 
   /**
    * 根据name设置nav bar title
    */
   setNavigationBarTitle() {
-    const {toUserInfo} = this.state;
+    const { toUserInfo } = this.state;
     wx.setNavigationBarTitle({
       title: toUserInfo.nickName
     })
@@ -102,45 +119,45 @@ export default class Presenter extends BaseComponent {
     })
   }
   //获取历史消息
-  getMessageList = async ()=>{
-    const {fromUid,toUid,userInfo,toUserInfo,mid,messageList} = this.state;
-    let res = await Model.getData(fromUid,toUid,mid);
-    if(res){
+  getMessageList = async () => {
+    const { fromUid, toUid, userInfo, toUserInfo, mid, messageList } = this.state;
+    let res = await Model.getData(fromUid, toUid, mid);
+    if (res) {
       let newMessageList = res.items;
-      newMessageList.forEach(item=>{
-        if(item.type !== 0){
+      newMessageList.forEach(item => {
+        if (item.type !== 0) {
           item.files = {
-            type:item.type,
-            url:item.content
+            type: item.type,
+            url: item.content
           }
-        }else{
+        } else {
           item.files = {
-            type:item.type
+            type: item.type
           }
         }
         item.isBlock = Boolean(item.isBlock);
         item.uid = item.fromUid;
-        if(item.fromUid === fromUid){
+        if (item.fromUid === fromUid) {
           item.headImg = userInfo.headImg;
           item.nickName = userInfo.nickName;
-        }else{
+        } else {
           item.headImg = toUserInfo.headImg;
           item.nickName = toUserInfo.nickName;
         }
       })
-      if(!messageList.length){
+      if (!messageList.length) {
         this.setState({
-          messageList:newMessageList
+          messageList: newMessageList
         })
-      }else{
+      } else {
         this.setState({
-          messageList: [...messageList,...newMessageList]
+          messageList: [...messageList, ...newMessageList]
         })
       }
-      newMessageList.length && 
-      this.setState({
-        mid: newMessageList[newMessageList.length - 1].mid
-      })
+      newMessageList.length &&
+        this.setState({
+          mid: newMessageList[newMessageList.length - 1].mid
+        })
     }
   }
 
@@ -151,7 +168,7 @@ export default class Presenter extends BaseComponent {
     if (res) {
       this.setState({
         userInfo: res,
-        fromUid:res.userId,
+        fromUid: res.userId,
       })
     }
   }
@@ -178,13 +195,13 @@ export default class Presenter extends BaseComponent {
     console.log('往下滑')
   }
 
-  onScrollToUpper =async() => {
+  onScrollToUpper = async () => {
     Taro.showLoading();
     this.getMessageList();
     Taro.hideLoading();
   }
 
-  onScroll = (e)=>{
+  onScroll = (e) => {
     //console.log(e.target)
     // this.setState({
     //   scrollTop:e.target.scrollTop
@@ -199,32 +216,60 @@ export default class Presenter extends BaseComponent {
     })
   }
 
-  publishMessage = async (type=0) => {
-    const { publishContent,files,toUid,fromUid, userInfo: { userId, nickName, headImg },inputValue } = this.state;
-    let {messageList} = this.state;
-    const {id } = getCurrentInstance().router.params;
+  publishMessage = async (type = 0) => {
+    const { publishContent, files, toUid, fromUid, userInfo: { userId, nickName, headImg }, inputValue } = this.state;
+    let { messageList } = this.state;
+    const { id } = getCurrentInstance().router.params;
     let isBlock = await this.isBlockFriend();
     if (inputValue && (publishContent || files.url) || files.url) {
       if (!isBlock) {
-        goEasy.publish({
-          channel: "tn1",
-          message: JSON.stringify({
-            uid: userId,
-            content: type>0?'':publishContent,
-            nickName: nickName,
-            headImg: headImg,
-            files:type>0?files:{},
-            isBlock:false
+        console.log('---publishContent---', publishContent, toUid)
+        //创建消息, 内容最长不超过3K，可以发送字符串，对象和json格式字符串
+        let textMessage = im.createTextMessage({
+          text: JSON.stringify({ //消息内容
+            text: publishContent,
+            files: {
+              type: files.type,
+              url: files.url,
+            }
           }),
-        })
-      }else{
+          to: {
+            type: GoEasyIM.SCENE.PRIVATE,   //私聊还是群聊，群聊为GoEasyIM.SCENE.GROUP
+            id: toUid,
+          }
+        });
+        //发送消息YA
+        im.sendMessage(textMessage).then((message) => {
+          messageList.unshift(
+            {
+              uid: userId,
+              content: files.type>0?'':publishContent,
+              headImg: headImg,
+              nickName: nickName,
+              isBlock: false,
+              files: files.type>0?files: {},
+            }
+          )
+          this.setState({
+            messageList: messageList
+          }, () => {
+            setTimeout(() => {
+              this.scrollToChatBottom();
+            }, 200)
+          });
+          console.log("Private message sent successfully.", message);
+        }).catch(function (error) {
+          console.log("Failed to send private message，code:" + error.code + ",error" + error.content);
+        });
+
+      } else {
         messageList.unshift(
           {
             uid: userId,
-            content: type > 0 ?'': publishContent,
+            content: type > 0 ? '' : publishContent,
             headImg: headImg,
             nickName: nickName,
-            isBlock:true,
+            isBlock: true,
             files: type > 0 ? files : {},
           }
         )
@@ -236,7 +281,7 @@ export default class Presenter extends BaseComponent {
           }, 200);
         })
       }
-      Model.saveData(fromUid,toUid,type,type>0?files.url:publishContent,Number(isBlock));
+      Model.saveData(fromUid, toUid, type, type > 0 ? files.url : publishContent, Number(isBlock));
 
       this.setState({
         inputValue: '',
@@ -254,7 +299,7 @@ export default class Presenter extends BaseComponent {
       inputBoxBottom: 15,
       isFocus: true,
       //holdKeyboard:true
-    },()=>{
+    }, () => {
       // this.scrollToChatBottom()
     })
   }
@@ -272,25 +317,25 @@ export default class Presenter extends BaseComponent {
     return res;
   }
 
-  publishText = ()=>{
+  publishText = () => {
     this.setState({
-      files:{},
-    },()=>{
+      files: {},
+    }, () => {
       this.publishMessage(0)
     })
   }
 
-  getFiles = (files)=>{
-    console.log('files',files)
+  getFiles = (files) => {
+    console.log('files', files)
     this.setState({
-      files:files,
-      publishContent:''
-    },()=>{
+      files: files,
+      publishContent: ''
+    }, () => {
       this.publishMessage(files.type)
     })
   }
 
-  preViewImage = (url,e)=>{
+  preViewImage = (url, e) => {
     //const {files} = this.props.model;
     e.stopPropagation();
     // let newFiles = files.filter(item=>item.type == 1);
@@ -302,11 +347,11 @@ export default class Presenter extends BaseComponent {
     })
   }
 
-  blockInfo = ()=>{
+  blockInfo = () => {
     Taro.showToast({
-      title:'已被对方加入黑名',
-      icon:'none'
+      title: '已被对方加入黑名',
+      icon: 'none'
     })
   }
-    
+
 }

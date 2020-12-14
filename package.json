@@ -38,6 +38,7 @@
     "@tarojs/runtime": "3.0.11",
     "@tarojs/taro": "3.0.11",
     "goeasy": "^1.0.17",
+    "goeasy-im": "^1.4.0",
     "mobx": "^4.8.0",
     "mobx-react": "^6.1.4",
     "qrcode.react": "^1.0.0",

@@ -13,6 +13,17 @@ page {
     box-sizing: border-box;
     transform-origin: center center;
     transform: rotate(180deg);
+    width: calc(100% + 200rpx);
+    position: relative;
+    left: -100rpx;
+
+    .content-wrapper {
+      padding: 0 100px;
+      display: flex;
+      min-height: 100%;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
     &:first-child {
       padding-top: 20px;
     }
@@ -65,6 +76,18 @@ page {
           border-top: 10px solid transparent;
           border-right: 15px solid #555555;
           border-bottom: 10px solid transparent;
+        }
+        .image-wrapper {
+          width: 320px;
+          height: 200px;
+          background-size: contain;
+          background-repeat: no-repeat;
+          // border-radius: 20px;
+          // overflow: hidden;
+          image {
+            max-width: 100%;
+            max-height: 100%;
+          }
         }
       }
     }

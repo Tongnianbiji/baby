@@ -3,7 +3,7 @@ import React from 'react'
 import Model from './model'
 import Taro from '@tarojs/taro'
 import staticData from '@src/store/common/static-data'
-
+const { goEasy: im } = staticData;
 let exposureIdList = new Set();
 let timer = null;
 export default class HomePage extends BaseComponent {
@@ -47,6 +47,8 @@ export default class HomePage extends BaseComponent {
     this.getrecommends();
     this.gethots();
     this.getInviter()
+
+    this.connectGoeasyIm();
   }
 
   componentDidShow() {
@@ -100,7 +102,18 @@ export default class HomePage extends BaseComponent {
     }, 800);
   }
 
-
+  connectGoeasyIm() {
+    const { userId } = this.getUserInfo();
+    console.log('---userId---', userId)
+    //连接GoEasy
+    im.connect({
+      id: userId
+    }).then(function () {
+      console.log("Connection successful.");
+    }).catch(function (error) {
+      console.log("Failed to connect GoEasy, code:" + error.code + ",error:" + error.content);
+    });
+  }
   async onPullDownRefresh() {
     const { currentTopTab } = this.state;
     if (currentTopTab === 1) {
