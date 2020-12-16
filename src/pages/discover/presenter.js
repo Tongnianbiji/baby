@@ -116,7 +116,7 @@ export default class Presenter extends BaseComponent {
           tags: ret.data,
           activedTag: ret.data && ret.data.length && ret.data[0],
         }, () => {
-          this.getCircles()
+          this.getCircles(true)
         })
       })
     }
@@ -126,12 +126,14 @@ export default class Presenter extends BaseComponent {
    * 列表
    * @param {*} param0 
    */
-  getCircles() {
-    const { activedMenu, activedTag } = this.state;
+  getCircles(isReload = false) {
+    console.log('isReload', isReload)
+    const { activedMenu, activedTag, circles } = this.state;
     const param = { firstSubjectId: activedMenu.sid, secondSubjectId: activedTag.sid};
-    Model.getCircle(param).then(ret => {
+    Model.getCircle(param, isReload).then(ret => {
       console.log('ret',ret)
-      this.setState({ circles: ret.items })
+      const newCircles = isReload ? ret.items : [...circles, ...ret.items];
+      this.setState({ circles: newCircles })
     })
   }
 
@@ -152,7 +154,7 @@ export default class Presenter extends BaseComponent {
   tagsClick(tag) {
     this.setState({
       activedTag: tag
-    }, () => { this.getCircles() })
+    }, () => { this.getCircles(true) })
   }
 
   troggleTags() {

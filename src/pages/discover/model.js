@@ -1,7 +1,8 @@
 import BaseRequest from '../../common/baseRequest';
 
 const request = new BaseRequest();
-
+let pageSize = 10;
+let pageNum = 0;
 export default {
   getMenus() {
     return request.get('/subject/list').then(result => {
@@ -19,7 +20,11 @@ export default {
     })
   },
 
-  getCircle({ firstSubjectId, secondSubjectId, pageNum = 1, pageSize = 10 }) {
+  getCircle({ firstSubjectId, secondSubjectId }, isReload = false) {
+    if (isReload) {
+      pageNum = 0;
+    }
+    pageNum++;
     return request.postWithToken('/search/circle', { firstSubjectId, secondSubjectId, pageNum, pageSize,sort:{
       heat_rate:'desc',
       online:'desc'

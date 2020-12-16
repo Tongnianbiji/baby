@@ -4987,6 +4987,11 @@ globule@^1.0.0:
     lodash "~4.17.10"
     minimatch "~3.0.2"
 
+goeasy-im@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.npm.taobao.org/goeasy-im/download/goeasy-im-1.4.0.tgz#53113fd5b39d707848a6f78663c759ae51c234db"
+  integrity sha1-UxE/1bOdcHhIpveGY8dZrlHCNNs=
+
 goeasy@^1.0.17:
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/goeasy/download/goeasy-1.1.1.tgz#32d8be1135931192384f3900214bedd35b587948"
@@ -8719,6 +8724,11 @@ rxjs@^6.6.0:
   integrity sha1-jKhGNcTaqQDA05Z6buesYCce5VI=
   dependencies:
     tslib "^1.9.0"
+
+sa-sdk-miniprogram@^1.14.2:
+  version "1.14.2"
+  resolved "https://registry.npm.taobao.org/sa-sdk-miniprogram/download/sa-sdk-miniprogram-1.14.2.tgz#17c04d87ba9ceef0dc45d4779dc80f6f2ea0ac8f"
+  integrity sha1-F8BNh7qc7vDcRdR3ncgPby6grI8=
 
 safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"

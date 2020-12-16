@@ -61,7 +61,7 @@ export default class Index extends Presenter {
             }
             <View className='list-layout'>
               <View className='data-list'>
-                <ScrollView style={{ height: '100%' }} scrollY>
+                <ScrollView style={{ height: '100%' }} scrollY lowerThreshold={200} onScrollToLower={this.getCircles.bind(this, false)}>
                   {
                     this.state.activedMenu.sid !== 'r1' ?
                     this.state.circles.map(n => {
