@@ -97,7 +97,7 @@ export default class Presenter extends BaseComponent {
     })
     let res = await Model.getSearchData({
       keyword:kw,
-      parentCid:pcid || cid || '',
+      parentCid: cid || pcid   || '',
       pageNum,
       sort:sortType
     });
