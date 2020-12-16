@@ -70,8 +70,9 @@ class MainInfoPanel extends Component {
   //查看更多子圈子
   viewMoreChildCircles = (cid) => {
     const { leaf, name } = this.$store.detailInfo;
-    const {parentCircles} = this.$store
-    Taro.navigateTo({ url: `/packageA/pages/more-circle/index?pcid=${parentCircles[0].cid}&cid=${cid}&cname=${name}&circleType=${leaf ? 'sibling' : 'child'}` })
+    const { parentCircles } = this.$store
+    const pcid = parentCircles && parentCircles[0] && parentCircles[0].cid;
+    Taro.navigateTo({ url: `/packageA/pages/more-circle/index?pcid=${pcid}&cid=${cid}&cname=${name}&circleType=${leaf ? 'sibling' : 'child'}` })
   }
 
   render() {
