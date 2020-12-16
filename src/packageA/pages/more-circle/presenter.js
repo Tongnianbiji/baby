@@ -132,7 +132,10 @@ export default class Presenter extends BaseComponent {
     }
   }
 
-  getData = async (isReload) => {
+  getData = async (isReload=true) => {
+    if (isReload) {
+      this.pageNum = 1;
+    }
     const { cid, circleType } = this.$router.params;
     const { childrenCircles } = this.state;
     this.setState({
