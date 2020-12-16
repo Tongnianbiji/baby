@@ -8,27 +8,27 @@ export default class Presenter extends BaseComponent {
     this.state = {
       sliderStyle: {},
       activeTab: 1,
-      childrenCircles:[],
-      isToBottom:false,
-      showLoading:false,
-      postLock:false,
-      pageNum:1,
-      kw:'',
-      current:0,
-      sortType:{
-        _score:'desc'
+      childrenCircles: [],
+      isToBottom: false,
+      showLoading: false,
+      postLock: false,
+      pageNum: 1,
+      kw: '',
+      current: 0,
+      sortType: {
+        _score: 'desc'
       }
     }
     this.pageNum = 1;
-  } 
+  }
 
   componentWillMount() {
-    const {cname} = this.$router.params;
+    const { cname } = this.$router.params;
     this.setNavBarTitle(cname);
     this.getData();
   }
 
-  onReachBottom(){
+  onReachBottom() {
     const { postLock, isToBottom, kw, current } = this.state;
     this.getData(false)
     // if(!postLock && !isToBottom){
@@ -56,31 +56,31 @@ export default class Presenter extends BaseComponent {
   }
 
   //重置列表
-  initList = ()=>{
+  initList = () => {
     this.setState({
-      childrenCircles:[],
-      pageNum:1,
-      showLoading:true,
-      isToBottom:false
+      childrenCircles: [],
+      pageNum: 1,
+      showLoading: true,
+      isToBottom: false
     })
   }
 
-  onKwInput = async(e) => {
-    const {cid,circleType} = this.$router.params;
+  onKwInput = async (e) => {
+    const { cid, circleType } = this.$router.params;
     this.initList();
     this.setState(prev => {
       const ret = {
         kw: e.target.value
       }
-      this.setState(pre=>({
-        kw:ret.kw
-      }),()=>{
-        if(ret.kw){
+      this.setState(pre => ({
+        kw: ret.kw
+      }), () => {
+        if (ret.kw) {
           this.getSearchData()
-        }else{
-          this.getData(cid,circleType);
+        } else {
+          this.getData(cid, circleType);
           this.setState({
-            showLoading:false
+            showLoading: false
           })
         }
       })
@@ -91,141 +91,141 @@ export default class Presenter extends BaseComponent {
     })
   }
 
-  getSearchData = async ()=>{
-    const {kw,pageNum,childrenCircles,sortType} = this.state;
-    const {cid,pcid} = this.$router.params;
+  getSearchData = async () => {
+    const { kw, pageNum, childrenCircles, sortType } = this.state;
+    const { cid, pcid, circleType } = this.$router.params;
     this.setState({
-      postLock:true
+      postLock: true
     })
     let res = await Model.getSearchData({
-      keyword:kw,
-      parentCid: cid || pcid   || '',
+      keyword: kw,
+      parentCid: (circleType == 'sibling' ? pcid : cid) || '',
       pageNum,
-      sort:sortType
+      sort: sortType
     });
     this.setState({
-      postLock:false
+      postLock: false
     })
 
-    if(res && res.items){
-      const {total,items} = res;
+    if (res && res.items) {
+      const { total, items } = res;
       if (!childrenCircles.length) {
         this.setState({
-          childrenCircles : items || []
+          childrenCircles: items || []
         })
-        
+
       } else {
-        this.setState((pre)=>({
-          childrenCircles:pre.childrenCircles.concat(items || [])
+        this.setState((pre) => ({
+          childrenCircles: pre.childrenCircles.concat(items || [])
         }))
       }
       if (total <= this.state.childrenCircles.length) {
         this.setState({
-          showLoading:false,
-          isToBottom:true
+          showLoading: false,
+          isToBottom: true
         })
       }
-    }else{
+    } else {
       this.setState({
-        showLoading:false,
+        showLoading: false,
       })
     }
   }
 
-  getData = async(isReload)=>{
-    const {cid,circleType} = this.$router.params;
-    const {childrenCircles} = this.state;
+  getData = async (isReload) => {
+    const { cid, circleType } = this.$router.params;
+    const { childrenCircles } = this.state;
     this.setState({
-      postLock:true
+      postLock: true
     })
     let res = await Model.getData(cid, circleType, this.pageNum);
     this.pageNum++;
     this.setState({
-      postLock:false
+      postLock: false
     })
 
-    if(res && res.items){
+    if (res && res.items) {
       const { total, items } = res;
-      const newChildrenCircles = isReload ? items : [...childrenCircles,...items]
+      const newChildrenCircles = isReload ? items : [...childrenCircles, ...items]
       this.setState({
         childrenCircles: newChildrenCircles
       })
       if (total <= this.state.childrenCircles.length) {
         this.setState({
-          showLoading:false,
-          isToBottom:true
+          showLoading: false,
+          isToBottom: true
         })
       }
-    }else{
+    } else {
       this.setState({
-        showLoading:false,
+        showLoading: false,
       })
     }
   }
 
   //加入/已加入
-  handleSubsrc= async (model)=>{
-    let {postLock,childrenCircles} = this.state;
-    let preIndex = childrenCircles.findIndex(item=>item.cid === model.cid)
-    if(!postLock){
-     if(model.isSubscribe){
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.leaveCircle(model.cid);
-       this.setState({
-         postLock:false
-       })
-       childrenCircles[preIndex].isSubscribe = false
-       if(res){
-         this.showToast('已取消');
-       }
-     }else{
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.joinCircle(model.cid);
-       this.setState({
-         postLock:false
-       })
-       childrenCircles[preIndex].isSubscribe = true
-       if(res){
-         this.showToast('已加入');
-       }
-     }
+  handleSubsrc = async (model) => {
+    let { postLock, childrenCircles } = this.state;
+    let preIndex = childrenCircles.findIndex(item => item.cid === model.cid)
+    if (!postLock) {
+      if (model.isSubscribe) {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.leaveCircle(model.cid);
+        this.setState({
+          postLock: false
+        })
+        childrenCircles[preIndex].isSubscribe = false
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.joinCircle(model.cid);
+        this.setState({
+          postLock: false
+        })
+        childrenCircles[preIndex].isSubscribe = true
+        if (res) {
+          this.showToast('已加入');
+        }
+      }
     }
     this.setState({
-      childrenCircles:childrenCircles
+      childrenCircles: childrenCircles
     })
   }
 
-  onTabChange = (id)=>{
+  onTabChange = (id) => {
     let sortType = {};
-    const {kw} = this.state;
+    const { kw } = this.state;
     this.initList();
-    switch(id){
+    switch (id) {
       case 0:
-        sortType={ _score:'desc'}
+        sortType = { _score: 'desc' }
         break;
       case 1:
-        if(kw){
-          sortType={ _score:'desc',location:'asc'}
-        }else{
-          sortType={location:'asc'}
+        if (kw) {
+          sortType = { _score: 'desc', location: 'asc' }
+        } else {
+          sortType = { location: 'asc' }
         }
         break;
       case 2:
-        if(kw){
-          sortType={ _score:'desc',heat_rate:'desc'}
-        }else{
-          sortType={ heat_rate:'desc'}
+        if (kw) {
+          sortType = { _score: 'desc', heat_rate: 'desc' }
+        } else {
+          sortType = { heat_rate: 'desc' }
         }
         break;
-      }
+    }
     this.setState({
       current: id,
-      sortType:sortType
-    },()=>{
+      sortType: sortType
+    }, () => {
       this.getSearchData()
     })
   }
