@@ -19,6 +19,7 @@ export default class Presenter extends BaseComponent {
         _score:'desc'
       }
     }
+    this.pageNum = 1;
   } 
 
   componentWillMount() {
@@ -28,20 +29,21 @@ export default class Presenter extends BaseComponent {
   }
 
   onReachBottom(){
-    const {postLock, isToBottom,kw,current} = this.state;
-    if(!postLock && !isToBottom){
-      this.setState((pre)=>({
-        pageNum:pre.pageNum+1
-      }),
-      ()=>{
-        // if(kw){
-        //   this.getSearchData()
-        // }else{
-        //   this.getData()
-        // }
-        this.getSearchData()
-      })
-    }
+    const { postLock, isToBottom, kw, current } = this.state;
+    this.getData(false)
+    // if(!postLock && !isToBottom){
+    //   this.setState((pre)=>({
+    //     pageNum:pre.pageNum+1
+    //   }),
+    //   ()=>{
+    //     // if(kw){
+    //     //   this.getSearchData()
+    //     // }else{
+    //     //   this.getData()
+    //     // }
+    //     this.getSearchData()
+    //   })
+    // }
   }
 
   tabChange(index) {
@@ -130,29 +132,24 @@ export default class Presenter extends BaseComponent {
     }
   }
 
-  getData = async()=>{
+  getData = async(isReload)=>{
     const {cid,circleType} = this.$router.params;
-    const {pageNum,childrenCircles} = this.state;
+    const {childrenCircles} = this.state;
     this.setState({
       postLock:true
     })
-    let res = await Model.getData(cid,circleType,pageNum);
+    let res = await Model.getData(cid, circleType, this.pageNum);
+    this.pageNum++;
     this.setState({
       postLock:false
     })
 
     if(res && res.items){
-      const {total,items} = res;
-      if (!childrenCircles.length) {
-        this.setState({
-          childrenCircles : items || []
-        })
-        
-      } else {
-        this.setState((pre)=>({
-          childrenCircles:pre.childrenCircles.concat(items || [])
-        }))
-      }
+      const { total, items } = res;
+      const newChildrenCircles = isReload ? items : [...childrenCircles,...items]
+      this.setState({
+        childrenCircles: newChildrenCircles
+      })
       if (total <= this.state.childrenCircles.length) {
         this.setState({
           showLoading:false,
