@@ -17,9 +17,11 @@ const tabList = [
 export default class SearchCircle extends Presenter {
 
   render() {
-    const {circlesList,kw,showLoading,isToBottom,current} = this.state;
+    const { circlesList, kw, showLoading, isToBottom, current, pageState } = this.state;
+    
     return (
       <View className='search-circle-viewport'>
+        {pageState == 'loading'? this.renderLoading():''}
         <View className='search-bar'>
           <View className='search-inp'>
             <Input focus className='inp' onInput={this.onKwInput.bind(this)} onConfirm={this.onKwConfirm.bind(this)} value={this.state.kw} />
@@ -58,7 +60,7 @@ export default class SearchCircle extends Presenter {
             <Preloading showLoading={showLoading} isToBottom={isToBottom}></Preloading>
           </View>
           :
-          <DefaultPanel onDoSearch={this.clickDosearch.bind(this)} />
+          pageState!='loading'&&<DefaultPanel onDoSearch={this.clickDosearch.bind(this)} />
         }
         {
           kw && !!circlesList.length &&

@@ -6,6 +6,7 @@ export default class Presenter extends BaseComponent {
   constructor(props) {
     super(props)
     this.state = {
+      pageState: 'over',
       showCleanBtn: false,
       kw: '',
       circlesList:[],
@@ -56,7 +57,8 @@ export default class Presenter extends BaseComponent {
       sort:sortType
     });
     this.setState({
-      postLock:false
+      postLock: false,
+      pageState: 'over'
     })
 
     if(res && res.items){
@@ -196,7 +198,8 @@ export default class Presenter extends BaseComponent {
       }
     this.setState({
       current: id,
-      sortType:sortType
+      sortType: sortType,
+      pageState: 'loading',
     },()=>{
       this.getSearchData()
     })
