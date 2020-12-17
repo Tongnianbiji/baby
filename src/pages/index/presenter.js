@@ -3,6 +3,7 @@ import React from 'react'
 import Model from './model'
 import Taro from '@tarojs/taro'
 import staticData from '@src/store/common/static-data'
+import Storage from '@common/localStorage'
 const { goEasy: im } = staticData;
 let exposureIdList = new Set();
 let timer = null;
@@ -103,7 +104,8 @@ export default class HomePage extends BaseComponent {
   }
 
   connectGoeasyIm() {
-    if (!staticData.isLogin) return;
+    if (!Storage.getInstance().getToken()) return;
+    // if (!staticData.isLogin) return;
     const { userId } = this.getUserInfo();
     console.log('---userId---', userId)
     //连接GoEasy
@@ -114,6 +116,7 @@ export default class HomePage extends BaseComponent {
     }).catch(function (error) {
       console.log("Failed to connect GoEasy, code:" + error.code + ",error:" + error.content);
     });
+    
   }
   async onPullDownRefresh() {
     const { currentTopTab } = this.state;
@@ -758,13 +761,28 @@ export default class HomePage extends BaseComponent {
   }
 
   getMessageCount = async () => {
+    let total = 0;
     let res = await Model.getMessageCount();
     if (res) {
       const { answer, funs, mark, reply, star } = res;
+      total = answer + funs + mark + reply + star + total;
       this.setState({
-        total: answer + funs + mark + reply + star
+        total
       })
     }
+
+    im.latestConversations().then((res) => {
+      console.log('---latestConversations---', res)
+      const { code, content } = res;
+      if (code == 200) {
+        total = content.unreadTotal + total;
+        this.setState({
+          total,
+        })
+      }
+    }).catch(function (error) {
+      console.log("Failed to get the latest conversations, code:" + error.code + " content:" + error.content);
+    });
   }
 
   goMessage = async () => {

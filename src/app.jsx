@@ -119,6 +119,7 @@ class App extends BaseComponent {
 
   //判断是否是游客还是用户
   isRegiest = () => {
+    
     const { updateIsRegisteStatus, updateIsLoginStatus } = staticDataStore;
     if (!this.getCurrentIsCollentMini()) {
       this.setCurrentIsCollentMini(1)
@@ -132,6 +133,11 @@ class App extends BaseComponent {
           updateIsLoginStatus(!!this.storage.getToken());
           this.storage.setToken(token);
           this.storage.setValue(USER_INFO_KEY_USERID, { userId: userId })
+
+          // const pages = getCurrentPages();
+          // pages.forEach(item => {
+          //   item.onLogin && item.onLogin();
+          // })
         } else {
           this.guideRegiste();
           updateIsRegisteStatus(false);
