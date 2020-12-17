@@ -179,3 +179,10 @@ page {
     }
   }
 }
+.at-tabs__item {
+  flex: 1!important;
+  margin: 0!important;
+}
+.at-tabs__item-underline {
+  transition: none!important;
+}

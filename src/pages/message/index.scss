@@ -19,6 +19,7 @@
     font-size: 20px;
     line-height: 35px;
     text-align: center;
+    pointer-events: none;
   }
   .unread-total {
     left: 594px;
@@ -241,4 +242,11 @@
 }
 page {
   @extend .page100;
+}
+.at-tabs__item {
+  flex: 1!important;
+  margin: 0!important;
+}
+.at-tabs__item-underline {
+  transition: none!important;
 }
