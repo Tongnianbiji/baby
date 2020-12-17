@@ -22,12 +22,30 @@ export default class CircleItem extends Component {
     this.state = {
       title: []
     }
+    this.getFontSize = this.getFontSize.bind(this);
   }
 
   componentWillMount() {
     
   }
-
+  getAvatarText(text) {
+    let str = text || '';
+    str = str.replace(/\s/g, '');
+    str = str.split('市')[0].substring(0, 8)
+    return str;
+  }
+  getFontSize(text) {
+    const textCount = this.getAvatarText(text).length;
+    let fontSize;
+    if (textCount>5) {
+      fontSize = 20
+    } else if (textCount > 2) {
+      fontSize = 24
+    } else {
+      fontSize = 28
+    }
+    return `${fontSize}rpx`;
+  }
   highLight = (originTxt,kw)=>{
     if(!kw){
       kw='济阳'
@@ -67,6 +85,7 @@ export default class CircleItem extends Component {
   }
 
   render() {
+    console.log(1111)
     const {isShowDistance,data,data:{cid,uid,description,leaf,imgUrl,name,posts,questions,subscribe,isSubscribe},kw,activeModel,isShowReleaseTime} = this.props;
     return (
       <View className='search-circle-item' onClick={this.gotoCircleDetail.bind(this,data)}>
@@ -81,7 +100,7 @@ export default class CircleItem extends Component {
         <View className='base-infos'>
           <View className='avatar-wrapper'>
             <View className='avatar'>
-              <Image src={imgUrl || ''}></Image>
+              {imgUrl ? <Image src={imgUrl}></Image> : <Text style={{fontSize: this.getFontSize(name)}}>{this.getAvatarText(name)}</Text>}
             </View>
           </View>
           <View className='infos'>
