@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react'
 import { View, Image, Swiper, SwiperItem } from '@tarojs/components'
 import DTO from '../../../../common/localStorage'
 import staticData from '@src/store/common/static-data'
+import AvatarHelper from '@common/utils/avatarHelper'
 
 import './styles.scss'
 
@@ -91,9 +92,7 @@ class MainInfoPanel extends Component {
         { /* 头像, 名称, 按钮 */}
         <View className='head'>
           <View className='avatar-wrapper'>
-            {
-              imgUrl && <Image src={imgUrl} className='avatar-img' />
-            }
+            {AvatarHelper.getAvatar(imgUrl, name)}
           </View>
           <View className='title'>{name}</View>
           <View className='btn-share'>
@@ -127,7 +126,9 @@ class MainInfoPanel extends Component {
             {
               parentCircles.slice(0, 1).map(circle => (
                 <View className={['circle-item', parentCircles.length <= 1 && 'last-parent-one']} key={circle.cid} onClick={this.viewParentCircle.bind(this, circle.cid)}>
-                  <View className='avatar'>{circle.imgUrl && <Image src={circle.imgUrl} className='avatar-img' />}</View>
+                   <View className='avatar-wrapper'>
+                    {AvatarHelper.getAvatar(circle.imgUrl, circle.name, 'small')}
+                  </View>
                   <View className='name'>{circle.name}</View>
                 </View>
               ))
@@ -142,7 +143,9 @@ class MainInfoPanel extends Component {
             {
               childCircles.slice(0, 3).map(circle => (
                 <View className='circle-item small-item' key={circle.cid} onClick={this.viewChildCircles.bind(this, circle.cid)}>
-                  <View className='avatar'>{circle.imgUrl && <Image src={circle.imgUrl} className='avatar-img' />}</View>
+                  <View className='avatar-wrapper'>
+                    {AvatarHelper.getAvatar(circle.imgUrl, circle.name, 'small')}
+                  </View>
                   <View className='name'>{circle.name}</View>
                 </View>
               ))

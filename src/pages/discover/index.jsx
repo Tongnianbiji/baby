@@ -66,13 +66,13 @@ export default class Index extends Presenter {
                     this.state.activedMenu.sid !== 'r1' ?
                     this.state.circles.map(n => {
                       return (
-                        <CircleItem key={n.cid} {...n} />
+                        <CircleItem key={n.cid} {...n} isMiddleAvatar={true} />
                       )
                     })
                     :
                     this.state.recommendCircles.map(n => {
                       return (
-                        <CircleItem key={n.cid} {...n} />
+                        <CircleItem key={n.cid} {...n} isMiddleAvatar={true} />
                       )
                     })
                   }

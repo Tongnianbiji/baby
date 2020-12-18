@@ -3,18 +3,19 @@ import React, { Component } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import FormaDate from '@common/formaDate'
 import Behaviors from '@common/utils/behaviors'
+import AvatarHelper from '@common/utils/avatarHelper'
 import './styles.scss'
 
 export default class CircleItem extends Component {
   static defaultProps = {
     data: null,
-    activeModel:{},
-    isShowReleaseTime:false,
+    activeModel: {},
+    isShowReleaseTime: false,
     // 是否在最上方显示 [可能感兴趣] 一栏
     recommand: false,
-    isShowDistance:false,
+    isShowDistance: false,
     kw: '济阳',
-    onHandleSubscr:()=>{}
+    onHandleSubscr: () => { }
   }
 
   constructor(props) {
@@ -26,18 +27,23 @@ export default class CircleItem extends Component {
   }
 
   componentWillMount() {
-    
+
   }
   getAvatarText(text) {
     let str = text || '';
     str = str.replace(/\s/g, '');
-    str = str.split('市')[0].substring(0, 8)
+    const tagIndex = str.indexOf('市');
+    if (tagIndex > -1 && tagIndex < str.length - 1) {
+      str = str.substring(tagIndex + 1, tagIndex + 9);
+    } else {
+      str = str.substring(0, 8);
+    }
     return str;
   }
   getFontSize(text) {
     const textCount = this.getAvatarText(text).length;
     let fontSize;
-    if (textCount>5) {
+    if (textCount > 5) {
       fontSize = 20
     } else if (textCount > 2) {
       fontSize = 24
@@ -46,9 +52,9 @@ export default class CircleItem extends Component {
     }
     return `${fontSize}rpx`;
   }
-  highLight = (originTxt,kw)=>{
-    if(!kw){
-      kw='济阳'
+  highLight = (originTxt, kw) => {
+    if (!kw) {
+      kw = '济阳'
     }
     if (!originTxt) {
       originTxt = '济阳'
@@ -73,24 +79,24 @@ export default class CircleItem extends Component {
     Taro.navigateTo({ url: `/packageA/pages/circle-detail/index?cid=${cid}&cname=${name}` })
   }
 
-  findMore = (e)=>{
+  findMore = (e) => {
     const { cid, name } = this.props.data;
     e.stopPropagation();
     Taro.navigateTo({ url: `/packageA/pages/more-circle/index?cid=${cid}&cname=${name}` })
   }
 
-  handleSubscr = (model,e)=>{
+  handleSubscr = (model, e) => {
     e.stopPropagation();
     this.props.onHandleSubscr(model)
   }
 
   render() {
     console.log(1111)
-    const {isShowDistance,data,data:{cid,uid,description,leaf,imgUrl,name,posts,questions,subscribe,isSubscribe},kw,activeModel,isShowReleaseTime} = this.props;
+    const { isShowDistance, data, data: { cid, uid, description, leaf, imgUrl, name, posts, questions, subscribe, isSubscribe }, kw, activeModel, isShowReleaseTime } = this.props;
     return (
-      <View className='search-circle-item' onClick={this.gotoCircleDetail.bind(this,data)}>
+      <View className='search-circle-item' onClick={this.gotoCircleDetail.bind(this, data)}>
         {
-          activeModel.userSnapshot && isShowReleaseTime && 
+          activeModel.userSnapshot && isShowReleaseTime &&
           <View className="behavior">{`${activeModel.userSnapshot && activeModel.userSnapshot.nickName}${Behaviors(activeModel.type)} | ${activeModel.updateAt && FormaDate(activeModel.updateAt)}`}</View>
         }
         {
@@ -99,15 +105,13 @@ export default class CircleItem extends Component {
         }
         <View className='base-infos'>
           <View className='avatar-wrapper'>
-            <View className='avatar'>
-              {imgUrl ? <Image src={imgUrl}></Image> : <Text style={{fontSize: this.getFontSize(name)}}>{this.getAvatarText(name)}</Text>}
-            </View>
+            {AvatarHelper.getAvatar(imgUrl, name)}
           </View>
           <View className='infos'>
             <View className='title'>
               <View className='txt'>
                 {
-                  this.highLight(name,kw).map(t => {
+                  this.highLight(name, kw).map(t => {
                     return (
                       t.type === 'view' ?
                         <View className='matched-txt' key={t.id}>{t.value}</View> :
@@ -117,18 +121,18 @@ export default class CircleItem extends Component {
                 }
               </View>
               {
-                isShowDistance && 
-              <View style="color:#999;font-size:13px;margin-right:5px;">{data.distance}</View>
+                isShowDistance &&
+                <View style="color:#999;font-size:13px;margin-right:5px;">{data.distance}</View>
               }
-              <View onClick={this.handleSubscr.bind(this,data)} className={`btn ${isSubscribe? 'btn-attentioned' : ''}`}>{isSubscribe  ? '已加入' : '加入'}</View>
+              <View onClick={this.handleSubscr.bind(this, data)} className={`btn ${isSubscribe ? 'btn-attentioned' : ''}`}>{isSubscribe ? '已加入' : '加入'}</View>
             </View>
-              <Text className='subtitle'>简介: {description}</Text>
+            <Text className='subtitle'>简介: {description}</Text>
           </View>
         </View>
         <View className='numbers'>
-              <View className='num'>关注: {subscribe}</View>
-              <View className='num'>帖子: {posts}</View>
-              <View className='num'>问答: {questions}</View>
+          <View className='num'>关注: {subscribe}</View>
+          <View className='num'>帖子: {posts}</View>
+          <View className='num'>问答: {questions}</View>
         </View>
         {
           !leaf && <View className='more' onClick={this.findMore.bind(this)}>发现更多&gt;</View>

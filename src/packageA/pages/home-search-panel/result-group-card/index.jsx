@@ -7,6 +7,7 @@ import FormaDate from '@common/formaDate'
 import staticData from '@src/store/common/static-data'
 import './styles.scss'
 import model from '../../characterC/model'
+import AvatarHelper from '@common/utils/avatarHelper'
 
 const typeMap = {
   [SearchResultType.ANSWER]: '问答',
@@ -157,7 +158,7 @@ export default class SearchResultGroupCard extends Component {
                 <View className='main-infos'>
                   <View className='avatar-wrapper'>
                     <View className='avatar'>
-                      <Image src={item.imgUrl}></Image>
+                      {AvatarHelper.getAvatar(item.imgUrl, item.name)}
                     </View>
                   </View>
                   <View className='infos'>

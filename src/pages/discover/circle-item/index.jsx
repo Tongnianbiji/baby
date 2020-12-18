@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import React, { Component } from 'react'
+import AvatarHelper from '@common/utils/avatarHelper'
 import './style.scss'
 
 export default class CircleItem extends Component {
@@ -23,16 +24,12 @@ export default class CircleItem extends Component {
   }
 
   render() {
-    const { name, subscribe, posts, questions, leaf, descript, imgUrl } = this.props;
+    const { name, subscribe, posts, questions, leaf, descript, imgUrl, isMiddleAvatar} = this.props;
     return (
       <View className='comp-circle-item' onClick={this.gotoCircleDetail}>
         <View className='base-info'>
           <View className='avatar-wrapper'>
-            <View className='avatar'>
-              {
-                imgUrl && <Image className='avatar-img' src={imgUrl} />
-              }
-            </View>
+            {AvatarHelper.getAvatar(imgUrl, name, isMiddleAvatar?'middle':'big')}
           </View>
           <View className='infos'>
             <View className='title'>{name}</View>

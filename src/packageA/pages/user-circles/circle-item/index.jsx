@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 import './circle-item.scss'
+import AvatarHelper from '@common/utils/avatarHelper'
 
 export default class CircleItem extends Component {
 
@@ -19,13 +20,14 @@ export default class CircleItem extends Component {
     this.props.onGetCircleDetail(model)
   }
 
+
   render() {
     const {model, model: { name, description, imgUrl, isSubscribe, subscribe, posts, questions,cid } } = this.props;
     return (
       <View className='comp-circle-item' onClick={this.getCircleDetail.bind(this,model)}>
         <View className='infos'>
-          <View className='avatar'>
-            <Image src={imgUrl}></Image>
+          <View className='avatar-wrapper'>
+            {AvatarHelper.getAvatar(imgUrl, name)}
           </View>
           <View className='title'>{name}</View>
           <View className='btn' onClick={this.subscribe.bind(this,model)}>

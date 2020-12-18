@@ -4,6 +4,7 @@ import BaseComponent from '@common/baseComponent'
 import { View, ScrollView, Image, Text } from '@tarojs/components'
 import Model from '../model'
 import { ICONS } from '@common/constant'
+import AvatarHelper from '@common/utils/avatarHelper'
 import staticData from '@src/store/common/static-data'
 
 import './attention-circle.scss'
@@ -133,8 +134,8 @@ export default class AttentionCircle extends BaseComponent {
               circleList.map(item => {
                 return (
                   <View key={item.cid} className='community-entry' onClick={this.goToDetail.bind(this, item.cid)}>
-                    <View className='avatar'>
-                      { item.imgUrl ? <Image src={item.imgUrl} className='avatar-img'></Image> : '' }
+                    <View className='avatar-wrapper'>
+                      {AvatarHelper.getAvatar(item.imgUrl, item.name)}
                     </View>
                     <Text className='title'>{item.name}</Text>
                     {/* { item.isSubscribe && <View className='arrow-up'></View> } */}
