@@ -466,6 +466,10 @@ export default class HomePage extends BaseComponent {
         recommendsLength: newRes.length,
         pageState: newRecommends.length == 0? 'noData':'over',
       })
+    } else {
+      this.setState({
+        pageState: 'error',
+      })
     }
   }
 

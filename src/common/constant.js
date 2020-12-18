@@ -13,6 +13,7 @@ import DROP from '@ass/img/drop.gif'
 import ADD from '@ass/img/add.png'
 import BACK from '@ass/img/back.png'
 import BLOCK from '@ass/img/block.png'
+import NETERROR from '@ass/img/neterror.svg'
 
 export const ICONS = {
   SHARE_BTN_GRAY: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/share-c.png',
@@ -64,7 +65,8 @@ export const ICONS = {
   DROP:DROP,
   ADD:ADD,
   BACK:BACK,
-  BLOCK:BLOCK
+  BLOCK: BLOCK,
+  NETERROR: NETERROR,
 }
 
 

@@ -266,4 +266,12 @@ export default class BaseComponent extends Component {
       </View>
     )
   }
+  renderServerError() {
+    return (
+      <View className='net-error-wrap'>
+        <Image src={ICONS.NETERROR} mode='widthFix' />
+        <Text style='margin-top:20px'>网络出错了</Text>
+      </View>
+    )
+  }
 }

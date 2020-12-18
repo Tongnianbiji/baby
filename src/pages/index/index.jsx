@@ -25,6 +25,7 @@ export default class Index extends HomePage {
     if (pageState == 'loading') {
       return this.renderLoading();
     }
+ 
     return (
       <View className='home-page-viewport'>
         <View className="new-info-bar" style={{opacity:String(Number(showNewInfoBar))}}>
@@ -75,8 +76,9 @@ export default class Index extends HomePage {
             </AtTabsPane>
             <AtTabsPane current={currentTopTab} index={1} className='attention-tabs-pane'>
               <View className='user-item-wrapper'>
-                {pageState == 'noData' ?
-                  this.renderEmptyPage()
+                {
+                }
+                {pageState == 'noData' ? this.renderEmptyPage() : pageState == 'error' ? this.renderServerError()
                   :
                   <View>
                     {
