@@ -3,8 +3,8 @@
 .comp-circle-item {
   background: #fff;
   border-radius: 16px;
-  padding: 24px 23px 32px 25px;
-  margin-bottom: 20px;
+  padding: 22px;
+  margin-bottom: 16px;
   .base-info {
     display: flex;
     .avatar-wrapper {
@@ -26,14 +26,15 @@
       flex: 1;
       padding-left: 11px;
       .title {
-        line-height: 60px;
+        line-height: 1;
         color: #333;
         font-size: 32px;
       }
       .subtitle {
-        font-size: 28px;
+        font-size: 26px;
         color: #999;
-        line-height: 42px;
+        line-height: 34px;
+        margin-top: 6px;
       }
     }
   }
@@ -42,7 +43,7 @@
     justify-content: space-between;
     .number {
       flex: 1;
-      padding-top: 20px;
+      padding-top: 14px;
       font-size: 24px;
       color: #666;
       text-align: center;
