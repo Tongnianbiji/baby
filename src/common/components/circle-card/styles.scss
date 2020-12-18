@@ -1,8 +1,8 @@
 .search-circle-item {
   background: #fff;
   border-radius: 16px;
-  padding: 25px 23px 24px 25px;
-  margin-top: 20px;
+  padding: 22px;
+  margin-top: 16px;
   .behavior{
     font-size: 24px;
     color: #999999;
@@ -50,7 +50,7 @@
       padding-left: 26px;
       .title {
         display: flex;
-        margin-bottom: 17px;
+        margin-bottom: 8px;
         .txt {
           flex: 1;
           font-size: 32px;
@@ -96,7 +96,7 @@
     display: flex;
     justify-content: space-around;
     .num {
-      padding-top: 24px;
+      padding-top: 14px;
       color: #666;
       font-size: 24px;
       text-align: center;
