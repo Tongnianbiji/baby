@@ -15,6 +15,8 @@ import { USER_INFO_KEY_USERID } from '@common/constant'
 import Storage from '@common/localStorage'
 import './app.scss'
 
+const v = '1.1.3'
+
 const request = new BaseRequest()
 const systemInfo = Taro.getSystemInfoSync()
 // 如果需要在 h5 环境中开启 React Devtools
