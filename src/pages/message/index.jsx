@@ -16,7 +16,8 @@ export default class Index extends Presenter {
       star,
       chatList,
       showLoading,
-      isToBottom
+      isToBottom,
+      systemMessageList,
     } = this.state;
     return (
       <View className='message-viewport'>
@@ -61,16 +62,19 @@ export default class Index extends Presenter {
               </View>
             </View>
             <View className='message-list'>
-              <View className='message-card' onClick={this.toSysMessage}>
-                <View className='icon-wrapper'>
-                  <Image src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/messages.png' className='icon' />
+              {systemMessageList.map(item => (
+                <View className='message-card' onClick={this.toSysMessage.bind(this, item.mid)}>
+                  <View className='icon-wrapper'>
+                    <Image src={ICONS.SYSTEM} className='icon' />
+                  </View>
+                  <View className='infos'>
+                    <Text className='title'>系统消息</Text>
+                    <Text className='sub-title'>{item.content}</Text>
+                  </View>
+                  <Text className='date'>{item.createDt}</Text>
+                  {/* <Image src={ICONS.ARROW_RIGHT_C} className='btn-more' /> */}
                 </View>
-                <View className='infos'>
-                  <Text className='title'>系统消息</Text>
-                  <Text className='sub-title'>恭喜你完成了一篇记录与分享, 恭喜你完成了一篇记录与分享</Text>
-                </View>
-                <Image src={ICONS.ARROW_RIGHT_C} className='btn-more' />
-              </View>
+              ))}
             </View>
           </AtTabsPane>
           <AtTabsPane className='message-tabs-pane' index={1} current={currentTab}>

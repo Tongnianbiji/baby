@@ -21,6 +21,7 @@ export default class Presenter extends BaseComponent {
       showLoading: true,
       isToBottom: false,
       pageNum: 1,
+      systemMessageList: [],
     }
 
   }
@@ -33,6 +34,7 @@ export default class Presenter extends BaseComponent {
     this.initChatList();
      this.getMessageCount();
     this.getChatList();
+    this.getSystemList()
   }
 
   getUnreadCount() {
@@ -132,6 +134,12 @@ export default class Presenter extends BaseComponent {
     this.getUnreadCount();
     
   }
+  getSystemList = async () => {
+    let res = await Model.getSystemList();
+    this.setState({
+      systemMessageList: res || []
+    })
+  }
 
   //删除某一个聊天
   deleteChat = async (chat) => {
@@ -193,8 +201,8 @@ export default class Presenter extends BaseComponent {
     this.navto({ url: `/packageB/pages/passive-collects/index?mark=${mark}&star=${star}` })
   }
 
-  toSysMessage = () => {
-    this.navto({ url: '/packageA/pages/message-system/index' })
+  toSysMessage = (mid) => {
+    this.navto({ url: `/packageA/pages/message-system/index?mid=${mid}` })
   }
 
   toIM = (item) => {

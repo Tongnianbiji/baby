@@ -101,9 +101,10 @@
     .message-card {
       background:rgba(255,255,255,1);
       border-radius:20px;
-      padding: 24px 32px 38px 24px;
+      padding: 30px 24px;
       display: flex;
       position: relative;
+      margin-top: 24px;
       .icon-wrapper {
         width: 62px;
         min-width: 62px;
@@ -114,7 +115,7 @@
       }
       .infos {
         padding-left: 25px;
-        padding-right: 160px;
+        padding-right: 20px;
         width: 0;
         overflow: hidden;
         flex: 1;
@@ -136,6 +137,12 @@
           overflow: hidden;
           display: block;
         }
+      }
+       .date {
+        font-size: 24px;
+        height: 24px;
+        line-height: 24px;
+        color: #999;
       }
       .btn-more {
         position: absolute;

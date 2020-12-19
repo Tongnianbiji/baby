@@ -37,6 +37,15 @@ export default {
       return false
     }
   },
+  async getSystemList() {
+    const ret = await req.postWithToken('/tnmsg/system')
+    const d = req.standardResponse(ret)
+    if (d.code == 0) {
+      return d.data
+    } else {
+      return false
+    }
+  },
 
   async deleteChat(fromUid,toUid){
     let params ={

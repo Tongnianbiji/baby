@@ -5,26 +5,17 @@ export default class Presenter extends BaseComponent {
   constructor(props) {
     super(props)
     this.state = {
-      messageList:[
-        {id:1},
-        {id:2}
-      ]
+      content: ''
     }
   }
-
   componentDidMount() {
-    Model.getData()
+    
+    this.initData();
   }
-
-  //删除某一个信息
-  deleteMessage = async (message)=>{
-    let {messageList} = this.state;
-   let preIndex = messageList.findIndex(item=>item.id === message.id);
-   messageList.splice(preIndex,1);
-   this.setState({
-    messageList
-   })
-
+  async initData() {
+    const res = await Model.getData(this.$router.params.mid || 0)
+    this.setState({
+      content: res[0].content,
+    })
   }
-
 }
