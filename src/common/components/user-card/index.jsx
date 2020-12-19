@@ -81,7 +81,7 @@ export default class UserInfoCard extends Component {
 
   render() {
     const { isShowDistance,kw,isShowTip,tip, model, model: { post, flow, funs, subscribeTime, headImg, district, city, country,sex,stared,child }, activeModel,isShowReleaseTime } = this.props;
-    console.log('model',model)
+    console.log('child', child)
     return (
       <View className="wrapper">
         {
@@ -122,7 +122,7 @@ export default class UserInfoCard extends Component {
               <View className='tags-warpper'>
                 <View className='tag'>{district || `${city} ${country}` || `${activeModel.userSnapshot.city} ${activeModel.userSnapshot.country}`}</View>
                 {
-                  child.map(item=>{
+                  !!child&&child.map(item=>{
                     return(
                       <View>
                         <View className='tag'>{item}</View>
