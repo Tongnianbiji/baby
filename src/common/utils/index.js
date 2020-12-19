@@ -15,5 +15,13 @@ export default {
         this.countDown(num - 1, cb)
       }, 1000)
     }
+  },
+  paramsToString(paramsObj = {}) {
+    let paramsStr = ''
+    for (const key in paramsObj) {
+      paramsStr += `&${key}=${paramsObj[key]}`
+    }
+
+    return paramsStr ? paramsStr.substring(1) : ''
   }
 }

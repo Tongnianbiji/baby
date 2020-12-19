@@ -7,6 +7,7 @@ import MainInfoPanel from './main-info-panel'
 import TypeTabs from './type-tabs'
 import staticData from '@src/store/common/static-data'
 import './styles.scss'
+import utils from '@common/utils'
 
 const ICON_ADD = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/circle-add.png'
 const ICON_FRESH = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/refresh.png'
@@ -31,24 +32,12 @@ class CircleDetailView extends Presenter {
     this.freshList()
   }
 
-
   onShareAppMessage (res){
-    let path= '';
     const userId = this.getUserInfo().userId;
-    const {updateReLoadCirclePage} = staticData;
-    if (res.from === 'button') {
-      const {pid,qid} =JSON.parse(res.target.id);
-      if(pid){
-        path = `/packageB/pages/post-detail/index?pid=${pid}&inviter=${userId}`
-      }
-      if(qid){
-        path = `/packageB/pages/issue-detail/index?qid=${qid}&inviter=${userId}`
-      }
-      updateReLoadCirclePage(false)
-    }
+
     return {
       title: `欢迎加入童年`,
-      path:path
+      path: `packageA/pages/circle-detail/index?${utils.paramsToString(this.$router.params)}&inviter=${userId}`
     }
   }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { observer, inject } from 'mobx-react'
-import { View, Image, Swiper, SwiperItem } from '@tarojs/components'
+import { View, Image, Swiper, SwiperItem, Button } from '@tarojs/components'
 import DTO from '../../../../common/localStorage'
 import staticData from '@src/store/common/static-data'
 import AvatarHelper from '@common/utils/avatarHelper'
@@ -95,9 +95,9 @@ class MainInfoPanel extends Component {
             {AvatarHelper.getAvatar(imgUrl, name)}
           </View>
           <View className='title'>{name}</View>
-          <View className='btn-share'>
+          <Button className='btn-share' openType='share'>
             <Image className='img-share' src={ShareIconUrl} />
-          </View>
+          </Button>
           <View className={`btn-attention1${isAttentioned ? ' attentioned' : ''}`} onClick={this.doAttention}>
             {isAttentioned ? '已加入圈子' : '加入圈子'}
           </View>
