@@ -53,7 +53,7 @@ export default class SearchCircle extends Presenter {
             {
               circlesList.map((item,n) => {
                 return (
-                  <SearchCircleItem data={item} kw={kw} key={n} isShowDistance onHandleSubscr={this.handleSubsrc.bind(this)} />
+                  <SearchCircleItem isSearch={1} data={item} kw={kw} key={n} isShowDistance onHandleSubscr={this.handleSubsrc.bind(this)} />
                 )
               })
             }

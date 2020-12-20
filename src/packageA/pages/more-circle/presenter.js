@@ -23,14 +23,28 @@ export default class Presenter extends BaseComponent {
   }
 
   componentWillMount() {
-    const { cname } = this.$router.params;
+    const { cname, isSearch } = this.$router.params;
     this.setNavBarTitle(cname);
-    this.getData();
+    if (isSearch==1) {
+      this.getSearchData()
+    } else {
+      this.getData();
+    }
   }
 
   onReachBottom() {
-    const { postLock, isToBottom, kw, current } = this.state;
-    this.getData(false)
+    const { postLock, isToBottom, kw, current, pageNum } = this.state;
+    this.setState({
+      pageNum: pageNum + 1,
+    }, () => {
+        if (this.$router.params.isSearch == 1) {
+          this.getSearchData()
+        } else {
+          this.getData()
+        }
+        
+    })
+    // this.getData(false)
     // if(!postLock && !isToBottom){
     //   this.setState((pre)=>({
     //     pageNum:pre.pageNum+1
@@ -203,6 +217,7 @@ export default class Presenter extends BaseComponent {
   }
 
   onTabChange = (id) => {
+    this.hasClickedTap = true;
     let sortType = {};
     const { kw } = this.state;
     this.initList();
