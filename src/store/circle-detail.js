@@ -239,7 +239,7 @@ const actions = {
       cid: cid,
       tagIds: Array.from(this.activeTagsId),
       pageNum: this.questionPageNum,
-      pageSize: 30,
+      pageSize: 10,
       sort:this.sortObj
     }
     this.postLock = true;
