@@ -155,7 +155,6 @@ const actions = {
       
     }
   },
-
   async getSiblingCircles(cid) {
     const ret = await req.postWithToken('/circle/sibling/base', { cid })
     const d = req.standardResponse(ret)
@@ -223,12 +222,18 @@ const actions = {
   },
 
   //获取圈子对应的问答列表
-  async getCircleQuestion(cid) {
+  async getCircleQuestion(cid, isReload = false) {
+    if (isReload) {
+      this.questionPageNum = 1;
+      this.circleQuestion = [];
+      this.isToBottomQuestion = false;
+      this.loadingQuestion = true;
+    }
     let params = {
       cid: cid,
       tagIds: Array.from(this.activeTagsId),
       pageNum: this.questionPageNum,
-      pageSize: 5,
+      pageSize: 30,
       sort:this.sortObj
     }
     this.postLock = true;
@@ -248,7 +253,10 @@ const actions = {
       }
     }
   },
-
+  async initCircleQuestion() {
+    const { cid } = this;
+    this.getCircleQuestion(cid, true);
+  },
   //获取圈子对应的热版列表
   async getCircleHots(cid,type=1) {
     let params = {

@@ -436,11 +436,11 @@ export default class TypeTabsView extends Component {
           </AtTabsPane>
           <AtTabsPane index={2} current={listType}>
             <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)} />
-            <ScrollViewList onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingQuestion} isToBottom={isToBottomQuestion}>
+            <ScrollViewList isScrollToTop onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingQuestion} isToBottom={isToBottomQuestion}>
               {
                 circleQuestion.map((item, num) => {
                   return (
-                    <View className={`target-item-${item.qid}`}>
+                    <View className={`target-item-${item.qid}`} key={item.qid}>
                       <QACard model={item} key={num} onHandleFavorite={this.handleFavoriteQuestion.bind(this)} />
                     </View>
                   )

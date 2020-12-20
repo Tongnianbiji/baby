@@ -2,6 +2,7 @@ import BaseComponent from '@common/baseComponent'
 import Model from './model'
 import Taro from '@tarojs/taro'
 import circleIsReload from '@src/common/utils/circleIsReload'
+// import circleDetailStore from '@src/store/circle-detail'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -96,7 +97,9 @@ export default class Presenter extends BaseComponent {
 
     if (pid) {
       this.showToast('恭喜您, 提交成功')
+      this.$store.circleQuestion = [];
       setTimeout(() => {
+        this.$store.initCircleQuestion();
         Taro.navigateBack()
       }, 2000)
     } else {
