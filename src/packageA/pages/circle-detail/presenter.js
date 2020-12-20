@@ -33,7 +33,13 @@ export default class Presenter extends BaseComponent {
     })
     this.setNavBarTitle(cname);
   }
-  componentDidShow(){
+  componentDidShow() {
+    if (this.isShareModalShow) {
+      this.isShareModalShow = false;
+      return;
+    };
+    
+    console.log('---componentDidShow---')
     const { cid} = getCurrentInstance().router.params;
     const {reLoadCirclePage,updateReLoadCirclePage} = staticData;
     if(reLoadCirclePage){

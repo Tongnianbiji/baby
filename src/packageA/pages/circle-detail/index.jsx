@@ -32,7 +32,8 @@ class CircleDetailView extends Presenter {
     this.freshList()
   }
 
-  onShareAppMessage (res){
+  onShareAppMessage(res) {
+    this.isShareModalShow = true;
     const userId = this.getUserInfo().userId;
 
     return {
