@@ -67,7 +67,7 @@ export default class Presenter extends BaseComponent {
     this.$store.typeTabPost();
   }
 
-  onReachBottom(){
+  onReachBottom() {
     const { postLock, listType } = this.$store;
     this.$store.updateTabPageNum(listType);
     if (!this.isToBottom() && !postLock) {

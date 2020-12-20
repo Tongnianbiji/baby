@@ -8,6 +8,7 @@ import CustomCircle from '../custom-circle'
 import { Provider } from 'mobx-react'
 import { observer, inject } from 'mobx-react'
 import ScrollViewList from '@common/components/scrollViewList'
+import Preloading from '@components/preloading'
 import PostCard from '@common/components/post-card'
 import UserCard from '@common/components/user-card'
 import QACard from '../qa-card'
@@ -45,8 +46,23 @@ export default class TypeTabsView extends Component {
       isTouchTab:false
     }
     this.circleDetailStore = this.props.circleDetailStore;
+    this.exposuredList = new Set();
   }
-
+  // componentDidUpdate(prevProps, prevState) {
+  //   this.props.circleDetailStore.circleQuestion.forEach(item => {
+  //     if (!this.exposuredList.has(item.qid)) {
+  //       this.exposuredList.add(item.qid)
+  //       Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.qid}`, (res) => { 
+  //         console.log('进入视图------')
+  //         getApp().sensors.track('exposure', {
+  //           contentIdList: [item.qid],
+  //           contentType: 3,
+  //           eventType: 1
+  //         });
+  //       })
+  //     }
+  //   })
+  // }
   async componentDidMount() {
     const { tabId } = this.state;
     getApp().sensors.registerApp({
@@ -422,7 +438,7 @@ export default class TypeTabsView extends Component {
           </AtTabsPane>
           <AtTabsPane index={1} current={listType}>
             <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)} />
-            <ScrollViewList onScrollToUpper={this.onScrollToUpper.bind(this)}  fixed={fixed} centerHeight={centerHeight} showLoading={loadingPosts} isToBottom={isToBottomPosts}>
+            <View className='list-wrapper'>
               {
                 circlePosts.map((item, num) => {
                   return (
@@ -432,21 +448,23 @@ export default class TypeTabsView extends Component {
                   )
                 })
               }
-            </ScrollViewList>
+              <Preloading showLoading={loadingPosts} isToBottom={isToBottomPosts}></Preloading>
+            </View>
           </AtTabsPane>
           <AtTabsPane index={2} current={listType}>
             <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)} />
-            <ScrollViewList isScrollToTop onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingQuestion} isToBottom={isToBottomQuestion}>
+            <View className='list-wrapper'>
               {
                 circleQuestion.map((item, num) => {
                   return (
-                    <View className={`target-item-${item.qid}`} key={item.qid}>
+                    <View className={`target-item-${item.qid}`}>
                       <QACard model={item} key={num} onHandleFavorite={this.handleFavoriteQuestion.bind(this)} />
                     </View>
                   )
                 })
               }
-            </ScrollViewList>
+              <Preloading showLoading={loadingQuestion} isToBottom={isToBottomQuestion}></Preloading>
+            </View>
           </AtTabsPane>
           <AtTabsPane index={3} current={listType}>
             <View className='slider-tab-wrapper'>

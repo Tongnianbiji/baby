@@ -168,12 +168,18 @@ const actions = {
   },
 
   //获取圈子对应的帖子列表
-  async getCirclePosts(cid) {
+  async getCirclePosts(cid, isReload = false) {
+    if (isReload) {
+      this.postsPageNum = 1;
+      this.circlePosts = [];
+      this.isToBottomPosts = false;
+      this.loadingPosts = true;
+    }
     let params = {
       cid: cid,
       tagIds: Array.from(this.activeTagsId),
       pageNum: this.postsPageNum,
-      pageSize: 5,
+      pageSize: 10,
       sort:this.sortObj
     }
     this.postLock = true;
@@ -256,6 +262,10 @@ const actions = {
   async initCircleQuestion() {
     const { cid } = this;
     this.getCircleQuestion(cid, true);
+  },
+  async initCirclePosts() {
+    const { cid } = this;
+    this.getCirclePosts(cid, true);
   },
   //获取圈子对应的热版列表
   async getCircleHots(cid,type=1) {

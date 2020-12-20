@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, Image, ScrollView } from '@tarojs/components'
-import Preloading from '@components/preloading'
+
 import './index.scss'
 
 export default class ScrollViewList extends Component {
@@ -49,7 +49,7 @@ export default class ScrollViewList extends Component {
           {
             this.props.children
           }
-          <Preloading showLoading={showLoading} isToBottom={isToBottom}></Preloading>
+          
         </ScrollView>
       </View>
     )

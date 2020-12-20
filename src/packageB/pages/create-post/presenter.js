@@ -110,10 +110,11 @@ export default class Presenter extends BaseComponent {
     const pid = await Model.savePost(params);
 
     this.hideNavLoading()
-
+    this.$store.circlePosts = []
     if (pid) {
       this.showToast('恭喜您, 提交成功')
       setTimeout(() => {
+        this.$store.initCirclePosts();
         Taro.navigateBack()
       }, 2000)
     }
