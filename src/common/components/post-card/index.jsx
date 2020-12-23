@@ -47,26 +47,24 @@ export default class UserInfoItem extends Component {
   }
 
   highLight = (originTxt, kw) => {
-    if (!kw) {
-      kw = '济阳'
-    }
-    if (!originTxt) {
-      originTxt = '济阳'
-    }
-    const reg = new RegExp(kw, 'gi');
-    const contentReg = /^_#_([^_#_]+)_#_$/;
-    const newList = [];
-    let c = 1;
-    originTxt.replace(reg, (matched) => `,_#_${matched}_#_,`).split(',').map(t => {
-      const isView = contentReg.test(t)
-      t && newList.push({
-        id: ++c,
-        type: isView ? 'view' : 'text',
-        value: isView ? t.match(contentReg)[1] : t
+    originTxt = originTxt || '';
+    kw = kw || '';
+    let splitedArr = originTxt.split(kw);
+    let processList = [];
+    splitedArr.forEach((item, index) => {
+      processList.push({
+        id: `text_${index}`,
+        type: "text",
+        value: item
       })
-    })
-
-    return newList;
+      processList.push({
+        id: `view_${index}`,
+        type: "view",
+        value: kw
+      })
+    });
+    processList.pop();
+    return processList.filter(item => !!item.value);
   }
 
   cardClick = (model, e) => {
@@ -269,7 +267,7 @@ export default class UserInfoItem extends Component {
                       {
                         this.highLight(model.title, kw).map(t => {
                           return (
-                            <View className={t.type === 'view' ? 'matched-txt' : ''} key={t.id}>{t.value}</View> 
+                            <View className={t.type === 'view' ? 'matched-txt' : 'text'} key={t.id}>{t.value}</View> 
                           )
                         })
                       }
@@ -295,7 +293,7 @@ export default class UserInfoItem extends Component {
                     {
                       this.highLight(model.title, kw).map(t => {
                         return (
-                          <View className={t.type === 'view' ? 'matched-txt' : ''} key={t.id}>{t.value}</View> 
+                          <View className={t.type === 'view' ? 'matched-txt' : 'text'} key={t.id}>{t.value}</View> 
                         )
                       })
                     }

@@ -40,11 +40,11 @@ export default class SearchResultGroupCard extends Component {
   }
 
   highLight = (originTxt, kw) => {
-    if (!originTxt) {
-      originTxt = '济阳'
+    if (!kw) {
+      kw = ''
     }
     if (!originTxt) {
-      originTxt = '济阳'
+      originTxt = ''
     }
     const reg = new RegExp(kw, 'gi');
     const contentReg = /^_#_([^_#_]+)_#_$/;

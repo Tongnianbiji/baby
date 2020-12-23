@@ -14,7 +14,7 @@ export default class CircleItem extends Component {
     // 是否在最上方显示 [可能感兴趣] 一栏
     recommand: false,
     isShowDistance: false,
-    kw: '济阳',
+    kw: '',
     onHandleSubscr: () => { }
   }
 
@@ -54,10 +54,10 @@ export default class CircleItem extends Component {
   }
   highLight = (originTxt, kw) => {
     if (!kw) {
-      kw = '济阳'
+      kw = ''
     }
     if (!originTxt) {
-      originTxt = '济阳'
+      originTxt = ''
     }
     const reg = new RegExp(kw, 'gi');
     const contentReg = /^_#_([^_#_]+)_#_$/;
