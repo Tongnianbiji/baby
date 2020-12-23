@@ -90,7 +90,6 @@ export default class CircleItem extends Component {
   }
 
   render() {
-    console.log(1111)
     const { isShowDistance, data, data: { cid, uid, description, leaf, imgUrl, name, posts, questions, subscribe, isSubscribe }, kw, activeModel, isShowReleaseTime } = this.props;
     return (
       <View className='search-circle-item' onClick={this.gotoCircleDetail.bind(this, data)}>

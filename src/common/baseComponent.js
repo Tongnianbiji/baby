@@ -262,15 +262,15 @@ export default class BaseComponent extends Component {
     return (
       <View className='noTemplate-wrap'>
         <Image src={ICONS.NODATA} mode='widthFix' />
-        <Text style='margin-top:20px'>当前暂无数据</Text>
+        <Text>当前暂无数据</Text>
       </View>
     )
   }
   renderServerError() {
     return (
       <View className='net-error-wrap'>
-        <Image src={ICONS.NETERROR} mode='widthFix' />
-        <Text style='margin-top:20px'>网络出错了</Text>
+        <Image src={ICONS.NODATA} mode='widthFix' />
+        <Text>当前暂无数据</Text>
       </View>
     )
   }
