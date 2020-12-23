@@ -170,7 +170,7 @@ export default class UserInfoItem extends Component {
   }
 
   render() {
-    let { model, sortNum, activeModel, closeRelease, kw } = this.props;
+    let { model, sortNum, activeModel, closeRelease, kw, isTitleFirst } = this.props;
     if (!activeModel.entity) {
       closeRelease = true
     }
@@ -284,7 +284,7 @@ export default class UserInfoItem extends Component {
                   }
 
                 </View> :
-                activeModel.content ? 
+                !isTitleFirst && activeModel.content ? 
                 <View>
                   <View className='content'>{activeModel.content}</View>
                 </View>

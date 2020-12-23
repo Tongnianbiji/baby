@@ -29,12 +29,12 @@ export default class BehaviorCard extends Component {
   }
 
   render() {
-   const {data,data:{type,contentType}} = this.props;
+    const { data, data: { type, contentType }} = this.props;
     return (
       <View>
         {
           type === 3001 && 
-          <PostCard model={data.entity} activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} needShared></PostCard>
+          <PostCard model={data.entity} isTitleFirst activeModel={data} onHandleFavorite={this.hanleFavorite.bind(this)} needShared></PostCard>
         }
         {
           (type === 4001 || type === 4005) && 
