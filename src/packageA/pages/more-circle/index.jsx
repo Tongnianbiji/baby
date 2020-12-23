@@ -19,7 +19,7 @@ export default class MoreCircleView extends Presenter {
   }
 
   render() {
-    const {childrenCircles,kw,showLoading,isToBottom,current} = this.state;
+    const { childrenCircles, kw, showLoading, isToBottom, current, isSearch} = this.state;
     return (
       <View className='more-circle-viewport'>
         <View className='search-box'>
@@ -48,7 +48,7 @@ export default class MoreCircleView extends Presenter {
               {
                 childrenCircles.map(item => {
                   return (
-                    <SearchCircleItem data={item} isShowDistance key={item.cid} kw={kw} onHandleSubscr={this.handleSubsrc.bind(this)} />
+                    <SearchCircleItem data={item} isSearch={isSearch} isShowDistance key={item.cid} kw={kw} onHandleSubscr={this.handleSubsrc.bind(this)} />
                   )
                 })
               }

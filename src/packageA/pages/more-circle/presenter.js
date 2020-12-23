@@ -17,13 +17,17 @@ export default class Presenter extends BaseComponent {
       current: 0,
       sortType: {
         _score: 'desc'
-      }
+      },
+      isSearch: 0,
     }
     this.pageNum = 1;
   }
 
   componentWillMount() {
     const { cname, isSearch } = this.$router.params;
+    this.setState({
+      isSearch,
+    })
     this.setNavBarTitle(cname);
     if (isSearch==1) {
       this.getSearchData()
