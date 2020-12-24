@@ -42,3 +42,12 @@ page {
     padding-top: 90px;
   }
 }
+
+.wrapper .ui-notice-card .contents  {
+  width: 0;
+  .fav-txt {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
