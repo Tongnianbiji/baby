@@ -1,4 +1,4 @@
-import { observable, action} from 'mobx'
+import { observable, action } from 'mobx'
 import Taro from '@tarojs/taro'
 import Request from '@common/baseRequest'
 
@@ -10,47 +10,48 @@ class Data {
   @observable currentCity = '浦东区';
   @observable isGuide = false;
   @observable isRegiste = false;
-  @observable role='妈妈';
-  @observable school='';
-  @observable hospital='';
-  @observable babyList='';
-  @observable babyNickname='';
-  @observable isLogin=false;
-  @observable sex='MALE';
-  @observable wxUserInfo={};
-  @observable fromHomeMore=false;
-  @observable nickName='';
-  @observable signature='';
-  @observable reLoadCirclePage=true;
-  @observable goEasy=null;
-  @observable inviter='';
-  @observable invtKey='';
-  @observable bid='';
-  @observable inviterRoles='';
+  @observable role = '妈妈';
+  @observable school = '';
+  @observable hospital = '';
+  @observable babyList = '';
+  @observable babyNickname = '';
+  @observable isLogin = false;
+  @observable sex = 'MALE';
+  @observable wxUserInfo = {};
+  @observable fromHomeMore = false;
+  @observable nickName = '';
+  @observable signature = '';
+  @observable reLoadCirclePage = true;
+  @observable goEasy = null;
+  @observable inviter = '';
+  @observable invtKey = '';
+  @observable bid = '';
+  @observable inviterRoles = '';
   @observable newInviter = '';
   @observable inviterName = ''
+  @observable userInfo = {};
 
-  @action getGoEasy = (goEasy)=>{
+  @action getGoEasy = (goEasy) => {
     this.goEasy = goEasy
   }
 
-  @action updateReLoadCirclePage = (status)=>{
+  @action updateReLoadCirclePage = (status) => {
     this.reLoadCirclePage = status
   }
 
-  @action updateCurrentCity = (currentCity)=>{
+  @action updateCurrentCity = (currentCity) => {
     this.currentCity = currentCity
   }
 
-  @action updateIsRegisteStatus = (status)=>{
+  @action updateIsRegisteStatus = (status) => {
     this.isRegiste = status
   }
 
-  @action updateGuideStatus = (status)=>{
+  @action updateGuideStatus = (status) => {
     this.isGuide = status
   }
 
-  @action updateRole = (role)=>{
+  @action updateRole = (role) => {
     this.role = role
   }
   @action getTempRole = () => {
@@ -62,68 +63,71 @@ class Data {
     this.tempRole = tempRole
   }
 
-  @action updateSex = (sex)=>{
+  @action updateSex = (sex) => {
     this.sex = sex
   }
 
-  @action updateNickName = (nickName)=>{
+  @action updateNickName = (nickName) => {
     this.nickName = nickName
   }
 
-  @action updateSignature = (signature)=>{
+  @action updateSignature = (signature) => {
     this.signature = signature
   }
 
-  @action updateWxUserInfo = (info)=>{
+  @action updateWxUserInfo = (info) => {
     this.wxUserInfo = info
   }
+  @action updateUserInfo = (info) => {
+    this.userInfo = info
+  }
 
-  @action updateSchool = (school)=>{
+  @action updateSchool = (school) => {
     this.school = school
   }
 
-  @action updateHospital= (hospital)=>{
+  @action updateHospital = (hospital) => {
     this.hospital = hospital
   }
 
-  @action updateBabyList= (babyList)=>{
+  @action updateBabyList = (babyList) => {
     this.babyList = babyList
   }
 
-  @action updateBabyNickname= (babyNickname)=>{
+  @action updateBabyNickname = (babyNickname) => {
     this.babyNickname = babyNickname
   }
 
-  @action updateIsLoginStatus= (status)=>{
+  @action updateIsLoginStatus = (status) => {
     this.isLogin = status
   }
 
-  @action updateFromHomeMoreStatus= (status)=>{
+  @action updateFromHomeMoreStatus = (status) => {
     this.fromHomeMore = status
   }
 
-  @action updateInviter = (inviter)=>{
-    console.log('inviter',inviter)
+  @action updateInviter = (inviter) => {
+    console.log('inviter', inviter)
     this.inviter = inviter
   }
 
-  @action updateInviterName = (inviter)=>{
+  @action updateInviterName = (inviter) => {
     this.inviterName = inviter
   }
 
-  @action updateInvtKey = (invtKey)=>{
+  @action updateInvtKey = (invtKey) => {
     this.invtKey = invtKey
   }
 
-  @action updateBid = (bid)=>{
+  @action updateBid = (bid) => {
     this.bid = bid
   }
 
-  @action updateInviterRoles = (inviterRoles)=>{
+  @action updateInviterRoles = (inviterRoles) => {
     this.inviterRoles = inviterRoles
   }
 
-  @action updateNewInvtKey = (newInviter)=>{
+  @action updateNewInvtKey = (newInviter) => {
     this.newInviter = newInviter
   }
 

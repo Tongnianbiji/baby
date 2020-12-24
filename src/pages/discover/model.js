@@ -39,11 +39,12 @@ export default {
     const ret = await request.postWithToken('/relation/circle/recommend')
     const d = request.standardResponse(ret)
     if (d.code) {
-      Taro.showToast({
-        title:d.message,
-        icon: 'none',
-        duration:2e3
-      })
+      // Taro.showToast({
+      //   title:d.message,
+      //   icon: 'none',
+      //   duration:2e3
+      // })
+      return false
     } else {
       return d.code === 0 && d.data
     }

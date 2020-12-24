@@ -26,7 +26,7 @@ export default class Presenter extends BaseComponent {
   componentDidMount() {
     this.getMenus();
     this.getRecommendCircle();
-    this.getProfile();
+    // this.getProfile();
   }
 
   componentDidShow(){
@@ -42,33 +42,32 @@ export default class Presenter extends BaseComponent {
     }
   }
 
-  onShareAppMessage (res){
-    const {profileInfo} = this.state;
-    console.log('昵称',profileInfo)
+  onShareAppMessage(res) {
+    const { userInfo } = staticData;
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
     }
     return {
-      title: `${profileInfo.nickName}邀请加入童年`,
-      path: `/pages/index/index?inviter=${profileInfo.userId}`
+      title: `${userInfo.nickName || '你的好友'}邀请加入童年`,
+      path: `/pages/index/index?inviter=${userInfo.userId}`
     }
   }
 
-  getProfile() {
-    this.showLoading();
-    let userId = this.getUserInfo().userId;
-    Model.profile(userId).then((ret) => {
-      if (!ret.code) {
-        this.hideLoading();
-        this.setState({ profileInfo: ret.data });
-      }
-      else {
-        this.hideLoading();
-      }
-    })
-    this.hideLoading();
-  }
+  // getProfile() {
+  //   this.showLoading();
+  //   let userId = this.getUserInfo().userId;
+  //   Model.profile(userId).then((ret) => {
+  //     if (!ret.code) {
+  //       this.hideLoading();
+  //       this.setState({ profileInfo: ret.data });
+  //     }
+  //     else {
+  //       this.hideLoading();
+  //     }
+  //   })
+  //   this.hideLoading();
+  // }
 
    /**
    * 推荐

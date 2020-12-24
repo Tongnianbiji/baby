@@ -77,26 +77,7 @@ export default class HomePage extends BaseComponent {
         clearInterval(timer)
       }
    }, 300);
-    const {
-      lat='31.22114',
-      lon='121.54409',
-      provinceCode='上海',
-      cityCode,
-      countryCode,
-      cityCodeCode,
-      countryCodeCode
-    } = this.getCurrentLocation();
-    const { tabId } = this.state;
   
-    getApp().sensors.registerApp({
-      lat: lat,
-      lon: lon,
-      provinceCode: provinceCode,
-      cityCode: cityCodeCode,
-      countryCode: countryCodeCode,
-      tabId: tabId,
-      uid: this.getUserInfo().userId || 'guest'
-    })
     this.getMessageCount();
     setTimeout(() => {
       this.exposure()

@@ -121,7 +121,7 @@ class App extends BaseComponent {
 
   //判断是否是游客还是用户
   isRegiest = () => {
-    
+
     const { updateIsRegisteStatus, updateIsLoginStatus } = staticDataStore;
     if (!this.getCurrentIsCollentMini()) {
       this.setCurrentIsCollentMini(1)
@@ -135,7 +135,7 @@ class App extends BaseComponent {
           updateIsLoginStatus(!!this.storage.getToken());
           this.storage.setToken(token);
           this.storage.setValue(USER_INFO_KEY_USERID, { userId: userId })
-
+          this.requestUserInfo(token, userId);
           // const pages = getCurrentPages();
           // pages.forEach(item => {
           //   item.onLogin && item.onLogin();
@@ -168,6 +168,19 @@ class App extends BaseComponent {
     })
   }
 
+  requestUserInfo(token, userId) {
+    return request.get('/profile/get', { token, userId }).then(ret => {
+      if (ret.errMsg === request.okMsg) {
+        // return ret.data
+        const userInfo = ret.data.data;
+        const { updateUserInfo } = staticDataStore;
+        if (userInfo) {
+          console.log('---updateUserInfo---', userInfo)
+          updateUserInfo(userInfo);
+        }
+      }
+    })
+  }
   //获取定位
   getCurrentLocation = () => {
     // 获取经纬度
@@ -180,6 +193,29 @@ class App extends BaseComponent {
         this.setCurrentCity(c)
       })
     })
+  }
+
+  test() {
+    // const {
+    //   lat = '31.22114',
+    //   lon = '121.54409',
+    //   provinceCode = '上海',
+    //   cityCode,
+    //   countryCode,
+    //   cityCodeCode,
+    //   countryCodeCode
+    // } = this.getCurrentLocation();
+    // const { tabId } = this.state;
+
+    // getApp().sensors.registerApp({
+    //   lat: lat,
+    //   lon: lon,
+    //   provinceCode: provinceCode,
+    //   cityCode: cityCodeCode,
+    //   countryCode: countryCodeCode,
+    //   tabId: tabId,
+    //   uid: this.getUserInfo().userId || 'guest'
+    // })
   }
   getLatAndLon() {
     const permissionName = 'scope.userLocation';
