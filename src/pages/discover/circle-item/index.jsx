@@ -13,7 +13,8 @@ export default class CircleItem extends Component {
     super(props)
   }
 
-  findMore = () => {
+  findMore = (e) => {
+    e.stopPropagation()
     const { cid, name } = this.props
     Taro.navigateTo({ url: `/packageA/pages/more-circle/index?cid=${cid}&cname=${name}&isSearch=1`})
   }
