@@ -15,7 +15,7 @@ import { USER_INFO_KEY_USERID } from '@common/constant'
 import Storage from '@common/localStorage'
 import './app.scss'
 
-const v = '1.1.6'
+const v = '1.1.7'
 
 const request = new BaseRequest()
 const systemInfo = Taro.getSystemInfoSync()
@@ -147,7 +147,7 @@ class App extends BaseComponent {
         }
       })
       //本地模拟
-      this.getCurrentLocation();
+      this.loadLocationInfo();
       // Taro.showModal({
       //   title: '测试使用',
       //   content: '登陆模式',
@@ -182,7 +182,7 @@ class App extends BaseComponent {
     })
   }
   //获取定位
-  getCurrentLocation = () => {
+  loadLocationInfo = () => {
     // 获取经纬度
     this.getLatAndLon().then(res => {
       console.log('---getLatAndLon---', res)
@@ -207,7 +207,7 @@ class App extends BaseComponent {
     // } = this.getCurrentLocation();
     // const { tabId } = this.state;
 
-    // getApp().sensors.registerApp({
+    // this.sensors.registerApp({
     //   lat: lat,
     //   lon: lon,
     //   provinceCode: provinceCode,
