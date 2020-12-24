@@ -64,7 +64,7 @@ export default class CollectsView extends Presenter {
              likeData.length ? 
              <View>
                {
-                 likeData.map((item)=>{
+                 likeData.filter(item=>!!item.entity).map((item)=>{
                    
                    return (
                     <View>

@@ -127,7 +127,8 @@ export default class Presenter extends BaseComponent {
     })
     if (res && res.items) {
       const { total, items } = res;
-      items.forEach(likeItem=>{
+      items.forEach(likeItem => {
+        if (!likeItem.entity) return;
         likeItem.entity.replyId = likeItem.originalId;
         likeItem.entity.isLikes=true
       })
