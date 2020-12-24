@@ -201,8 +201,8 @@ export default class Presenter extends BaseComponent {
     this.navto({ url: `/packageB/pages/passive-collects/index?mark=${mark}&star=${star}` })
   }
 
-  toSysMessage = (mid) => {
-    this.navto({ url: `/packageA/pages/message-system/index?mid=${mid}` })
+  toSysMessage = (content) => {
+    this.navto({ url: `/packageA/pages/message-system/index?content=${content}` })
   }
 
   toIM = (item) => {

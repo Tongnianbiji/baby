@@ -63,7 +63,7 @@ export default class Index extends Presenter {
             </View>
             <View className='message-list'>
               {systemMessageList.map(item => (
-                <View className='message-card' onClick={this.toSysMessage.bind(this, item.mid)}>
+                <View className='message-card' onClick={this.toSysMessage.bind(this, item.content)}>
                   <View className='icon-wrapper'>
                     <Image src={ICONS.SYSTEM} className='icon' />
                   </View>
