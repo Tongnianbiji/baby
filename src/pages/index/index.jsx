@@ -28,9 +28,11 @@ export default class Index extends HomePage {
  
     return (
       <View className='home-page-viewport'>
-        <View className="new-info-bar" style={{opacity:String(Number(showNewInfoBar))}}>
+        {!!showNewInfoBar &&
+        <View className="new-info-bar" style={{ opacity: String(Number(showNewInfoBar)) }}>
           <Text>童年为你推荐了{recommendsLength}条新内容</Text>
         </View>
+        }
         <View className='search-bar'>
           <View className='location-info' onClick={this.selectCity}>
             <Text className="location-info-text">{currentCity}</Text>
