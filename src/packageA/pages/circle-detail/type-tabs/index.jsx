@@ -27,6 +27,11 @@ let t = null;
 
 let exposureIdList = new Set();
 
+
+let pagePadding = 0;
+const windowWidth = Taro.getSystemInfoSync().windowWidth;
+pagePadding = windowWidth / 750 * 32 * 2;
+
 @inject('circleDetailStore')
 @observer
 export default class TypeTabsView extends Component {
@@ -44,7 +49,7 @@ export default class TypeTabsView extends Component {
       hotTabType: 1,
       userTabType: 1,
       isShowDistance: false,
-      isTouchTab:false
+      isTouchTab: false
     }
     this.circleDetailStore = this.props.circleDetailStore;
     this.qaExposuredList = new Set();
@@ -67,7 +72,7 @@ export default class TypeTabsView extends Component {
       this.props.circleDetailStore.circleQuestion.forEach(item => {
         if (!this.qaExposuredList.has(item.qid)) {
           this.qaExposuredList.add(item.qid);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0, left: -100, right: -100 }).observe(`#qa-item-${item.qid}`, (res) => {
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#qa-item-${item.qid}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#qa-item-${item.qid}-进入视图------`, res);
             analysisHelper.exposure({
@@ -89,10 +94,10 @@ export default class TypeTabsView extends Component {
     }
     setTimeout(() => {
       this.props.circleDetailStore.circlePosts.forEach(item => {
-        
+
         if (!this.postExposuredList.has(item.pid)) {
           this.postExposuredList.add(item.pid);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0, left: -100, right: -100 }).observe(`#post-item-${item.pid}`, (res) => {
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#post-item-${item.pid}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#post-item-${item.pid}-进入视图------`, res);
             analysisHelper.exposure({
@@ -109,7 +114,7 @@ export default class TypeTabsView extends Component {
   }
   touchStart = (e) => {
     console.log('开始')
-    const { touchStartTime} = this.state;
+    const { touchStartTime } = this.state;
     const that = this;
     const { postLock, listType } = this.circleDetailStore;
     if (!touchStartTime) {
@@ -124,9 +129,9 @@ export default class TypeTabsView extends Component {
       }, 500)
     } else {
       if (e.timeStamp - touchStartTime < 350) {
-        const { isTouchTab} = this.state;
+        const { isTouchTab } = this.state;
         console.log(isTouchTab)
-        if(isTouchTab){
+        if (isTouchTab) {
           this.setState({
             doubleClickLock: true
           }, async () => {
@@ -158,12 +163,12 @@ export default class TypeTabsView extends Component {
     exposureIdList.clear();
     this.circleDetailStore.updateListType(index);
     setTimeout(() => {
-      this.exposure();
+      // this.exposure();
     }, 500);
     !this.isTabCash(index) && !doubleClickLock && this.typeTabPost();
     this.setState({
       doubleClickLock: false,
-      isTouchTab:true
+      isTouchTab: true
     })
     switch (index) {
       case 0:
@@ -216,7 +221,7 @@ export default class TypeTabsView extends Component {
         hotTabType: type + 1
       })
     }
-    this.circleDetailStore.getCircleHots(cid,type + 1)
+    this.circleDetailStore.getCircleHots(cid, type + 1)
     getApp().sensors.registerApp({
       tabId: tabId,
       eventType: 2
@@ -320,13 +325,13 @@ export default class TypeTabsView extends Component {
   }
 
   //用户关注与取消
-  handleSubScr = (model)=>{
+  handleSubScr = (model) => {
     this.circleDetailStore.updateCircleUserSubsrc(model)
   }
 
 
   render() {
-    const { circlePosts, circleEssence, circleQuestion,circleHots, circleUser, listType, fixed, centerHeight, loadingPosts, loadingEssence, loadingQuestion, loadingUser, isToBottomPosts, isToBottomEssence, isToBottomQuestion, isToBottomUser, isCustomCircle } = this.circleDetailStore;
+    const { circlePosts, circleEssence, circleQuestion, circleHots, circleUser, listType, fixed, centerHeight, loadingPosts, loadingEssence, loadingQuestion, loadingUser, isToBottomPosts, isToBottomEssence, isToBottomQuestion, isToBottomUser, isCustomCircle } = this.circleDetailStore;
     const { isShowDistance } = this.state;
     let newTypeTabs = isCustomCircle ? TypeTabs : TypeTabs.slice(0, 5)
     return (
@@ -386,7 +391,7 @@ export default class TypeTabsView extends Component {
                   return (
                     <View className={`target-item-${item.pid}`}>
                       <PostCard key={item.pid} countryAble={false} sortNum={num + 1} model={item} showOrder closeRelease needShared onCardClick={this.handlePostDetail.bind(this, item.pid)} onHandleFavorite={this.handleFavoriteHots.bind(this)} />
-                    </View>                  )
+                    </View>)
                 })
               }
             </ScrollViewList>
@@ -399,7 +404,7 @@ export default class TypeTabsView extends Component {
               {
                 circleUser.map((item, num) => {
                   return (
-                    <UserCard model={item} key={num} isShowDistance={isShowDistance} onSubscr={this.handleSubScr.bind(this)}/>
+                    <UserCard model={item} key={num} isShowDistance={isShowDistance} onSubscr={this.handleSubScr.bind(this)} />
                   )
                 })
               }
@@ -410,7 +415,7 @@ export default class TypeTabsView extends Component {
           </AtTabsPane>
         </AtTabs>
         {
-          listType === 5 && 
+          listType === 5 &&
           <View className="remind">打开圈子定制后，圈字中将仅可见与指定区域、年龄段相同宝宝家长发布的内容</View>
         }
       </View>

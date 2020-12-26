@@ -3,15 +3,18 @@ const request = new Request()
 
 export default {
    //清除曝光
-   async clearRead(uid){
+  async clearRead(uid){
     let params = {
-      keyword:`exp:pid_${uid}`
+      keyword: `exp:pid_${uid}`,
     }
-    const ret = await request.postWithToken('/test/set/cleanRead',params)
+    await request.postWithToken('/test/set/cleanRead', params)
+    const ret = await request.postWithToken('/test/set/cleanRead', {
+      keyword: `exp:all_pid_${uid}`
+    })
     const d = request.standardResponse(ret)
-    if(d.code == 0){
+    if (d.code == 0) {
       return true
-    }else{
+    } else {
       return false
     }
   }
