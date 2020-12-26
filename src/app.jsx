@@ -40,13 +40,13 @@ sa.setPara({
   server_url: 'https://www.tongnian.world/tn-api/data/report/exposure',
   // 全埋点控制开关
   autoTrack: {
-    appLaunch: true, // 默认为 true，false 则关闭 $MPLaunch 事件采集
-    appShow: true, // 默认为 true，false 则关闭 $MPShow 事件采集
-    appHide: true, // 默认为 true，false 则关闭 $MPHide 事件采集
-    pageShow: true, // 默认为 true，false 则关闭 $MPViewScreen 事件采集
-    pageShare: true, // 默认为 true，false 则关闭 $MPShare 事件采集
-    mpClick: true, // 默认为 false，true 则开启 $MPClick 事件采集 
-    mpFavorite: true // 默认为 true，false 则关闭 $MPAddFavorites 事件采集
+    appLaunch: false, // 默认为 true，false 则关闭 $MPLaunch 事件采集
+    appShow: false, // 默认为 true，false 则关闭 $MPShow 事件采集
+    appHide: false, // 默认为 true，false 则关闭 $MPHide 事件采集
+    pageShow: false, // 默认为 true，false 则关闭 $MPViewScreen 事件采集
+    pageShare: false, // 默认为 true，false 则关闭 $MPShare 事件采集
+    mpClick: false, // 默认为 false，true 则开启 $MPClick 事件采集 
+    mpFavorite: false // 默认为 true，false 则关闭 $MPAddFavorites 事件采集
   },
   // 自定义渠道追踪参数，如source_channel: ["custom_param"]
   source_channel: [],
@@ -318,6 +318,33 @@ class App extends BaseComponent {
       updateGuideStatus(true)
     }, 2e3)
   }
+
+  exposure(trackData = {}) {
+    // 事件名且事件类型相同将2秒内的调用合并为一条上报
+    // 注：事件名相同时参数也要相同，否则只取第一个调用者的参数
+    const queueKey = `trackList_${trackData.trackName}_${trackData.contentType}`;
+    const queueIimerKey = `${queueKey}_timer`;
+    this[queueKey] = this[queueKey] || [];
+    this[queueKey].push(trackData);
+
+    clearTimeout(this[queueIimerKey]); // 2秒内重复调用将清空定时器
+    this[queueIimerKey] = setTimeout(() => {
+      if (this[queueKey].length == 0) return;
+
+      const contentIdList = [];
+      this[queueKey].forEach(item => {
+        contentIdList.push(...item.contentIdList);
+      });
+      
+      // 合并上报
+      this.sensors.track('exposure', {
+        ...this[queueKey][0],
+        contentIdList,
+      });
+      this.[queueKey] = []; // 清空队列
+    }, 2000);
+  }
+  
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数

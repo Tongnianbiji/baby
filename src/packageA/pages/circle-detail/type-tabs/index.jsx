@@ -12,7 +12,8 @@ import Preloading from '@components/preloading'
 import PostCard from '@common/components/post-card'
 import UserCard from '@common/components/user-card'
 import QACard from '../qa-card'
-import './type-tabs.scss'
+import './type-tabs.scss';
+import analysisHelper from '@helper/analysisHelper';
 
 let TypeTabs = [
   { title: '精华' },
@@ -46,55 +47,66 @@ export default class TypeTabsView extends Component {
       isTouchTab:false
     }
     this.circleDetailStore = this.props.circleDetailStore;
-    this.exposuredList = new Set();
+    this.qaExposuredList = new Set();
+    this.postExposuredList = new Set();
   }
-  // componentDidUpdate(prevProps, prevState) {
-  //   this.props.circleDetailStore.circleQuestion.forEach(item => {
-  //     if (!this.exposuredList.has(item.qid)) {
-  //       this.exposuredList.add(item.qid)
-  //       Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.qid}`, (res) => { 
-  //         console.log('进入视图------')
-  //         getApp().sensors.track('exposure', {
-  //           contentIdList: [item.qid],
-  //           contentType: 3,
-  //           eventType: 1
-  //         });
-  //       })
-  //     }
-  //   })
-  // }
-  async componentDidMount() {
-    const { tabId } = this.state;
-    getApp().sensors.registerApp({
-      tabId: tabId
-    })
+  componentDidUpdate() {
+    this.addExposureEventListener();
+  }
+  addExposureEventListener() {
+    // TODO - createIntersectionObserver控制元素底部完全进入视图
+    this.addQAExposure();
+    this.addPostExposure();
+  }
+  // 问答列表曝光埋点
+  addQAExposure() {
+    if (this.props.circleDetailStore.circleQuestion.length == 0) {
+      this.qaExposuredList.clear();
+    }
     setTimeout(() => {
-      let { circlePosts } = this.circleDetailStore;
-      console.log(circlePosts)
-      for (let i = 0; i < circlePosts.length; i++) {
-        let item = circlePosts[i];
-        if (!exposureIdList.has(item.pid)) {
-          exposureIdList.add(item.pid);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.pid}`, (res) => {
-            if (res.intersectionRatio > 0) {
-              let contentIdList = [];
-              console.log(`进入页面${item.pid}`)
-              if (item.pid) {
-                let entityId = item.pid;
-                contentIdList.push(entityId.toString())
-                getApp().sensors.track('exposure', {
-                  contentIdList: contentIdList,
-                  contentType: 1,
-                  eventType:1
-                });
-              }
-            }
+      this.props.circleDetailStore.circleQuestion.forEach(item => {
+        if (!this.qaExposuredList.has(item.qid)) {
+          this.qaExposuredList.add(item.qid);
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0, left: -100, right: -100 }).observe(`#qa-item-${item.qid}`, (res) => {
+            if (res.intersectionRatio == 0) return;
+            console.log(`------#qa-item-${item.qid}-进入视图------`, res);
+            analysisHelper.exposure({
+              name: '问答列表曝光',
+              contentIdList: [item.qid.toString()],
+              contentType: 3,
+              eventType: 1,
+              tabId: 140300,
+            });
           })
         }
-      }
-    }, 800);
+      })
+    }, 500);
   }
-
+  // 帖子列表曝光埋点
+  addPostExposure() {
+    if (this.props.circleDetailStore.circlePosts.length == 0) {
+      this.postExposuredList.clear();
+    }
+    setTimeout(() => {
+      this.props.circleDetailStore.circlePosts.forEach(item => {
+        
+        if (!this.postExposuredList.has(item.pid)) {
+          this.postExposuredList.add(item.pid);
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0, left: -100, right: -100 }).observe(`#post-item-${item.pid}`, (res) => {
+            if (res.intersectionRatio == 0) return;
+            console.log(`------#post-item-${item.pid}-进入视图------`, res);
+            analysisHelper.exposure({
+              name: '帖子列表曝光',
+              contentIdList: [item.pid.toString()],
+              contentType: 1,
+              eventType: 1,
+              tabId: 140200,
+            });
+          })
+        }
+      })
+    }, 500);
+  }
   touchStart = (e) => {
     console.log('开始')
     const { touchStartTime} = this.state;
@@ -312,108 +324,6 @@ export default class TypeTabsView extends Component {
     this.circleDetailStore.updateCircleUserSubsrc(model)
   }
 
-  //滚动曝光埋点
-  onScroll = () => {
-    //this.exposure()
-  }
-
-  //曝光埋点
-  exposure = () => {
-    let { circlePosts, circleEssence, circleQuestion,circleHots,listType } = this.circleDetailStore;
-    switch (listType) {
-      case 0:
-        for (let i = 0; i < circleEssence.length; i++) {
-          let item = circleEssence[i];
-          if (!exposureIdList.has(item.pid)) {
-            exposureIdList.add(item.pid);
-            Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.pid}`, (res) => {
-              if (res.intersectionRatio > 0) {
-                let contentIdList = [];
-                console.log(`进入页面${item.pid}`)
-                if (item.pid) {
-                  let entityId = item.pid;
-                  contentIdList.push(entityId.toString())
-                  getApp().sensors.track('exposure', {
-                    contentIdList: contentIdList,
-                    contentType: 1
-                  });
-                }
-              }
-            })
-          }
-        }
-        break;
-      case 1:
-        for (let i = 0; i < circlePosts.length; i++) {
-          let item = circlePosts[i];
-          if (!exposureIdList.has(item.pid)) {
-            exposureIdList.add(item.pid);
-            Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.pid}`, (res) => {
-              if (res.intersectionRatio > 0) {
-                let contentIdList = [];
-                console.log(`进入页面${item.pid}`)
-                if (item.pid) {
-                  let entityId = item.pid;
-                  contentIdList.push(entityId.toString())
-                  getApp().sensors.track('exposure', {
-                    contentIdList: contentIdList,
-                    contentType: 1
-                  });
-                }
-              }
-            })
-          }
-        }
-        break;
-      case 2:
-        for (let i = 0; i < circleQuestion.length; i++) {
-          let item = circleQuestion[i];
-          if (!exposureIdList.has(item.qid)) {
-            exposureIdList.add(item.qid);
-            Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.qid}`, (res) => {
-              if (res.intersectionRatio > 0) {
-                let contentIdList = [];
-                console.log(`进入页面${item.qid}`)
-                if (item.qid) {
-                  let entityId = item.qid;
-                  contentIdList.push(entityId.toString())
-                  getApp().sensors.track('exposure', {
-                    contentIdList: contentIdList,
-                    contentType: 1
-                  });
-                }
-              }
-            })
-          }
-        }
-        break;
-        case 3:
-          for (let i = 0; i < circleHots.length; i++) {
-            let item = circleHots[i];
-            if (!exposureIdList.has(item.pid)) {
-              exposureIdList.add(item.pid);
-              Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.pid}`, (res) => {
-                if (res.intersectionRatio > 0) {
-                  let contentIdList = [];
-                  console.log(`进入页面${item.pid}`)
-                  if (item.pid) {
-                    let entityId = item.pid;
-                    contentIdList.push(entityId.toString())
-                    getApp().sensors.track('exposure', {
-                      contentIdList: contentIdList,
-                      contentType: 1
-                    });
-                  }
-                }
-              })
-            }
-          }
-          break;
-    }
-    getApp().sensors.track('exposure', {
-      eventType:1
-    });
-  }
 
   render() {
     const { circlePosts, circleEssence, circleQuestion,circleHots, circleUser, listType, fixed, centerHeight, loadingPosts, loadingEssence, loadingQuestion, loadingUser, isToBottomPosts, isToBottomEssence, isToBottomQuestion, isToBottomUser, isCustomCircle } = this.circleDetailStore;
@@ -442,7 +352,7 @@ export default class TypeTabsView extends Component {
               {
                 circlePosts.map((item, num) => {
                   return (
-                    <View className={`target-item-${item.pid}`}>
+                    <View id={`post-item-${item.pid}`}>
                       <PostCard key={item.pid} countryAble={false} model={item} closeRelease needShared onCardClick={this.handlePostDetail.bind(this, item.pid)} onHandleFavorite={this.handleFavorite.bind(this)} />
                     </View>
                   )
@@ -457,7 +367,7 @@ export default class TypeTabsView extends Component {
               {
                 circleQuestion.map((item, num) => {
                   return (
-                    <View className={`target-item-${item.qid}`}>
+                    <View id={`qa-item-${item.qid}`}>
                       <QACard model={item} key={num} onHandleFavorite={this.handleFavoriteQuestion.bind(this)} />
                     </View>
                   )

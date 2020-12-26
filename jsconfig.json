@@ -9,6 +9,9 @@
       "@decorators": [
         "src/decorators/"
       ],
+      "@helper": [
+        "src/helper/*"
+      ],
       "@components/*": [
         "src/common/components/*"
       ]

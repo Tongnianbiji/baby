@@ -87,6 +87,8 @@ export default class Presenter extends BaseComponent {
   }
 
   exposure = () => {
+    // return
+    // TODO - 继续替换埋点
     let { circlePosts, circleEssence, circleQuestion,circleHots,listType } = this.$store;
     switch (listType) {
       case 0:
@@ -100,50 +102,6 @@ export default class Presenter extends BaseComponent {
                 console.log(`进入页面${item.pid}`)
                 if (item.pid) {
                   let entityId = item.pid;
-                  contentIdList.push(entityId.toString())
-                  getApp().sensors.track('exposure', {
-                    contentIdList: contentIdList,
-                    contentType: 1
-                  });
-                }
-              }
-            })
-          }
-        }
-        break;
-      case 1:
-        for (let i = 0; i < circlePosts.length; i++) {
-          let item = circlePosts[i];
-          if (!exposureIdList.has(item.pid)) {
-            exposureIdList.add(item.pid);
-            Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.pid}`, (res) => {
-              if (res.intersectionRatio > 0) {
-                let contentIdList = [];
-                console.log(`进入页面${item.pid}`)
-                if (item.pid) {
-                  let entityId = item.pid;
-                  contentIdList.push(entityId.toString())
-                  getApp().sensors.track('exposure', {
-                    contentIdList: contentIdList,
-                    contentType: 1
-                  });
-                }
-              }
-            })
-          }
-        }
-        break;
-      case 2:
-        for (let i = 0; i < circleQuestion.length; i++) {
-          let item = circleQuestion[i];
-          if (!exposureIdList.has(item.qid)) {
-            exposureIdList.add(item.qid);
-            Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.qid}`, (res) => {
-              if (res.intersectionRatio > 0) {
-                let contentIdList = [];
-                console.log(`进入页面${item.qid}`)
-                if (item.qid) {
-                  let entityId = item.qid;
                   contentIdList.push(entityId.toString())
                   getApp().sensors.track('exposure', {
                     contentIdList: contentIdList,
@@ -178,9 +136,9 @@ export default class Presenter extends BaseComponent {
         }
         break;
     }
-    getApp().sensors.track('exposure', {
-      eventType:1
-    });
+    // getApp().sensors.track('exposure', {
+    //   eventType:1
+    // });
   }
 
   async initData(cid) {
