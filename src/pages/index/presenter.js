@@ -43,6 +43,7 @@ export default class HomePage extends BaseComponent {
     }
     this.recommendsExposuredList = new Set();
     this.attentionUsersExposuredList = new Set();
+    this.hotsExposuredList = new Set();
   }
 
   componentDidMount() {
@@ -387,12 +388,12 @@ export default class HomePage extends BaseComponent {
       })
     }
     this.gethots()
-    getApp().sensors.track('click', {
-      tabId: tabId,
-      eventType: 2,
-      contentIdList: []
-    });
-    this.exposure();
+    // getApp().sensors.track('click', {
+    //   tabId: tabId,
+    //   eventType: 2,
+    //   contentIdList: []
+    // });
+    // this.exposure();
   }
 
   goSearch = () => {
@@ -463,7 +464,7 @@ export default class HomePage extends BaseComponent {
             if (res.intersectionRatio == 0) return;
             console.log(`------#attention-users-item-${id}-进入视图------`, res);
             analysisHelper.exposure({
-              name: `首页推荐${isQa ? '问答' : '帖子'}列表曝光`,
+              name: `首页关的用户${isQa ? '问答' : '帖子'}列表曝光`,
               contentIdList: [id.toString()],
               contentType: isQa ? 3 : 1,
               eventType: 1,
@@ -529,7 +530,7 @@ export default class HomePage extends BaseComponent {
             if (res.intersectionRatio == 0) return;
             console.log(`------#recommends-item-${id}-进入视图------`, res);
             analysisHelper.exposure({
-              name: `首页关注的用户${isQa ? '问答' : '帖子'}列表曝光`,
+              name: `首页推荐${isQa ? '问答' : '帖子'}列表曝光`,
               contentIdList: [id.toString()],
               contentType: isQa ? 3 : 1,
               eventType: 1,
@@ -544,22 +545,44 @@ export default class HomePage extends BaseComponent {
   //获取热版数据
   gethots = async () => {
     const { hotTabType } = this.state;
+    let res = {};
     if (hotTabType === 1) {
-      let res = await Model.gethots(1);
-      if (res) {
-        this.setState({
-          hots: res || []
-        })
-      }
+      res = await Model.gethots(1);
+  
     } else {
-      let res = await Model.gethots(2);
-      if (res) {
-        this.setState({
-          hots: res || []
-        })
-      }
+      res = await Model.gethots(2);
     }
-
+    if (res) {
+      this.setState({
+        hots: res || []
+      }, () => {
+          this.addHotsExposure();
+      })
+    }
+  }
+  addHotsExposure() {
+    if (this.state.hots.length == 0) {
+      this.hotsExposuredList.clear();
+    }
+    const { tabId, hotTabType} = this.state;
+    setTimeout(() => {
+      this.state.hots.forEach(item => {
+        if (!this.hotsExposuredList.has(`${hotTabType}_${item.pid}`)) {
+          this.hotsExposuredList.add(`${hotTabType}_${item.pid}`);
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#hots-${hotTabType}-item-${item.pid}`, (res) => {
+            if (res.intersectionRatio == 0) return;
+            console.log(`------#hots-${hotTabType}-item-${item.pid}-进入视图------`, res);
+            analysisHelper.exposure({
+              name: `首页热榜帖子列表曝光`,
+              contentIdList: [item.pid.toString()],
+              contentType:  1,
+              eventType: 1,
+              tabId,
+            });
+          })
+        }
+      })
+    }, 500);
   }
 
   handleFavoriteAttention = async (model) => {
