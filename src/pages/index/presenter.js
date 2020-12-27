@@ -97,7 +97,7 @@ export default class HomePage extends BaseComponent {
       } = this.getCurrentLocation();
       const { tabId } = this.state;
 
-      getApp().sensors.registerApp({
+      analysisHelper.setCommonData({
         lat: lat,
         lon: lon,
         provinceCode: provinceCode,
@@ -110,9 +110,6 @@ export default class HomePage extends BaseComponent {
       console.error('---TODO---', error)
     }
     this.getMessageCount();
-    setTimeout(() => {
-      this.exposure()
-    }, 800);
   }
 
   connectGoeasyIm() {
@@ -185,10 +182,6 @@ export default class HomePage extends BaseComponent {
                 contentIdList.push(item.entity.pid.toString())
               }
             })
-            getApp().sensors.registerApp({
-              contentIdList: contentIdList,
-              contentType: 1
-            })
           })
         }
       }
@@ -211,9 +204,6 @@ export default class HomePage extends BaseComponent {
     }
   }
 
-  onPageScroll() {
-    this.exposure()
-  }
 
   getInviter() {
     const { updateInviter } = staticData;
@@ -225,78 +215,6 @@ export default class HomePage extends BaseComponent {
     }
   }
 
-  exposure = () => {
-    return
-    const { attentionUsers, recommends, hots, currentTopTab, attentionType } = this.state;
-    if (currentTopTab === 0 && attentionType === 1) {
-      for (let i = 0; i < attentionUsers.length; i++) {
-        let item = attentionUsers[i];
-        if (!exposureIdList.has(item.activityId)) {
-          exposureIdList.add(item.activityId);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.activityId}`, (res) => {
-            console.log('距离', res.intersectionRatio)
-            if (res.intersectionRatio > 0) {
-              let contentIdList = [];
-              console.log(`进入页面${item.activityId}`)
-              if (item.entity && (item.entity.pid || item.entity.qid)) {
-                let entityId = item.entity.pid || item.entity.qid;
-                contentIdList.push(entityId.toString())
-                getApp().sensors.track('exposure', {
-                  contentIdList: contentIdList,
-                  contentType: item.entity.pid ? 1 : 3,
-                  eventType: 1
-                });
-              }
-            }
-          })
-        }
-      }
-    } else if (currentTopTab === 1) {
-      for (let i = 0; i < recommends.length; i++) {
-        let item = recommends[i];
-        if (!exposureIdList.has(item.entityId)) {
-          exposureIdList.add(item.entityId);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.entityId}`, (res) => {
-            if (res.intersectionRatio > 0) {
-              let contentIdList = [];
-              console.log(`进入页面${item.entityId}`)
-              if (item.entity && (item.entity.pid || item.entity.qid)) {
-                let entityId = item.entity.pid || item.entity.qid;
-                contentIdList.push(entityId.toString())
-                getApp().sensors.track('exposure', {
-                  contentIdList: contentIdList,
-                  contentType: item.entity.pid ? 1 : 3,
-                  eventType: 1
-                });
-              }
-            }
-          })
-        }
-      }
-    } else if (currentTopTab === 2) {
-      for (let i = 0; i < hots.length; i++) {
-        let item = hots[i];
-        if (!exposureIdList.has(item.pid)) {
-          exposureIdList.add(item.pid);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.pid}`, (res) => {
-            if (res.intersectionRatio > 0) {
-              let contentIdList = [];
-              console.log(`进入页面${item.pid}`)
-              if (item.pid) {
-                let entityId = item.pid;
-                contentIdList.push(entityId.toString())
-                getApp().sensors.track('exposure', {
-                  contentIdList: contentIdList,
-                  contentType: 1,
-                  eventType: 1
-                });
-              }
-            }
-          })
-        }
-      }
-    }
-  }
 
   topTabChange = (current) => {
     const { attentionType, hotTabType, attentionUsers, recommends } = this.state;
@@ -332,12 +250,11 @@ export default class HomePage extends BaseComponent {
       currentTopTab: current,
       tabId: tabId
     }, () => {
-      getApp().sensors.track('click', {
+      analysisHelper.singleExposure({
+        trackName: '首页一级tab切换',
         tabId: tabId,
         eventType: 2,
-        contentIdList: []
       });
-      this.exposure()
     })
 
   }
@@ -367,14 +284,11 @@ export default class HomePage extends BaseComponent {
         tabId: 100204//目前关注圈子只有圈子（其他暂时隐藏）
       })
     }
-    getApp().sensors.track('click', {
+    analysisHelper.singleExposure({
+      trackName: '首页关注tab切换',
       tabId: tabId,
       eventType: 2,
-      contentIdList: []
     });
-
-
-    this.exposure();
   }
 
   hotTabChange = type => {
@@ -393,13 +307,11 @@ export default class HomePage extends BaseComponent {
       })
     }
     this.gethots(true);
-    // this.addHotsExposure(true);
-    // getApp().sensors.track('click', {
-    //   tabId: tabId,
-    //   eventType: 2,
-    //   contentIdList: []
-    // });
-    // this.exposure();
+    analysisHelper.singleExposure({
+      trackName: '首页热榜tab切换',
+      tabId: tabId,
+      eventType: 2,
+    });
   }
 
   goSearch = () => {
@@ -470,7 +382,7 @@ export default class HomePage extends BaseComponent {
             if (res.intersectionRatio == 0) return;
             console.log(`------#attention-users-item-${id}-进入视图------`, res);
             analysisHelper.exposure({
-              trackName: `首页关的用户${isQa ? '问答' : '帖子'}列表曝光`,
+              trackName: `首页关注的用户${isQa ? '问答' : '帖子'}列表曝光`,
               contentIdList: [id.toString()],
               contentType: isQa ? 3 : 1,
               eventType: 1,

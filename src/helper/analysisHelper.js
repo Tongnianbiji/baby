@@ -28,6 +28,16 @@ class AnalysisHelper {
   setCommonData(commonData = {}) {
     Taro.getApp().sensors.registerApp(commonData);
   }
+  singleExposure(trackData = {}, type = 'click', shouldSetCommonData = true) {
+    Taro.getApp().sensors.track(type, trackData);
+
+    // shouldSetCommonData：目前需要在点击事件埋点时同步更新全局的tabId，因为卡片点击时的上报中没有tabId
+    if (trackData.tabId) {
+      this.setCommonData({
+        tabId: trackData.tabId,
+      })
+    }
+  }
 }
 
 const analysisHelper = new AnalysisHelper();

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image, Text, Button } from '@tarojs/components'
+import analysisHelper from '@helper/analysisHelper';
 import { ICONS } from '../../../../common/constant'
 import './index.scss'
 
@@ -18,10 +19,11 @@ export default class QACardView extends Component {
     Taro.navigateTo({
       url:`/packageB/pages/issue-detail/index?qid=${qid}`
     })
-    getApp().sensors.track('click', {
+    analysisHelper.singleExposure({
+      trackName: '问答卡片点击',
       contentIdList: [qid.toString()],
       contentType: 3,
-      eventType:2
+      eventType: 2
     });
   }
 

@@ -4,6 +4,7 @@ import { View, Text, Image, Button } from '@tarojs/components'
 import FormaDate from '@common/formaDate'
 import { ICONS } from '../../constant'
 import Behaviors from '@common/utils/behaviors'
+import analysisHelper from '@helper/analysisHelper';
 import staticData from '@src/store/common/static-data'
 import './styles.scss'
 
@@ -69,71 +70,64 @@ export default class UserInfoItem extends Component {
 
   cardClick = (model, e) => {
     e.stopPropagation();
+    let url = '';
+    let contentType = -1;
+    let contentIdList = [];
     if (model.pid) {
-      Taro.navigateTo({
-        url: `/packageB/pages/post-detail/index?pid=${model.pid}`
-      })
-      getApp().sensors.track('click', {
-        contentIdList: [model.pid.toString()],
-        contentType: 1,
-        eventType:2
-      });
+      url = `/packageB/pages/post-detail/index?pid=${model.pid}`;
+      contentIdList = [model.pid.toString()];
+      contentType = 1;
     }
     else if (model.qid) {
-      Taro.navigateTo({
-        url: `/packageB/pages/issue-detail/index?qid=${model.qid}`
-      })
-      getApp().sensors.track('click', {
-        contentIdList: [model.qid.toString()],
-        contentType: 3,
-        eventType:2
-      });
+      url = `/packageB/pages/issue-detail/index?qid=${model.qid}`;
+      contentIdList = [model.qid.toString()];
+      contentType = 3;
     }
     else if (model.entity) {
       let { pid, qid } = model.entity;
       if (pid) {
-        Taro.navigateTo({
-          url: `/packageB/pages/post-detail/index?pid=${pid}`
-        })
-        getApp().sensors.track('click', {
-          contentIdList: [pid.toString()],
-          contentType: 1,
-          eventType:2
-        });
+        url = `/packageB/pages/post-detail/index?pid=${pid}`;
+        contentIdList = [pid.toString()];
+        contentType = 1;
       }
       else if (qid) {
-        Taro.navigateTo({
-          url: `/packageB/pages/issue-detail/index?qid=${qid}`
-        })
-        getApp().sensors.track('click', {
-          contentIdList: [qid.toString()],
-          contentType: 3,
-          eventType:2
-        });
+        url = `/packageB/pages/issue-detail/index?qid=${qid}`;
+        contentIdList = [qid.toString()];
+        contentType = 3;
       }
     }
+
+    analysisHelper.singleExposure({
+      trackName: `${contentType==1?'帖子':'问答'}卡片点击`,
+      contentIdList,
+      contentType,
+      eventType: 2
+    });
+    Taro.navigateTo({
+      url,
+    })
   }
 
   handleFavorite = (model, e) => {
-    const {isLogin} = staticData;
+    const { isLogin } = staticData;
     e.stopPropagation();
-    if(isLogin){
+    if (isLogin) {
       this.props.onHandleFavorite(model)
-    }else{
+    } else {
       Taro.navigateTo({
-        url:'/pages/login/index'
+        url: '/pages/login/index'
       })
     }
   }
 
   handleLike = (model, e) => {
-    const {isLogin} = staticData;
+    const { isLogin } = staticData;
     e.stopPropagation();
-    if(isLogin){
+    if (isLogin) {
       this.props.onHandleLike(model)
-    }else{
+    } else {
       Taro.navigateTo({
-        url:'/pages/login/index'
+        url: '/pages/login/index'
       })
     }
   }
@@ -181,10 +175,10 @@ export default class UserInfoItem extends Component {
             {
 
               <View className='release-info'>
-                {!closeRelease && 
-                <View>
-                  <View className='release'>{`${activeModel.userSnapshot ? activeModel.userSnapshot.nickName : ''}${activeModel.type ? Behaviors(activeModel.type) : ''} | ${activeModel.createAt ? FormaDate(activeModel.createAt) : ''}`}</View>
-                </View>
+                {!closeRelease &&
+                  <View>
+                    <View className='release'>{`${activeModel.userSnapshot ? activeModel.userSnapshot.nickName : ''}${activeModel.type ? Behaviors(activeModel.type) : ''} | ${activeModel.createAt ? FormaDate(activeModel.createAt) : ''}`}</View>
+                  </View>
                 }
                 <View className='info'>
                   {
@@ -234,7 +228,7 @@ export default class UserInfoItem extends Component {
                       {
                         model.userSnapshot && model.userSnapshot.customLevel && model.userSnapshot.customLevel.length ?
                           model.userSnapshot.customLevel.map((item) => {
-                            return(
+                            return (
                               <View>
                                 <View className='babys'>{item.desc}</View>
                               </View>
@@ -248,7 +242,7 @@ export default class UserInfoItem extends Component {
                       <Image className='btn-share' src={ICONS.SHARE_BTN_GRAY} alt=''></Image>
                     } */}
                   </View>
-                  <View className='times'>{(activeModel.createAt && FormaDate(activeModel.createAt))||(model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</View>
+                  <View className='times'>{(activeModel.createAt && FormaDate(activeModel.createAt)) || (model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</View>
                 </View>
                 {
                   this.props.needLike && <Image onClick={this.handleLike.bind(this, model)} className='btn-like' src={model.isLikes ? ICONS.FULLLIKE : ICONS.LIKE} alt=''></Image>
@@ -256,7 +250,7 @@ export default class UserInfoItem extends Component {
               </View>
             }
             {
-              this.props.onlyReleaseTime && <View className='release-time'>{(activeModel.createAt && FormaDate(activeModel.createAt))||(model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</View>
+              this.props.onlyReleaseTime && <View className='release-time'>{(activeModel.createAt && FormaDate(activeModel.createAt)) || (model.createTime && FormaDate(model.createTime)) || (model.createAt && FormaDate(model.createAt)) || '2020-03-29 21:29:00'}</View>
             }
             {
               this.props.isAnwser ?
@@ -267,7 +261,7 @@ export default class UserInfoItem extends Component {
                       {
                         this.highLight(model.title, kw).map(t => {
                           return (
-                            <View className={t.type === 'view' ? 'matched-txt' : 'text'} key={t.id}>{t.value}</View> 
+                            <View className={t.type === 'view' ? 'matched-txt' : 'text'} key={t.id}>{t.value}</View>
                           )
                         })
                       }
@@ -282,28 +276,28 @@ export default class UserInfoItem extends Component {
                   }
 
                 </View> :
-                !isTitleFirst && activeModel.content ? 
-                <View>
-                  <View className='content'>{activeModel.content}</View>
-                </View>
-                :
-                model.title ?
-                <View>
-                  <View className='content'>
-                    {
-                      this.highLight(model.title, kw).map(t => {
-                        return (
-                          <View className={t.type === 'view' ? 'matched-txt' : 'text'} key={t.id}>{t.value}</View> 
-                        )
-                      })
-                    }
-                  </View>
-                </View>
-                  
-                  :
+                !isTitleFirst && activeModel.content ?
                   <View>
-                    <View className='content'>{model.content}</View>
+                    <View className='content'>{activeModel.content}</View>
                   </View>
+                  :
+                  model.title ?
+                    <View>
+                      <View className='content'>
+                        {
+                          this.highLight(model.title, kw).map(t => {
+                            return (
+                              <View className={t.type === 'view' ? 'matched-txt' : 'text'} key={t.id}>{t.value}</View>
+                            )
+                          })
+                        }
+                      </View>
+                    </View>
+
+                    :
+                    <View>
+                      <View className='content'>{model.content}</View>
+                    </View>
             }
             {
               this.props.isMyReply && model.title && <View className='content' style="color:#666666;;">原贴：{model.title}</View>

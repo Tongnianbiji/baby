@@ -251,10 +251,11 @@ export default class TypeTabsView extends Component {
         }
         break;
     }
-    getApp().sensors.registerApp({
-      tabId: tabId,
-      eventType: 2
-    })
+    analysisHelper.singleExposure({
+      trackName: '圈子一级tab切换',
+      tabId,
+      eventType: 2,
+    });
   }
 
   //热榜切换
@@ -277,10 +278,12 @@ export default class TypeTabsView extends Component {
     }
     this.tabId = tabId;
     this.circleDetailStore.getCircleHots(cid, type + 1)
-    getApp().sensors.registerApp({
-      tabId: tabId,
-      eventType: 2
-    })
+
+    analysisHelper.singleExposure({
+      trackName: '圈子热榜tab切换',
+      tabId,
+      eventType: 2,
+    });
   }
 
   //用户切换
@@ -302,9 +305,9 @@ export default class TypeTabsView extends Component {
         isShowDistance: true
       })
     }
-    getApp().sensors.registerApp({
-      tabId: tabId,
-      eventType: 2
+
+    analysisHelper.setCommonData({
+      tabId,
     })
   }
 

@@ -53,31 +53,31 @@ export default class NoticeCard extends Component {
       Taro.navigateTo({
         url: `/packageB/pages/issue-detail/index?qid=${qid}`
       })
-      getApp().sensors.track('click', {
-        contentIdList: [qid.toString()],
-        contentType: 3,
-        eventType: 2
-      });
+      // getApp().sensors.track('click', {
+      //   contentIdList: [qid.toString()],
+      //   contentType: 3,
+      //   eventType: 2
+      // });
     }
     else if (activeModel.entity.qid) {
       qid = activeModel.entity.qid
       Taro.navigateTo({
         url: `/packageB/pages/issue-detail/index?qid=${qid}`
       })
-      getApp().sensors.track('click', {
-        contentIdList: [qid.toString()],
-        contentType: 3,
-        eventType: 2
-      });
+      // getApp().sensors.track('click', {
+      //   contentIdList: [qid.toString()],
+      //   contentType: 3,
+      //   eventType: 2
+      // });
     } else if (data.pid) {
       Taro.navigateTo({
         url: `/packageB/pages/post-detail/index?pid=${data.pid}`
       })
-      getApp().sensors.track('click', {
-        contentIdList: [data.pid.toString()],
-        contentType: 1,
-        eventType: 2
-      });
+      // getApp().sensors.track('click', {
+      //   contentIdList: [data.pid.toString()],
+      //   contentType: 1,
+      //   eventType: 2
+      // });
     }
     this.props.onNoticeClick(data)
   }
