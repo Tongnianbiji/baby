@@ -123,6 +123,13 @@ export default class HomePage extends BaseComponent {
     
   }
   async onPullDownRefresh() {
+    setTimeout(() => {
+      this.setState({
+        showNewInfoBar: false,
+      }, () => {
+        Taro.stopPullDownRefresh()
+      })
+    }, 2e3)
     const { currentTopTab } = this.state;
     if (currentTopTab === 1) {
       await this.getrecommends();
@@ -130,13 +137,6 @@ export default class HomePage extends BaseComponent {
         showNewInfoBar: true,
         isPullDownRefresh:true
       })
-      setTimeout(() => {
-        this.setState({
-          showNewInfoBar: false,
-        }, () => {
-          Taro.stopPullDownRefresh()
-        })
-      }, 2e3)
     } else {
       Taro.stopPullDownRefresh()
     }

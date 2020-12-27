@@ -54,14 +54,18 @@ export default class TypeTabsView extends Component {
     this.circleDetailStore = this.props.circleDetailStore;
     this.qaExposuredList = new Set();
     this.postExposuredList = new Set();
+    this.esExposuredList = new Set();
+    this.hotExposuredList = new Set();
   }
+  // TODO - 处理一下页面跳转后回来的事件曝光（目前回来是没有上报的）
   componentDidUpdate() {
     this.addExposureEventListener();
   }
   addExposureEventListener() {
-    // TODO - createIntersectionObserver控制元素底部完全进入视图
     this.addQAExposure();
     this.addPostExposure();
+    this.addEsExposure();
+    this.addHotExposure();
   }
   // 问答列表曝光埋点
   addQAExposure() {
@@ -106,6 +110,56 @@ export default class TypeTabsView extends Component {
               contentType: 1,
               eventType: 1,
               tabId: 140200,
+            });
+          })
+        }
+      })
+    }, 500);
+  }
+  // 精华列表曝光埋点
+  addEsExposure() {
+    if (this.props.circleDetailStore.circleEssence.length == 0) {
+      this.esExposuredList.clear();
+    }
+    setTimeout(() => {
+      this.props.circleDetailStore.circleEssence.forEach(item => {
+
+        if (!this.esExposuredList.has(item.pid)) {
+          this.esExposuredList.add(item.pid);
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#es-item-${item.pid}`, (res) => {
+            if (res.intersectionRatio == 0) return;
+            console.log(`------#es-item-${item.pid}-进入视图------`, res);
+            analysisHelper.exposure({
+              name: '精华列表曝光',
+              contentIdList: [item.pid.toString()],
+              contentType: 1,
+              eventType: 1,
+              tabId: 140100,
+            });
+          })
+        }
+      })
+    }, 500);
+  }
+  // 热榜列表曝光埋点
+  addHotExposure() {
+    if (this.props.circleDetailStore.circleHots.length == 0) {
+      this.hotExposuredList.clear();
+    }
+    setTimeout(() => {
+      this.props.circleDetailStore.circleHots.forEach(item => {
+
+        if (!this.hotExposuredList.has(item.pid)) {
+          this.hotExposuredList.add(item.pid);
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#hot-item-${item.pid}`, (res) => {
+            if (res.intersectionRatio == 0) return;
+            console.log(`------#hot-item-${item.pid}-进入视图------`, res);
+            analysisHelper.exposure({
+              name: '热榜列表曝光',
+              contentIdList: [item.pid.toString()],
+              contentType: 1,
+              eventType: 1,
+              tabId: this.state.tabId,
             });
           })
         }
@@ -221,6 +275,7 @@ export default class TypeTabsView extends Component {
         hotTabType: type + 1
       })
     }
+    this.tabId = tabId;
     this.circleDetailStore.getCircleHots(cid, type + 1)
     getApp().sensors.registerApp({
       tabId: tabId,
@@ -343,7 +398,7 @@ export default class TypeTabsView extends Component {
               {
                 circleEssence.map((item, num) => {
                   return (
-                    <View className={`target-item-${item.pid}`}>
+                    <View id={`es-item-${item.pid}`}>
                       <PostCard key={num} countryAble={false} model={item} closeRelease needShared onCardClick={this.handlePostDetail.bind(this, item.pid)} onHandleFavorite={this.handleFavorite.bind(this)} />
                     </View>
                   )
@@ -389,7 +444,7 @@ export default class TypeTabsView extends Component {
               {
                 circleHots.map((item, num) => {
                   return (
-                    <View className={`target-item-${item.pid}`}>
+                    <View id={`hot-item-${item.pid}`}>
                       <PostCard key={item.pid} countryAble={false} sortNum={num + 1} model={item} showOrder closeRelease needShared onCardClick={this.handlePostDetail.bind(this, item.pid)} onHandleFavorite={this.handleFavoriteHots.bind(this)} />
                     </View>)
                 })
