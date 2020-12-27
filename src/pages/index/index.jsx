@@ -63,7 +63,7 @@ export default class Index extends HomePage {
                         {
                           attentionUsers.map((item,key) => {
                             return (
-                              <View id={`attention-users-item-${item.entity.pid || item.entity.qid}`}>
+                              <View id={`attention-users-item-${item.entity.pid || item.entity.qid}`} key={item.entity.pid || item.entity.qid}>
                                 <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteAttention.bind(this,item)} onHandleSubscr={this.handleSubscrCircleAttention.bind(this,item)} onSubScrUser={this.subScrUser.bind(this,item)}></BehaviorCard>
                               </View>
                             )
@@ -89,7 +89,7 @@ export default class Index extends HomePage {
                           <View>
                             {
                               item.entity &&
-                              <View id={`recommends-item-${item.entity.pid || item.entity.qid}`}>
+                              <View id={`recommends-item-${item.entity.pid || item.entity.qid}`} key={item.entity.pid || item.entity.qid}>
                                 <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteRecommends.bind(this, item)} onSubScrUser={this.subScrUser.bind(this, item)}></BehaviorCard>
                               </View>
                             }

@@ -348,8 +348,10 @@ export default class HomePage extends BaseComponent {
       () => {
         if (type === 0) {
           if (!attentionUsers.length) {
-            this.getAttentionUsers()
+            this.getAttentionUsers();
+            return;
           }
+          this.addAttentionUsersExposure(true);
         }
       })
     if (type === 0) {
@@ -369,6 +371,8 @@ export default class HomePage extends BaseComponent {
       eventType: 2,
       contentIdList: []
     });
+
+    
     this.exposure();
   }
 
@@ -445,8 +449,8 @@ export default class HomePage extends BaseComponent {
       }
     }
   }
-  addAttentionUsersExposure() {
-    if (this.state.attentionUsers.length == 0) {
+  addAttentionUsersExposure(isNodeReload = false) {
+    if (this.state.attentionUsers.length == 0 || isNodeReload) {
       this.attentionUsersExposuredList.clear();
     }
     setTimeout(() => {
