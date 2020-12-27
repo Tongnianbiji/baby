@@ -80,7 +80,7 @@ export default class TypeTabsView extends Component {
             if (res.intersectionRatio == 0) return;
             console.log(`------#qa-item-${item.qid}-进入视图------`, res);
             analysisHelper.exposure({
-              name: '问答列表曝光',
+              trackName: '问答列表曝光',
               contentIdList: [item.qid.toString()],
               contentType: 3,
               eventType: 1,
@@ -105,7 +105,7 @@ export default class TypeTabsView extends Component {
             if (res.intersectionRatio == 0) return;
             console.log(`------#post-item-${item.pid}-进入视图------`, res);
             analysisHelper.exposure({
-              name: '帖子列表曝光',
+              trackName: '帖子列表曝光',
               contentIdList: [item.pid.toString()],
               contentType: 1,
               eventType: 1,
@@ -130,7 +130,7 @@ export default class TypeTabsView extends Component {
             if (res.intersectionRatio == 0) return;
             console.log(`------#es-item-${item.pid}-进入视图------`, res);
             analysisHelper.exposure({
-              name: '精华列表曝光',
+              trackName: '精华列表曝光',
               contentIdList: [item.pid.toString()],
               contentType: 1,
               eventType: 1,
@@ -155,7 +155,7 @@ export default class TypeTabsView extends Component {
             if (res.intersectionRatio == 0) return;
             console.log(`------#hot-item-${item.pid}-进入视图------`, res);
             analysisHelper.exposure({
-              name: '热榜列表曝光',
+              trackName: '热榜列表曝光',
               contentIdList: [item.pid.toString()],
               contentType: 1,
               eventType: 1,

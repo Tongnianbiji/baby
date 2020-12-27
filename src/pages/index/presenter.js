@@ -43,7 +43,8 @@ export default class HomePage extends BaseComponent {
     }
     this.recommendsExposuredList = new Set();
     this.attentionUsersExposuredList = new Set();
-    this.hotsExposuredList = new Set();
+    this.hotsExposuredList1 = new Set();
+    this.hotsExposuredList2 = new Set();
   }
 
   componentDidMount() {
@@ -372,7 +373,7 @@ export default class HomePage extends BaseComponent {
       contentIdList: []
     });
 
-    
+
     this.exposure();
   }
 
@@ -391,7 +392,8 @@ export default class HomePage extends BaseComponent {
         tabId: 130200
       })
     }
-    this.gethots()
+    this.gethots(true);
+    // this.addHotsExposure(true);
     // getApp().sensors.track('click', {
     //   tabId: tabId,
     //   eventType: 2,
@@ -438,7 +440,7 @@ export default class HomePage extends BaseComponent {
       this.setState({
         attentionUsers: newAttentionUsers,
       }, () => {
-          this.addAttentionUsersExposure();
+        this.addAttentionUsersExposure();
       });
 
       if (total <= this.state.attentionUsers.length) {
@@ -461,14 +463,14 @@ export default class HomePage extends BaseComponent {
         id = item.entity.qid || item.entity.pid;
         if (!id) return; // 有可能不是帖子也不是问答
         isQa = !!item.entity.qid;
-        
+
         if (!this.attentionUsersExposuredList.has(`${isQa + 1}_${id}`)) {
           this.attentionUsersExposuredList.add(`${isQa + 1}_${id}`);
           Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#attention-users-item-${id}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#attention-users-item-${id}-进入视图------`, res);
             analysisHelper.exposure({
-              name: `首页关的用户${isQa ? '问答' : '帖子'}列表曝光`,
+              trackName: `首页关的用户${isQa ? '问答' : '帖子'}列表曝光`,
               contentIdList: [id.toString()],
               contentType: isQa ? 3 : 1,
               eventType: 1,
@@ -525,7 +527,7 @@ export default class HomePage extends BaseComponent {
         let isQa = false;
         let id = 0;
         if (!item.entity) return;
-        
+
         isQa = !!item.entity.qid;
         id = item.entity.qid || item.entity.pid;
         if (!this.recommendsExposuredList.has(`${isQa + 1}_${id}`)) {
@@ -534,7 +536,7 @@ export default class HomePage extends BaseComponent {
             if (res.intersectionRatio == 0) return;
             console.log(`------#recommends-item-${id}-进入视图------`, res);
             analysisHelper.exposure({
-              name: `首页推荐${isQa ? '问答' : '帖子'}列表曝光`,
+              trackName: `首页推荐${isQa ? '问答' : '帖子'}列表曝光`,
               contentIdList: [id.toString()],
               contentType: isQa ? 3 : 1,
               eventType: 1,
@@ -547,48 +549,81 @@ export default class HomePage extends BaseComponent {
   }
 
   //获取热版数据
-  gethots = async () => {
+  gethots = async (isReload = false) => {
+    if (isReload) {
+      this.setState({
+        hots: [],
+      })
+    }
     const { hotTabType } = this.state;
     let res = {};
     if (hotTabType === 1) {
       res = await Model.gethots(1);
-  
-    } else {
-      res = await Model.gethots(2);
-    }
-    if (res) {
       this.setState({
         hots: res || []
       }, () => {
-          this.addHotsExposure();
+          this.addHotsExposure1(isReload);
+      })
+    } else {
+      res = await Model.gethots(2);
+      this.setState({
+        hots: res || []
+      }, () => {
+          this.addHotsExposure2(isReload);
       })
     }
-  }
-  addHotsExposure() {
-    if (this.state.hots.length == 0) {
-      this.hotsExposuredList.clear();
+    if (res) {
+  
     }
-    const { tabId, hotTabType} = this.state;
+  }
+  addHotsExposure1(isNodeReload = false) {
+    if (this.state.hots.length == 0 || isNodeReload) {
+      this.hotsExposuredList1.clear();
+    }
+    const { tabId, hotTabType } = this.state;
     setTimeout(() => {
       this.state.hots.forEach(item => {
-        if (!this.hotsExposuredList.has(`${hotTabType}_${item.pid}`)) {
-          this.hotsExposuredList.add(`${hotTabType}_${item.pid}`);
+        if (!this.hotsExposuredList1.has(`${hotTabType}_${item.pid}`)) {
+          this.hotsExposuredList1.add(`${hotTabType}_${item.pid}`);
           Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#hots-${hotTabType}-item-${item.pid}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#hots-${hotTabType}-item-${item.pid}-进入视图------`, res);
             analysisHelper.exposure({
-              name: `首页热榜帖子列表曝光`,
+              trackName: `首页热榜近24小时帖子列表曝光`,
               contentIdList: [item.pid.toString()],
-              contentType:  1,
+              contentType: 1,
               eventType: 1,
-              tabId,
+              tabId: 130100,
             });
           })
         }
       })
     }, 500);
   }
-
+  addHotsExposure2(isNodeReload = false) {
+    if (this.state.hots.length == 0 || isNodeReload) {
+      this.hotsExposuredList2.clear();
+    }
+    const { tabId, hotTabType } = this.state;
+    setTimeout(() => {
+      this.state.hots.forEach(item => {
+        if (!this.hotsExposuredList2.has(`${hotTabType}_${item.pid}`)) {
+          this.hotsExposuredList2.add(`${hotTabType}_${item.pid}`);
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#hots-${hotTabType}-item-${item.pid}`, (res) => {
+            if (res.intersectionRatio == 0) return;
+            console.log(`------#hots-${hotTabType}-item-${item.pid}-进入视图------`, res);
+            analysisHelper.exposure({
+              trackName: `首页热榜近7天帖子列表曝光`,
+              contentIdList: [item.pid.toString()],
+              contentType: 1,
+              eventType: 1,
+              tabId: 130200,
+            });
+          })
+        }
+      })
+    }, 500);
+  }
   handleFavoriteAttention = async (model) => {
     let { postLock, attentionUsers } = this.state;
     let preIndex = null;
