@@ -84,6 +84,7 @@ export default class TypeTabsView extends Component {
               contentIdList: [item.qid.toString()],
               contentType: 3,
               eventType: 1,
+              cid: this.circleDetailStore.cid,
               tabId: 140300,
             });
           })
@@ -109,6 +110,7 @@ export default class TypeTabsView extends Component {
               contentIdList: [item.pid.toString()],
               contentType: 1,
               eventType: 1,
+              cid: this.circleDetailStore.cid,
               tabId: 140200,
             });
           })
@@ -133,6 +135,7 @@ export default class TypeTabsView extends Component {
               trackName: '精华列表曝光',
               contentIdList: [item.pid.toString()],
               contentType: 1,
+              cid: this.circleDetailStore.cid,
               eventType: 1,
               tabId: 140100,
             });
@@ -143,14 +146,16 @@ export default class TypeTabsView extends Component {
   }
   // 热榜列表曝光埋点
   addHotExposure() {
+    // TODO - 热榜切换失效问题处理
     if (this.props.circleDetailStore.circleHots.length == 0) {
       this.hotExposuredList.clear();
     }
+    const tabId = this.state.tabId;
     setTimeout(() => {
       this.props.circleDetailStore.circleHots.forEach(item => {
 
-        if (!this.hotExposuredList.has(item.pid)) {
-          this.hotExposuredList.add(item.pid);
+        if (!this.hotExposuredList.has(`${tabId}_${item.pid}`)) {
+          this.hotExposuredList.add(`${tabId}_${item.pid}`);
           Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#hot-item-${item.pid}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#hot-item-${item.pid}-进入视图------`, res);
@@ -158,8 +163,9 @@ export default class TypeTabsView extends Component {
               trackName: '热榜列表曝光',
               contentIdList: [item.pid.toString()],
               contentType: 1,
+              cid: this.circleDetailStore.cid,
               eventType: 1,
-              tabId: this.state.tabId,
+              tabId,
             });
           })
         }
@@ -254,6 +260,7 @@ export default class TypeTabsView extends Component {
     analysisHelper.singleExposure({
       trackName: '圈子一级tab切换',
       tabId,
+      cid: this.circleDetailStore.cid,
       eventType: 2,
     });
   }
@@ -282,6 +289,7 @@ export default class TypeTabsView extends Component {
     analysisHelper.singleExposure({
       trackName: '圈子热榜tab切换',
       tabId,
+      cid,
       eventType: 2,
     });
   }

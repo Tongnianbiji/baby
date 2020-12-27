@@ -9,8 +9,10 @@ const { goEasy: im } = staticData;
 let exposureIdList = new Set();
 let timer = null;
 let pagePadding = 0;
+let pageTop = 0;
 const windowWidth = Taro.getSystemInfoSync().windowWidth;
 pagePadding = windowWidth / 750 * 32 * 2;
+pageTop = windowWidth / 750 * 165;
 export default class HomePage extends BaseComponent {
   constructor(props) {
     super(props)
@@ -378,7 +380,7 @@ export default class HomePage extends BaseComponent {
 
         if (!this.attentionUsersExposuredList.has(`${isQa + 1}_${id}`)) {
           this.attentionUsersExposuredList.add(`${isQa + 1}_${id}`);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#attention-users-item-${id}`, (res) => {
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -pageTop-70, left: -pagePadding, right: -pagePadding }).observe(`#attention-users-item-${id}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#attention-users-item-${id}-进入视图------`, res);
             analysisHelper.exposure({
@@ -444,7 +446,7 @@ export default class HomePage extends BaseComponent {
         id = item.entity.qid || item.entity.pid;
         if (!this.recommendsExposuredList.has(`${isQa + 1}_${id}`)) {
           this.recommendsExposuredList.add(`${isQa + 1}_${id}`);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#recommends-item-${id}`, (res) => {
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -pageTop-70, left: -pagePadding, right: -pagePadding }).observe(`#recommends-item-${id}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#recommends-item-${id}-进入视图------`, res);
             analysisHelper.exposure({
@@ -497,7 +499,7 @@ export default class HomePage extends BaseComponent {
       this.state.hots.forEach(item => {
         if (!this.hotsExposuredList1.has(`${hotTabType}_${item.pid}`)) {
           this.hotsExposuredList1.add(`${hotTabType}_${item.pid}`);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#hots-${hotTabType}-item-${item.pid}`, (res) => {
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -pageTop-70, left: -pagePadding, right: -pagePadding }).observe(`#hots-${hotTabType}-item-${item.pid}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#hots-${hotTabType}-item-${item.pid}-进入视图------`, res);
             analysisHelper.exposure({
