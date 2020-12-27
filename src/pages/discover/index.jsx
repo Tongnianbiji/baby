@@ -11,7 +11,11 @@ import './index.scss'
 @observer
 export default class Index extends Presenter {
   render() {
-    const {isGuide} = this.props.staticDataStore
+    const { isGuide } = this.props.staticDataStore
+    const { pageState, circles, recommendCircles} = this.state;
+    if (pageState == 'loading') {
+      return this.renderLoading();
+    }
     return (
       <View className='discover-viewport'>
         <View className='search-box'>
@@ -64,13 +68,13 @@ export default class Index extends Presenter {
                 <ScrollView style={{ height: '100%' }} scrollY lowerThreshold={200} onScrollToLower={this.getCircles.bind(this, false)}>
                   {
                     this.state.activedMenu.sid !== 'r1' ?
-                    this.state.circles.map(n => {
+                      pageState=='noData' ? this.renderEmptyPage('25vh') : circles.map(n => {
                       return (
                         <CircleItem key={n.cid} {...n} isMiddleAvatar={true} />
                       )
                     })
                     :
-                    this.state.recommendCircles.map(n => {
+                      pageState == 'noData' ? this.renderEmptyPage('25vh'):recommendCircles.map(n => {
                       return (
                         <CircleItem key={n.cid} {...n} isMiddleAvatar={true} />
                       )

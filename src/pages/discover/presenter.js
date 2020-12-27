@@ -7,6 +7,7 @@ export default class Presenter extends BaseComponent {
     super(props)
 
     this.state = {
+      ...this.state,
       menus: [],
       tags: [],
       circles: [],
@@ -77,7 +78,8 @@ export default class Presenter extends BaseComponent {
     let res = await Model.getRecommendCircle();
     if(res){
       this.setState({
-        recommendCircles:res
+        recommendCircles: res,
+        pageState: res.length == 0 ? 'noData' :'over',
       })
     }
   }
@@ -132,7 +134,7 @@ export default class Presenter extends BaseComponent {
     Model.getCircle(param, isReload).then(ret => {
       console.log('ret',ret)
       const newCircles = isReload ? ret.items : [...circles, ...ret.items];
-      this.setState({ circles: newCircles })
+      this.setState({ pageState: newCircles.length==0?'noData':'over',circles: newCircles })
     })
   }
 
@@ -140,7 +142,7 @@ export default class Presenter extends BaseComponent {
   getR1Circles(){
     const param = { psid:1 , sid:2 , cid: 0 };
     Model.getCircle(param).then(ret => {
-      this.setState({ circles: ret.data.circles })
+      this.setState({ pageState: ret.data.circles.length == 0 ? 'noData' :'over',circles: ret.data.circles })
     })
   }
 

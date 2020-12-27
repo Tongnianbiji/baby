@@ -258,9 +258,9 @@ export default class BaseComponent extends Component {
     return <View className='base-loading'></View>
   }
 
-  renderEmptyPage() {
+  renderEmptyPage(pt = '30vh') {
     return (
-      <View className='noTemplate-wrap'>
+      <View className='noTemplate-wrap' style={{paddingTop: pt}}>
         <Image src={ICONS.NODATA} mode='widthFix' />
         <Text>当前暂无数据</Text>
       </View>
