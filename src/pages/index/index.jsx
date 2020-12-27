@@ -89,7 +89,7 @@ export default class Index extends HomePage {
                           <View>
                             {
                               item.entity &&
-                              <View className={`target-item-${item.entityId}`}>
+                              <View id={`recommends-item-${item.entity.pid || item.entity.qid}`}>
                                 <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteRecommends.bind(this, item)} onSubScrUser={this.subScrUser.bind(this, item)}></BehaviorCard>
                               </View>
                             }

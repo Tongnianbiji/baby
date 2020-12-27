@@ -4,9 +4,13 @@ import Model from './model'
 import Taro from '@tarojs/taro'
 import staticData from '@src/store/common/static-data'
 import Storage from '@common/localStorage'
+import analysisHelper from '@helper/analysisHelper';
 const { goEasy: im } = staticData;
 let exposureIdList = new Set();
 let timer = null;
+let pagePadding = 0;
+const windowWidth = Taro.getSystemInfoSync().windowWidth;
+pagePadding = windowWidth / 750 * 32 * 2;
 export default class HomePage extends BaseComponent {
   constructor(props) {
     super(props)
@@ -35,8 +39,10 @@ export default class HomePage extends BaseComponent {
       showNewInfoBar: false,
       total: 0,
       recommendsLength: 0,
-      isPullDownRefresh:false
+      isPullDownRefresh: false
     }
+    this.recommendsExposuredList = new Set();
+
   }
 
   componentDidMount() {
@@ -73,34 +79,34 @@ export default class HomePage extends BaseComponent {
       this.setState({
         currentCity: this.getCurrentCity()
       })
-      if(this.getCurrentCity()){
+      if (this.getCurrentCity()) {
         clearInterval(timer)
       }
-   }, 300);
-   try {
-     const {
-       lat = '31.22114',
-       lon = '121.54409',
-       provinceCode = '上海',
-       cityCode,
-       countryCode,
-       cityCodeCode,
-       countryCodeCode
-     } = this.getCurrentLocation();
-     const { tabId } = this.state;
+    }, 300);
+    try {
+      const {
+        lat = '31.22114',
+        lon = '121.54409',
+        provinceCode = '上海',
+        cityCode,
+        countryCode,
+        cityCodeCode,
+        countryCodeCode
+      } = this.getCurrentLocation();
+      const { tabId } = this.state;
 
-     getApp().sensors.registerApp({
-       lat: lat,
-       lon: lon,
-       provinceCode: provinceCode,
-       cityCode: cityCodeCode,
-       countryCode: countryCodeCode,
-       tabId: tabId,
-       uid: this.getUserInfo().userId || 'guest'
-     })
-   } catch (error) {
-     console.error('---TODO---', error)
-   }
+      getApp().sensors.registerApp({
+        lat: lat,
+        lon: lon,
+        provinceCode: provinceCode,
+        cityCode: cityCodeCode,
+        countryCode: countryCodeCode,
+        tabId: tabId,
+        uid: this.getUserInfo().userId || 'guest'
+      })
+    } catch (error) {
+      console.error('---TODO---', error)
+    }
     this.getMessageCount();
     setTimeout(() => {
       this.exposure()
@@ -120,7 +126,7 @@ export default class HomePage extends BaseComponent {
     }).catch(function (error) {
       console.log("Failed to connect GoEasy, code:" + error.code + ",error:" + error.content);
     });
-    
+
   }
   async onPullDownRefresh() {
     setTimeout(() => {
@@ -135,18 +141,18 @@ export default class HomePage extends BaseComponent {
       await this.getrecommends();
       this.setState({
         showNewInfoBar: true,
-        isPullDownRefresh:true
+        isPullDownRefresh: true
       })
     } else {
       Taro.stopPullDownRefresh()
     }
     Taro.vibrateShort()
   }
- 
+
   onShareAppMessage(res) {
     let path = '';
     const userId = this.getUserInfo().userId;
-    
+
     if (res.from === 'button') {
       const { pid, qid } = JSON.parse(res.target.id);
       if (pid) {
@@ -185,21 +191,21 @@ export default class HomePage extends BaseComponent {
         }
       }
     }
-    else if(currentTopTab === 1){
+    else if (currentTopTab === 1) {
       this.setState({
-        isPullDownRefresh:false,
-        showRecommendLoading:true,
-        isRecommendToBottom:false,
-      },async()=>{
-        if (!postLock){
+        isPullDownRefresh: false,
+        showRecommendLoading: true,
+        isRecommendToBottom: false,
+      }, async () => {
+        if (!postLock) {
           // Taro.showLoading();
           await this.getrecommends(2);
           // Taro.hideLoading();
           this.setState({
-            showRecommendLoading:false
+            showRecommendLoading: false
           })
         }
-      }) 
+      })
     }
   }
 
@@ -207,34 +213,35 @@ export default class HomePage extends BaseComponent {
     this.exposure()
   }
 
-  getInviter(){
+  getInviter() {
     const { updateInviter } = staticData;
-    const {inviter, scene} = this.$router.params;
+    const { inviter, scene } = this.$router.params;
     console.log('scene', scene)
     console.log('测试', this.$router.params)
-    if (inviter || scene){
+    if (inviter || scene) {
       updateInviter(inviter || scene)
     }
   }
 
-  exposure = ()=>{
-    const {attentionUsers,recommends,hots,currentTopTab,attentionType} = this.state;
-    if(currentTopTab === 0 && attentionType === 1){
-      for(let i=0;i<attentionUsers.length;i++){
+  exposure = () => {
+    return
+    const { attentionUsers, recommends, hots, currentTopTab, attentionType } = this.state;
+    if (currentTopTab === 0 && attentionType === 1) {
+      for (let i = 0; i < attentionUsers.length; i++) {
         let item = attentionUsers[i];
-        if(!exposureIdList.has(item.activityId)){
+        if (!exposureIdList.has(item.activityId)) {
           exposureIdList.add(item.activityId);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0}).observe(`.target-item-${item.activityId}`, (res) => {
-            console.log('距离',res.intersectionRatio)
-            if (res.intersectionRatio >0) {
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.activityId}`, (res) => {
+            console.log('距离', res.intersectionRatio)
+            if (res.intersectionRatio > 0) {
               let contentIdList = [];
               console.log(`进入页面${item.activityId}`)
-              if (item.entity && (item.entity.pid || item.entity.qid)){
+              if (item.entity && (item.entity.pid || item.entity.qid)) {
                 let entityId = item.entity.pid || item.entity.qid;
                 contentIdList.push(entityId.toString())
                 getApp().sensors.track('exposure', {
-                  contentIdList:contentIdList,
-                  contentType:item.entity.pid ? 1 : 3,
+                  contentIdList: contentIdList,
+                  contentType: item.entity.pid ? 1 : 3,
                   eventType: 1
                 });
               }
@@ -242,21 +249,21 @@ export default class HomePage extends BaseComponent {
           })
         }
       }
-    }else if(currentTopTab === 1){
-      for(let i=0;i<recommends.length;i++){
+    } else if (currentTopTab === 1) {
+      for (let i = 0; i < recommends.length; i++) {
         let item = recommends[i];
-        if(!exposureIdList.has(item.entityId)){
+        if (!exposureIdList.has(item.entityId)) {
           exposureIdList.add(item.entityId);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0}).observe(`.target-item-${item.entityId}`, (res) => {
-            if (res.intersectionRatio >0) {
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: 0 }).observe(`.target-item-${item.entityId}`, (res) => {
+            if (res.intersectionRatio > 0) {
               let contentIdList = [];
               console.log(`进入页面${item.entityId}`)
-              if(item.entity && (item.entity.pid || item.entity.qid)){
+              if (item.entity && (item.entity.pid || item.entity.qid)) {
                 let entityId = item.entity.pid || item.entity.qid;
                 contentIdList.push(entityId.toString())
                 getApp().sensors.track('exposure', {
-                  contentIdList:contentIdList,
-                  contentType:item.entity.pid ? 1 : 3,
+                  contentIdList: contentIdList,
+                  contentType: item.entity.pid ? 1 : 3,
                   eventType: 1
                 });
               }
@@ -264,7 +271,7 @@ export default class HomePage extends BaseComponent {
           })
         }
       }
-    }else if(currentTopTab === 2){
+    } else if (currentTopTab === 2) {
       for (let i = 0; i < hots.length; i++) {
         let item = hots[i];
         if (!exposureIdList.has(item.pid)) {
@@ -326,17 +333,17 @@ export default class HomePage extends BaseComponent {
       getApp().sensors.track('click', {
         tabId: tabId,
         eventType: 2,
-        contentIdList:[]
+        contentIdList: []
       });
       this.exposure()
     })
-    
+
   }
 
   attentionTabChange = type => {
     let tabId = null;
     const { attentionUsers } = this.state;
-    this.setState({ attentionType: type+1},
+    this.setState({ attentionType: type + 1 },
       () => {
         if (type === 0) {
           if (!attentionUsers.length) {
@@ -359,14 +366,14 @@ export default class HomePage extends BaseComponent {
     getApp().sensors.track('click', {
       tabId: tabId,
       eventType: 2,
-      contentIdList:[]
+      contentIdList: []
     });
     this.exposure();
   }
 
   hotTabChange = type => {
     let tabId = null;
-    this.setState({ hotTabType:type+1 })
+    this.setState({ hotTabType: type + 1 })
     if (type === 0) {
       tabId = 130100;
       this.setState({
@@ -383,7 +390,7 @@ export default class HomePage extends BaseComponent {
     getApp().sensors.track('click', {
       tabId: tabId,
       eventType: 2,
-      contentIdList:[]
+      contentIdList: []
     });
     this.exposure();
   }
@@ -442,9 +449,9 @@ export default class HomePage extends BaseComponent {
   }
 
   //获取推荐数据
-  getrecommends = async (type=1) => {
+  getrecommends = async (type = 1) => {
     //type 1:下拉刷新；2:上拉刷新
-    let {recommends} = this.state;
+    let { recommends } = this.state;
     this.setState({
       postLock: true
     })
@@ -455,20 +462,22 @@ export default class HomePage extends BaseComponent {
     if (res) {
       let newRecommends = null;
       let newRes = [];
-      res.forEach(item=>{
-        if(item.entity){
+      res.forEach(item => {
+        if (item.entity) {
           newRes.push(item)
         }
       })
-      if(type === 1){
+      if (type === 1) {
         newRecommends = newRes.concat(recommends)
-      }else{
-        newRecommends=recommends.concat(newRes)
+      } else {
+        newRecommends = recommends.concat(newRes)
       }
       this.setState({
-        recommends:newRecommends,
+        recommends: newRecommends,
         recommendsLength: newRes.length,
-        pageState: newRecommends.length == 0? 'noData':'over',
+        pageState: newRecommends.length == 0 ? 'noData' : 'over',
+      }, () => {
+        this.addRecommendsExposure();
       })
     } else {
       this.setState({
@@ -476,18 +485,49 @@ export default class HomePage extends BaseComponent {
       })
     }
   }
+  addRecommendsExposure() {
+    if (this.state.recommends.length == 0) {
+      this.recommendsExposuredList.clear();
+    }
+    setTimeout(() => {
+      let isQa = false;
+      let id = 0;
+      this.state.recommends.forEach(item => {
+        
+        if (!item.entity) return;
+        
+        isQa = !!item.entity.qid;
+        id = item.entity.qid || item.entity.pid;
+        if (!this.recommendsExposuredList.has(`${isQa + 1}_${id}`)) {
+          this.recommendsExposuredList.add(`${isQa + 1}_${id}`);
+          console.log(444444444)
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#recommends-item-${id}`, (res) => {
+            if (res.intersectionRatio == 0) return;
+            console.log(`------#recommends-item-${id}-进入视图------`, res);
+            analysisHelper.exposure({
+              name: `首页推荐${isQa ? '问答' : '帖子'}列表曝光`,
+              contentIdList: [id.toString()],
+              contentType: isQa ? 3 : 1,
+              eventType: 1,
+              tabId: 110000,
+            });
+          })
+        }
+      })
+    }, 500);
+  }
 
   //获取热版数据
   gethots = async () => {
-    const {hotTabType} = this.state;
-    if(hotTabType === 1){
+    const { hotTabType } = this.state;
+    if (hotTabType === 1) {
       let res = await Model.gethots(1);
       if (res) {
         this.setState({
           hots: res || []
         })
       }
-    }else{
+    } else {
       let res = await Model.gethots(2);
       if (res) {
         this.setState({
@@ -495,17 +535,17 @@ export default class HomePage extends BaseComponent {
         })
       }
     }
-    
+
   }
 
   handleFavoriteAttention = async (model) => {
     let { postLock, attentionUsers } = this.state;
     let preIndex = null;
-    const {isLogin} = staticData;
+    const { isLogin } = staticData;
     const { pid, qid } = model.entity;
-    if(!isLogin){
+    if (!isLogin) {
       this.navto({
-        url:'/pages/login/index'
+        url: '/pages/login/index'
       })
       return
     }
@@ -564,11 +604,11 @@ export default class HomePage extends BaseComponent {
   handleFavoriteRecommends = async (model) => {
     let { postLock, recommends } = this.state;
     let preIndex = null;
-    const {isLogin} = staticData;
+    const { isLogin } = staticData;
     const { pid, qid } = model.entity;
-    if(!isLogin){
+    if (!isLogin) {
       this.navto({
-        url:'/pages/login/index'
+        url: '/pages/login/index'
       })
       return
     }
