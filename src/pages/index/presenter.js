@@ -42,7 +42,7 @@ export default class HomePage extends BaseComponent {
       isPullDownRefresh: false
     }
     this.recommendsExposuredList = new Set();
-
+    this.attentionUsersExposuredList = new Set();
   }
 
   componentDidMount() {
@@ -429,16 +429,13 @@ export default class HomePage extends BaseComponent {
     })
     if (res && res.items) {
       const { total, items } = res;
-      if (!attentionUsers.length) {
-        this.setState({
-          attentionUsers: items || []
-        })
+      const newAttentionUsers = attentionUsers.length ? attentionUsers.concat(items || []) : items || [];
+      this.setState({
+        attentionUsers: newAttentionUsers,
+      }, () => {
+          this.addAttentionUsersExposure();
+      });
 
-      } else {
-        this.setState((pre) => ({
-          attentionUsers: pre.attentionUsers.concat(items || [])
-        }))
-      }
       if (total <= this.state.attentionUsers.length) {
         this.setState({
           showAttentionLoading: false,
@@ -447,7 +444,36 @@ export default class HomePage extends BaseComponent {
       }
     }
   }
-
+  addAttentionUsersExposure() {
+    if (this.state.attentionUsers.length == 0) {
+      this.attentionUsersExposuredList.clear();
+    }
+    setTimeout(() => {
+      this.state.attentionUsers.forEach(item => {
+        let isQa = false;
+        let id = 0;
+        if (!item.entity) return;
+        id = item.entity.qid || item.entity.pid;
+        if (!id) return; // 有可能不是帖子也不是问答
+        isQa = !!item.entity.qid;
+        
+        if (!this.attentionUsersExposuredList.has(`${isQa + 1}_${id}`)) {
+          this.attentionUsersExposuredList.add(`${isQa + 1}_${id}`);
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#attention-users-item-${id}`, (res) => {
+            if (res.intersectionRatio == 0) return;
+            console.log(`------#attention-users-item-${id}-进入视图------`, res);
+            analysisHelper.exposure({
+              name: `首页推荐${isQa ? '问答' : '帖子'}列表曝光`,
+              contentIdList: [id.toString()],
+              contentType: isQa ? 3 : 1,
+              eventType: 1,
+              tabId: 100100,
+            });
+          })
+        }
+      })
+    }, 500);
+  }
   //获取推荐数据
   getrecommends = async (type = 1) => {
     //type 1:下拉刷新；2:上拉刷新
@@ -490,22 +516,20 @@ export default class HomePage extends BaseComponent {
       this.recommendsExposuredList.clear();
     }
     setTimeout(() => {
-      let isQa = false;
-      let id = 0;
       this.state.recommends.forEach(item => {
-        
+        let isQa = false;
+        let id = 0;
         if (!item.entity) return;
         
         isQa = !!item.entity.qid;
         id = item.entity.qid || item.entity.pid;
         if (!this.recommendsExposuredList.has(`${isQa + 1}_${id}`)) {
           this.recommendsExposuredList.add(`${isQa + 1}_${id}`);
-          console.log(444444444)
           Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -70, left: -pagePadding, right: -pagePadding }).observe(`#recommends-item-${id}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#recommends-item-${id}-进入视图------`, res);
             analysisHelper.exposure({
-              name: `首页推荐${isQa ? '问答' : '帖子'}列表曝光`,
+              name: `首页关注的用户${isQa ? '问答' : '帖子'}列表曝光`,
               contentIdList: [id.toString()],
               contentType: isQa ? 3 : 1,
               eventType: 1,

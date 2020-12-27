@@ -80,7 +80,6 @@ export default class UserInfoCard extends Component {
 
   render() {
     const { isShowDistance,kw,isShowTip,tip, model, model: { post, flow, funs, subscribeTime, headImg, district, city, country,sex,stared,child }, activeModel,isShowReleaseTime } = this.props;
-    console.log('child', child)
     return (
       <View className="wrapper">
         {
