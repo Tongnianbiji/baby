@@ -15,7 +15,7 @@ import { USER_INFO_KEY_USERID } from '@common/constant'
 import Storage from '@common/localStorage'
 import './app.scss'
 
-const v = '1.1.9'
+const v = '1.1.10'
 
 const request = new BaseRequest()
 const systemInfo = Taro.getSystemInfoSync()
@@ -169,7 +169,7 @@ class App extends BaseComponent {
   }
 
   requestUserInfo(token, userId) {
-    return request.get('/profile/get', { token, userId }).then(ret => {
+    return request.get('/profile/get', { token, userId }, { token}).then(ret => {
       if (ret.errMsg === request.okMsg) {
         // return ret.data
         const userInfo = ret.data.data;
