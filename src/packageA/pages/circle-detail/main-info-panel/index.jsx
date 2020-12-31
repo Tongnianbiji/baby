@@ -75,6 +75,11 @@ class MainInfoPanel extends Component {
     const pcid = parentCircles && parentCircles[0] && parentCircles[0].cid;
     Taro.navigateTo({ url: `/packageA/pages/more-circle/index?pcid=${pcid}&cid=${cid}&cname=${name}&circleType=${leaf ? 'sibling' : 'child'}` })
   }
+  toDescById(pid) {
+    Taro.navigateTo({
+      url: `/packageB/pages/post-detail/index?pid=${pid}`
+    })
+  }
 
   render() {
     const {
@@ -180,7 +185,7 @@ class MainInfoPanel extends Component {
                             <View className='notice-item' key={post.pid}>
                               <View className='notice-logo'>置顶</View>
                               <View className='notice-txt'>{post.title}</View>
-                              <View className='btn-detail'>详情</View>
+                              <View className='btn-detail' onClick={this.toDescById.bind(this, post.pid)}>详情</View>
                             </View>
                           )
                         })
