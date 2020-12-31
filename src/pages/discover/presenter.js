@@ -81,6 +81,10 @@ export default class Presenter extends BaseComponent {
         recommendCircles: res,
         pageState: res.length == 0 ? 'noData' :'over',
       })
+    } else {
+      this.setState({
+        pageState: 'noData',
+      })
     }
   }
 

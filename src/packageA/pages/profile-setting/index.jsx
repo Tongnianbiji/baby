@@ -28,9 +28,9 @@ export default class ProfileSetting extends Presenter {
             <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View> */}
-        <View className='btn-wrapper'>
+        {/* <View className='btn-wrapper'>
           <View className='btn flex-center' onClick={this.onClickNavTo.bind(this, 'logout')}>退出登陆</View>
-        </View>
+        </View> */}
       </View>
     )
   }
