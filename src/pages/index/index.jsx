@@ -117,7 +117,7 @@ export default class Index extends HomePage {
                   hots.map((item,num) => {
                     return (
                       <View id={`hots-${hotTabType}-item-${item.pid}`}>
-                        <UserInfoItem key={item.pid} sortNum={num + 1} showOrder countryAble={false} model={item} closeRelease  onHandleFavorite={this.handleFavoriteHots.bind(this,item)}/>
+                        <UserInfoItem key={item.pid} sortNum={num + 1} countryAble showOrder model={item} closeRelease  onHandleFavorite={this.handleFavoriteHots.bind(this,item)}/>
                       </View>
                     )
                   })
