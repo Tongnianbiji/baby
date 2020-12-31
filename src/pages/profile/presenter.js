@@ -11,15 +11,13 @@ export default class ProfilePresenter extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
-      ...this.state, // 保留父类state
       profileInfo: {},
-      isLogin:false
+      isLogin: staticData.isLogin,
     }
     this.storage = Storage.getInstance()
   }
 
   componentDidMount() {
-    this.isUserLogin()
   }
   componentDidShow(){
     const {isLogin} = staticData
@@ -175,18 +173,4 @@ export default class ProfilePresenter extends BaseComponent {
     })
   }
 
-  //判断是否已登录过
-  isUserLogin = ()=>{
-    const { isLogin } = staticData;
-    Taro.login().then(async ({ errMsg, code }) => {
-      let res = await Model.checkregist(code);
-      if(res){
-        const { regist } = res;
-        this.setState({
-          isLogin: regist && isLogin,
-          pageState: 'over'
-        })
-      }
-    })
-  }
 }
