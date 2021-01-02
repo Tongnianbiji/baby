@@ -34,6 +34,10 @@ export default class ProfileHomePresenter extends BaseComponent {
   componentWillMount() { }
 
   componentDidMount() {
+    // this.onAutoLogin().then(res => {
+    // TODO - 改前置登录逻辑-它可能是落地页
+    // TODO - 分享逻辑错误 - c要看b的主页，而不是自己的
+    // })
     this.getActiveData()
   }
 

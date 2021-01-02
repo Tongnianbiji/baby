@@ -247,7 +247,10 @@ export default class BaseComponent extends Component {
     })
   }
   onAutoLogin() {
-    return new Promise((resole, reject) => {
+    if (staticData.isLogin) {
+      return Promise.resolve();
+    }
+    return new Promise((resolve, reject) => {
       // 有token说明已注册，可自动登录。没token可以去接口判断是否已注册， 有则获取token, 无则自动登录失败
       this.getLoginInfo().then(
         loginInfo => {
@@ -255,13 +258,13 @@ export default class BaseComponent extends Component {
             // 登录token过期，重新登录
             if (res.code === 2 && res.message == '登录过期,请重新登录') {
 
-              
+
               return;
             }
 
             // 登录未超时
             if (res.errMsg === request.okMsg) { // TODO - 这个奇怪的判断是什么？
-              this.__local_dto.setValue('__TN_LOGIN_TOKEN_',loginInfo.token); // 为了让requet模块能拿到token, 本不应该这样设计
+              this.__local_dto.setValue('__TN_LOGIN_TOKEN_', loginInfo.token); // 为了让requet模块能拿到token, 本不应该这样设计
               const userInfo = res.data.data;
               staticData.updateUserInfo(userInfo || {});
             }
@@ -270,13 +273,29 @@ export default class BaseComponent extends Component {
               this.setCityInfo(res.longitude, res.latitude).then(data => {
                 const c = data.district || data.city;
                 staticData.updateCurrentCity(this.getSubCityName(c));
-                resole(); // 完成登录
+                staticData.updateIsLoginStatus(true);
+                staticData.updateIsRegisteStatus(true);
+                resolve(); // 完成登录
               })
             })
           })
         },
         err => {
+          staticData.updateIsRegisteStatus(false);
+          staticData.updateIsLoginStatus(false);
+          setTimeout(() => {
+            staticData.updateGuideStatus(true)
+          }, 2e3)
 
+          const currentPage = Taro.getCurrentPages()[0];
+          const whiteList = ['pages/index/index', 'pages/discover/index', 'pages/message/index', 'pages/profile/index'];
+          if (whiteList.indexOf(currentPage.route) == -1) { // 非首页跳去登录页面
+            Taro.redirectTo({
+              url: '/pages/login/index'
+            });
+          } else {
+            resolve();
+          }
         }
       )
     })
@@ -300,7 +319,7 @@ export default class BaseComponent extends Component {
           this.__local_dto.setValue('loginInfo', loginInfo);
           return loginInfo;
         } else {
-          return null;
+          return Promise.reject();
         }
       })
     })

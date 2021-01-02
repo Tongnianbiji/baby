@@ -44,8 +44,10 @@ export default class Presenter extends BaseComponent {
   }
 
   componentDidShow() {
-    this.getData();
-    this.getReplyList();
+    this.onAutoLogin().then(res => { 
+      this.getData();
+      this.getReplyList();
+    })
   }
 
   componentWillUnmount(){

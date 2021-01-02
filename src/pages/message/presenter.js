@@ -30,11 +30,13 @@ export default class Presenter extends BaseComponent {
   }
 
   async componentDidShow() {
-    this.isLogin = staticData.isLogin;
-    this.initChatList();
-     this.getMessageCount();
-    this.getChatList();
-    this.getSystemList()
+    this.onAutoLogin().then(res => { 
+      this.isLogin = true;
+      this.initChatList();
+      this.getMessageCount();
+      this.getChatList();
+      this.getSystemList()
+    })
   }
 
   getUnreadCount() {

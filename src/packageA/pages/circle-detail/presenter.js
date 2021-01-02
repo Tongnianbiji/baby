@@ -34,19 +34,21 @@ export default class Presenter extends BaseComponent {
     this.setNavBarTitle(cname);
   }
   componentDidShow() {
-    if (this.isShareModalShow) {
-      this.isShareModalShow = false;
-      return;
-    };
-    
-    console.log('---componentDidShow---')
-    const { cid} = getCurrentInstance().router.params;
-    const {reLoadCirclePage,updateReLoadCirclePage} = staticData;
-    if(reLoadCirclePage){
-      this.showLoading();
-      this.initData(cid);
-    }
-    updateReLoadCirclePage(true)
+    this.onAutoLogin().then(res => {
+      if (this.isShareModalShow) {
+        this.isShareModalShow = false;
+        return;
+      };
+
+      console.log('---componentDidShow---')
+      const { cid } = getCurrentInstance().router.params;
+      const { reLoadCirclePage, updateReLoadCirclePage } = staticData;
+      if (reLoadCirclePage) {
+        this.showLoading();
+        this.initData(cid);
+      }
+      updateReLoadCirclePage(true)
+    })
   }
 
   componentWillUnmount(){

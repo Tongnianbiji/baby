@@ -21,36 +21,38 @@ export default class CharacterBPresenter extends BaseComponent {
   componentWillMount() { }
 
   componentDidMount() { 
-    const {inviter,babyName,invtKey,inviterRoles,newInvtKey,bid} = this.$router.params;
-    const {updateBabyNickname,updateBid,isRegiste,updateInviterRoles,updateNewInvtKey,updateInvtKey,updateInviterName} = staticData;
-    this.getInviter();
-    if(!isRegiste && invtKey){
-      updateNewInvtKey(invtKey);
-      updateInvtKey(invtKey);
-      updateInviterName(inviter);
-      updateBabyNickname(babyName);
-      updateBid(bid);
-      updateInviterRoles(inviterRoles)
-      this.navto({
-        url:'/pages/login/index'
-      })
-      return;
-    }
-    let chatacterList = JSON.parse(inviterRoles || staticData.inviterRoles);
-    chatacterList.forEach(item=>{
-      if(item.roleText){
-        item.roleText = `我是${item.roleText}`
-      }else{
-        item.roleText = '其他'
+    this.onAutoLogin().then(res => {
+      const { inviter, babyName, invtKey, inviterRoles, newInvtKey, bid } = this.$router.params;
+      const { updateBabyNickname, updateBid, isRegiste, updateInviterRoles, updateNewInvtKey, updateInvtKey, updateInviterName } = staticData;
+      this.getInviter();
+      if (!isRegiste && invtKey) {
+        updateNewInvtKey(invtKey);
+        updateInvtKey(invtKey);
+        updateInviterName(inviter);
+        updateBabyNickname(babyName);
+        updateBid(bid);
+        updateInviterRoles(inviterRoles)
+        this.navto({
+          url: '/pages/login/index'
+        })
+        return;
       }
-      
-    })
-    this.setState({
-      inviter:inviter || staticData.inviterName,
-      babyName:babyName || staticData.babyNickname,
-      invtKey:invtKey || newInvtKey,
-      chatacterList:chatacterList,
-      newInvtKey
+      let chatacterList = JSON.parse(inviterRoles || staticData.inviterRoles);
+      chatacterList.forEach(item => {
+        if (item.roleText) {
+          item.roleText = `我是${item.roleText}`
+        } else {
+          item.roleText = '其他'
+        }
+
+      })
+      this.setState({
+        inviter: inviter || staticData.inviterName,
+        babyName: babyName || staticData.babyNickname,
+        invtKey: invtKey || newInvtKey,
+        chatacterList: chatacterList,
+        newInvtKey
+      })
     })
   }
 

@@ -12,19 +12,18 @@ export default class ProfilePresenter extends BaseComponent {
     super(props);
     this.state = {
       profileInfo: {},
-      isLogin: staticData.isLogin,
+      isLogin: false,
     }
     this.storage = Storage.getInstance()
   }
 
   componentDidMount() {
   }
-  componentDidShow(){
-    const {isLogin} = staticData
-    this.setState({
-      isLogin:isLogin
+  componentDidShow() {
+    this.onAutoLogin().then(res => {
+      this.getProfile();
     })
-    this.getProfile();
+   
   }
 
   onShareAppMessage (res){
@@ -45,7 +44,10 @@ export default class ProfilePresenter extends BaseComponent {
     Model.profile(userId).then((ret) => {
       if (!ret.code) {
         this.hideLoading();
-        this.setState({ profileInfo: ret.data });
+        this.setState({
+          profileInfo: ret.data,
+          isLogin: staticData.isLogin,
+        });
         this.storage.setValue(USER_INFO_KEY_USERID, ret.data)
       }
       else {

@@ -71,7 +71,7 @@ export default class HomePage extends BaseComponent {
   }
 
   componentDidShow() {
-    if (this.isLoaded) {
+    if (this.isLoaded && staticData.isLogin) {
       this.getMessageCount();
       this.setState({
         currentCity: this.getCurrentCity()
@@ -109,7 +109,7 @@ export default class HomePage extends BaseComponent {
     //连接GoEasy
     im.connect({
       id: userId
-    }).then(function () {
+    }).then(() => {
       console.log("Connection successful.");
       this.getMessageCount();
     }).catch(function (error) {

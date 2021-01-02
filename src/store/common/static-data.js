@@ -86,7 +86,8 @@ class Data {
     this.wxUserInfo = info
   }
   @action updateUserInfo = (info) => {
-    this.userInfo = info
+    this.userInfo = info;
+    this.userId = info.userId; // TODO - 项目中的userId全改用userInfo
   }
 
   @action updateSchool = (school) => {

@@ -36,15 +36,18 @@ export default class Presenter extends BaseComponent {
     this.getInviter()
   }
 
-  async componentDidShow(){
-    const {qid} = this.$router.params;
-    const {getQid,getIssueDetail,getAnswerList} =issueDetailStore;
-    getQid(qid);
-    await getIssueDetail();
-    await getAnswerList();
-    this.setState({
-      issueDetail:issueDetailStore.issueDetail
+  componentDidShow() {
+     this.onAutoLogin().then(async(res) => {
+      const { qid } = this.$router.params;
+      const { getQid, getIssueDetail, getAnswerList } = issueDetailStore;
+      getQid(qid);
+      await getIssueDetail();
+      await getAnswerList();
+      this.setState({
+        issueDetail: issueDetailStore.issueDetail
+      })
     })
+   
   }
 
   componentWillUnmount(){

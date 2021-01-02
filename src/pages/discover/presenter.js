@@ -25,9 +25,11 @@ export default class Presenter extends BaseComponent {
   }
 
   componentDidMount() {
-    this.getMenus();
-    this.getRecommendCircle();
-    // this.getProfile();
+    this.onAutoLogin().then(res => { 
+      this.getMenus();
+      this.getRecommendCircle(); // todo - 排查为什么会有2次请求
+      // this.getProfile();
+    })
   }
 
   componentDidShow(){
