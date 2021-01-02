@@ -351,6 +351,11 @@ export default class HomePage extends BaseComponent {
           isAttentionToBottom: true
         })
       }
+    } else {
+      this.setState({
+        showAttentionLoading: false,
+        isAttentionToBottom: false
+      })
     }
   }
   addAttentionUsersExposure(isNodeReload = false) {

@@ -31,7 +31,7 @@ export default class Presenter extends BaseComponent {
 
   async componentDidShow() {
     this.onAutoLogin().then(res => { 
-      this.isLogin = true;
+      this.isLogin = staticData.isLogin;
       this.initChatList();
       this.getMessageCount();
       this.getChatList();

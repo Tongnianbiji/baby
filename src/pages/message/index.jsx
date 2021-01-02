@@ -5,10 +5,15 @@ import { AtTabs, AtTabsPane, AtSwipeAction } from 'taro-ui'
 import { ICONS } from '../../common/constant'
 import Preloading from '@components/preloading'
 import Presenter from './presenter'
+import { observer, inject } from 'mobx-react'
 import './index.scss'
 
+@inject('staticDataStore')
+@observer
 export default class Index extends Presenter {
   render() {
+    const { isGuide } = this.props.staticDataStore
+
     const { currentTab, total, answer, unreadTotalCount,
       funs,
       mark,
@@ -116,6 +121,10 @@ export default class Index extends Presenter {
             </View>
           </AtTabsPane>
         </AtTabs>
+        {
+          isGuide ?
+            this.guide() : null
+        }
       </View>
     )
   }

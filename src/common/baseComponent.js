@@ -12,7 +12,8 @@ const defaultPositon = {
   lat: '31.245944',
   lon: '121.567706',
 }
-const request = new BaseRequest()
+const request = new BaseRequest();
+let hasCheckedRegist = false;
 /**
  * 所有 页面视图 都应该继承自这个类
  * 提供一些基础动作和封装
@@ -247,9 +248,10 @@ export default class BaseComponent extends Component {
     })
   }
   onAutoLogin() {
-    if (staticData.isLogin) {
+    if (staticData.isLogin || hasCheckedRegist) {
       return Promise.resolve();
     }
+    
     return new Promise((resolve, reject) => {
       // 有token说明已注册，可自动登录。没token可以去接口判断是否已注册， 有则获取token, 无则自动登录失败
       this.getLoginInfo().then(
@@ -287,7 +289,8 @@ export default class BaseComponent extends Component {
             staticData.updateGuideStatus(true)
           }, 2e3)
 
-          const currentPage = Taro.getCurrentPages()[0];
+          const pages = Taro.getCurrentPages();
+          const currentPage = pages[pages.length - 1];
           const whiteList = ['pages/index/index', 'pages/discover/index', 'pages/message/index', 'pages/profile/index'];
           if (whiteList.indexOf(currentPage.route) == -1) { // 非首页跳去登录页面
             Taro.redirectTo({
@@ -309,6 +312,7 @@ export default class BaseComponent extends Component {
     return Taro.login().then(({ errMsg, code }) => {
 
       return request.get('/user/checkregist', { code }).then((e) => {
+        hasCheckedRegist = true;
         const { userId, token, regist } = e.data.data;
         // 判断是否为已注册的用户，已注册则自动登录
         if (regist) {
