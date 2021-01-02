@@ -55,75 +55,63 @@ export default class HomePage extends BaseComponent {
     //     isCollectMin:false
     //   })
     // }, 5e3);
-    this.getrecommends();
-    this.gethots();
-    this.getInviter()
+    this.onAutoLogin().then(res => {
+      this.getrecommends();
+      this.gethots();
+      this.getInviter()
 
-    this.connectGoeasyIm();
-  }
+      this.connectGoeasyIm();
 
-  componentDidShow() {
-    // this.getLocation().then(info => {
-    //   const city = this.getCurrentCity()
-    //   if (!city) {
-    //     Model.getCityInfo(info.longitude, info.latitude).then(data => {
-    //       const c = data.district || data.city
-    //       console.log('c',c)
-    //       this.setState({ currentCity: this.getSubCityName(c) })
-    //       //this.setCurrentCity(c)
-    //     })
-    //   } else {
-    //     this.setState({ currentCity: this.getSubCityName() })
-    //   }
+      this.setCommonAnalysisData();
 
-    // }).catch(() => {
-    //   this.setState({ currentCity: '请选择' })
-    // })
-    timer = setInterval(() => {
       this.setState({
         currentCity: this.getCurrentCity()
       })
-      if (this.getCurrentCity()) {
-        clearInterval(timer)
-      }
-    }, 300);
-    try {
-      const {
-        lat = '31.22114',
-        lon = '121.54409',
-        provinceCode = '上海',
-        cityCode,
-        countryCode,
-        cityCodeCode,
-        countryCodeCode
-      } = this.getCurrentLocation();
-      const { tabId } = this.state;
-
-      analysisHelper.setCommonData({
-        lat: lat,
-        lon: lon,
-        provinceCode: provinceCode,
-        cityCode: cityCodeCode,
-        countryCode: countryCodeCode,
-        tabId: tabId,
-        uid: this.getUserInfo().userId || 'guest'
-      })
-    } catch (error) {
-      console.error('---TODO---', error)
-    }
-    this.getMessageCount();
+    })
   }
 
+  componentDidShow() {
+    if (this.isLoaded) {
+      this.getMessageCount();
+      this.setState({
+        currentCity: this.getCurrentCity()
+      })
+    }
+    this.isLoaded = true;
+  }
+  setCommonAnalysisData() {
+    const {
+      lat,
+      lon,
+      provinceCode,
+      cityCode,
+      countryCode,
+      cityCodeCode,
+      countryCodeCode
+    } = this.getCurrentLocation();
+    const { tabId } = this.state;
+
+    analysisHelper.setCommonData({
+      lat: lat,
+      lon: lon,
+      provinceCode: provinceCode,
+      cityCode: cityCodeCode,
+      countryCode: countryCodeCode,
+      tabId: tabId,
+      uid: staticData.userId || 'guest'
+    })
+  }
   connectGoeasyIm() {
     if (!Storage.getInstance().getToken()) return;
     // if (!staticData.isLogin) return;
-    const { userId } = this.getUserInfo();
+    const { userId } = staticData;
     console.log('---userId---', userId)
     //连接GoEasy
     im.connect({
       id: userId
     }).then(function () {
       console.log("Connection successful.");
+      this.getMessageCount();
     }).catch(function (error) {
       console.log("Failed to connect GoEasy, code:" + error.code + ",error:" + error.content);
     });
@@ -152,7 +140,7 @@ export default class HomePage extends BaseComponent {
 
   onShareAppMessage(res) {
     let path = '';
-    const userId = this.getUserInfo().userId;
+    const userId = staticData.userId;
 
     if (res.from === 'button') {
       const { pid, qid } = JSON.parse(res.target.id);
@@ -340,7 +328,7 @@ export default class HomePage extends BaseComponent {
   //获取关注用户数据
   getAttentionUsers = async () => {
     const { attentionUsers, attentionPageNum } = this.state;
-    const { userId } = this.getUserInfo();
+    const { userId } = staticData;
     this.setState({
       postLock: true
     })
@@ -380,7 +368,7 @@ export default class HomePage extends BaseComponent {
 
         if (!this.attentionUsersExposuredList.has(`${isQa + 1}_${id}`)) {
           this.attentionUsersExposuredList.add(`${isQa + 1}_${id}`);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -pageTop-70, left: -pagePadding, right: -pagePadding }).observe(`#attention-users-item-${id}`, (res) => {
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -pageTop - 70, left: -pagePadding, right: -pagePadding }).observe(`#attention-users-item-${id}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#attention-users-item-${id}-进入视图------`, res);
             analysisHelper.exposure({
@@ -446,7 +434,7 @@ export default class HomePage extends BaseComponent {
         id = item.entity.qid || item.entity.pid;
         if (!this.recommendsExposuredList.has(`${isQa + 1}_${id}`)) {
           this.recommendsExposuredList.add(`${isQa + 1}_${id}`);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -pageTop-70, left: -pagePadding, right: -pagePadding }).observe(`#recommends-item-${id}`, (res) => {
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -pageTop - 70, left: -pagePadding, right: -pagePadding }).observe(`#recommends-item-${id}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#recommends-item-${id}-进入视图------`, res);
             analysisHelper.exposure({
@@ -476,18 +464,18 @@ export default class HomePage extends BaseComponent {
       this.setState({
         hots: res || []
       }, () => {
-          this.addHotsExposure1(isReload);
+        this.addHotsExposure1(isReload);
       })
     } else {
       res = await Model.gethots(2);
       this.setState({
         hots: res || []
       }, () => {
-          this.addHotsExposure2(isReload);
+        this.addHotsExposure2(isReload);
       })
     }
     if (res) {
-  
+
     }
   }
   addHotsExposure1(isNodeReload = false) {
@@ -499,7 +487,7 @@ export default class HomePage extends BaseComponent {
       this.state.hots.forEach(item => {
         if (!this.hotsExposuredList1.has(`${hotTabType}_${item.pid}`)) {
           this.hotsExposuredList1.add(`${hotTabType}_${item.pid}`);
-          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -pageTop-70, left: -pagePadding, right: -pagePadding }).observe(`#hots-${hotTabType}-item-${item.pid}`, (res) => {
+          Taro.createIntersectionObserver().relativeToViewport({ bottom: -70, top: -pageTop - 70, left: -pagePadding, right: -pagePadding }).observe(`#hots-${hotTabType}-item-${item.pid}`, (res) => {
             if (res.intersectionRatio == 0) return;
             console.log(`------#hots-${hotTabType}-item-${item.pid}-进入视图------`, res);
             analysisHelper.exposure({
@@ -834,7 +822,7 @@ export default class HomePage extends BaseComponent {
   }
 
   goMessage = async () => {
-    const { userId } = this.getUserInfo();
+    const { userId } = staticData;
     Taro.switchTab({
       url: '/pages/message/index'
     })

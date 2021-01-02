@@ -15,7 +15,6 @@ class Data {
   @observable hospital = '';
   @observable babyList = '';
   @observable babyNickname = '';
-  @observable isLogin = false;
   @observable sex = 'MALE';
   @observable wxUserInfo = {};
   @observable fromHomeMore = false;
@@ -30,13 +29,21 @@ class Data {
   @observable newInviter = '';
   @observable inviterName = ''
   @observable userInfo = {};
+  @observable loactionInfo = {};
+  @observable token = '';
+  @observable isLogin = false;
 
   @action getGoEasy = (goEasy) => {
     this.goEasy = goEasy
   }
-
+  @action setToken = (token) => {
+    this.token = token
+  }
   @action updateReLoadCirclePage = (status) => {
     this.reLoadCirclePage = status
+  }
+  @action setLocationInfo = (loactionInfo) => {
+    this.loactionInfo = loactionInfo
   }
 
   @action updateCurrentCity = (currentCity) => {

@@ -112,7 +112,7 @@ class App extends BaseComponent {
   }
 
   componentDidShow() {
-    this.isRegiest();
+    // this.isRegiest();
   }
 
   componentDidHide() { }

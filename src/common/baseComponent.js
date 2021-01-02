@@ -1,11 +1,18 @@
-import Taro, {getCurrentInstance} from '@tarojs/taro'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
 import React, { Component } from 'react'
-import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY,USER_INFO_KEY_USERID,CURRENT_LOCATION_INFO,IS_COLLECT_MINI } from '../common/constant'
+import { SHAREOPTIONS, CURRENT_CITY_KEY, USER_INFO_KEY, USER_INFO_KEY_USERID, CURRENT_LOCATION_INFO, IS_COLLECT_MINI } from '../common/constant'
 import Dto from '../common/localStorage'
-import { View, Button,Text, Icon,Image } from '@tarojs/components'
+import { View, Button, Text, Icon, Image } from '@tarojs/components'
+import BaseRequest from '@common/baseRequest'
+import { GMAP_API_KEY } from '@common/constant'
 import { ICONS } from '@common/constant'
 import staticData from '@src/store/common/static-data.js'
-
+// TODO - 整理globalData
+const defaultPositon = {
+  lat: '31.245944',
+  lon: '121.567706',
+}
+const request = new BaseRequest()
 /**
  * 所有 页面视图 都应该继承自这个类
  * 提供一些基础动作和封装
@@ -124,8 +131,8 @@ export default class BaseComponent extends Component {
    * @param {*} permissionName 权限名称
    */
   hasPermission(permissionName) {
-    return Taro.getSetting().then(ret => {
-      return ret.authSetting[permissionName]
+    return Taro.getSetting().then(res => {
+      return res.authSetting[permissionName]
     })
   }
 
@@ -184,7 +191,7 @@ export default class BaseComponent extends Component {
    * 获取当前城市名
    */
   getCurrentCity() {
-    return this.__local_dto.getValue(CURRENT_CITY_KEY)
+    return staticData.currentCity;
   }
 
   /**
@@ -192,39 +199,40 @@ export default class BaseComponent extends Component {
    * @param {*} cityname 城市名称
    */
   setCurrentCity(cityname) {
-    this.__local_dto.setValue(CURRENT_CITY_KEY, cityname)
+    staticData.updateCurrentCity(cityname)
   }
 
 
-   /**
-   * 获取当前定位信息
-   */
+  // /**
+  // * 获取当前定位信息
+  // */
   getCurrentLocation() {
-    return this.__local_dto.getValue(CURRENT_LOCATION_INFO)
+    return staticData.loactionInfo;
   }
 
-  /**
-   * 设置定位信息
-   * @param {*} location 定位信息
-   */
-  setCurrentLocation(location) {
-    this.__local_dto.setValue(CURRENT_LOCATION_INFO, location)
-  }
+  // /**
+  //  * 设置定位信息
+  //  * @param {*} location 定位信息
+  //  */
+  // setCurrentLocation(location) {
+  //   this.__local_dto.setValue(CURRENT_LOCATION_INFO, location)
+  // }
 
   /**
    * 获取用户信息
    */
   getUserInfo() {
-    if(!this.__local_dto.getValue(USER_INFO_KEY)){
-      return this.__local_dto.getValue(USER_INFO_KEY_USERID)
-    }else{
-      return this.__local_dto.getValue(USER_INFO_KEY)
-    }
+    return staticData.userInfo;
+    // if (!this.__local_dto.getValue(USER_INFO_KEY)) {
+    //   return this.__local_dto.getValue(USER_INFO_KEY_USERID)
+    // } else {
+    //   return this.__local_dto.getValue(USER_INFO_KEY)
+    // }
   }
 
-   /**
-   * 获取当前是否小程序收藏
-   */
+  /**
+  * 获取当前是否小程序收藏
+  */
   getCurrentIsCollentMini() {
     return this.__local_dto.getValue(IS_COLLECT_MINI)
   }
@@ -233,16 +241,144 @@ export default class BaseComponent extends Component {
     this.__local_dto.setValue(IS_COLLECT_MINI, status)
   }
 
-  registe = ()=>{
+  registe = () => {
     Taro.navigateTo({
-      url:'/pages/login/index'
+      url: '/pages/login/index'
     })
   }
+  onAutoLogin() {
+    return new Promise((resole, reject) => {
+      // 有token说明已注册，可自动登录。没token可以去接口判断是否已注册， 有则获取token, 无则自动登录失败
+      this.getLoginInfo().then(
+        loginInfo => {
+          request.get('/profile/get', { userId: loginInfo.userId }, { token: loginInfo.token }).then(res => {
+            // 登录token过期，重新登录
+            if (res.code === 2 && res.message == '登录过期,请重新登录') {
 
+              
+              return;
+            }
+
+            // 登录未超时
+            if (res.errMsg === request.okMsg) { // TODO - 这个奇怪的判断是什么？
+              this.__local_dto.setValue('__TN_LOGIN_TOKEN_',loginInfo.token); // 为了让requet模块能拿到token, 本不应该这样设计
+              const userInfo = res.data.data;
+              staticData.updateUserInfo(userInfo || {});
+            }
+            // 获取位置信息
+            this.getLatAndLon().then(res => {
+              this.setCityInfo(res.longitude, res.latitude).then(data => {
+                const c = data.district || data.city;
+                staticData.updateCurrentCity(this.getSubCityName(c));
+                resole(); // 完成登录
+              })
+            })
+          })
+        },
+        err => {
+
+        }
+      )
+    })
+
+  }
+  getLoginInfo() {
+    let loginInfo = this.__local_dto.getValue('loginInfo');
+    if (loginInfo) {
+      return Promise.resolve(loginInfo);
+    }
+    return Taro.login().then(({ errMsg, code }) => {
+
+      return request.get('/user/checkregist', { code }).then((e) => {
+        const { userId, token, regist } = e.data.data;
+        // 判断是否为已注册的用户，已注册则自动登录
+        if (regist) {
+          loginInfo = {
+            token,
+            userId,
+          };
+          this.__local_dto.setValue('loginInfo', loginInfo);
+          return loginInfo;
+        } else {
+          return null;
+        }
+      })
+    })
+  }
+  getLatAndLon() {
+    const permissionName = 'scope.userLocation';
+    return Taro.getSetting().then(res => {
+      if (!res.authSetting[permissionName]) {
+        return Taro.authorize({
+          scope: permissionName
+        }).then((res) => {
+          console.log('---成功授权---', res)
+          return Taro.getLocation();
+        }, err => {
+          console.log('---拒绝授权---', err)
+          return Promise.resolve({ longitude: defaultPositon.lon, latitude: defaultPositon.lat });
+        })
+      } else {
+        return Taro.getLocation();
+      }
+    })
+  }
+  // 获取城市信息
+  async setCityInfo(lon = '121.54409', lat = '31.22114') {
+    return request.get('https://restapi.amap.com/v3/geocode/regeo', {
+      key: GMAP_API_KEY,
+      location: `${lon},${lat}`
+    }).then(data => {
+      if (data.data && data.data.infocode === '10000') {
+        console.log('定位信息', data.data)
+        const { regeocode = {} } = data.data
+        const { addressComponent = {} } = regeocode
+        const { province, city, adcode, citycode, country, district, towncode } = addressComponent;
+
+        return request.postWithToken('/poi/update', {
+          districtCode: adcode,
+          districtName: district,
+          lat: lat,
+          lng: lon
+        }).then(
+          res => {
+            staticData.setLocationInfo({
+              lat: lat,
+              lon: lon,
+              provinceCode: province,
+              cityCode: city,
+              countryCode: district,
+              cityCodeCode: adcode,
+              countryCodeCode: towncode
+            })
+            return {
+              msg: 'ok',
+              province,
+              city: city || province,
+              adcode,
+              citycode,
+              country,
+              district
+            }
+          },
+          err => {
+
+          });
+      } else {
+        return {
+          msg: '逆地址解析失败'
+        }
+      }
+    })
+  }
+  getSubCityName = (name = undefined) => {
+    const city = name || this.getCurrentCity() || '请选择'
+    return city.length > 3 ? `${city.substr(0, 3)}...` : city
+  }
 
   //全局引导
   guide() {
-    return(
+    return (
       <View>
         {
           <View className='guide-button' onClick={this.registe.bind(this)}>
@@ -260,7 +396,7 @@ export default class BaseComponent extends Component {
 
   renderEmptyPage(pt = '30vh') {
     return (
-      <View className='noTemplate-wrap' style={{paddingTop: pt}}>
+      <View className='noTemplate-wrap' style={{ paddingTop: pt }}>
         <Image src={ICONS.NODATA} mode='widthFix' />
         <Text>当前暂无数据</Text>
       </View>
