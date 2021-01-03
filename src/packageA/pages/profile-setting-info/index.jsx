@@ -46,6 +46,15 @@ export default class ProfileSettingInfo extends Presenter {
             <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
           </View>
         </View>
+        <View className='item' onClick={this.onClickNavTo.bind(this, 'plot')}>
+          <View className='item-label'>
+            <View className='item-txt'>小区</View>
+          </View>
+          <View className='item-value'>
+            <View className='item-txt'>{111}</View>
+            <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
+          </View>
+        </View>
         <View className='item'>
           <View className='item-label'>
             <View className='item-txt'>设置主页背景</View>

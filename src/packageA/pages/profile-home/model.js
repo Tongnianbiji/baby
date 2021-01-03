@@ -9,7 +9,7 @@ export default {
       token,
       userId
     }
-    const ret = await request.getWithToken('/profile/get', params)
+    const ret = await request.getWithToken('/profile/get', params, { token})
     const data = request.standardResponse(ret)
     if (data.code === 0 && data.data) {
       return data.data

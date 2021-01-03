@@ -15,6 +15,7 @@ const defaultPositon = {
 let reLoginCount = 0;
 const request = new BaseRequest();
 let hasCheckedRegist = false;
+let cacheCityInfo = null;
 /**
  * 所有 页面视图 都应该继承自这个类
  * 提供一些基础动作和封装
@@ -97,7 +98,7 @@ export default class BaseComponent extends Component {
    * 用户是否登录
    */
   isLogin() {
-    const token = this.__local_dto.getToken();
+    const token = this.__local_dto.getValue('loginInfo').token;
     return token
   }
 
@@ -286,24 +287,32 @@ export default class BaseComponent extends Component {
           })
         },
         err => {
-          staticData.updateIsRegisteStatus(false);
-          staticData.updateIsLoginStatus(false);
-          setTimeout(() => {
-            staticData.updateGuideStatus(true)
-          }, 2e3)
+          // 获取位置信息
+          this.getLatAndLon().then(res => {
+            this.setCityInfo(res.longitude, res.latitude, false).then(data => {
+              const c = data.district || data.city;
+              staticData.updateCurrentCity(this.getSubCityName(c));
 
-          const pages = Taro.getCurrentPages();
-          const currentPage = pages[pages.length - 1];
-          const whiteList = ['pages/index/index', 'pages/discover/index', 'pages/message/index', 'packageA/pages/characterC/index',
-            'pages/profile/index', 'packageB/pages/post-detail/index', 'packageB/pages/issue-detail/index',
-          'packageA/pages/characterC/index'];
-          if (whiteList.indexOf(currentPage.route) == -1) { // 落地页只允许访问部分页面
-            Taro.redirectTo({
-              url: '/pages/login/index'
-            });
-          } else {
-            resolve();
-          }
+              staticData.updateIsRegisteStatus(false);
+              staticData.updateIsLoginStatus(false);
+              setTimeout(() => {
+                staticData.updateGuideStatus(true)
+              }, 2e3)
+
+              const pages = Taro.getCurrentPages();
+              const currentPage = pages[pages.length - 1];
+              const whiteList = ['pages/index/index', 'pages/discover/index', 'pages/message/index', 'packageA/pages/characterC/index',
+                'pages/profile/index', 'packageB/pages/post-detail/index', 'packageB/pages/issue-detail/index',
+                'packageA/pages/characterC/index'];
+              if (whiteList.indexOf(currentPage.route) == -1) { // 落地页只允许访问部分页面
+                Taro.redirectTo({
+                  url: '/pages/login/index'
+                });
+              } else {
+                resolve();
+              }
+            })
+          })
         }
       )
     })
@@ -351,8 +360,13 @@ export default class BaseComponent extends Component {
       }
     })
   }
+  submitCacheCityInfo() {
+    request.postWithToken('/poi/update', cacheCityInfo).then(res => {
+      cacheCityInfo = null;
+    })
+  }
   // 获取城市信息
-  async setCityInfo(lon = '121.54409', lat = '31.22114') {
+  async setCityInfo(lon = '121.54409', lat = '31.22114', needPost=true) {
     return request.get('https://restapi.amap.com/v3/geocode/regeo', {
       key: GMAP_API_KEY,
       location: `${lon},${lat}`
@@ -363,12 +377,15 @@ export default class BaseComponent extends Component {
         const { addressComponent = {} } = regeocode
         const { province, city, adcode, citycode, country, district, towncode } = addressComponent;
 
-        return request.postWithToken('/poi/update', {
+        const params = {
           districtCode: adcode,
           districtName: district,
           lat: lat,
           lng: lon
-        }).then(
+        }
+        const p = needPost ? request.postWithToken('/poi/update', params) : Promise.resolve(cacheCityInfo = params);
+
+        return p.then(
           res => {
             staticData.setLocationInfo({
               lat: lat,

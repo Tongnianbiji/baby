@@ -34,26 +34,28 @@ export default class ProfileHomePresenter extends BaseComponent {
   componentWillMount() { }
 
   componentDidMount() {
-    // this.onAutoLogin().then(res => {
-    // TODO - 改前置登录逻辑-它可能是落地页
-    // TODO - 分享逻辑错误 - c要看b的主页，而不是自己的
-    // })
-    this.getActiveData()
+    this.onAutoLogin().then(res => {
+      this.getActiveData()
+      this.getProfileInfo();
+    })
+   
   }
 
   componentWillUnmount() { }
 
   componentDidShow() {
-    this.onAutoLogin().then(res => {
+    if (this.isloaded) {
       this.getProfileInfo();
-    })
+    }
+    this.isloaded = true;
   }
 
   componentDidHide() { }
 
-  onShareAppMessage (res){
-    let path = `/packageA/pages/profile-home/index?userId=${userId}`;
+  onShareAppMessage(res) {
     const userId = this.getUserInfo().userId;
+    let path = `/packageA/pages/profile-home/index?userId=${userId}`;
+
     if (res.from === 'button') {
       const {pid,qid} =JSON.parse(res.target.id);
       if(pid){

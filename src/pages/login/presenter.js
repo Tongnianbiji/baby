@@ -89,7 +89,7 @@ export default class Presenter extends BaseComponent {
         staticDataStore.updateUserInfo(ret.profile || {});
         staticDataStore.updateIsLoginStatus(true);
         staticDataStore.updateIsRegisteStatus(true);
-
+        this.submitCacheCityInfo();
         
         //updateWxUserInfo(ret.profile)
         if (isRegiste) {
