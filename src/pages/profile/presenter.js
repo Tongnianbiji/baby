@@ -21,6 +21,9 @@ export default class ProfilePresenter extends BaseComponent {
   }
   componentDidShow() {
     this.onAutoLogin().then(res => {
+      this.setState({
+        isLogin: staticData.isLogin,
+      })
       this.getProfile();
     })
    
@@ -46,7 +49,6 @@ export default class ProfilePresenter extends BaseComponent {
         this.hideLoading();
         this.setState({
           profileInfo: ret.data,
-          isLogin: staticData.isLogin,
         });
         this.storage.setValue(USER_INFO_KEY_USERID, ret.data)
       }

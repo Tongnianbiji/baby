@@ -44,14 +44,15 @@ export default class ProfileHomePresenter extends BaseComponent {
   componentWillUnmount() { }
 
   componentDidShow() {
-    this.getProfileInfo();
-
+    this.onAutoLogin().then(res => {
+      this.getProfileInfo();
+    })
   }
 
   componentDidHide() { }
 
   onShareAppMessage (res){
-    let path= '';
+    let path = `/packageA/pages/profile-home/index?userId=${userId}`;
     const userId = this.getUserInfo().userId;
     if (res.from === 'button') {
       const {pid,qid} =JSON.parse(res.target.id);
