@@ -73,7 +73,7 @@ export default class CharacterBPresenter extends BaseComponent {
       updateWxUserInfo(e.detail.userInfo);
       isHasWxInfo = true
     }
-    if(!isRegiste){
+    if (!staticData.userInfo.nickName){
       if(item.role === 'OTHER'){
         this.navto({
           url:`/packageA/pages/characterX/index?isInvite=true&babyName=${babyNickname}&invtKey=${invtKey}`

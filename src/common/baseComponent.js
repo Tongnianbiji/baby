@@ -295,7 +295,8 @@ export default class BaseComponent extends Component {
           const pages = Taro.getCurrentPages();
           const currentPage = pages[pages.length - 1];
           const whiteList = ['pages/index/index', 'pages/discover/index', 'pages/message/index', 'packageA/pages/characterC/index',
-            'pages/profile/index', 'packageB/pages/post-detail/index', 'packageB/pages/issue-detail/index'];
+            'pages/profile/index', 'packageB/pages/post-detail/index', 'packageB/pages/issue-detail/index',
+          'packageA/pages/characterC/index'];
           if (whiteList.indexOf(currentPage.route) == -1) { // 落地页只允许访问部分页面
             Taro.redirectTo({
               url: '/pages/login/index'

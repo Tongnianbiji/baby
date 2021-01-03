@@ -90,7 +90,7 @@ export default class Presenter extends BaseComponent {
         staticDataStore.updateIsLoginStatus(true);
         staticDataStore.updateIsRegisteStatus(true);
 
-
+        
         //updateWxUserInfo(ret.profile)
         if (isRegiste) {
           updateIsLoginStatus(true)
