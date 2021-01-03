@@ -1,7 +1,7 @@
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
-
+import staticData from '@src/store/common/static-data.js'
 export default class ProfileHomePresenter extends BaseComponent {
   constructor(props) {
     super(props);
@@ -498,7 +498,11 @@ export default class ProfileHomePresenter extends BaseComponent {
         break;
     }
   }
-
+  toCircle(plotCid) {
+    this.navto({
+      url: `/packageA/pages/circle-detail/index?cid=${plotCid}`,
+    })
+  }
   //个人页面编辑
   editProfile = () => {
     this.navto({

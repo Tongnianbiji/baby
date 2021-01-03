@@ -3,6 +3,7 @@ import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
 import staticData from '@src/store/common/static-data'
 import getSex from '@common/utils/roleToSex'
+import model from '../plot/model'
 
 export default class ProfileSettingInfoPresenter extends BaseComponent {
   constructor(props) {
@@ -13,7 +14,9 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
       headImg:'',
       theme:'',
       canSave:false,
-      isShowNext:false
+      isShowNext: false,
+      selectedPlot: '',
+      plotName: '',
     }
   }
 
@@ -21,7 +24,7 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
 
   componentDidMount() {
     const {wxInfo} = this.$router.params;
-    const {wxUserInfo,sex,role} = staticData;
+    const { wxUserInfo, sex, role, selectedPlot } = staticData;
     // console.log('*****',wxUserInfo,sex,role)
     if(wxInfo){
       this.getWxProfileInfo()
@@ -57,6 +60,9 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
       case 'signature':
         this.navto({ url: `/packageA/pages/profile-setting-info-signature/index?signature=${signature}` })
         break;
+      case 'plot':
+        this.navto({ url: `/packageA/pages/plot/index` })
+        break;
       default:
         break;
     }
@@ -75,7 +81,8 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
         // nickName:res.nickName,
         // signature:res.signature,
         headImg:res.headImg,
-        theme:res.theme
+        theme: res.theme,
+        plotName: res.plotName,
       })
     }
   }
@@ -131,7 +138,21 @@ export default class ProfileSettingInfoPresenter extends BaseComponent {
     })
   }
 
-  confrim= ()=>{
-    this.navback()
+  confrim = async () => {
+    let p = null;
+    if (!this.state.isShowNext) {
+      p= Model.updatePlotInfo(staticData.selectedPlot.plotId);
+    } else {
+      p = Promise.resolve(true);
+    }
+    p.then(res => {
+      if (res) {
+        // this.showToast('更新成功');
+        staticData.setSelectedPlot({});
+        this.navback()
+      } else {
+        this.showToast('系统异常');
+      }
+    })
   }
 }

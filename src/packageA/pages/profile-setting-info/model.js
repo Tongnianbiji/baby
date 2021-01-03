@@ -54,6 +54,19 @@ export default {
       return false
     }
   },
+  async updatePlotInfo(plotId) {
+    let params = {
+      plotId
+    }
+    const ret = await request.postWithToken('/profile/update', params);
+    const data = request.standardResponse(ret)
+    console.log(data)
+    if (data.code === 0) {
+      return true
+    } else {
+      return false
+    }
+  },
 
   async updateInfo(headImg,nickName,signature,sex) {
     let params = {

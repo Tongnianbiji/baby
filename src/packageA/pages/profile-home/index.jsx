@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { AtTabs, AtTabsPane } from 'taro-ui'
-import { View, Image } from '@tarojs/components'
+import { View, Image,Text } from '@tarojs/components'
 import Presenter from './presenter'
 import Preloading from '@components/preloading'
 import BehaviorCard from '@components/behavior-card'
@@ -16,6 +16,7 @@ export default class ProfileHome extends Presenter {
       tabsCurrent,
       isMySelf,
       userInfo: { nickName, headImg, sex, district, child, signature, flow, funs, circle, marked, stared, subscr, userId, theme },
+      userInfo,
       activeData,
       postData,
       questionData,
@@ -98,7 +99,13 @@ export default class ProfileHome extends Presenter {
                 district &&
                 <View className='label'>{district}</View>
               }
-
+              {
+                userInfo.plotName && 
+                <View className='label' onClick={this.toCircle.bind(this, userInfo.plotCid)}>
+                  ｜<Image src={ICONS.SCHOOL} mode='widthFix'></Image>
+                  <Text className={`${userInfo.plotCid ? 'active' : ''}`}>{userInfo.plotName}</Text>
+                </View>
+              }
               {
                 childs.map(item => {
                   return (

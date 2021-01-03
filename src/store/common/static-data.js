@@ -32,6 +32,7 @@ class Data {
   @observable loactionInfo = {};
   @observable token = '';
   @observable isLogin = false;
+  @observable selectedPlot = {};
 
   @action getGoEasy = (goEasy) => {
     this.goEasy = goEasy
@@ -39,6 +40,10 @@ class Data {
   @action setToken = (token) => {
     this.token = token
   }
+  @action setSelectedPlot = (selectedPlot) => {
+    this.selectedPlot = selectedPlot
+  }
+  
   @action updateReLoadCirclePage = (status) => {
     this.reLoadCirclePage = status
   }
