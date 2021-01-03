@@ -47,6 +47,7 @@ export default class ProfileBabyPresenter extends BaseComponent {
       // 来自页面内转发按钮
       console.log(res.target)
     }
+    // console.log(11111, `/packageA/pages/characterC/index?inviter=${userInfo.nickName}&newInviter=${userInfo.userId}&bid=${bid}&babyName=${babyName}&invtKey=${invtKey}&inviterRoles=${JSON.stringify(otherMember)}`)
     return {
       title: `${userInfo.nickName}邀请加入童年`,
       path: `/packageA/pages/characterC/index?inviter=${userInfo.nickName}&newInviter=${userInfo.userId}&bid=${bid}&babyName=${babyName}&invtKey=${invtKey}&inviterRoles=${JSON.stringify(otherMember)}`

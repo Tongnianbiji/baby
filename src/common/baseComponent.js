@@ -12,6 +12,7 @@ const defaultPositon = {
   lat: '31.245944',
   lon: '121.567706',
 }
+let reLoginCount = 0;
 const request = new BaseRequest();
 let hasCheckedRegist = false;
 /**
@@ -258,9 +259,11 @@ export default class BaseComponent extends Component {
         loginInfo => {
           request.get('/profile/get', { userId: loginInfo.userId }, { token: loginInfo.token }).then(res => {
             // 登录token过期，重新登录
-            if (res.code === 2 && res.message == '登录过期,请重新登录') {
-
-
+            if (res.data.code === 2 && res.data.message == '登录过期,请重新登录' && reLoginCount++<3) {
+              this.__local_dto.setValue('loginInfo', '');
+              this.onAutoLogin().then(res => {
+                resolve();
+              })
               return;
             }
 
@@ -291,7 +294,7 @@ export default class BaseComponent extends Component {
 
           const pages = Taro.getCurrentPages();
           const currentPage = pages[pages.length - 1];
-          const whiteList = ['pages/index/index', 'pages/discover/index', 'pages/message/index',
+          const whiteList = ['pages/index/index', 'pages/discover/index', 'pages/message/index', 'packageA/pages/characterC/index',
             'pages/profile/index', 'packageB/pages/post-detail/index', 'packageB/pages/issue-detail/index'];
           if (whiteList.indexOf(currentPage.route) == -1) { // 落地页只允许访问部分页面
             Taro.redirectTo({

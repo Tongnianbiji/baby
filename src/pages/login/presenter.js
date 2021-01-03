@@ -81,6 +81,16 @@ export default class Presenter extends BaseComponent {
       if (msg === 'request:ok' && status === 0) {
         this.storage.setToken(ret.token)
         this.storage.setValue(USER_INFO_KEY, ret.profile)
+        // 改版
+        this.storage.setValue('loginInfo', {
+          token: ret.token,
+          userId: ret.profile.userId,
+        });
+        staticDataStore.updateUserInfo(ret.profile || {});
+        staticDataStore.updateIsLoginStatus(true);
+        staticDataStore.updateIsRegisteStatus(true);
+
+
         //updateWxUserInfo(ret.profile)
         if (isRegiste) {
           updateIsLoginStatus(true)
