@@ -115,7 +115,9 @@ class App extends BaseComponent {
     // this.isRegiest();
   }
 
-  componentDidHide() { }
+  componentDidHide() { 
+    staticDataStore.setHasCheckedRegist(false);
+  }
 
   componentDidCatchError() { }
 

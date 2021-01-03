@@ -31,6 +31,7 @@ class Data {
   @observable userInfo = {};
   @observable loactionInfo = {};
   @observable token = '';
+  @observable hasCheckedRegist = false;
   @observable isLogin = false;
   @observable selectedPlot = {};
 
@@ -39,6 +40,9 @@ class Data {
   }
   @action setToken = (token) => {
     this.token = token
+  }
+  @action setHasCheckedRegist = (hasCheckedRegist) => {
+    this.hasCheckedRegist = hasCheckedRegist
   }
   @action setSelectedPlot = (selectedPlot) => {
     this.selectedPlot = selectedPlot

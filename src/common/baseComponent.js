@@ -14,7 +14,6 @@ const defaultPositon = {
 }
 let reLoginCount = 0;
 const request = new BaseRequest();
-let hasCheckedRegist = false;
 let cacheCityInfo = null;
 /**
  * 所有 页面视图 都应该继承自这个类
@@ -250,14 +249,15 @@ export default class BaseComponent extends Component {
     })
   }
   onAutoLogin() {
-    if (staticData.isLogin || hasCheckedRegist) {
+    if (staticData.isLogin || staticData.hasCheckedRegist) {
       return Promise.resolve();
     }
-    
+
     return new Promise((resolve, reject) => {
       // 有token说明已注册，可自动登录。没token可以去接口判断是否已注册， 有则获取token, 无则自动登录失败
       this.getLoginInfo().then(
         loginInfo => {
+
           request.get('/profile/get', { userId: loginInfo.userId }, { token: loginInfo.token }).then(res => {
             // 登录token过期，重新登录
             if (res.data.code === 2 && res.data.message == '登录过期,请重新登录' && reLoginCount++<3) {
@@ -319,14 +319,16 @@ export default class BaseComponent extends Component {
 
   }
   getLoginInfo() {
+
     let loginInfo = this.__local_dto.getValue('loginInfo');
+
     if (loginInfo) {
       return Promise.resolve(loginInfo);
     }
     return Taro.login().then(({ errMsg, code }) => {
 
       return request.get('/user/checkregist', { code }).then((e) => {
-        hasCheckedRegist = true;
+        staticData.setHasCheckedRegist(true);
         const { userId, token, regist } = e.data.data;
         // 判断是否为已注册的用户，已注册则自动登录
         if (regist) {
