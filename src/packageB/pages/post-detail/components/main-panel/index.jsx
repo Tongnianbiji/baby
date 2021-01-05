@@ -122,7 +122,33 @@ export default class MainPanelComponent extends BaseComponent {
       urls: urls
     })
   }
-
+  getMapContent(content) {
+    const p = /_\#\#_(.*?)_\#\#_/g;
+    const nodeList = [];
+    content.split(/_\#\#_.*?_\#\#_/).forEach(item => {
+      if (!!item) {
+        nodeList.push({
+          value: item,
+          type: 'text',
+        })
+      }
+      const pExecRes = p.exec(content);
+      if (pExecRes) {
+        nodeList.push({
+          value: JSON.parse(pExecRes[1]).name,
+          cid: JSON.parse(pExecRes[1]).cid,
+          type: 'circle',
+        })
+      }
+    });
+    console.log(444, nodeList)
+    return nodeList;
+  }
+  navToCircle(cid, cname) {
+    this.navto({
+      url: `/packageA/pages/circle-detail/index?cid=${cid}&cname=${cname}`,
+    })
+  }
   preViewVideo = (e)=>{
     e.stopPropagation();
   }
@@ -180,7 +206,11 @@ export default class MainPanelComponent extends BaseComponent {
           </View>
           <View onClick={this.reply.bind(this)} onLongPress={this.deletePost.bind(this,this.props.postDetail.detailData)}>
             <View className='title'>{title}</View>
-            <View className='content'>{content}</View>
+              <View className='content'>{
+                this.getMapContent(content).map(item => (
+                  item.type == 'circle' ? <Text className='item-circle' onClick={this.navToCircle.bind(this,item.cid, item.value)}>{item.value}</Text> : <Text className='item-text'>{item.value}</Text>
+                ))
+            }</View>
             <View className='contents'>
                 {
                   files.map(item => {

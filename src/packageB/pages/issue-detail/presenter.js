@@ -15,7 +15,8 @@ export default class Presenter extends BaseComponent {
     }
   }
 
-  async componentDidMount(){
+  async componentDidMount() {
+     circleIsReload();
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2];
     if(!prevPage){
@@ -53,7 +54,7 @@ export default class Presenter extends BaseComponent {
   componentWillUnmount(){
     const {initPageList} = issueDetailStore
     initPageList();
-    circleIsReload();
+   
   }
 
    //自定义进入圈子

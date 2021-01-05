@@ -21,6 +21,7 @@ export default class Presenter extends BaseComponent {
   }
 
   componentDidMount() {
+    staticData.updateReLoadCirclePage(true)
     const { cid, cname = '' } = getCurrentInstance().router.params;
     const info = Taro.getSystemInfoSync();
     const { windowHeight, statusBarHeight, titleBarHeight } = info;

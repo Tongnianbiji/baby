@@ -1,6 +1,7 @@
 import BaseComponent from '@common/baseComponent'
 import Model from './model'
 import Taro from '@tarojs/taro'
+import staticData from '@src/store/common/static-data'
 import circleIsReload from '@src/common/utils/circleIsReload'
 // import circleDetailStore from '@src/store/circle-detail'
 
@@ -17,6 +18,7 @@ export default class Presenter extends BaseComponent {
       files:[]
     }
     this.$store = this.props.circleDetailStore;
+    this.circleList = [];
   }
 
   componentDidMount() {
@@ -24,6 +26,17 @@ export default class Presenter extends BaseComponent {
     this.setNavBarTitle(cname)
     this.showNavLoading()
     this.init(cid)
+  }
+  componentDidShow() {
+    if (staticData.tempCircleItem) {
+      this.circleList.push(staticData.tempCircleItem);
+      let content = this.state.content;
+      this.setState({
+        content: content.replace('<', `[${staticData.tempCircleItem.name}]`),
+      })
+    }
+    staticData.setTempCircleItem(null);
+
   }
 
   componentWillUnmount(){
@@ -40,10 +53,16 @@ export default class Presenter extends BaseComponent {
     this.hideNavLoading()
   }
 
-  contentInput = ({ detail }) => {
+  contentInput = (e) => {
+    const value = e.detail.value;
+    if (value.indexOf('<') > -1) {
+      Taro.navigateTo({
+        url: '/packageA/pages/user-circles/index?mode=select'
+      })
+    }
     this.setState({
-      content: detail.value,
-      canSave: detail.value.length > 4
+      content: value,
+      canSave: value.length > 4
     })
   }
 
@@ -82,12 +101,20 @@ export default class Presenter extends BaseComponent {
 
     this.showNavLoading()
 
+    const p = /\[(.*?)\]/g;
+    const replaceValue = content.replace(p, (item, $1) => {
+      const circleItem = this.circleList.find(item => item.name == $1);
+      return `_##_${JSON.stringify({
+        name: circleItem.name,
+        cid: circleItem.cid,
+      })}_##_`
+    })
     const params = {
       cid,
       // title: name,
       // content,
       files:files,
-      title:content,
+      title: replaceValue,
       tagIds: selectedTag
     }
 

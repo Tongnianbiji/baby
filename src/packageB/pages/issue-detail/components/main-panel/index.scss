@@ -81,7 +81,10 @@
   .issue {
     display: flex;
     align-items: flex-start;
-    // margin-bottom: 14px;
+    // margin-bottom: 14px; 
+    .item-circle {
+      color: #FF473A;
+    }
     .icon {
       color: #fff;
       font-size: 24px;

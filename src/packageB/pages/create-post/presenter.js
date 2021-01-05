@@ -2,6 +2,7 @@ import BaseComponent from '../../../common/baseComponent'
 import Model from './model'
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
+import staticData from '@src/store/common/static-data'
 import circleIsReload from '@src/common/utils/circleIsReload'
 
 export default class Presenter extends BaseComponent {
@@ -21,9 +22,10 @@ export default class Presenter extends BaseComponent {
       isManual:false,
       startPageX:null,
       movePageX:null,
-      tagListWidth:null
+      tagListWidth:null,
     }
     this.$store = this.props.circleDetailStore
+    this.circleList = [];
   }
 
   componentDidMount() {
@@ -38,7 +40,22 @@ export default class Presenter extends BaseComponent {
     this.$store.updateOpPanel(false);
     circleIsReload();
   }
-
+  componentDidShow() {
+    // console.log(111, staticData.tempCircleItem)
+    if (staticData.tempCircleItem) {
+      this.circleList.push(staticData.tempCircleItem);
+      let content = this.state.content;
+      // content.replace('<', `_##_${JSON.stringify({
+      //   c
+      // })}_##_`)
+      
+      this.setState({
+        content: content.replace('<', `[${staticData.tempCircleItem.name}]`),
+      })
+    }
+    staticData.setTempCircleItem(null);
+    
+  }
   async init(cid) {
     const tags = await Model.getTags(cid)
     this.setState({
@@ -55,10 +72,16 @@ export default class Presenter extends BaseComponent {
     }))
   }
 
-  contentInput = ({ detail }) => {
+  contentInput = (e) => {
+    const value = e.detail.value;
+    if (value.indexOf('<')>-1) {
+      Taro.navigateTo({
+        url: '/packageA/pages/user-circles/index?mode=select'
+      })
+    }
     this.setState(prev => ({
-      content: detail.value,
-      canSave: prev.name.length > 4 && detail.value.length > 4
+      content: value,
+      canSave: prev.name.length > 4 && value.length > 4
     }))
   }
 
@@ -99,10 +122,19 @@ export default class Presenter extends BaseComponent {
 
     this.showNavLoading()
 
+    const p = /\[(.*?)\]/g;
+    const replaceValue = content.replace(p,  (item,$1)=> {
+      const circleItem = this.circleList.find(item => item.name == $1);
+      return `_##_${JSON.stringify({
+        name: circleItem.name,
+        cid: circleItem.cid,
+      })}_##_`
+    })
+
     const params = {
       cid,
       title: name,
-      content,
+      content: replaceValue,
       tagIds: selectedTag,
       files
     }
