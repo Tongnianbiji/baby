@@ -9,14 +9,15 @@ import CircleItem from './circle-item'
 export default class CirclesView extends Presenter {
 
   render() {
-    const {circlesList} = this.state;
+    const { circlesList } = this.state;
+    const isSimpleMode = this.$router.params.mode == 'select';
     return (
       <View className='circles-vewport'>
         {
           circlesList.length ?
           circlesList.map((item,n) => {
             return (
-             <CircleItem onGetCircleDetail={this.getCircleDetail.bind(this)} onSubscribe={this.onUpdateCircle.bind(this)} key={n} model={item}></CircleItem>
+              <CircleItem onGetCircleDetail={this.getCircleDetail.bind(this)} isSimpleMode={isSimpleMode} onSubscribe={this.onUpdateCircle.bind(this)} key={n} model={item}></CircleItem>
             )
           }) : null
         }
