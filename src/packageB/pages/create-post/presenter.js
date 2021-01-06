@@ -26,6 +26,7 @@ export default class Presenter extends BaseComponent {
     }
     this.$store = this.props.circleDetailStore
     this.circleList = [];
+    this.circleTriggerStr = '[]';
   }
 
   componentDidMount() {
@@ -41,16 +42,12 @@ export default class Presenter extends BaseComponent {
     circleIsReload();
   }
   componentDidShow() {
-    // console.log(111, staticData.tempCircleItem)
     if (staticData.tempCircleItem) {
       this.circleList.push(staticData.tempCircleItem);
       let content = this.state.content;
-      // content.replace('<', `_##_${JSON.stringify({
-      //   c
-      // })}_##_`)
       
       this.setState({
-        content: content.replace('<', `[${staticData.tempCircleItem.name}]`),
+        content: content.replace(this.circleTriggerStr, `[${staticData.tempCircleItem.name}]`),
       })
     }
     staticData.setTempCircleItem(null);
@@ -74,7 +71,7 @@ export default class Presenter extends BaseComponent {
 
   contentInput = (e) => {
     const value = e.detail.value;
-    if (value.indexOf('<')>-1) {
+    if (value.indexOf(this.circleTriggerStr)>-1) {
       Taro.navigateTo({
         url: '/packageA/pages/user-circles/index?mode=select'
       })
