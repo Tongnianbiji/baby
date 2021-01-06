@@ -6,6 +6,7 @@ import { ICONS } from '../../constant'
 import Behaviors from '@common/utils/behaviors'
 import './styles.scss'
 import staticData from '@src/store/common/static-data'
+import { renderCircleReferContent } from '@components/circle-refer-conent'
 
 export default class NoticeCard extends Component {
   static defaultProps = {
@@ -152,7 +153,10 @@ export default class NoticeCard extends Component {
             <View className='icon'>
               <View className='icon'>问</View>
             </View>
-            <View className='txt'>{data.title && data.title}</View>
+            {/* <View>{renderCircleReferContent(data.title, false)}</View> */}
+            
+            <View className='txt'>{renderCircleReferContent(data.title, false)}</View>
+
           </View>
         }
 

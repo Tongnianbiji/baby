@@ -8,6 +8,7 @@ import BaseComponent from '@common/baseComponent'
 import './index.scss'
 import Model from '../../model'
 import staticData from '@src/store/common/static-data'
+import { renderCircleReferContent } from '@components/circle-refer-conent'
 
 @inject('issueDetailStore')
 @observer
@@ -101,34 +102,6 @@ export default class MainPanelComponent extends BaseComponent {
       })
     }
   }
-  getMapContent(content) {
-    content = content || '';
-    const p = /_\#\#_(.*?)_\#\#_/g;
-    const nodeList = [];
-    content.split(/_\#\#_.*?_\#\#_/).forEach(item => {
-      if (!!item) {
-        nodeList.push({
-          value: item,
-          type: 'text',
-        })
-      }
-      const pExecRes = p.exec(content);
-      if (pExecRes) {
-        nodeList.push({
-          value: JSON.parse(pExecRes[1]).name,
-          cid: JSON.parse(pExecRes[1]).cid,
-          type: 'circle',
-        })
-      }
-    });
-    console.log(444, nodeList)
-    return nodeList;
-  }
-  navToCircle(cid, cname) {
-    this.navto({
-      url: `/packageA/pages/circle-detail/index?cid=${cid}&cname=${cname}`,
-    })
-  }
 
   render() {
     const {
@@ -177,9 +150,7 @@ export default class MainPanelComponent extends BaseComponent {
            <View className='issue' onClick={this.goAnswer.bind(this,qid)} onLongPress={this.deleteQuestion.bind(this,this.props.issueDetailStore.issueDetail)}>
              <View className='icon'>问</View>
             <View className='txt'>{
-              this.getMapContent(title).map(item => (
-                item.type == 'circle' ? <Text className='item-circle' onClick={this.navToCircle.bind(this, item.cid, item.value)}>{item.value}</Text> : <Text className='item-text'>{item.value}</Text>
-              ))
+              renderCircleReferContent(title)
             }</View>
            </View>
            <View className='tags'>
