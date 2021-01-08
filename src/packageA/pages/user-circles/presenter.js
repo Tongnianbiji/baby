@@ -9,14 +9,20 @@ export default class Presenter extends BaseComponent {
       circlesList: [],
       postLock: false
     }
+    this.pageNum = 0;
   }
 
   componentDidMount() {
-    this.getCirclesList()
+    this.getCirclesList(true)
   }
 
   //获取关注圈子列表
-  getCirclesList = async () => {
+  getCirclesList = async (isReload = false) => {;
+    if (isReload) {
+      this.pageNum = 0;
+    }
+    this.pageNum++;
+
     const { userId } = this.$router.params;
     let uid = null;
     if (userId) {
@@ -24,12 +30,14 @@ export default class Presenter extends BaseComponent {
     } else {
       uid = this.getUserInfo().userId;
     }
-    let res = await Model.getData(uid);
+    let res = await Model.getData(uid, this.pageNum);
     this.setState({
-      circlesList: res.items
+      circlesList: isReload ? res.items : [...this.state.circlesList,...res.items]
     })
   }
-
+  onReachBottom() {
+    this.getCirclesList()
+  }
   //更新圈子状态
   onUpdateCircle = async (model) => {
     let { postLock, circlesList } = this.state;
