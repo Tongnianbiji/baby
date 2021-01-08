@@ -17,7 +17,7 @@ const getMapContent = function (content) {
     const pExecRes = p.exec(content);
     if (pExecRes) {
       nodeList.push({
-        value: `[${JSON.parse(pExecRes[1]).name}]`,
+        value: `${JSON.parse(pExecRes[1]).name}`,
         cid: JSON.parse(pExecRes[1]).cid,
         type: 'circle',
       })
@@ -38,7 +38,7 @@ export const renderCircleReferContent = function (content, canNav = true) {
   return (
     <React.Fragment>
     {getMapContent(content|| '').map(item => (
-      item.type == 'circle' ? <View className='item-circle-content' onClick={navToCircle.bind(null, item.cid, item.value, canNav)}>{item.value}</View> : <View className='item-text'>{item.value}</View>
+      item.type == 'circle' ? <View className='item-circle-content' onClick={navToCircle.bind(null, item.cid, item.value, canNav)}>[{item.value}]</View> : <View className='item-text'>{item.value}</View>
     ))}
     </React.Fragment>
   )
