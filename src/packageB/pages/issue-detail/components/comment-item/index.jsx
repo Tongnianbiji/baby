@@ -5,6 +5,7 @@ import { View, Image, Text } from '@tarojs/components'
 import { ICONS } from '@common/constant'
 import FormaDate from '@common/formaDate'
 import Model from '../../model'
+import { renderCircleReferContent } from '@components/circle-refer-conent'
 import staticData from '@src/store/common/static-data'
 
 import './index.scss'
@@ -172,7 +173,7 @@ export default class CommentItemView extends Component {
         </View>
         <View className='answer' onLongPress={this.handleDelete.bind(this,this.props.model)}>
           <View className='icon'>答</View>
-          <View className='txt'>{content}</View>
+          <View className='txt'>{renderCircleReferContent(content)}</View>
         </View>
       </View>
     )

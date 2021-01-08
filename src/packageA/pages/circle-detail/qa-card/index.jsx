@@ -59,7 +59,7 @@ export default class QACardView extends Component {
           { answer && 
             <View className='anwser'>
               <View className='icon'>答</View>
-              <View className='txt' style="width:300px">{answer}</View>
+          <View className='txt' style="width:300px">{renderCircleReferContent(answer, false)}</View>
             </View>
           }
         

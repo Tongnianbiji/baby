@@ -5,6 +5,7 @@ import FormaDate from '@common/formaDate'
 import { ICONS } from '../../constant'
 import Behaviors from '@common/utils/behaviors'
 import analysisHelper from '@helper/analysisHelper';
+import { renderCircleReferContent } from '@components/circle-refer-conent'
 import staticData from '@src/store/common/static-data'
 import './styles.scss'
 
@@ -271,14 +272,14 @@ export default class UserInfoItem extends Component {
                     model.content &&
                     <View className='answer'>
                       <View className='icon'>答</View>
-                      <View className='txt'>{model.content}</View>
+                      <View className='txt'>{renderCircleReferContent(model.content,false)}</View>
                     </View>
                   }
 
                 </View> :
                 !isTitleFirst && activeModel.content ?
                   <View>
-                    <View className='content'>{activeModel.content}</View>
+                    <View className='content'>{renderCircleReferContent(activeModel.content,false)}</View>
                   </View>
                   :
                   model.title ?
@@ -296,11 +297,11 @@ export default class UserInfoItem extends Component {
 
                     :
                     <View>
-                      <View className='content'>{model.content}</View>
+                      <View className='content'>{renderCircleReferContent(model.content, false)}</View>
                     </View>
             }
             {
-              this.props.isMyReply && model.title && <View className='content' style="color:#666666;;">原贴：{model.title}</View>
+              this.props.isMyReply && model.title && <View className='content' style="color:#666666;;">原贴：{renderCircleReferContent(model.title, false)}</View>
             }
           </View>
           <View className='tags'>

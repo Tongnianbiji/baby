@@ -2,6 +2,7 @@ import BaseComponent from '@common/baseComponent'
 import Model from './model'
 import Taro from '@tarojs/taro'
 import postDetailData from '../post-detail/store/post-detail'
+import staticData from '@src/store/common/static-data'
 
 export default class Presenter extends BaseComponent {
   constructor(props) {
@@ -11,14 +12,19 @@ export default class Presenter extends BaseComponent {
       content: '',
       files: []
     }
+    this.circleList = [];
+    this.circleTriggerStr = '[]';
   }
 
-  componentDidMount() {
-   
-  }
-
-  componentWillUnmount() {
-    
+  componentDidShow() {
+    if (staticData.tempCircleItem) {
+      this.circleList.push(staticData.tempCircleItem);
+      let content = this.state.content;
+      this.setState({
+        content: content.replace(this.circleTriggerStr, `[${staticData.tempCircleItem.name}]`),
+      })
+    }
+    staticData.setTempCircleItem(null);
   }
 
   // copyContent = () => {
@@ -70,9 +76,16 @@ export default class Presenter extends BaseComponent {
     getFilesData(file);
   }
 
-  contentInput = (e)=>{
+  contentInput = (e) => {
+    const value = e.detail.value;
+    if (value.indexOf(this.circleTriggerStr) > -1) {
+      Taro.navigateTo({
+        url: '/packageA/pages/user-circles/index?mode=select'
+      })
+    }
+
     this.setState({
-      content:e.detail.value
+      content:value
     },()=>{
       this.setState({
         canSave:!!this.state.content
@@ -83,7 +96,16 @@ export default class Presenter extends BaseComponent {
   async doSubmit() {
     const { currentReplyPost, currentReplyPost: { pid, replyId }, updateFocusStatus, updateActiveFocusStatus, files } = postDetailData;
     const content = this.state.content;
-    const d = await Model.subReply(pid, replyId, content, files);
+    const p = /\[(.*?)\]/g;
+    const replaceValue = content.replace(p, (item, $1) => {
+      const circleItem = this.circleList.find(item => item.name == $1);
+      return `_##_${JSON.stringify({
+        name: circleItem.name,
+        cid: circleItem.cid,
+      })}_##_`
+    })
+
+    const d = await Model.subReply(pid, replyId, replaceValue, files);
     if (content) {
       Taro.showLoading();
       if (d.code === 0) {

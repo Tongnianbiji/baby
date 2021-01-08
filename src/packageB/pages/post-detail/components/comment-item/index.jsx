@@ -5,6 +5,7 @@ import { ICONS } from '@common/constant'
 import { observer, inject } from 'mobx-react'
 import FormaDate from '@common/formaDate'
 import staticData from '@src/store/common/static-data'
+import { renderCircleReferContent } from '@components/circle-refer-conent'
 
 import './index.scss'
 let videoContext = null;
@@ -182,7 +183,7 @@ export default class CommentItem extends Component {
           {
             isShowContent && 
             <View onClick={this.replyPost.bind(this, model)} onLongPress={this.handleDelete.bind(this,model)}>
-              <View className='contents'>{content}</View>
+              <View className='contents'>{renderCircleReferContent(content)}</View>
               <View className='contents'>
                 {
                   files.map(item => {

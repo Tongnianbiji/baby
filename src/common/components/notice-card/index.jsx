@@ -166,14 +166,14 @@ export default class NoticeCard extends Component {
             <View className='icon'>
               <View className='icon'>答</View>
             </View>
-            <View className='txt'>{(type !== 4003 && type !== 4008) ? data.answer : activeModel.content}</View>
+            <View className='txt'>{renderCircleReferContent((type !== 4003 && type !== 4008) ? data.answer : activeModel.content, false)}</View>
           </View>
         }
         <View>
           {
             isOldQuestion &&
             <View className='anwser'>
-              <View className='txt no-active' style="padding:0;width:300px;">原问题：{data.title || activeModel.entity && (activeModel.entity.title || activeModel.entity.content)}</View>
+              <View className='txt no-active' style="padding:0;width:300px;">原问题：{renderCircleReferContent(data.title || activeModel.entity && (activeModel.entity.title || activeModel.entity.content), false)}</View>
             </View>
           }
         </View>
@@ -213,10 +213,10 @@ export default class NoticeCard extends Component {
     const { activeModel, isOldQuestion, data } = this.props;
     return (
       <View>
-        <View className='fav-txt'>{activeModel.content || data.title}</View>
+        <View className='fav-txt'>{renderCircleReferContent(activeModel.content || data.title, false)}</View>
         {
           isOldQuestion &&
-          <View className='fav-txt' style="color:#999999">{this.formateType(activeModel.type)}{activeModel.entity.title}</View>
+          <View className='fav-txt' style="color:#999999">{this.formateType(activeModel.type)}{renderCircleReferContent(activeModel.entity.title,false)}</View>
         }
       </View>
 
