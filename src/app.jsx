@@ -15,7 +15,7 @@ import { USER_INFO_KEY_USERID } from '@common/constant'
 import Storage from '@common/localStorage'
 import './app.scss'
 
-const v = '1.1.14'
+const v = '1.1.15'
 
 const request = new BaseRequest()
 const systemInfo = Taro.getSystemInfoSync()
@@ -106,7 +106,7 @@ class App extends BaseComponent {
     getGoEasy(
       GoEasyIM.getInstance({
         host: 'hangzhou.goeasy.io',
-        appkey: 'BC-6ad253de75d242f5a8917e75e14e1eca',
+        appkey: 'BC-bd90932ad811448f968e91a5afd038b5',
       })
     )
   }
