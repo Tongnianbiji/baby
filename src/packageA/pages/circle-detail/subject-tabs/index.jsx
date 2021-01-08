@@ -12,17 +12,6 @@ const tabList = [
   { title: '最新发布', useable: true },
   { title: '最新回复', useable: true }
 ]
-
-let mock = [
-  { tagName: '生活1', tagId: '1' ,scrollId:'A'},
-  { tagName: '灌水1', tagId: '2' ,scrollId:'B'},
-  { tagName: '学校', tagId: '3' ,scrollId:'C'},
-  { tagName: '生活2', tagId: '4' ,scrollId:'D'},
-  { tagName: '灌水2', tagId: '5' ,scrollId:'E'},
-  { tagName: '生活3', tagId: '6' ,scrollId:'F'},
-  { tagName: '灌水3', tagId: '7' ,scrollId:'G'}
-]
-
 @inject('staticDataStore', 'circleDetailStore')
 @observer
 export default class CircleTabs extends Component {
@@ -35,14 +24,10 @@ export default class CircleTabs extends Component {
     this.state = {
       current: 0,
       currentSubTab: 0,
-      tags: []
     }
     this.circleDetailStore = this.props.circleDetailStore
   }
 
-  componentDidMount() {
-    this.getTagList()
-  }
 
   onTabChange = num => {
     this.setState({ current: num })
@@ -63,23 +48,6 @@ export default class CircleTabs extends Component {
 
   }
 
-  //获取taglist
-  getTagList = async () => {
-    const { getTagList } = this.props.staticDataStore;
-    const { cid } = this.props.circleDetailStore;
-    let res = await getTagList(cid);
-    if (res && res.items) {
-      this.setState({
-        tags: res.items
-      })
-    }
-    else{
-      this.setState({
-        tags: mock
-      })
-    }
-  }
-
   //搜索
   onSearch = () => {
     const { listType,cid } = this.props.circleDetailStore;
@@ -89,7 +57,8 @@ export default class CircleTabs extends Component {
   }
 
   render() {
-    const { current, currentSubTab, tags } = this.state;
+    const { current, currentSubTab } = this.state;
+    const tags = this.props.tags;
     let { activeTags } = this.props.circleDetailStore;
     return (
       <View className='circle-tabs-view'>

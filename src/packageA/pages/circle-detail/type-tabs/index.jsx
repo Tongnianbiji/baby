@@ -26,13 +26,21 @@ let TypeTabs = [
 let t = null;
 
 let exposureIdList = new Set();
-
+let mock = [
+  { tagName: '生活1', tagId: '1', scrollId: 'A' },
+  { tagName: '灌水1', tagId: '2', scrollId: 'B' },
+  { tagName: '学校', tagId: '3', scrollId: 'C' },
+  { tagName: '生活2', tagId: '4', scrollId: 'D' },
+  { tagName: '灌水2', tagId: '5', scrollId: 'E' },
+  { tagName: '生活3', tagId: '6', scrollId: 'F' },
+  { tagName: '灌水3', tagId: '7', scrollId: 'G' }
+]
 
 let pagePadding = 0;
 const windowWidth = Taro.getSystemInfoSync().windowWidth;
 pagePadding = windowWidth / 750 * 32 * 2;
 
-@inject('circleDetailStore')
+@inject('staticDataStore','circleDetailStore')
 @observer
 export default class TypeTabsView extends Component {
   static defaultProps = {
@@ -49,7 +57,8 @@ export default class TypeTabsView extends Component {
       hotTabType: 1,
       userTabType: 1,
       isShowDistance: false,
-      isTouchTab: false
+      isTouchTab: false,
+      tags: [],
     }
     this.circleDetailStore = this.props.circleDetailStore;
     this.qaExposuredList = new Set();
@@ -57,9 +66,29 @@ export default class TypeTabsView extends Component {
     this.esExposuredList = new Set();
     this.hotExposuredList = new Set();
   }
+
+  componentDidMount() {
+    this.getTagList()
+  }
   // TODO - 处理一下页面跳转后回来的事件曝光（目前回来是没有上报的）
   componentDidUpdate() {
     this.addExposureEventListener();
+  }
+  // 获取taglist
+  getTagList = async () => {
+    const { getTagList } = this.props.staticDataStore;
+    const { cid } = this.props.circleDetailStore;
+    let res = await getTagList(cid);
+    if (res && res.items) {
+      this.setState({
+        tags: res.items
+      })
+    }
+    else {
+      this.setState({
+        tags: mock
+      })
+    }
   }
   addExposureEventListener() {
     this.addQAExposure();
@@ -398,13 +427,13 @@ export default class TypeTabsView extends Component {
 
   render() {
     const { circlePosts, circleEssence, circleQuestion, circleHots, circleUser, listType, fixed, centerHeight, loadingPosts, loadingEssence, loadingQuestion, loadingUser, isToBottomPosts, isToBottomEssence, isToBottomQuestion, isToBottomUser, isCustomCircle } = this.circleDetailStore;
-    const { isShowDistance } = this.state;
+    const { isShowDistance, tags } = this.state;
     let newTypeTabs = isCustomCircle ? TypeTabs : TypeTabs.slice(0, 5)
     return (
       <View className='type-tabs-view' onTouchStart={this.touchStart.bind(this)}>
         <AtTabs swipeable={false} animated={false} className='tabs' tabList={newTypeTabs} current={listType} onClick={this.typeTabChange}>
           <AtTabsPane index={0} current={listType}>
-            <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)} />
+            <SubjectTabs tags={tags} onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)} />
             <ScrollViewList onScrollToUpper={this.onScrollToUpper.bind(this)} onScrollToLower={this.onScrollToLower.bind(this)} fixed={fixed} centerHeight={centerHeight} showLoading={loadingEssence} isToBottom={isToBottomEssence}>
               {
                 circleEssence.map((item, num) => {
@@ -418,7 +447,7 @@ export default class TypeTabsView extends Component {
             </ScrollViewList>
           </AtTabsPane>
           <AtTabsPane index={1} current={listType}>
-            <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)} />
+            <SubjectTabs tags={tags} onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)} />
             <View className='list-wrapper'>
               {
                 circlePosts.map((item, num) => {
@@ -433,7 +462,7 @@ export default class TypeTabsView extends Component {
             </View>
           </AtTabsPane>
           <AtTabsPane index={2} current={listType}>
-            <SubjectTabs onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)} />
+            <SubjectTabs tags={tags} onSubTabChangeGetData={this.onSubTabChange.bind(this)} onTabChangeGetData={this.onTabChange.bind(this)} />
             <View className='list-wrapper'>
               {
                 circleQuestion.map((item, num) => {
