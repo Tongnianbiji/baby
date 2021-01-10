@@ -134,7 +134,7 @@ export default class Presenter extends BaseComponent {
       if (res) {
         staticData.updateSchoolItem({
           name: inputValue,
-          schoolId: 568956, // TODO - 填入接口返回的id
+          schoolId: res,
         })
         Taro.showToast({
           title:'添加成功',

@@ -132,7 +132,7 @@ export default class Presenter extends BaseComponent {
       if (res) {
         staticData.setSelectedPlot({
           name: inputValue,
-          plotId: 821299
+          plotId: res
         });
         Taro.showToast({
           title:'添加成功',
