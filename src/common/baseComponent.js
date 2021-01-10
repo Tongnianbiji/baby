@@ -142,7 +142,6 @@ export default class BaseComponent extends Component {
    * 导航
    */
   navto(obj) {
-    console.log(1111)
     Taro.navigateTo(obj)
   }
 
@@ -260,7 +259,7 @@ export default class BaseComponent extends Component {
 
           request.get('/profile/get', { userId: loginInfo.userId }, { token: loginInfo.token }).then(res => {
             // 登录token过期，重新登录
-            if (res.data.code === 2 && res.data.message == '登录过期,请重新登录' && reLoginCount++<3) {
+            if (res.data.code === 2 && res.data.message == '登录过期,请重新登录' && reLoginCount++ < 3) {
               this.__local_dto.setValue('loginInfo', '');
               this.onAutoLogin().then(res => {
                 resolve();
@@ -352,13 +351,17 @@ export default class BaseComponent extends Component {
           scope: permissionName
         }).then((res) => {
           console.log('---成功授权---', res)
-          return Taro.getLocation();
+          return Taro.getLocation({
+            type: 'gcj02'
+          });
         }, err => {
           console.log('---拒绝授权---', err)
           return Promise.resolve({ longitude: defaultPositon.lon, latitude: defaultPositon.lat });
         })
       } else {
-        return Taro.getLocation();
+        return Taro.getLocation({
+          type: 'gcj02'
+        });
       }
     })
   }
@@ -368,7 +371,7 @@ export default class BaseComponent extends Component {
     })
   }
   // 获取城市信息
-  async setCityInfo(lon = '121.54409', lat = '31.22114', needPost=true) {
+  async setCityInfo(lon = '121.54409', lat = '31.22114', needPost = true) {
     return request.get('https://restapi.amap.com/v3/geocode/regeo', {
       key: GMAP_API_KEY,
       location: `${lon},${lat}`
