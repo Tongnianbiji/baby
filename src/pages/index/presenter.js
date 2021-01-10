@@ -467,16 +467,33 @@ export default class HomePage extends BaseComponent {
     if (hotTabType === 1) {
       res = await Model.gethots(1);
       this.setState({
-        hots: res || []
+        hots: res.slice(0, 5) || []
       }, () => {
         this.addHotsExposure1(isReload);
+        setTimeout(() => {
+          this.setState({
+            hots: res || []
+          }, () => {
+              this.addHotsExposure1(isReload);
+          })
+        }, 0);
+
+
       })
     } else {
       res = await Model.gethots(2);
       this.setState({
-        hots: res || []
+        hots: res.slice(0, 5) || []
       }, () => {
-        this.addHotsExposure2(isReload);
+        this.addHotsExposure1(isReload);
+        setTimeout(() => {
+          this.setState({
+            hots: res || []
+          }, () => {
+              this.addHotsExposure1(isReload);
+          })
+        }, 0);
+
       })
     }
     if (res) {
