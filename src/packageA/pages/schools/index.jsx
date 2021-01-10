@@ -28,7 +28,7 @@ export default class SchoolsView extends Presenter {
               {
                 schoolsList.map((item,index) => {
                   return (
-                  <View className='item' onClick={this.selectItem.bind(this,item.name)}>{item.name}</View>
+                    <View className='item' onClick={this.selectItem.bind(this, item.name, item)}>{item.name}</View>
                   )
                 }) 
               }

@@ -49,11 +49,12 @@ export default class ProfileBabyDetailPresenter extends BaseComponent {
   componentWillUnmount() { }
 
   componentDidShow(){
-    const {babyNickname,school,hospital} = staticData;
+    const {babyNickname,schoolItem,hospital} = staticData;
     let {baby,yearState} = this.state;
     if(yearState === 'BRINGUP'){
       baby.officeName = babyNickname;
-      baby.yearDesc.school = school;
+      baby.yearDesc.school = schoolItem.name;
+      baby.yearDesc.schoolId = `${schoolItem.schoolId}`;
     }
     else if(yearState === 'PREGNANCY'){
       baby.yearDesc.checkHospital = hospital;

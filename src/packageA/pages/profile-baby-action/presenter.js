@@ -42,12 +42,12 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
   }
 
   componentDidShow() {
-    const { babyNickname, school, hospital, getTempRole } = staticDataStore;
+    const { babyNickname, school, hospital, getTempRole, schoolItem } = staticDataStore;
     const { hType, role } = this.state;
     this.setState({
       role: getTempRole() || role,
       babyNickname: babyNickname,
-      babySchool: school
+      babySchool: schoolItem.name
     });
     if(hType == 1){
       this.setState({
@@ -171,7 +171,7 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
     if(this.isCanSave()){
       switch(tabsCurrent){
         case 0:
-          let res1 = await Model.submit(babyNickname, yearState, { sex, birthday: babyBorn, school: babySchool, grade }, role);
+          let res1 = await Model.submit(babyNickname, yearState, { sex, birthday: babyBorn, school: babySchool, schoolId: `${staticDataStore.schoolItem.schoolId}`, grade }, role);
           if(res1){
             this.navback()
           }

@@ -34,11 +34,15 @@ export default class ProfileBabyPresenter extends BaseComponent {
   }
 
   onClickNavTo(item) {
-    const {updateBabyNickname,updateSchool} = staticData;
+    const { updateBabyNickname, updateSchool, updateSchoolItem} = staticData;
     const {isToFamily} = this.state;
     if(!isToFamily){
       updateBabyNickname(item.officeName);
-      updateSchool(item.yearDesc.school)
+      updateSchool(item.yearDesc.school);
+      updateSchoolItem({
+        name: item.yearDesc.school,
+        schoolId: item.yearDesc.schoolId || 568956,
+      })
       this.navto({ url: `/packageA/pages/profile-baby-detail/index?bid=${item.bid}&yearState=${item.yearState}` })
     }else{
       this.navto({ url: `/packageA/pages/profile-family/index?bid=${item.bid}&officeName=${item.officeName}` })
@@ -47,7 +51,8 @@ export default class ProfileBabyPresenter extends BaseComponent {
   }
 
   onClickNavToAction() {
-    const {updateBabyNickname,updateSchool,updateHospital} = staticData;
+    const { updateBabyNickname, updateSchool, updateHospital, updateSchoolItem } = staticData;
+    updateSchoolItem('')
     updateBabyNickname('');
     updateSchool('');
     updateHospital('');

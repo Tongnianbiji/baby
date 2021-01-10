@@ -78,9 +78,10 @@ export default class Presenter extends BaseComponent {
   }
 
   //选择学校
-  selectItem = (name)=>{
-    const {updateSchool} = staticData;
+  selectItem = (name,item)=>{
+    const { updateSchool, updateSchoolItem} = staticData;
     updateSchool(name);
+    updateSchoolItem(item);
     this.navback()
   }
 
@@ -130,7 +131,11 @@ export default class Presenter extends BaseComponent {
     const {inputValue} = this.state;
     if(inputValue){
       let res = await Model.addData(inputValue);
-      if(res){
+      if (res) {
+        staticData.updateSchoolItem({
+          name: inputValue,
+          schoolId: 568956, // TODO - 填入接口返回的id
+        })
         Taro.showToast({
           title:'添加成功',
           icon:'success',

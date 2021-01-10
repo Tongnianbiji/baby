@@ -12,6 +12,7 @@ class Data {
   @observable isRegiste = false;
   @observable role = '妈妈';
   @observable school = '';
+  @observable schoolItem = {};
   @observable hospital = '';
   @observable babyList = '';
   @observable babyNickname = '';
@@ -51,7 +52,7 @@ class Data {
   @action setTempCircleItem = (tempCircleItem) => {
     this.tempCircleItem = tempCircleItem;
   }
-  
+
   @action updateReLoadCirclePage = (status) => {
     this.reLoadCirclePage = status
   }
@@ -106,6 +107,11 @@ class Data {
   @action updateSchool = (school) => {
     this.school = school
   }
+
+  @action updateSchoolItem = (schoolItem) => {
+    this.schoolItem = schoolItem
+  }
+
 
   @action updateHospital = (hospital) => {
     this.hospital = hospital
