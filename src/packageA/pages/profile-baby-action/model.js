@@ -100,6 +100,10 @@ export default {
       role:this.getRoleText(role),
       roleText:role
     }
+    if (!yearDesc.school || yearDesc.schoolId==0) {
+      yearDesc.school = '';
+      yearDesc.schoolId = '';
+    }
     const ret = await request.postWithToken('/child/create', params)
     const data = request.standardResponse(ret);
     if (data.code === 0) {

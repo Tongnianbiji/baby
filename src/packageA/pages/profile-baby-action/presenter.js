@@ -171,7 +171,7 @@ export default class ProfileBabyActionPresenter extends BaseComponent {
     if(this.isCanSave()){
       switch(tabsCurrent){
         case 0:
-          let res1 = await Model.submit(babyNickname, yearState, { sex, birthday: babyBorn, school: babySchool, schoolId: `${staticDataStore.schoolItem.schoolId}`, grade }, role);
+          let res1 = await Model.submit(babyNickname, yearState, { sex, birthday: babyBorn, school: babySchool, schoolId: `${staticDataStore.schoolItem.schoolId|| 0}`, grade }, role);
           if(res1){
             this.navback()
           }
