@@ -16,7 +16,7 @@ export default class SchoolsView extends Presenter {
       <View className='school-vewport'>
         <View className='search-box'>
           <View className='inp-wrapper'>
-            <Input className='inp' autoFocus={true} clear={true} placeholder='请输入学校关键字' value={searchValue} placeholderClass='placehoder' confirmType='search' onInput={this.doSearch.bind(this)} />
+            <Input className='inp' autoFocus={true} clear={true} placeholder='请输入小区关键字' value={searchValue} placeholderClass='placehoder' confirmType='search' onInput={this.doSearch.bind(this)} />
             <Image src={ICONS.SEARCH} className='search-icon' />
           </View>
           <View className='cancel-btn' onClick={this.cancelSearch}>取消</View>
@@ -37,18 +37,18 @@ export default class SchoolsView extends Presenter {
             : null
           }
         </View>
-        {/* {
+        {
            (!!plotList.length || noResult) && 
            <View className='submit-btn-wrap'>
             <View className={['submit-btn']} onClick={this.submitOtherSchool.bind(this)}>提交其他小区</View>
           </View>
-        } */}
+        }
        
           {
             <AtModal isOpened={showInput} onCancel={this.cancelInput.bind(this)} >
-              <AtModalHeader>提交新的学校</AtModalHeader>
+              <AtModalHeader>提交新的小区</AtModalHeader>
               { showInput &&
-                <Input placeholder="请输入学校名称" value={inputValue} onInput={this.handleInput.bind(this)}></Input>
+                <Input placeholder="请输入小区名称" value={inputValue} onInput={this.handleInput.bind(this)}></Input>
               }
               <AtModalAction> <Button onClick={this.cancelInput.bind(this)}>取消</Button> <Button onClick={this.confirmInput.bind(this)} style={{color:'#FF473AFF'}}>确定</Button> </AtModalAction>
             </AtModal>

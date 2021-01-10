@@ -63,7 +63,7 @@ export default class Presenter extends BaseComponent {
       this.setState({
         noResult:true
       })
-      this.showToast('没有查到相关学校')
+      this.showToast('没有查到相关小区')
     }
   }
 
@@ -129,7 +129,11 @@ export default class Presenter extends BaseComponent {
     const {inputValue} = this.state;
     if(inputValue){
       let res = await Model.addData(inputValue);
-      if(res){
+      if (res) {
+        staticData.setSelectedPlot({
+          name: inputValue,
+          plotId: 821299
+        });
         Taro.showToast({
           title:'添加成功',
           icon:'success',
