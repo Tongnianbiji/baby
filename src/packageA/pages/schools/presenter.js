@@ -142,7 +142,7 @@ export default class Presenter extends BaseComponent {
           duration:2e3,
         })
       }else{
-        this.showToast('添加失败')
+        // this.showToast('添加失败')
       }
       this.setState({
         showInput:false
