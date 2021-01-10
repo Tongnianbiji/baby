@@ -15,7 +15,7 @@ export default class ProfileHome extends Presenter {
     const { tabs,
       tabsCurrent,
       isMySelf,
-      userInfo: { nickName, headImg, sex, district, child, signature, flow, funs, circle, marked, stared, subscr, userId, theme },
+      userInfo: { nickName, headImg, sex, district, child, customLevel,signature, flow, funs, circle, marked, stared, subscr, userId, theme },
       userInfo,
       activeData,
       postData,
@@ -107,9 +107,19 @@ export default class ProfileHome extends Presenter {
                 </View>
               }
               {
-                childs.map(item => {
+                customLevel.map(item => {
                   return (
-                    <View className='label'>{item}</View>
+                    <View className='label' onClick={this.toCircle.bind(this, item.schoolCid)}>
+                      <Text>{item.desc}</Text>
+                      {
+                        item.schoolName ? 
+                          <React.Fragment>
+                            ｜<Image src={ICONS.SCHOOL} mode='widthFix'></Image>
+                             <Text className={`${item.schoolCid ? 'active' : ''}`}>{item.schoolName}</Text>
+                          </React.Fragment>
+                      :''
+                      }
+                    </View>
                   )
                 })
               }
