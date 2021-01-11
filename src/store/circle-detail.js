@@ -25,7 +25,7 @@ const state = {
 
   //顶部排序tab
   activeTopTab:0,
-  sortObj:{},
+  sortObj: { heat_rate: 'desc' },
   //子tab active tags
   activeTags: new Set(),
   activeTagsId: new Set(),
@@ -96,7 +96,7 @@ const actions = {
     this.circleHots=[];
     this.hotsPageNum=1;
     this.loadinghots=true;
-    this.isToBottomhots=false;
+    this.isToBottomhots = false;
   },
 
   async getDetail(cid) {
