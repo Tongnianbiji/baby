@@ -41,7 +41,7 @@ export default class Presenter extends BaseComponent {
         return;
       };
 
-      console.log('---componentDidShow---')
+      console.log('---componentDidShow---', getCurrentInstance().router.params)
       const { cid } = getCurrentInstance().router.params;
       const { reLoadCirclePage, updateReLoadCirclePage } = staticData;
       if (reLoadCirclePage) {
@@ -79,17 +79,17 @@ export default class Presenter extends BaseComponent {
   }
 
   async initData(cid) {
-    const { leaf } = await this.$store.getDetail(cid);
-    await this.$store.getAttentionState(cid);
-    await this.$store.getTopPost(cid);
-    await this.$store.getCirclePosts(cid);
-    await this.$store.getParentCircles(cid);
+    const { leaf } = await this.$store.getDetail(cid, true);
+    await this.$store.getAttentionState(cid, true);
+    await this.$store.getTopPost(cid, true);
+    await this.$store.getCirclePosts(cid, true);
+    await this.$store.getParentCircles(cid, true);
     if (leaf) {
-      await this.$store.getSiblingCircles(cid)
+      await this.$store.getSiblingCircles(cid, true)
     } else {
-      await this.$store.getChildCircles(cid)
+      await this.$store.getChildCircles(cid, true)
     }
-    await this.getCustomConfig(cid);
+    await this.getCustomConfig(cid, true);
     this.hideLoading()
   }
 

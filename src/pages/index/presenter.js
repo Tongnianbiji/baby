@@ -118,6 +118,7 @@ export default class HomePage extends BaseComponent {
 
   }
   async onPullDownRefresh() {
+    this.hasCleared = false;
     setTimeout(() => {
       this.setState({
         showNewInfoBar: false,
