@@ -55,7 +55,7 @@ export const ICONS = {
   LIKE: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/like.png',
 
 
-  
+  PLOT: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/home_icon.png',
   ISFAVORITED: ISFAVORITED,
   COPY: COPY,
   WARNING: WARNING,

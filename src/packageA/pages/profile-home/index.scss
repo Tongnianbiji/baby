@@ -147,6 +147,10 @@
           width: 24px;
         }
       }
+      .plot {
+        display: flex;
+        align-items: center;
+      }
       .active {
         color: #FFBA3E;
       }

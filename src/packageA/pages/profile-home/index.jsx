@@ -101,8 +101,8 @@ export default class ProfileHome extends Presenter {
               }
               {
                 userInfo.plotName && 
-                <View className='label' onClick={this.toCircle.bind(this, userInfo.plotCid)}>
-                  ｜<Image src={ICONS.SCHOOL} mode='widthFix'></Image>
+                <View className='label plot' onClick={this.toCircle.bind(this, userInfo.plotCid)}>
+                  ｜<Image src={ICONS.PLOT} mode='widthFix'></Image>
                   <Text className={`${userInfo.plotCid ? 'active' : ''}`}>{userInfo.plotName}</Text>
                 </View>
               }
