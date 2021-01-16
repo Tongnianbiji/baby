@@ -11,7 +11,7 @@ export default class UserInfoCard extends Component {
   static defaultProps = {
     model: {},
     activeModel: {},
-    tip: '关注了你',
+    tip: '关注',
     isShowReleaseTime:false,
     isShowTip:true,
     isShowDistance:false,
