@@ -118,16 +118,11 @@ export default class HomePage extends BaseComponent {
 
   }
   async onPullDownRefresh() {
-    // setTimeout(() => { // 防止后续异常而没执行stopPullDownRefresh
-    //   this.setState({
-    //     showNewInfoBar: false,
-    //   }, () => {
-    //     Taro.stopPullDownRefresh()
-    //   })
-    // }, 2e3)
+    // TODO - showNewInfoBar节流优化
+    clearTimeout(this.newInfoBarTimer);
     Taro.vibrateShort();
     this.setState({
-      isPullDownRefresh: true, // TODO - 看看这是啥
+      isPullDownRefresh: true, 
     })
 
     const { currentTopTab } = this.state;
@@ -135,11 +130,11 @@ export default class HomePage extends BaseComponent {
       await this.getrecommends();
       this.setState({
         showNewInfoBar: true,
+        isPullDownRefresh: false
       }, () => {
-        setTimeout(() => {
+        this.newInfoBarTimer = setTimeout(() => {
           this.setState({
             showNewInfoBar: false,
-            isPullDownRefresh: false
           })
         }, 2000);
       })
@@ -416,22 +411,12 @@ export default class HomePage extends BaseComponent {
     if (moreRecommends) {
       const newRecommends = type == 1 ? [...moreRecommends, ...oldRecommends] : [...oldRecommends, ...moreRecommends];
       this.setState({
-        recommends: newRecommends.slice(0, type == 1 ? 5 : newRecommends.length - 1),
+        recommends: newRecommends.slice(0, type == 1 ? 10 : newRecommends.length - 1),
         recommendsLength: moreRecommends.length,
         postLock: false,
         pageState: newRecommends.length > 0 ? 'over' : 'noData',
       }, () => {
-        if (type == 1) {
-          setTimeout(() => {
-            this.setState({
-              recommends: newRecommends,
-            }, () => {
-              this.addRecommendsExposure(true);
-            })
-          }, 0);
-        } else {
           this.addRecommendsExposure();
-        }
       });
     } else {
       this.setState({

@@ -84,13 +84,14 @@ export default class Index extends HomePage {
                 {pageState == 'noData' ? this.renderEmptyPage() : pageState == 'error' ? this.renderServerError()
                   :
                   <View>
+                    {isPullDownRefresh && <Preloading showLoading={true} isToBottom={false}></Preloading> }
                     {
                       recommends.map((item, key) => {
                         return (
-                          <View>
+                          <View key={item.entity.pid || item.entity.qid}>
                             {
                               item.entity &&
-                              <View id={`recommends-item-${item.entity.pid || item.entity.qid}`} key={item.entity.pid || item.entity.qid}>
+                              <View id={`recommends-item-${item.entity.pid || item.entity.qid}`}>
                                 <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteRecommends.bind(this, item)} onSubScrUser={this.subScrUser.bind(this, item)}></BehaviorCard>
                               </View>
                             }
