@@ -120,10 +120,11 @@ export default class HomePage extends BaseComponent {
   async onPullDownRefresh() {
     // TODO - showNewInfoBar节流优化
     clearTimeout(this.newInfoBarTimer);
-    Taro.vibrateShort();
     this.setState({
       isPullDownRefresh: true, 
+      // recommends: [],
     })
+    Taro.vibrateShort();
 
     const { currentTopTab } = this.state;
     if (currentTopTab === 1) {

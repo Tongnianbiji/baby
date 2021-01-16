@@ -12,7 +12,7 @@ import iconSearch from '../../assets/img/icon-search.png'
 import arrowDown from '../../assets/img/arrow-down.png'
 import iconRing from '../../assets/img/icon-ring.png'
 import Preloading from '@components/preloading'
-import {ICONS} from '@common/constant'
+import { ICONS } from '@common/constant'
 
 import './index.scss'
 const ICON_ADD = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/circle-add.png'
@@ -21,18 +21,18 @@ const ICON_FRESH = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/refresh.
 @observer
 export default class Index extends HomePage {
   render() {
-    const { pageState, topTabs, currentTopTab, attentionType, hotTabType,currentCity,attentionUsers,isPullDownRefresh, showAttentionLoading, isAttentionToBottom,isCollentMini,showNewInfoBar,total,recommends,showRecommendLoading,isRecommendToBottom,hots,recommendsLength} = this.state;
+    const { pageState, topTabs, currentTopTab, attentionType, hotTabType, currentCity, attentionUsers, isPullDownRefresh, showAttentionLoading, isAttentionToBottom, isCollentMini, showNewInfoBar, total, recommends, showRecommendLoading, isRecommendToBottom, hots, recommendsLength } = this.state;
     const { isGuide } = this.props.staticDataStore;
     if (pageState == 'loading') {
       return this.renderLoading();
     }
- 
+
     return (
       <View className='home-page-viewport'>
         {!!showNewInfoBar &&
-        <View className="new-info-bar" style={{ opacity: String(Number(showNewInfoBar)) }}>
-          <Text>童年为你推荐了{recommendsLength}条新内容</Text>
-        </View>
+          <View className="new-info-bar" style={{ opacity: String(Number(showNewInfoBar)) }}>
+            <Text>童年为你推荐了{recommendsLength}条新内容</Text>
+          </View>
         }
         <View className='search-bar'>
           <View className='location-info' onClick={this.selectCity}>
@@ -46,7 +46,7 @@ export default class Index extends HomePage {
             </View>
           </View>
           <View className='notice-info' onLongPress={this.onLongPressForDebug.bind(this)} onClick={this.goMessage.bind(this)}>
-            <AtBadge value={total?total : ''}>
+            <AtBadge value={total ? total : ''}>
               <Image src={iconRing} className='icon-ring'></Image>
             </AtBadge>
           </View>
@@ -61,18 +61,18 @@ export default class Index extends HomePage {
                 {
                   attentionType === 1 ?
                     <View>
-                        {
-                          attentionUsers.map((item,key) => {
-                            return (
-                              <View id={`attention-users-item-${item.entity.pid || item.entity.qid}`} key={item.entity.pid || item.entity.qid}>
-                                <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteAttention.bind(this,item)} onHandleSubscr={this.handleSubscrCircleAttention.bind(this,item)} onSubScrUser={this.subScrUser.bind(this,item)}></BehaviorCard>
-                              </View>
-                            )
-                          })
-                        }
+                      {
+                        attentionUsers.map((item, key) => {
+                          return (
+                            <View id={`attention-users-item-${item.entity.pid || item.entity.qid}`} key={item.entity.pid || item.entity.qid}>
+                              <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteAttention.bind(this, item)} onHandleSubscr={this.handleSubscrCircleAttention.bind(this, item)} onSubScrUser={this.subScrUser.bind(this, item)}></BehaviorCard>
+                            </View>
+                          )
+                        })
+                      }
                       <Preloading showLoading={showAttentionLoading} isToBottom={isAttentionToBottom}></Preloading>
                     </View>
-                     :
+                    :
                     <AttentionCircle />
                 }
               </View>
@@ -84,7 +84,7 @@ export default class Index extends HomePage {
                 {pageState == 'noData' ? this.renderEmptyPage() : pageState == 'error' ? this.renderServerError()
                   :
                   <View>
-                    {isPullDownRefresh && <Preloading showLoading={true} isToBottom={false}></Preloading> }
+                    {isPullDownRefresh && <Preloading showLoading={true} isToBottom={false}></Preloading>}
                     {
                       recommends.map((item, key) => {
                         return (
@@ -96,13 +96,11 @@ export default class Index extends HomePage {
                               </View>
                             }
                           </View>
-
-
                         )
                       })
                     }
                     {
-                      <Preloading showLoading={recommends.length>5} isToBottom={isRecommendToBottom}></Preloading>
+                      <Preloading showLoading={recommends.length > 5} isToBottom={isRecommendToBottom}></Preloading>
                     }
 
                   </View>
@@ -115,10 +113,10 @@ export default class Index extends HomePage {
               </View>
               <View className='user-item-wrapper'>
                 {
-                  hots.map((item,num) => {
+                  hots.map((item, num) => {
                     return (
                       <View id={`hots-${hotTabType}-item-${item.pid}`}>
-                        <UserInfoItem key={item.pid} sortNum={num + 1} countryAble showOrder model={item} closeRelease  onHandleFavorite={this.handleFavoriteHots.bind(this,item)}/>
+                        <UserInfoItem key={item.pid} sortNum={num + 1} countryAble showOrder model={item} closeRelease onHandleFavorite={this.handleFavoriteHots.bind(this, item)} />
                       </View>
                     )
                   })
@@ -129,22 +127,26 @@ export default class Index extends HomePage {
         </View>
         {
           isGuide ?
-          this.guide() : null
+            this.guide() : null
         }
         {
           <View>
             {
-              isCollentMini && this.getCurrentIsCollentMini()==1 && 
+              isCollentMini && this.getCurrentIsCollentMini() == 1 &&
               <View className='collectMini' onClick={this.closeCollentMini.bind(this)}>
                 <Text>点击“添加到我的小程序”，给孩子们一个美好童年</Text><Image src={ICONS.DELETE}></Image>
               </View>
             }
           </View>
         }
-        <View className='fixed-btns'>
-          <Image className='btn' src={ICON_FRESH} onClick={this.overallFreshList} />
-          <Image className='btn' src={ICON_ADD} onClick={this.troggleOpPanel} />
-        </View>
+        {currentTopTab === 1 ?
+          <View className='fixed-btns'>
+            <Image className='btn' src={ICON_FRESH} onClick={this.overallFreshList} />
+            <Image className='btn' src={ICON_ADD} onClick={this.troggleOpPanel} />
+          </View>
+          : ''
+        }
+
       </View>
     )
   }
