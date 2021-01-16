@@ -398,7 +398,7 @@ export default class HomePage extends BaseComponent {
     })
     let res = await Model.getrecommends();
 
-    if (res.length == 0 && recommends.length == 0 && !this.hasCleared) {
+    if (res.length == 0 && !this.hasCleared) {
       this.hasCleared = true;
       let res = await Model.clearRead(staticData.userId);
       this.getrecommends();
