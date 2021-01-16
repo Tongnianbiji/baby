@@ -88,11 +88,11 @@ export default class Index extends HomePage {
                     {
                       recommends.map((item, key) => {
                         return (
-                          <View key={item.entity.pid || item.entity.qid}>
+                          <View>
                             {
                               item.entity &&
                               <View id={`recommends-item-${item.entity.pid || item.entity.qid}`}>
-                                <BehaviorCard key={key} data={item} onHandleFavorite={this.handleFavoriteRecommends.bind(this, item)} onSubScrUser={this.subScrUser.bind(this, item)}></BehaviorCard>
+                                <BehaviorCard key={item.entity.pid || item.entity.qid} data={item} onHandleFavorite={this.handleFavoriteRecommends.bind(this, item)} onSubScrUser={this.subScrUser.bind(this, item)}></BehaviorCard>
                               </View>
                             }
                           </View>
@@ -102,8 +102,7 @@ export default class Index extends HomePage {
                       })
                     }
                     {
-                      !isPullDownRefresh &&
-                      <Preloading showLoading={showRecommendLoading} isToBottom={isRecommendToBottom}></Preloading>
+                      <Preloading showLoading={recommends.length>5} isToBottom={isRecommendToBottom}></Preloading>
                     }
 
                   </View>

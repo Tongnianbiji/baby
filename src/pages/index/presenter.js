@@ -183,20 +183,14 @@ export default class HomePage extends BaseComponent {
       }
     }
     else if (currentTopTab === 1) {
-      this.setState({
-        isPullDownRefresh: false,
-        showRecommendLoading: true,
-        isRecommendToBottom: false,
-      }, async () => {
-        if (!postLock) {
-          // Taro.showLoading();
-          await this.getrecommends(2);
-          // Taro.hideLoading();
-          this.setState({
-            showRecommendLoading: false
-          })
-        }
-      })
+      if (!postLock) {
+        // Taro.showLoading();
+        await this.getrecommends(2);
+        // Taro.hideLoading();
+        // this.setState({
+        //   showRecommendLoading: false
+        // })
+      }
     }
   }
 

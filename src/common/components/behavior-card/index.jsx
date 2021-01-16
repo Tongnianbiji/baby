@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { View } from '@tarojs/components'
 import PostCard from '@components/post-card'
 import NoticeCard from '@components/notice-card'
@@ -8,7 +8,7 @@ import CircleCard from '@components/circle-card'
 import './styles.scss'
 
 
-export default class BehaviorCard extends Component {
+export default class BehaviorCard extends PureComponent {
   static defaultProps = {
     data:{},
     onHandleFavorite:()=>{},
