@@ -58,6 +58,9 @@ export default {
       yearState,
       yearDesc
     }
+    // console.log(1111, params);
+    // return
+    
     const ret = await request.postWithToken('/child/update', params)
     const data = request.standardResponse(ret)
     if (data.code === 0) {

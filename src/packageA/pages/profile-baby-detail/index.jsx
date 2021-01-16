@@ -57,7 +57,7 @@ export default class ProfileBabyDetail extends Presenter {
               <View className='item-value'>
                 <Picker value={grade} range={gradeSelector} onChange={this.onGradeChange.bind(this)} className='item-txt'>
                   <View>
-                    {grade}
+                    {grade|| '清选择'}
                   </View>
                 </Picker>
                 <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />

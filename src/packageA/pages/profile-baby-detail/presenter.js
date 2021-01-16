@@ -53,8 +53,12 @@ export default class ProfileBabyDetailPresenter extends BaseComponent {
     let {baby,yearState} = this.state;
     if(yearState === 'BRINGUP'){
       baby.officeName = babyNickname;
-      baby.yearDesc.school = schoolItem.name;
-      baby.yearDesc.schoolId = `${schoolItem.schoolId}`;
+      if (schoolItem.name) {
+        baby.yearDesc.school = schoolItem.name;
+      }
+      if (schoolItem.schoolId) {
+        baby.yearDesc.schoolId = `${schoolItem.schoolId}`;
+      }
     }
     else if(yearState === 'PREGNANCY'){
       baby.yearDesc.checkHospital = hospital;
@@ -167,7 +171,8 @@ export default class ProfileBabyDetailPresenter extends BaseComponent {
 
   //提交修改
   confirmModify= async ()=>{
-    const {baby:{bid,officeName,yearDesc},yearState} = this.state;
+    const { baby: { bid, officeName, yearDesc }, yearState } = this.state;
+    
     let res = await Model.updateData(bid,officeName,yearState,yearDesc);
     if(res){
       Taro.showToast({
