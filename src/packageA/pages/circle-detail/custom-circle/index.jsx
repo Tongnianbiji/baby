@@ -22,6 +22,10 @@ let openFeature=false;
 export default class CustomCircle extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      regionValue: 0,
+      groupValue: 0,
+    }
     this.circleDetailStore = this.props.circleDetailStore;
   }
 
@@ -63,11 +67,17 @@ export default class CustomCircle extends Component {
     this.updateCostomConfig({
       defaultRegion:value
     })
+    this.setState({
+      regionValue: value,
+    })
   }
 
   selectGroup = (value)=>{
     this.updateCostomConfig({
       defaultGroup:value
+    })
+    this.setState({
+      groupValue: value,
     })
   }
 
@@ -124,7 +134,7 @@ export default class CustomCircle extends Component {
               {region.map((item, i) => {
                 return (
                   <Label className='radio-list__label' style="margin-right: 10px;" for={i} key={i}>
-                    <Radio className='radio-list__radio' onClick={this.selectRegion.bind(this,item.value)} style="font-size:13px" color="#FF473A" value={item.value} checked={item.value === defaultRegion}>{item.text}</Radio>
+                    <Radio className='radio-list__radio' onClick={this.selectRegion.bind(this, item.value)} style="font-size:13px" color="#FF473A" value={item.value} checked={item.value === (this.state.regionValue||defaultRegion)}>{item.text}</Radio>
                   </Label>
                 )
               })}
@@ -170,7 +180,7 @@ export default class CustomCircle extends Component {
               {ageGroup.map((item, i) => {
                 return (
                   <Label className='radio-list__label' style="margin-right: 10px;" for={i} key={i}>
-                    <Radio className='radio-list__radio' onClick={this.selectGroup.bind(this,item.value)} color="#FF473A" value={item.value} checked={item.value === defaultGroup}><View style="width:150px;">{item.text}</View></Radio>
+                    <Radio className='radio-list__radio' onClick={this.selectGroup.bind(this, item.value)} color="#FF473A" value={item.value} checked={item.value === (this.state.groupValue || defaultGroup)}><View style="width:150px;">{item.text}</View></Radio>
                   </Label>
                 )
               })}
