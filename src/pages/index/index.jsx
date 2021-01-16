@@ -15,7 +15,8 @@ import Preloading from '@components/preloading'
 import {ICONS} from '@common/constant'
 
 import './index.scss'
-
+const ICON_ADD = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/circle-add.png'
+const ICON_FRESH = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/refresh.png'
 @inject('staticDataStore')
 @observer
 export default class Index extends HomePage {
@@ -140,6 +141,10 @@ export default class Index extends HomePage {
             }
           </View>
         }
+        <View className='fixed-btns'>
+          <Image className='btn' src={ICON_FRESH} onClick={this.overallFreshList} />
+          <Image className='btn' src={ICON_ADD} onClick={this.troggleOpPanel} />
+        </View>
       </View>
     )
   }

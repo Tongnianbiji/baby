@@ -118,25 +118,35 @@ export default class HomePage extends BaseComponent {
 
   }
   async onPullDownRefresh() {
-    this.hasCleared = false;
-    setTimeout(() => {
-      this.setState({
-        showNewInfoBar: false,
-      }, () => {
-        Taro.stopPullDownRefresh()
-      })
-    }, 2e3)
+    // setTimeout(() => { // 防止后续异常而没执行stopPullDownRefresh
+    //   this.setState({
+    //     showNewInfoBar: false,
+    //   }, () => {
+    //     Taro.stopPullDownRefresh()
+    //   })
+    // }, 2e3)
+    Taro.vibrateShort();
+    this.setState({
+      isPullDownRefresh: true, // TODO - 看看这是啥
+    })
+
     const { currentTopTab } = this.state;
     if (currentTopTab === 1) {
       await this.getrecommends();
       this.setState({
         showNewInfoBar: true,
-        isPullDownRefresh: true
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            showNewInfoBar: false,
+            isPullDownRefresh: false
+          })
+        }, 2000);
       })
-    } else {
-      Taro.stopPullDownRefresh()
     }
-    Taro.vibrateShort()
+
+    Taro.stopPullDownRefresh()
+
   }
 
   onShareAppMessage(res) {
@@ -392,49 +402,45 @@ export default class HomePage extends BaseComponent {
   //获取推荐数据
   getrecommends = async (type = 1) => {
     //type 1:下拉刷新；2:上拉刷新
-    let { recommends } = this.state;
+    const oldRecommends = this.state.recommends;
     this.setState({
-      postLock: true
+      postLock: true, // TODO - 这是啥
     })
-    let res = await Model.getrecommends();
 
-    if (res.length == 0 && !this.hasCleared) {
-      this.hasCleared = true;
-      let res = await Model.clearRead(staticData.userId);
-      this.getrecommends();
-      return;
+    let moreRecommends = await Model.getrecommends();
+    if (moreRecommends.length == 0) {
+      await Model.clearRead(staticData.userId);
+      moreRecommends = await Model.getrecommends();
     }
-    this.setState({
-      postLock: false
-    })
-    if (res) {
-      let newRecommends = null;
-      let newRes = [];
-      res.forEach(item => {
-        if (item.entity) {
-          newRes.push(item)
-        }
-      })
-      if (type === 1) {
-        newRecommends = newRes.concat(recommends)
-      } else {
-        newRecommends = recommends.concat(newRes)
-      }
+
+    if (moreRecommends) {
+      const newRecommends = type == 1 ? [...moreRecommends, ...oldRecommends] : [...oldRecommends, ...moreRecommends];
       this.setState({
-        recommends: newRecommends,
-        recommendsLength: newRes.length,
-        pageState: newRecommends.length == 0 ? 'noData' : 'over',
+        recommends: newRecommends.slice(0, type == 1 ? 5 : newRecommends.length - 1),
+        recommendsLength: moreRecommends.length,
+        postLock: false,
+        pageState: newRecommends.length > 0 ? 'over' : 'noData',
       }, () => {
-        this.addRecommendsExposure();
-      })
+        if (type == 1) {
+          setTimeout(() => {
+            this.setState({
+              recommends: newRecommends,
+            }, () => {
+              this.addRecommendsExposure(true);
+            })
+          }, 0);
+        } else {
+          this.addRecommendsExposure();
+        }
+      });
     } else {
       this.setState({
         pageState: 'error',
       })
     }
   }
-  addRecommendsExposure() {
-    if (this.state.recommends.length == 0) {
+  addRecommendsExposure(isNodeReload = false) {
+    if (this.state.recommends.length == 0 || isNodeReload) {
       this.recommendsExposuredList.clear();
     }
     setTimeout(() => {
@@ -477,12 +483,12 @@ export default class HomePage extends BaseComponent {
       this.setState({
         hots: res.slice(0, 5) || []
       }, () => {
-        this.addHotsExposure1(isReload);
+        // this.addHotsExposure1(isReload);
         setTimeout(() => {
           this.setState({
             hots: res || []
           }, () => {
-              this.addHotsExposure1(isReload);
+            this.addHotsExposure1(isReload);
           })
         }, 0);
 
@@ -493,12 +499,12 @@ export default class HomePage extends BaseComponent {
       this.setState({
         hots: res.slice(0, 5) || []
       }, () => {
-        this.addHotsExposure1(isReload);
+        // this.addHotsExposure1(isReload);
         setTimeout(() => {
           this.setState({
             hots: res || []
           }, () => {
-              this.addHotsExposure1(isReload);
+            this.addHotsExposure1(isReload);
           })
         }, 0);
 
@@ -863,5 +869,17 @@ export default class HomePage extends BaseComponent {
       isCollentMini: false
     })
     this.setCurrentIsCollentMini(2)
+  }
+  troggleOpPanel = () => {
+    const { showOpPanel } = this.$store;
+    this.$store.updateOpPanel(!showOpPanel)
+  }
+  //全局刷新
+  overallFreshList = () => {
+    Taro.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    })
+    this.onPullDownRefresh();
   }
 }
