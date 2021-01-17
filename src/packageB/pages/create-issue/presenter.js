@@ -15,18 +15,24 @@ export default class Presenter extends BaseComponent {
       canSave: false,
       tagList: [],
       selectedTag: [],
-      files:[]
+      files: [],
+      selectedCircle: '',
+      isSelectCircleControlShow: false,
     }
     this.$store = this.props.circleDetailStore;
     this.circleList = [];
     this.circleTriggerStr = '[]';
+    this.selectedCircleItem = {};
   }
 
   componentDidMount() {
     const { cid, cname = '' } = this.$router.params
     this.setNavBarTitle(cname)
-    this.showNavLoading()
+    // this.showNavLoading()
     this.init(cid)
+    this.setState({
+      isSelectCircleControlShow: this.$router.params.from == 'home',
+    })
   }
   componentDidShow() {
     if (staticData.tempCircleItem) {
@@ -38,6 +44,19 @@ export default class Presenter extends BaseComponent {
     }
     staticData.setTempCircleItem(null);
 
+    // 首页发问答
+    if (staticData.tempSelectCircleItem) {
+      const { name: cname, cid } = staticData.tempSelectCircleItem;
+      const { name, content } = this.state;
+      this.setState({
+        selectedCircle: cname,
+        canSave:  this.getReplaceValue(content).length > 4 && !!cname,
+      })
+      this.setNavBarTitle(cname);
+      this.init(cid);
+      this.selectedCircleItem = staticData.tempSelectCircleItem;
+      staticData.setTempSelectCircleItem(null);
+    }
   }
 
   componentWillUnmount(){
@@ -46,6 +65,7 @@ export default class Presenter extends BaseComponent {
   }
 
   async init(cid) {
+    if (!cid) return;
     const tags = await Model.getTags(cid)
     this.setState({
       tagList: tags
@@ -63,7 +83,7 @@ export default class Presenter extends BaseComponent {
     }
     this.setState({
       content: value,
-      canSave: value.length > 4
+      canSave: value.length > 4 && !!this.state.selectedCircle
     })
   }
 
@@ -82,7 +102,7 @@ export default class Presenter extends BaseComponent {
     }
 
     this.setState(prev => ({
-      canSave: prev.content.length > 4,
+      canSave: prev.content.length > 4 && !!this.state.selectedCircle,
       selectedTag
     }))
   }
@@ -102,20 +122,12 @@ export default class Presenter extends BaseComponent {
 
     this.showNavLoading()
 
-    const p = /\[(.*?)\]/g;
-    const replaceValue = content.replace(p, (item, $1) => {
-      const circleItem = this.circleList.find(item => item.name == $1);
-      return `_##_${JSON.stringify({
-        name: circleItem.name,
-        cid: circleItem.cid,
-      })}_##_`
-    })
     const params = {
-      cid,
+      cid: cid || this.selectedCircleItem.cid,
       // title: name,
       // content,
       files:files,
-      title: replaceValue,
+      title: this.getReplaceValue(content),
       tagIds: selectedTag
     }
 
@@ -133,5 +145,21 @@ export default class Presenter extends BaseComponent {
     } else {
       this.showToast('保存失败, 请稍候再试')
     }
+  }
+  getReplaceValue(content) {
+    const p = /\[(.*?)\]/g;
+    const replaceValue = content.replace(p, (item, $1) => {
+      const circleItem = this.circleList.find(item => item.name == $1);
+      return `_##_${JSON.stringify({
+        name: circleItem.name,
+        cid: circleItem.cid,
+      })}_##_`
+    })
+    return replaceValue;
+  }
+  toSelectCircle() {
+    Taro.navigateTo({
+      url: '/packageB/pages/select-circle/index'
+    })
   }
 }

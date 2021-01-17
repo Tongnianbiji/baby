@@ -65,7 +65,7 @@ export default class Presenter extends BaseComponent {
       const { name, content } = this.state;
       this.setState({
         selectedCircle: cname,
-        canSave: name.length > 4 && content.length > 4 && !!cname,
+        canSave: name.length > 4 && this.getReplaceValue(content).length > 4 && !!cname,
       })
       this.setNavBarTitle(cname);
       this.init(cid);
@@ -86,7 +86,7 @@ export default class Presenter extends BaseComponent {
   nameInput = ({ detail }) => {
     this.setState(prev => ({
       name: detail.value,
-      canSave: prev.content.length > 4 && detail.value.length > 4 
+      canSave: prev.content.length > 4 && detail.value.length > 4 && !!this.state.selectedCircle
     }))
   }
 
@@ -119,7 +119,7 @@ export default class Presenter extends BaseComponent {
     }
 
     this.setState(prev => ({
-      canSave: prev.name.length > 4 && prev.content.length > 4,
+      canSave: prev.name.length > 4 && prev.content.length > 4 && !!this.state.selectedCircle,
       selectedTag
     }))
   }

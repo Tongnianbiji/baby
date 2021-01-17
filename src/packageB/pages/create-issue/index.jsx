@@ -16,7 +16,7 @@ export default class CreateIssueView extends Presenter {
   }
 
   render() {
-    const { content, showTip, tagList, selectedTag, canSave } = this.state
+    const { content, showTip, tagList, selectedTag, canSave, isSelectCircleControlShow, selectedCircle } = this.state
     return (
       <View className='create-issue-view'>
         <View className='input-wrapper'>
@@ -39,6 +39,20 @@ export default class CreateIssueView extends Presenter {
         <View className='photo-picker-wrapper'>
           <PhotoPicker onGetFiles={this.getFiles.bind(this)} />
         </View>
+        {isSelectCircleControlShow &&
+          <View className='item' onClick={this.toSelectCircle.bind(this)}>
+            <View className='item-label'>
+              <View className='item-txt'>选择圈子</View>
+            </View>
+            <View className='item-value'>
+              {
+                selectedCircle ? <View className='item-txt'>{selectedCircle}</View>
+                  : <View className='item-txt'>请选择</View>
+              }
+              <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
+            </View>
+          </View>
+        }
         {
           !!tagList.length &&
           <View>
