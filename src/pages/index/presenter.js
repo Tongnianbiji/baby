@@ -867,6 +867,7 @@ export default class HomePage extends BaseComponent {
         url: '/pages/login/index'
       })
     }
+    this.troggleOpPanel();
   }
 
   toCreateIssue = () => {
@@ -879,6 +880,7 @@ export default class HomePage extends BaseComponent {
         url: '/pages/login/index'
       })
     }
+    this.troggleOpPanel();
   }
   //全局刷新
   overallFreshList = () => {
