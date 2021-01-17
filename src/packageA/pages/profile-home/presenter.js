@@ -14,9 +14,9 @@ export default class ProfileHomePresenter extends BaseComponent {
       activeData: [],
       postData: [],
       questionData: [],
-      activeDataTotal:0,
-      postDataTotal:0,
-      questionDataTotal:0,
+      activeDataTotal: 0,
+      postDataTotal: 0,
+      questionDataTotal: 0,
       isMySelf: false,
 
       isActiveToBottom: false,
@@ -38,7 +38,7 @@ export default class ProfileHomePresenter extends BaseComponent {
       this.getActiveData()
       this.getProfileInfo();
     })
-   
+
   }
 
   componentWillUnmount() { }
@@ -57,17 +57,17 @@ export default class ProfileHomePresenter extends BaseComponent {
     let path = `/packageA/pages/profile-home/index?userId=${userId}`;
 
     if (res.from === 'button') {
-      const {pid,qid} =JSON.parse(res.target.id);
-      if(pid){
+      const { pid, qid } = JSON.parse(res.target.id);
+      if (pid) {
         path = `/packageB/pages/post-detail/index?pid=${pid}&inviter=${userId}`
       }
-      if(qid){
+      if (qid) {
         path = `/packageB/pages/issue-detail/index?qid=${qid}&inviter=${userId}`
       }
     }
     return {
       title: `欢迎加入童年`,
-      path:path
+      path: path
     }
   }
 
@@ -209,7 +209,7 @@ export default class ProfileHomePresenter extends BaseComponent {
     if (res && res.items) {
       const { total, items } = res;
       this.setState({
-        activeDataTotal:total
+        activeDataTotal: total
       })
       if (!activeData.length) {
         this.setState({
@@ -251,7 +251,7 @@ export default class ProfileHomePresenter extends BaseComponent {
     if (res && res.items) {
       const { total, items } = res;
       this.setState({
-        postDataTotal:total
+        postDataTotal: total
       })
       if (!postData.length) {
         this.setState({
@@ -292,7 +292,7 @@ export default class ProfileHomePresenter extends BaseComponent {
     if (res && res.items) {
       const { total, items } = res;
       this.setState({
-        questionDataTotal:total
+        questionDataTotal: total
       })
       if (!questionData.length) {
         this.setState({
@@ -314,7 +314,7 @@ export default class ProfileHomePresenter extends BaseComponent {
   }
 
   //动态收藏
-  handleFavoriteActive = async (model)=>{
+  handleFavoriteActive = async (model) => {
     let { postLock, activeData } = this.state;
     let preIndex = null;
     const { pid, qid } = model.entity;
@@ -372,7 +372,7 @@ export default class ProfileHomePresenter extends BaseComponent {
 
 
   //加入/取消
-  handleSubscrCircleActive = async (model)=>{
+  handleSubscrCircleActive = async (model) => {
     let { postLock, activeData } = this.state;
     let preIndex = activeData.findIndex(item => item.activityId === model.activityId)
     if (!postLock) {
@@ -405,90 +405,90 @@ export default class ProfileHomePresenter extends BaseComponent {
     this.setState({
       activeData: activeData
     })
-   }
+  }
 
-   //帖子收藏
-   handleFavoritePost = async (model)=>{
-    let {postLock,postData} = this.state;
-    let preIndex = postData.findIndex(item=>item.pid === model.pid)
-    if(!postLock){
-     if(model.isMark){
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.cancelMarkPost(model.pid);
-       this.setState({
-         postLock:false
-       })
-       postData[preIndex].isMark = false;
-       postData[preIndex].markes -= 1;
-       if(res){
-         this.showToast('已取消');
-       }
-     }else{
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.markPost(model.pid);
-       this.setState({
-         postLock:false
-       })
-       postData[preIndex].isMark = true;
-       postData[preIndex].markes += 1;
-       if(res){
-         this.showToast('已收藏');
-       }
-     }
+  //帖子收藏
+  handleFavoritePost = async (model) => {
+    let { postLock, postData } = this.state;
+    let preIndex = postData.findIndex(item => item.pid === model.pid)
+    if (!postLock) {
+      if (model.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.cancelMarkPost(model.pid);
+        this.setState({
+          postLock: false
+        })
+        postData[preIndex].isMark = false;
+        postData[preIndex].markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.markPost(model.pid);
+        this.setState({
+          postLock: false
+        })
+        postData[preIndex].isMark = true;
+        postData[preIndex].markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
     }
     this.setState({
-      postData:postData
+      postData: postData
     })
   }
 
   //问题收藏
-  handleFavoriteQuestion = async (model)=>{
-    console.log('******',model)
-    let {postLock,questionData} = this.state;
-    let preIndex = questionData.findIndex(item=>item.qid === model.qid)
-    if(!postLock){
-     if(model.isMark){
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.cancelMarkQuestion(model.qid);
-       this.setState({
-         postLock:false
-       })
-       questionData[preIndex].isMark = false;
-       questionData[preIndex].markes -= 1;
-       if(res){
-         this.showToast('已取消');
-       }
-     }else{
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.markQuestion(model.qid);
-       this.setState({
-         postLock:false
-       })
-       questionData[preIndex].isMark = true;
-       questionData[preIndex].markes += 1;
-       if(res){
-         this.showToast('已收藏');
-       }
-     }
+  handleFavoriteQuestion = async (model) => {
+    console.log('******', model)
+    let { postLock, questionData } = this.state;
+    let preIndex = questionData.findIndex(item => item.qid === model.qid)
+    if (!postLock) {
+      if (model.isMark) {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.cancelMarkQuestion(model.qid);
+        this.setState({
+          postLock: false
+        })
+        questionData[preIndex].isMark = false;
+        questionData[preIndex].markes -= 1;
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.markQuestion(model.qid);
+        this.setState({
+          postLock: false
+        })
+        questionData[preIndex].isMark = true;
+        questionData[preIndex].markes += 1;
+        if (res) {
+          this.showToast('已收藏');
+        }
+      }
     }
-    this.setState({ 
-      questionData:questionData
+    this.setState({
+      questionData: questionData
     })
   }
 
   onClickNavTo(type) {
-    const {userId} = this.state;
+    const { userId } = this.state;
     switch (type) {
       case 'fans'://粉丝
-        this.navto({ url: `/packageA/pages/fans/index?userId=${userId}`})
+        this.navto({ url: `/packageA/pages/fans/index?userId=${userId}` })
         break;
       case 'circle'://圈子
         this.navto({ url: `/packageA/pages/user-circles/index?userId=${userId}` })
@@ -498,9 +498,10 @@ export default class ProfileHomePresenter extends BaseComponent {
         break;
     }
   }
-  toCircle(plotCid) {
+  toCircle(cid) {
+    if (!cid) return;
     this.navto({
-      url: `/packageA/pages/circle-detail/index?cid=${plotCid}`,
+      url: `/packageA/pages/circle-detail/index?cid=${cid}`,
     })
   }
   //个人页面编辑
@@ -526,7 +527,7 @@ export default class ProfileHomePresenter extends BaseComponent {
 
   //私信
   goToIM = () => {
-    const {userInfo:{nickName,userId,headImg}} = this.state;
+    const { userInfo: { nickName, userId, headImg } } = this.state;
     this.navto({
       url: `/packageA/pages/message-im/index?name=${nickName}&id=${userId}&headImg=${headImg}`
     })
@@ -567,40 +568,40 @@ export default class ProfileHomePresenter extends BaseComponent {
     })
   }
 
-  subScrUser = async (model)=>{
-    let {postLock,activeData} = this.state;
-    let preIndex = activeData.findIndex(item=>item.entity.userId === model.entity.userId)
-    if(!postLock){
-     if(model.entity.isSubscribe){
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.cancelAttentionUser(model.entity.userId);
-       this.setState({
-         postLock:false
-       })
-       activeData[preIndex].entity.isSubscribe = false
-       if(res){
-         this.showToast('已取消');
-       }
-     }else{
-       this.setState({
-         postLock:true
-       })
-       let res = await Model.attentionUser(model.entity.userId);
-       this.setState({
-         postLock:false
-       })
-       activeData[preIndex].entity.isSubscribe = true
-       if(res){
-         this.showToast('已关注');
-       }
-     }
+  subScrUser = async (model) => {
+    let { postLock, activeData } = this.state;
+    let preIndex = activeData.findIndex(item => item.entity.userId === model.entity.userId)
+    if (!postLock) {
+      if (model.entity.isSubscribe) {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.cancelAttentionUser(model.entity.userId);
+        this.setState({
+          postLock: false
+        })
+        activeData[preIndex].entity.isSubscribe = false
+        if (res) {
+          this.showToast('已取消');
+        }
+      } else {
+        this.setState({
+          postLock: true
+        })
+        let res = await Model.attentionUser(model.entity.userId);
+        this.setState({
+          postLock: false
+        })
+        activeData[preIndex].entity.isSubscribe = true
+        if (res) {
+          this.showToast('已关注');
+        }
+      }
     }
     this.setState({
-      activeData:activeData
+      activeData: activeData
     })
-   }
+  }
 
   getNickNameColor = (sex) => {
     if (sex === 'MALE') {
@@ -610,10 +611,10 @@ export default class ProfileHomePresenter extends BaseComponent {
     }
   }
 
-  viewProfileInfo = (uid,e)=>{
+  viewProfileInfo = (uid, e) => {
     e.stopPropagation();
     Taro.navigateTo({
-      url:`/packageA/pages/profile-home/index?userId=${uid}`
+      url: `/packageA/pages/profile-home/index?userId=${uid}`
     })
   }
 }
