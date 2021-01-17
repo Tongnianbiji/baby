@@ -81,7 +81,7 @@ export default class AttentionCircle extends BaseComponent {
     super(props)
 
     this.state = {
-      circleList:[]
+      circleList: []
     }
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -97,8 +97,8 @@ export default class AttentionCircle extends BaseComponent {
     })
   }
 
-  goToMoreCircle = ()=>{
-    const {updateFromHomeMoreStatus} = staticData;
+  goToMoreCircle = () => {
+    const { updateFromHomeMoreStatus } = staticData;
     updateFromHomeMoreStatus(true);
     Taro.switchTab({
       url: `/pages/discover/index`
@@ -117,7 +117,7 @@ export default class AttentionCircle extends BaseComponent {
       pageSize: this.pageSize,
     })
     this.pageIndex++;
-    if(res && res.items){
+    if (res && res.items) {
       this.setState({
         circleList: [...circleList, ...res.items],
       })
@@ -125,17 +125,17 @@ export default class AttentionCircle extends BaseComponent {
   }
 
   render() {
-    const {circleList} = this.state;
+    const { circleList } = this.state;
     return (
       <View>
         <ScrollView scrollX lowerThreshold={200} onScrollToLower={this.getDatas.bind(this, false)}>
           <View className='community-wrapper'>
-          <View className='community-entry' onClick={this.goToMoreCircle.bind(this)}>
-            <View className='avatar'>
-              <Image src={ICONS.ADD} className='avatar-img'></Image>
+            <View className='community-entry' onClick={this.goToMoreCircle.bind(this)}>
+              <View className='avatar'>
+                <Image src={ICONS.ADD} className='avatar-img'></Image>
+              </View>
+              <Text className='title'>更多圈子</Text>
             </View>
-            <Text className='title'>更多圈子</Text>
-          </View>
             {
               circleList.map(item => {
                 return (
