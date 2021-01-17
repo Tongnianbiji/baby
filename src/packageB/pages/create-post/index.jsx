@@ -87,7 +87,7 @@ export default class CreatePostView extends Presenter {
         </View>
         <View className='item' onClick={this.toSelectCircle.bind(this)}>
           <View className='item-label'>
-            <View className='item-txt'>宝宝所在学校</View>
+            <View className='item-txt'>选择圈子</View>
           </View>
           <View className='item-value'>
             {

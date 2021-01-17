@@ -861,7 +861,7 @@ export default class HomePage extends BaseComponent {
     const { cid, cname = '' } = getCurrentInstance().router.params
     const { isLogin } = staticData;
     if (isLogin) {
-      this.navto({ url: `/packageB/pages/create-post/index?cid=${cid}&cname=${cname}&from=home` })
+      this.navto({ url: `/packageB/pages/create-post/index?from=home` })
     } else {
       Taro.navigateTo({
         url: '/pages/login/index'
@@ -873,7 +873,7 @@ export default class HomePage extends BaseComponent {
     const { cid, cname = '' } = getCurrentInstance().router.params;
     const { isLogin } = staticData;
     if (isLogin) {
-      this.navto({ url: `/packageB/pages/create-issue/index?cid=${cid}&cname=${cname}}&from=home` })
+      this.navto({ url: `/packageB/pages/create-issue/index?from=home` })
     } else {
       Taro.navigateTo({
         url: '/pages/login/index'

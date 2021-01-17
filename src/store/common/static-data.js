@@ -36,6 +36,7 @@ class Data {
   @observable isLogin = false;
   @observable selectedPlot = {};
   @observable tempCircleItem = null;
+  @observable tempSelectCircleItem = null;
 
   @action getGoEasy = (goEasy) => {
     this.goEasy = goEasy
@@ -52,7 +53,9 @@ class Data {
   @action setTempCircleItem = (tempCircleItem) => {
     this.tempCircleItem = tempCircleItem;
   }
-
+  @action setTempSelectCircleItem = (tempSelectCircleItem) => {
+    this.tempSelectCircleItem = tempSelectCircleItem;
+  }
   @action updateReLoadCirclePage = (status) => {
     this.reLoadCirclePage = status
   }

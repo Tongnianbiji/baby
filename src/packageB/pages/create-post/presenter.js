@@ -34,7 +34,7 @@ export default class Presenter extends BaseComponent {
     const { cid, cname = '' } = this.$router.params
 
     this.setNavBarTitle(cname)
-    this.showNavLoading()
+    // this.showNavLoading()
     this.init(cid)
   }
 
@@ -53,8 +53,19 @@ export default class Presenter extends BaseComponent {
     }
     staticData.setTempCircleItem(null);
     
+    // 首页发帖
+    if (staticData.tempSelectCircleItem) {
+      const {name: cname, cid} = staticData.tempSelectCircleItem;
+      this.setState({
+        selectedCircle: cname,
+      })
+      this.setNavBarTitle(cname);
+      this.init(cid);
+      staticData.setTempSelectCircleItem(null);
+    }
   }
   async init(cid) {
+    if (!cid) return;
     const tags = await Model.getTags(cid)
     this.setState({
       tagList: tags

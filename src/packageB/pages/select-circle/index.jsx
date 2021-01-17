@@ -36,7 +36,7 @@ export default class SearchCircle extends Presenter {
               {
                 searchCircle.map((item, n) => {
                   return (
-                    <CircleItem isSimpleMode={true} key={item.cid} model={item}></CircleItem>
+                    <CircleItem key={item.cid} model={item}></CircleItem>
                   )
                 })
               }
@@ -47,7 +47,7 @@ export default class SearchCircle extends Presenter {
             {
               myCircle.map((item, n) => {
                 return (
-                  <CircleItem isSimpleMode={true} key={item.cid} model={item}></CircleItem>
+                  <CircleItem key={item.cid} model={item}></CircleItem>
                 )
               })
             }
