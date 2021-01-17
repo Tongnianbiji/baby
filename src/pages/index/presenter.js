@@ -1,7 +1,7 @@
 import BaseComponent from '../../common/baseComponent'
 import React from 'react'
 import Model from './model'
-import Taro from '@tarojs/taro'
+import Taro, { getCurrentInstance } from '@tarojs/taro'
 import staticData from '@src/store/common/static-data'
 import Storage from '@common/localStorage'
 import analysisHelper from '@helper/analysisHelper';
@@ -41,7 +41,8 @@ export default class HomePage extends BaseComponent {
       showNewInfoBar: false,
       total: 0,
       recommendsLength: 0,
-      isPullDownRefresh: false
+      isPullDownRefresh: false,
+      showOpPanel: false,
     }
     this.recommendsExposuredList = new Set();
     this.attentionUsersExposuredList = new Set();
@@ -121,7 +122,7 @@ export default class HomePage extends BaseComponent {
     // TODO - showNewInfoBar节流优化
     clearTimeout(this.newInfoBarTimer);
     this.setState({
-      isPullDownRefresh: true, 
+      isPullDownRefresh: true,
       // recommends: [],
     })
     Taro.vibrateShort();
@@ -411,7 +412,7 @@ export default class HomePage extends BaseComponent {
         postLock: false,
         pageState: newRecommends.length > 0 ? 'over' : 'noData',
       }, () => {
-          this.addRecommendsExposure();
+        this.addRecommendsExposure();
       });
     } else {
       this.setState({
@@ -851,8 +852,33 @@ export default class HomePage extends BaseComponent {
     this.setCurrentIsCollentMini(2)
   }
   troggleOpPanel = () => {
-    const { showOpPanel } = this.$store;
-    this.$store.updateOpPanel(!showOpPanel)
+    this.setState({
+      showOpPanel: !this.state.showOpPanel
+    })
+  }
+
+  toCreatePost = () => {
+    const { cid, cname = '' } = getCurrentInstance().router.params
+    const { isLogin } = staticData;
+    if (isLogin) {
+      this.navto({ url: `/packageB/pages/create-post/index?cid=${cid}&cname=${cname}&from=home` })
+    } else {
+      Taro.navigateTo({
+        url: '/pages/login/index'
+      })
+    }
+  }
+
+  toCreateIssue = () => {
+    const { cid, cname = '' } = getCurrentInstance().router.params;
+    const { isLogin } = staticData;
+    if (isLogin) {
+      this.navto({ url: `/packageB/pages/create-issue/index?cid=${cid}&cname=${cname}}&from=home` })
+    } else {
+      Taro.navigateTo({
+        url: '/pages/login/index'
+      })
+    }
   }
   //全局刷新
   overallFreshList = () => {

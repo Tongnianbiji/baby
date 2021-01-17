@@ -198,3 +198,51 @@ page {
       margin-bottom: 13px;
     }
   }
+    .operator-panel {
+    background:linear-gradient(51deg,rgba(255,71,58,1) 0%,rgba(255,138,99,1) 100%);
+    border-radius:16px 16px 0px 0px;
+    padding: 75px 0 60px;
+    animation: panel-fade-in .2s ease-in;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    right: 0;
+    .add-btns {
+      display: flex;
+      .btn-item {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        .icon {
+          width: 120px;
+          height: 120px;
+        }
+        .txt {
+          padding: 10px 0 0;
+          color: #333;
+          font-size: 28px;
+        }
+      }
+    }
+    .close-btn {
+      text-align: center;
+      font-size: 0;
+      .close-btn-icon {
+        width: 97px;
+        height: 97px;
+      }
+    }
+  }
+  @keyframes panel-fade-in {
+    0% {
+      bottom: -300px;
+      opacity: 0;
+    }
+    100% {
+      bottom: 0;
+      opacity: 1;
+    }
+  }

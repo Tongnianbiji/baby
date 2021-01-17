@@ -444,11 +444,11 @@ export default class BaseComponent extends Component {
     return <View className='base-loading'></View>
   }
 
-  renderEmptyPage(pt = '30vh') {
+  renderEmptyPage(pt = '30vh', title ='当前暂无数据' ) {
     return (
       <View className='noTemplate-wrap' style={{ paddingTop: pt }}>
         <Image src={ICONS.NODATA} mode='widthFix' />
-        <Text>当前暂无数据</Text>
+        <Text>{title}</Text>
       </View>
     )
   }

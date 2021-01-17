@@ -22,7 +22,8 @@ export default class Presenter extends BaseComponent {
       isManual:false,
       startPageX:null,
       movePageX:null,
-      tagListWidth:null,
+      tagListWidth: null,
+      selectedCircle: '',
     }
     this.$store = this.props.circleDetailStore
     this.circleList = [];
@@ -150,5 +151,10 @@ export default class Presenter extends BaseComponent {
     // else {
     //   this.showToast('保存失败, 请稍候再试')
     // }
+  }
+  toSelectCircle() {
+    Taro.navigateTo({
+      url: '/packageB/pages/select-circle/index'
+    })
   }
 }

@@ -74,6 +74,7 @@ export default {
         "pages/reply-my-post/index",
         "pages/qa-me/index",
         "pages/passive-collects/index",
+        "pages/select-circle/index",
         "pages/share-qrCode/index"
       ]
     }

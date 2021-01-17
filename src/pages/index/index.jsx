@@ -17,11 +17,14 @@ import { ICONS } from '@common/constant'
 import './index.scss'
 const ICON_ADD = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/circle-add.png'
 const ICON_FRESH = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/refresh.png'
+const ICON_CLOSE = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/cancel-b.png'
+const ICON_POST = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/posts.png'
+const ICON_QA = 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/question.png'
 @inject('staticDataStore')
 @observer
 export default class Index extends HomePage {
   render() {
-    const { pageState, topTabs, currentTopTab, attentionType, hotTabType, currentCity, attentionUsers, isPullDownRefresh, showAttentionLoading, isAttentionToBottom, isCollentMini, showNewInfoBar, total, recommends, showRecommendLoading, isRecommendToBottom, hots, recommendsLength } = this.state;
+    const { pageState, topTabs, showOpPanel, currentTopTab, attentionType, hotTabType, currentCity, attentionUsers, isPullDownRefresh, showAttentionLoading, isAttentionToBottom, isCollentMini, showNewInfoBar, total, recommends, showRecommendLoading, isRecommendToBottom, hots, recommendsLength } = this.state;
     const { isGuide } = this.props.staticDataStore;
     if (pageState == 'loading') {
       return this.renderLoading();
@@ -145,6 +148,24 @@ export default class Index extends HomePage {
             <Image className='btn' src={ICON_ADD} onClick={this.troggleOpPanel} />
           </View>
           : ''
+        }
+        {
+          showOpPanel &&
+          <View className='operator-panel'>
+            <View className='add-btns'>
+              <View className='btn-item' onClick={this.toCreatePost}>
+                <Image src={ICON_POST} alt='' className='icon' />
+                <View className='txt'>我想发贴</View>
+              </View>
+              <View className='btn-item' onClick={this.toCreateIssue}>
+                <Image src={ICON_QA} alt='' className='icon' />
+                <View className='txt'>我想提问</View>
+              </View>
+            </View>
+            <View className='close-btn'>
+              <Image className='close-btn-icon' src={ICON_CLOSE} alt='' onClick={this.troggleOpPanel} />
+            </View>
+          </View>
         }
 
       </View>
