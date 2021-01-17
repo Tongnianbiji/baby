@@ -81,14 +81,14 @@ export default class AttentionCircle extends BaseComponent {
     super(props)
 
     this.state = {
-      current: 1,
-      pageSize: 10,
       circleList:[]
     }
+    this.pageIndex = 1;
+    this.pageSize = 10;
   }
 
   componentDidMount() {
-    this.getDatas()
+    this.getDatas(true)
   }
 
   goToDetail = cid => {
@@ -105,15 +105,21 @@ export default class AttentionCircle extends BaseComponent {
     })
   }
 
-  getDatas =async ()=> {
+  getDatas = async (isReload = true) => {
+    let circleList = this.state.circleList;
+    if (isReload) {
+      this.pageIndex = 1;
+      circleList = [];
+    }
     let res = await Model.getAttentionCircle({
       uid: this.getUserInfo().userId,
-      pageNum: this.state.current,
-      pageSize: this.state.pageSize
+      pageNum: this.pageIndex,
+      pageSize: this.pageSize,
     })
+    this.pageIndex++;
     if(res && res.items){
       this.setState({
-        circleList:res.items
+        circleList: [...circleList, ...res.items],
       })
     }
   }
@@ -122,7 +128,7 @@ export default class AttentionCircle extends BaseComponent {
     const {circleList} = this.state;
     return (
       <View>
-        <ScrollView scrollX>
+        <ScrollView scrollX lowerThreshold={200} onScrollToLower={this.getDatas.bind(this, false)}>
           <View className='community-wrapper'>
           <View className='community-entry' onClick={this.goToMoreCircle.bind(this)}>
             <View className='avatar'>
