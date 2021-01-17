@@ -24,10 +24,12 @@ export default class Presenter extends BaseComponent {
       movePageX:null,
       tagListWidth: null,
       selectedCircle: '',
+      isSelectCircleControlShow: false,
     }
     this.$store = this.props.circleDetailStore
     this.circleList = [];
     this.circleTriggerStr = '[]';
+    this.selectedCircleItem = {};
   }
 
   componentDidMount() {
@@ -36,6 +38,10 @@ export default class Presenter extends BaseComponent {
     this.setNavBarTitle(cname)
     // this.showNavLoading()
     this.init(cid)
+
+    this.setState({
+      isSelectCircleControlShow: this.$router.params.from=='home',
+    })
   }
 
   componentWillUnmount(){
@@ -55,12 +61,15 @@ export default class Presenter extends BaseComponent {
     
     // 首页发帖
     if (staticData.tempSelectCircleItem) {
-      const {name: cname, cid} = staticData.tempSelectCircleItem;
+      const { name: cname, cid } = staticData.tempSelectCircleItem;
+      const { name, content } = this.state;
       this.setState({
         selectedCircle: cname,
+        canSave: name.length > 4 && content.length > 4 && !!cname,
       })
       this.setNavBarTitle(cname);
       this.init(cid);
+      this.selectedCircleItem = staticData.tempSelectCircleItem;
       staticData.setTempSelectCircleItem(null);
     }
   }
@@ -90,7 +99,7 @@ export default class Presenter extends BaseComponent {
     }
     this.setState(prev => ({
       content: value,
-      canSave: prev.name.length > 4 && value.length > 4
+      canSave: prev.name.length > 4 && value.length > 4 && !!this.state.selectedCircle,
     }))
   }
 
@@ -131,19 +140,10 @@ export default class Presenter extends BaseComponent {
 
     this.showNavLoading()
 
-    const p = /\[(.*?)\]/g;
-    const replaceValue = content.replace(p,  (item,$1)=> {
-      const circleItem = this.circleList.find(item => item.name == $1);
-      return `_##_${JSON.stringify({
-        name: circleItem.name,
-        cid: circleItem.cid,
-      })}_##_`
-    })
-
     const params = {
-      cid,
+      cid: cid || this.selectedCircleItem.cid,
       title: name,
-      content: replaceValue,
+      content: this.getReplaceValue(content),
       tagIds: selectedTag,
       files
     }
@@ -162,6 +162,17 @@ export default class Presenter extends BaseComponent {
     // else {
     //   this.showToast('保存失败, 请稍候再试')
     // }
+  }
+  getReplaceValue(content) {
+    const p = /\[(.*?)\]/g;
+    const replaceValue = content.replace(p, (item, $1) => {
+      const circleItem = this.circleList.find(item => item.name == $1);
+      return `_##_${JSON.stringify({
+        name: circleItem.name,
+        cid: circleItem.cid,
+      })}_##_`
+    })
+    return replaceValue;
   }
   toSelectCircle() {
     Taro.navigateTo({

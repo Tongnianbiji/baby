@@ -62,7 +62,7 @@ export default class CreatePostView extends Presenter {
   }
 
   render() {
-    const { canSave, name, content, tagList, selectedTag, showTip, scrollLeft, isManual, selectedCircle } = this.state
+    const { canSave, name, content, tagList, selectedTag, showTip, scrollLeft, isManual, selectedCircle, isSelectCircleControlShow } = this.state
     return (
       <View className='create-post-view'>
         <View className='input-wrapper'>
@@ -85,18 +85,20 @@ export default class CreatePostView extends Presenter {
         <View className='photo-picker-wrapper'>
           <MediaPicker onGetFiles={this.getFiles.bind(this)} />
         </View>
-        <View className='item' onClick={this.toSelectCircle.bind(this)}>
-          <View className='item-label'>
-            <View className='item-txt'>选择圈子</View>
+        {isSelectCircleControlShow &&
+          <View className='item' onClick={this.toSelectCircle.bind(this)}>
+            <View className='item-label'>
+              <View className='item-txt'>选择圈子</View>
+            </View>
+            <View className='item-value'>
+              {
+                selectedCircle ? <View className='item-txt'>{selectedCircle}</View>
+                  : <View className='item-txt'>请选择</View>
+              }
+              <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
+            </View>
           </View>
-          <View className='item-value'>
-            {
-              selectedCircle ? <View className='item-txt'>{selectedCircle}</View>
-                : <View className='item-txt'>请选择</View>
-            }
-            <Image className='item-icon' src='https://tongnian-image.oss-cn-shanghai.aliyuncs.com/p-right.png' />
-          </View>
-        </View>
+        }
         {/* <View className='tag-wrapper'>
           <View >
             <View onTouchStart={this.onTouchStart.bind(this)} onTouchMove={this.onTouchMove.bind(this)} className="tag-list-wrap">
