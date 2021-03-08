@@ -5,6 +5,7 @@ export default {
     'pages/discover/index',//发现
     'pages/message/index',//消息
     'pages/profile/index',//我的
+    'pages/commonWeb/index',//我的
     'pages/splash/index',
     'test/index',//开发测试入口页面
 

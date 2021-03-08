@@ -70,7 +70,16 @@ export default class UserInfoItem extends Component {
   }
 
   cardClick = (model, e) => {
+    console.log(555, model)
     e.stopPropagation();
+    if (model.linkContentVo) {
+      console.log('---跳转微信公众号链接---')
+      Taro.navigateTo({
+        url: `/pages/commonWeb/index?url=${encodeURIComponent(model.linkContentVo.linkUrl)}`,
+      })
+      return;
+    }
+
     let url = '';
     let contentType = -1;
     let contentIdList = [];
