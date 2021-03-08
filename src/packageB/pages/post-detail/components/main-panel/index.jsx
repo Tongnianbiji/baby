@@ -111,7 +111,15 @@ export default class MainPanelComponent extends BaseComponent {
       })
     }
   }
-
+  navToWebView(linkContentVo){
+    if (linkContentVo) {
+      console.log('---跳转微信公众号链接---', linkContentVo)
+      Taro.navigateTo({
+        url: `/pages/commonWeb/index?url=${encodeURIComponent(linkContentVo.linkUrl)}`,
+      })
+      return;
+    }
+  }
   preViewImage = (url,e)=>{
     const {files} = this.props.postDetail.detailData;
     e.stopPropagation();
@@ -138,7 +146,7 @@ export default class MainPanelComponent extends BaseComponent {
       createTime = '2020-03-29 21:29:00',
       uid,
       files,
-      
+      linkContentVo,
       userSnapshot: {
         city='上海',
         country = '宝山',
@@ -148,6 +156,7 @@ export default class MainPanelComponent extends BaseComponent {
         customLevel = [{desc:'3岁9个月'}]
       }
     } = this.props.postDetail.detailData
+    console.log(1122,this.props.postDetail.detailData)
     return (
       <View>
         {
@@ -178,13 +187,18 @@ export default class MainPanelComponent extends BaseComponent {
             </View>
           </View>
           <View onClick={this.reply.bind(this)} onLongPress={this.deletePost.bind(this,this.props.postDetail.detailData)}>
-            <View className='title'>{title}</View>
+              <View className='title'>{title}</View>
+              {linkContentVo && <View className='webview-mod' onClick={this.navToWebView.bind(this, linkContentVo)}
+              >
+                <Image className='webview-image' src={linkContentVo.linkCover} />
+                <View className='link-tip'><Text className='text'>{linkContentVo.linkAbstract}</Text>  <Image className='link-icon' src={ICONS.Link} /></View>
+              </View>}
               <View className='content'>{
                 renderCircleReferContent(content)
             }</View>
             <View className='contents'>
                 {
-                  files.map(item => {
+                  files && files.map(item => {
                     return <View>
                       { item.type == 1 ?
                         <Image onClick={this.preViewImage.bind(this,item.url)} mode={'aspectFit'} src={item.url}></Image>

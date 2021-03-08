@@ -16,6 +16,7 @@ import BLOCK from '@ass/img/block.png'
 import NETERROR from '@ass/img/neterror.svg'
 import SYSTEM from '@ass/img/system_icon.png'
 import SCHOOL from '@ass/img/school_icon.png'
+import Link from '@ass/img/icon-link.png'
 
 export const ICONS = {
   SHARE_BTN_GRAY: 'https://tongnian-image.oss-cn-shanghai.aliyuncs.com/share-c.png',
@@ -71,6 +72,7 @@ export const ICONS = {
   NETERROR: NETERROR,
   SYSTEM,
   SCHOOL,
+  Link,
 }
 
 

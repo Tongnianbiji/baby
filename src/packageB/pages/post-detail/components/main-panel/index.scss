@@ -130,4 +130,38 @@
       }
     }
   }
+.webview-mod {
+  position: relative;
+  .webview-image {
+    display: block;
+    width: 100%;
+  }
+  .link-tip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(102,102,102,0.75);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    height: 80px;
+    .text {
+      margin-right: auto;
+      margin-left: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .link-icon {
+      margin-left: 10px;
+      margin-right: 10px;
+      flex: none;
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+  }
+}
+  
 }

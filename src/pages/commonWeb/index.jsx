@@ -18,7 +18,7 @@ export default class CommonWeb extends BaseComponent {
   }
   onShareAppMessage() {
     return {
-      title: `邀请加入童年`,
+      title: `邀请你加入童年吧`,
       url: `/pages/commonWeb/index?url=${encodeURIComponent(this.state.url)}`,
     }
   }
