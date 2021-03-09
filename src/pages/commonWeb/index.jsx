@@ -8,12 +8,13 @@ export default class CommonWeb extends BaseComponent {
     super(props)
 
     this.state = {
-      url: 'https://cdn.tongnian.world/html/app/b0c39095-fcc7-4fb9-9f45-415bf6c0a41f.html',
+      url: 'http://192.168.0.107:8080/test.html?pid=92',
     }
   }
   componentDidMount() {
+    // console.log(333, this.$router.params.url)
     this.setState({
-      // url: decodeURIComponent(this.$router.params.url)
+      url: decodeURIComponent(this.$router.params.url)
     })
   }
   onShareAppMessage() {
@@ -22,7 +23,9 @@ export default class CommonWeb extends BaseComponent {
       url: `/pages/commonWeb/index?url=${encodeURIComponent(this.state.url)}`,
     }
   }
-  handleMessage() { }
+  handleMessage(e) {
+    console.log(111, e)
+   }
 
   render() {
     return (

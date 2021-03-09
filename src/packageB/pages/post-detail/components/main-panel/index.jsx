@@ -114,8 +114,14 @@ export default class MainPanelComponent extends BaseComponent {
   navToWebView(linkContentVo){
     if (linkContentVo) {
       console.log('---跳转微信公众号链接---', linkContentVo)
+      let url = linkContentVo.linkUrl;
+      if (url.indexOf('?') > -1) {
+        url += `&pid=${this.$router.params.pid}`
+      } else {
+        url += `?pid=${this.$router.params.pid}`
+      }
       Taro.navigateTo({
-        url: `/pages/commonWeb/index?url=${encodeURIComponent(linkContentVo.linkUrl)}`,
+        url: `/pages/commonWeb/index?url=${encodeURIComponent(url)}`,
       })
       return;
     }
@@ -147,6 +153,7 @@ export default class MainPanelComponent extends BaseComponent {
       uid,
       files,
       linkContentVo,
+      isDelete,
       userSnapshot: {
         city='上海',
         country = '宝山',
@@ -156,7 +163,6 @@ export default class MainPanelComponent extends BaseComponent {
         customLevel = [{desc:'3岁9个月'}]
       }
     } = this.props.postDetail.detailData
-    console.log(1122,this.props.postDetail.detailData)
     return (
       <View>
         {
@@ -188,7 +194,7 @@ export default class MainPanelComponent extends BaseComponent {
           </View>
           <View onClick={this.reply.bind(this)} onLongPress={this.deletePost.bind(this,this.props.postDetail.detailData)}>
               <View className='title'>{title}</View>
-              {linkContentVo && <View className='webview-mod' onClick={this.navToWebView.bind(this, linkContentVo)}
+              {linkContentVo && isDelete!=1 && <View className='webview-mod' onClick={this.navToWebView.bind(this, linkContentVo)}
               >
                 <Image className='webview-image' src={linkContentVo.linkCover} mode="widthFix"/>
                 <View className='link-tip'><Text className='text'>{linkContentVo.linkAbstract}</Text>  <Image className='link-icon' src={ICONS.Link} /></View>
