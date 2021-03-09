@@ -190,7 +190,7 @@ export default class MainPanelComponent extends BaseComponent {
               <View className='title'>{title}</View>
               {linkContentVo && <View className='webview-mod' onClick={this.navToWebView.bind(this, linkContentVo)}
               >
-                <Image className='webview-image' src={linkContentVo.linkCover} />
+                <Image className='webview-image' src={linkContentVo.linkCover} mode="widthFix"/>
                 <View className='link-tip'><Text className='text'>{linkContentVo.linkAbstract}</Text>  <Image className='link-icon' src={ICONS.Link} /></View>
               </View>}
               <View className='content'>{
