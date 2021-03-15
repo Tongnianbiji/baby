@@ -18,6 +18,7 @@ export default class BehaviorCard extends Component {
     super(props)
     this.state = {
       statusBarHeight:0
+      
     }
   }
 

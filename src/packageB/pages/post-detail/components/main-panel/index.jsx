@@ -111,7 +111,8 @@ export default class MainPanelComponent extends BaseComponent {
       })
     }
   }
-  navToWebView(linkContentVo){
+  navToWebView(linkContentVo, e) {
+    e.stopPropagation();
     if (linkContentVo) {
       console.log('---跳转微信公众号链接---', linkContentVo)
       let url = linkContentVo.linkUrl;

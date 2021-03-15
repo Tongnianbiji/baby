@@ -15,7 +15,7 @@ import { USER_INFO_KEY_USERID } from '@common/constant'
 import Storage from '@common/localStorage'
 import './app.scss'
 
-const v = '1.2.1'
+const v = '1.2.2'
 
 const request = new BaseRequest()
 const systemInfo = Taro.getSystemInfoSync()
