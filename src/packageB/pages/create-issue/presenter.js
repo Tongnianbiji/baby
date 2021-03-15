@@ -81,9 +81,14 @@ export default class Presenter extends BaseComponent {
         url: '/packageA/pages/user-circles/index?mode=select'
       })
     }
+
+    let canSave = value.length > 4;
+    if (this.$router.params.from == 'home' ) {
+      canSave = canSave && !!this.state.selectedCircle;
+    }
     this.setState({
       content: value,
-      canSave: value.length > 4 && !!this.state.selectedCircle
+      canSave
     })
   }
 
@@ -100,9 +105,12 @@ export default class Presenter extends BaseComponent {
     } else {
       selectedTag.push(tag.tagId)
     }
-
+    let canSave = this.state.content.length > 4 ;
+    if (this.$router.params.from == 'home') {
+      canSave = canSave && !!this.state.selectedCircle;
+    }
     this.setState(prev => ({
-      canSave: prev.content.length > 4 && !!this.state.selectedCircle,
+      canSave,
       selectedTag
     }))
   }

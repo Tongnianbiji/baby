@@ -84,9 +84,13 @@ export default class Presenter extends BaseComponent {
   }
 
   nameInput = ({ detail }) => {
+    let canSave = this.state.content.length > 4 && detail.value.length > 4 ;
+    if (this.$router.params.from == 'home') {
+      canSave = canSave && !!this.state.selectedCircle;
+    }
     this.setState(prev => ({
       name: detail.value,
-      canSave: prev.content.length > 4 && detail.value.length > 4 && !!this.state.selectedCircle
+      canSave
     }))
   }
 
@@ -97,9 +101,14 @@ export default class Presenter extends BaseComponent {
         url: '/packageA/pages/user-circles/index?mode=select'
       })
     }
+
+    let canSave = this.state.name.length > 4 && value.length > 4;
+    if (this.$router.params.from == 'home') {
+      canSave = canSave && !!this.state.selectedCircle;
+    }
     this.setState(prev => ({
       content: value,
-      canSave: prev.name.length > 4 && value.length > 4 && !!this.state.selectedCircle,
+      canSave
     }))
   }
 
@@ -117,9 +126,12 @@ export default class Presenter extends BaseComponent {
     } else {
       selectedTag.push(tag.tagId)
     }
-
+    let canSave = this.state.name.length > 4 && this.state.content.length > 4;
+    if (this.$router.params.from == 'home') {
+      canSave = canSave && !!this.state.selectedCircle;
+    }
     this.setState(prev => ({
-      canSave: prev.name.length > 4 && prev.content.length > 4 && !!this.state.selectedCircle,
+      canSave,
       selectedTag
     }))
   }
