@@ -45,25 +45,28 @@ export default class BehaviorCard extends Component {
    const {title,isCanEntranceCircle,isShowBack} = this.props;
    const {statusBarHeight} = this.state
     return (
-      <View className="wrapper-custom" style={{height:`${statusBarHeight*2}px`}}>
-        {
-          isShowBack ? 
-          <Image className="wrapper-custom-back" src={ICONS.BACK} onClick={this.goBack.bind(this)}></Image>
-          :
-          <Image className="wrapper-custom-back" src={HomeIcon} onClick={this.goHome.bind(this)}></Image>
-        }
-        {
-          isCanEntranceCircle ? 
-          <View className="wrapper-custom-title" onClick={this.entrancePage.bind(this)}>
-            <Text>{title}</Text>
-            <Image src={ICONS.ARROW_RIGHT_P}></Image>
-          </View>
-          : 
-          <View className="wrapper-custom-title">
-            <Text>{title}</Text>
-          </View>
-        }
-      </View>
+      <React.Fragment>
+        <View style={{ height: `${statusBarHeight * 2}px`,paddingTop: '40rpx' }}></View>
+        <View className="wrapper-custom" style={{ height: `${statusBarHeight * 2}px` }}>
+          {
+            isShowBack ?
+              <Image className="wrapper-custom-back" src={ICONS.BACK} onClick={this.goBack.bind(this)}></Image>
+              :
+              <Image className="wrapper-custom-back" src={HomeIcon} onClick={this.goHome.bind(this)}></Image>
+          }
+          {
+            isCanEntranceCircle ?
+              <View className="wrapper-custom-title" onClick={this.entrancePage.bind(this)}>
+                <Text>{title}</Text>
+                <Image src={ICONS.ARROW_RIGHT_P}></Image>
+              </View>
+              :
+              <View className="wrapper-custom-title">
+                <Text>{title}</Text>
+              </View>
+          }
+        </View>
+      </React.Fragment>
     )
   }
 }

@@ -26,7 +26,7 @@ export default class IssueDetailView extends Presenter {
     return (
       <Provider {...store}>
         <CustomTitle title={issueDetail.cName || '问答详情'} isCanEntranceCircle={isCanEntranceCircle} isShowBack={isShowBack} onEntrancePage={this.entrancePage.bind(this)}></CustomTitle>
-        <View className='issue-detail-view' style={{marginTop:`59px`}}>
+        <View className='issue-detail-view'>
           <MainPanel onShare={this.share.bind(this)}/>
           <Comments />
           <View className='btns'>

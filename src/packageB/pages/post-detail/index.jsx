@@ -33,7 +33,7 @@ export default class PostDetailView extends Presenter {
     return (
       <Provider {...store}>
         <CustomTitle title={postDetail.detailData.cName || '帖子详情'} isCanEntranceCircle={isCanEntranceCircle} isShowBack={isShowBack} onEntrancePage={this.entrancePage.bind(this)}></CustomTitle>
-        <View className='post-detail-view' style={{marginTop:`59px`}}>
+        <View className='post-detail-view'>
           <MainPanel onShare={this.share.bind(this)}/>
           <Comments replys={replys} selectSortType={this.getReplyList.bind(this)} onReplyPost={this.replyPost.bind(this)} />
           <ReplyTools onCopyContent={this.copyContent} onInputReply={this.inputReply.bind(this)} onSubmitReply={this.submitReply}></ReplyTools>

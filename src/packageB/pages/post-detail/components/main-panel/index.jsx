@@ -155,14 +155,14 @@ export default class MainPanelComponent extends BaseComponent {
       linkContentVo,
       isDelete,
       userSnapshot: {
-        city='上海',
+        city = '上海',
         country = '宝山',
         headImg = '',
         nickName = '昵称1',
         sex = 'MALE',
-        customLevel = [{desc:'3岁9个月'}]
+        customLevel = [{ desc: '3岁9个月' }]
       }
-    } = this.props.postDetail.detailData
+    } = this.props.postDetail.detailData;
     return (
       <View>
         {
