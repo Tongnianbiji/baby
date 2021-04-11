@@ -57,6 +57,13 @@ export default class Presenter extends BaseComponent {
    
   }
 
+  onShareTimeline(){
+		return {
+			title: '欢迎加入童年',
+			query: `qid=${this.$router.params.qid}&from=fCircle`,
+		}
+	}
+
    //自定义进入圈子
    entrancePage = ()=>{
     const {cid,cName} = issueDetailStore.issueDetail;

@@ -57,6 +57,13 @@ export default class Presenter extends BaseComponent {
     
   }
 
+  onShareTimeline(){
+		return {
+			title: '欢迎加入童年',
+			query: `pid=${this.$router.params.pid}&from=fCircle`,
+		}
+	}
+
   //自定义进入圈子
   entrancePage = ()=>{
     const {cid,cName} = postDetail.detailData;
