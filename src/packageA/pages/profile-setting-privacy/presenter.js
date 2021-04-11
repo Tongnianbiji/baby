@@ -39,6 +39,13 @@ export default class ProfileSettingPrivacyPresenter extends BaseComponent {
     }
   }
 
+  onShareTimeline(){
+		return {
+			title: '分享个人主页',
+			query: ``,
+		}
+	}
+
   //拉黑用户
   handleChangeBlock = async (e)=>{
     const {userId,postLock} = this.state;

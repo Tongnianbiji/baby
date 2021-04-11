@@ -23,6 +23,14 @@ export default class CommonWeb extends BaseComponent {
       url: `/pages/commonWeb/index?url=${encodeURIComponent(this.state.url)}`,
     }
   }
+
+  onShareTimeline(){
+		return {
+			title: `欢迎加入童年`,
+			query: `url=${encodeURIComponent(this.state.url)}`,
+		}
+	}
+
   handleMessage(e) {
     console.log(111, e)
    }

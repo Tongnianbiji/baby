@@ -42,6 +42,15 @@ class CircleDetailView extends Presenter {
     }
   }
 
+  onShareTimeline(){
+    this.isShareModalShow = true;
+    const userId = this.getUserInfo().userId;
+		return {
+			title: '欢迎加入童年',
+			query: `${utils.paramsToString(this.$router.params)}&inviter=${userId}`,
+		}
+	}
+
   loadingRender() {
     return (
       <View></View>

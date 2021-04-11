@@ -29,6 +29,13 @@ export default class CollectsView extends Presenter {
     }
   }
 
+  onShareTimeline(){
+		return {
+			title: '欢迎加入童年',
+			query: ``,
+		}
+	}
+
   render() {
     const { currentTab,collectData,likeData,showCollectLoading,showLikeLoading,isCollectToBottom ,isLikeToBottom } = this.state
     return (

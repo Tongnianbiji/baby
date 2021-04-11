@@ -54,6 +54,16 @@ export default class ProfileBabyPresenter extends BaseComponent {
     }
   }
 
+
+  onShareTimeline(){
+    const {userInfo,babyName,invtKey,otherMember,bid} = this.state;
+
+		return {
+			title: '欢迎加入童年',
+			query: `inviter=${userInfo.nickName}&newInviter=${userInfo.userId}&bid=${bid}&babyName=${babyName}&invtKey=${invtKey}&inviterRoles=${JSON.stringify(otherMember)}`,
+		}
+	}
+
   onClickNavTo(userId) {
     this.navto({ url: `/packageA/pages/profile-home/index?userId=${userId}` })
   }

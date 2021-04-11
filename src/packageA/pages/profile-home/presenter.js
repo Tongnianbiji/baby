@@ -71,6 +71,15 @@ export default class ProfileHomePresenter extends BaseComponent {
     }
   }
 
+  onShareTimeline(){
+    const userId = this.getUserInfo().userId;
+
+		return {
+			title: '欢迎加入童年',
+			query: `userId=${userId}`,
+		}
+	}
+
   onReachBottom() {
     const { postLock, isPostToBottom, isActiveToBottom, isQuestionToBottom, tabsCurrent } = this.state;
     if (tabsCurrent === 0) {

@@ -57,6 +57,13 @@ export default class Presenter extends BaseComponent {
     }
   }
 
+  onShareTimeline(){
+    const { userInfo } = staticData;
+		return {
+			title: `${userInfo.nickName || '你的好友'}邀请加入童年`,
+			query: `inviter=${userInfo.userId}`,
+		}
+	}
   // getProfile() {
   //   this.showLoading();
   //   let userId = this.getUserInfo().userId;

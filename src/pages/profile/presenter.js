@@ -38,6 +38,14 @@ export default class ProfilePresenter extends BaseComponent {
     }
   }
 
+  onShareTimeline(){
+    const {profileInfo} = this.state;
+		return {
+			title:`${profileInfo.nickName}邀请加入童年`,
+			query: `inviter=${profileInfo.userId}`,
+		}
+	}
+
   getProfile() {
     this.showLoading();
     let userId = this.getUserInfo().userId;
