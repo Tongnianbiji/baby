@@ -55,7 +55,12 @@ export default class BaseComponent extends Component {
       duration
     })
   }
-
+  onShareTimeline(){
+		return {
+			title: '欢迎加入童年',
+			query: 'from=fCircle',
+		}
+	}
   /**
    * 显示导航栏上的loading效果
    */
@@ -248,6 +253,10 @@ export default class BaseComponent extends Component {
     })
   }
   onAutoLogin() {
+    if(this.$router.params.from == 'fCircle'){
+      return Promise.resolve();
+    }
+
     if (staticData.isLogin || staticData.hasCheckedRegist) {
       return Promise.resolve();
     }

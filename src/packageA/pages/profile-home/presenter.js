@@ -76,7 +76,7 @@ export default class ProfileHomePresenter extends BaseComponent {
 
 		return {
 			title: '欢迎加入童年',
-			query: `userId=${userId}`,
+			query: `userId=${userId}&from=fCircle`,
 		}
 	}
 

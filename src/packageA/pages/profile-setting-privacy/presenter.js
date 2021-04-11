@@ -42,7 +42,7 @@ export default class ProfileSettingPrivacyPresenter extends BaseComponent {
   onShareTimeline(){
 		return {
 			title: '分享个人主页',
-			query: ``,
+			query: `from=fCircle`,
 		}
 	}
 

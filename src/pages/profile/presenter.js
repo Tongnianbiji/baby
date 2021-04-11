@@ -42,7 +42,7 @@ export default class ProfilePresenter extends BaseComponent {
     const {profileInfo} = this.state;
 		return {
 			title:`${profileInfo.nickName}邀请加入童年`,
-			query: `inviter=${profileInfo.userId}`,
+			query: `inviter=${profileInfo.userId}&from=fCircle`,
 		}
 	}
 

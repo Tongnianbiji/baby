@@ -47,7 +47,7 @@ class CircleDetailView extends Presenter {
     const userId = this.getUserInfo().userId;
 		return {
 			title: '欢迎加入童年',
-			query: `${utils.paramsToString(this.$router.params)}&inviter=${userId}`,
+			query: `${utils.paramsToString(this.$router.params)}&inviter=${userId}&from=fCircle`,
 		}
 	}
 

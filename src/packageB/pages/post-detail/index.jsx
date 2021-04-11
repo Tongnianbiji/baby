@@ -16,14 +16,6 @@ export default class PostDetailView extends Presenter {
       showShareItems:['wechatFriends','wechatMoment']
     })
   }
-  // onShareTimeline(){
-	// 	return {
-	// 		title: '自定义标题',
-	// 		query: 'name=xxx&age=xxx',
-	// 		imageUrl: 'http://demo.png',
-	// 	}
-	// }
-
 
   render() {
     const { replys, postDetail,isCanEntranceCircle,isShowBack } = this.state;

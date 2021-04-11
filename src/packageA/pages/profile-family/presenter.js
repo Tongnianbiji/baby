@@ -60,7 +60,7 @@ export default class ProfileBabyPresenter extends BaseComponent {
 
 		return {
 			title: '欢迎加入童年',
-			query: `inviter=${userInfo.nickName}&newInviter=${userInfo.userId}&bid=${bid}&babyName=${babyName}&invtKey=${invtKey}&inviterRoles=${JSON.stringify(otherMember)}`,
+			query: `inviter=${userInfo.nickName}&newInviter=${userInfo.userId}&bid=${bid}&babyName=${babyName}&invtKey=${invtKey}&inviterRoles=${JSON.stringify(otherMember)}&from=fCircle`,
 		}
 	}
 

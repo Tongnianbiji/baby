@@ -164,12 +164,6 @@ export default class HomePage extends BaseComponent {
       path: path
     }
   }
-  onShareTimeline(){
-		return {
-			title: '欢迎加入童年',
-			query: '',
-		}
-	}
 
   async onReachBottom() {
     const { postLock, isAttentionToBottom, currentTopTab, attentionType, attentionUsers } = this.state;

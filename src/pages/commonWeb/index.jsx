@@ -27,7 +27,7 @@ export default class CommonWeb extends BaseComponent {
   onShareTimeline(){
 		return {
 			title: `欢迎加入童年`,
-			query: `url=${encodeURIComponent(this.state.url)}`,
+			query: `url=${encodeURIComponent(this.state.url)}&from=fCircle`,
 		}
 	}
 

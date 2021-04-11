@@ -61,7 +61,7 @@ export default class Presenter extends BaseComponent {
     const { userInfo } = staticData;
 		return {
 			title: `${userInfo.nickName || '你的好友'}邀请加入童年`,
-			query: `inviter=${userInfo.userId}`,
+			query: `inviter=${userInfo.userId}&from=fCircle`,
 		}
 	}
   // getProfile() {
