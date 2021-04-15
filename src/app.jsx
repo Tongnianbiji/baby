@@ -15,7 +15,7 @@ import { USER_INFO_KEY_USERID } from '@common/constant'
 import Storage from '@common/localStorage'
 import './app.scss'
 
-const v = '1.2.2'
+const v = '1.2.3'
 
 const request = new BaseRequest()
 const systemInfo = Taro.getSystemInfoSync()
@@ -65,7 +65,7 @@ sa.registerApp({
   deviceId: '',
   mobileModel: systemInfo.model,
   eventType: 1,
-  uid: 'guest',
+  uid: '',
   provinceCode: '上海',
   cityCode: '310100',
   countryCode: '31011500',

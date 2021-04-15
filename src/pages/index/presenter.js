@@ -99,7 +99,7 @@ export default class HomePage extends BaseComponent {
       cityCode: cityCodeCode,
       countryCode: countryCodeCode,
       tabId: tabId,
-      uid: staticData.userId || 'guest'
+      uid: staticData.userId || ''
     })
   }
   connectGoeasyIm() {
