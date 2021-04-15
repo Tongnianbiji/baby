@@ -73,7 +73,7 @@ class MainInfoPanel extends Component {
     const { leaf, name } = this.$store.detailInfo;
     const { parentCircles } = this.$store
     const pcid = parentCircles && parentCircles[0] && parentCircles[0].cid;
-    Taro.navigateTo({ url: `/packageA/pages/more-circle/index?pcid=${pcid}&cid=${cid}&cname=${name}&circleType=${leaf ? 'sibling' : 'child'}` })
+    Taro.navigateTo({ url: `/packageA/pages/more-circle/index?pcid=${pcid}&cid=${cid}&cname=${name}&isSearch=1&circleType=${leaf ? 'sibling' : 'child'}` })
   }
   toDescById(pid) {
     Taro.navigateTo({
