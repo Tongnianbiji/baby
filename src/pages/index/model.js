@@ -83,7 +83,7 @@ export default {
     let params = {
       pageNum,
       pageSize:10,
-      openid: staticData.openID,
+      guestOpenId: staticData.isLogin? staticData.openID:'',
     }
     const ret = await request.postWithToken('/search/recommend', params)
     const data = request.standardResponse(ret)
