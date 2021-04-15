@@ -262,67 +262,80 @@ export default class BaseComponent extends Component {
     }
 
     return new Promise((resolve, reject) => {
-      // 有token说明已注册，可自动登录。没token可以去接口判断是否已注册， 有则获取token, 无则自动登录失败
-      this.getLoginInfo().then(
-        loginInfo => {
+      wx.cloud.init({
+        env: 'tongnian-ct4wk',
+        traceUser: true
+       })
+  
+       wx.cloud.callFunction({
+        name: 'getOpenid',
+        complete: res => {
+          const openid = res.result.openid;
+          staticData.setOpenID(openid);
+          console.log('云函数获取到的openid: ', openid);
+          // 有token说明已注册，可自动登录。没token可以去接口判断是否已注册， 有则获取token, 无则自动登录失败
+          this.getLoginInfo().then(
+            loginInfo => {
 
-          request.get('/profile/get', { userId: loginInfo.userId }, { token: loginInfo.token }).then(res => {
-            // 登录token过期，重新登录
-            if (res.data.code === 2 && res.data.message == '登录过期,请重新登录' && reLoginCount++ < 3) {
-              this.__local_dto.setValue('loginInfo', '');
-              this.onAutoLogin().then(res => {
-                resolve();
+              request.get('/profile/get', { userId: loginInfo.userId }, { token: loginInfo.token }).then(res => {
+                // 登录token过期，重新登录
+                if (res.data.code === 2 && res.data.message == '登录过期,请重新登录' && reLoginCount++ < 3) {
+                  this.__local_dto.setValue('loginInfo', '');
+                  this.onAutoLogin().then(res => {
+                    resolve();
+                  })
+                  return;
+                }
+
+                // 登录未超时
+                if (res.errMsg === request.okMsg) { // TODO - 这个奇怪的判断是什么？
+                  this.__local_dto.setValue('__TN_LOGIN_TOKEN_', loginInfo.token); // 为了让requet模块能拿到token, 本不应该这样设计
+                  const userInfo = res.data.data;
+                  staticData.updateUserInfo(userInfo || {});
+                }
+                // 获取位置信息
+                this.getLatAndLon().then(res => {
+                  this.setCityInfo(res.longitude, res.latitude).then(data => {
+                    const c = data.district || data.city;
+                    staticData.updateCurrentCity(this.getSubCityName(c));
+                    staticData.updateIsLoginStatus(true);
+                    staticData.updateIsRegisteStatus(true);
+                    resolve(); // 完成登录
+                  })
+                })
               })
-              return;
-            }
+            },
+            err => {
+              // 获取位置信息
+              this.getLatAndLon().then(res => {
+                this.setCityInfo(res.longitude, res.latitude, false).then(data => {
+                  const c = data.district || data.city;
+                  staticData.updateCurrentCity(this.getSubCityName(c));
 
-            // 登录未超时
-            if (res.errMsg === request.okMsg) { // TODO - 这个奇怪的判断是什么？
-              this.__local_dto.setValue('__TN_LOGIN_TOKEN_', loginInfo.token); // 为了让requet模块能拿到token, 本不应该这样设计
-              const userInfo = res.data.data;
-              staticData.updateUserInfo(userInfo || {});
-            }
-            // 获取位置信息
-            this.getLatAndLon().then(res => {
-              this.setCityInfo(res.longitude, res.latitude).then(data => {
-                const c = data.district || data.city;
-                staticData.updateCurrentCity(this.getSubCityName(c));
-                staticData.updateIsLoginStatus(true);
-                staticData.updateIsRegisteStatus(true);
-                resolve(); // 完成登录
+                  staticData.updateIsRegisteStatus(false);
+                  staticData.updateIsLoginStatus(false);
+                  setTimeout(() => {
+                    staticData.updateGuideStatus(true)
+                  }, 2e3)
+
+                  const pages = Taro.getCurrentPages();
+                  const currentPage = pages[pages.length - 1];
+                  const whiteList = ['pages/index/index', 'pages/discover/index', 'pages/message/index', 'packageA/pages/characterC/index',
+                    'pages/profile/index', 'packageB/pages/post-detail/index', 'packageB/pages/issue-detail/index',
+                    'packageA/pages/characterC/index'];
+                  if (whiteList.indexOf(currentPage.route) == -1) { // 落地页只允许访问部分页面
+                    Taro.redirectTo({
+                      url: '/pages/login/index'
+                    });
+                  } else {
+                    resolve();
+                  }
+                })
               })
-            })
-          })
-        },
-        err => {
-          // 获取位置信息
-          this.getLatAndLon().then(res => {
-            this.setCityInfo(res.longitude, res.latitude, false).then(data => {
-              const c = data.district || data.city;
-              staticData.updateCurrentCity(this.getSubCityName(c));
-
-              staticData.updateIsRegisteStatus(false);
-              staticData.updateIsLoginStatus(false);
-              setTimeout(() => {
-                staticData.updateGuideStatus(true)
-              }, 2e3)
-
-              const pages = Taro.getCurrentPages();
-              const currentPage = pages[pages.length - 1];
-              const whiteList = ['pages/index/index', 'pages/discover/index', 'pages/message/index', 'packageA/pages/characterC/index',
-                'pages/profile/index', 'packageB/pages/post-detail/index', 'packageB/pages/issue-detail/index',
-                'packageA/pages/characterC/index'];
-              if (whiteList.indexOf(currentPage.route) == -1) { // 落地页只允许访问部分页面
-                Taro.redirectTo({
-                  url: '/pages/login/index'
-                });
-              } else {
-                resolve();
-              }
-            })
-          })
+            }
+          )
         }
-      )
+       })
     })
 
   }

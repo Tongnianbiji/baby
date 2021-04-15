@@ -37,12 +37,16 @@ class Data {
   @observable selectedPlot = {};
   @observable tempCircleItem = null;
   @observable tempSelectCircleItem = null;
+  @observable openID = '';
 
   @action getGoEasy = (goEasy) => {
     this.goEasy = goEasy
   }
   @action setToken = (token) => {
     this.token = token
+  }
+  @action setOpenID = (openID) => {
+    this.openID = openID
   }
   @action setHasCheckedRegist = (hasCheckedRegist) => {
     this.hasCheckedRegist = hasCheckedRegist

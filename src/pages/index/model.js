@@ -1,5 +1,6 @@
 import BaseRequest from '../../common/baseRequest'
 import { GMAP_API_KEY } from '../../common/constant'
+import staticData from '@src/store/common/static-data'
 
 const request = new BaseRequest()
 export default {
@@ -81,7 +82,8 @@ export default {
   async getrecommends(pageNum=1) {
     let params = {
       pageNum,
-      pageSize:10
+      pageSize:10,
+      openid: staticData.openID,
     }
     const ret = await request.postWithToken('/search/recommend', params)
     const data = request.standardResponse(ret)
@@ -238,11 +240,11 @@ export default {
   //清除曝光
   async clearRead(uid){
     let params = {
-      keyword: `exp:pid_${uid}`,
+      keyword: `exp:pid_openid_${staticData.openID}`,
     }
      await request.postWithToken('/test/set/cleanRead', params)
     const ret = await request.postWithToken('/test/set/cleanRead', {
-      keyword: `exp:all_pid_${uid}`
+      keyword: `exp:all_pid_openid_${staticData.openID}`
     })
     const d = request.standardResponse(ret)
     if(d.code == 0){
