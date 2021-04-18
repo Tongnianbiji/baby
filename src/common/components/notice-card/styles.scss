@@ -70,6 +70,7 @@
             font-size:32px;
             color:rgba(51,51,51,1);
             line-height:32px;
+            width: max-content;
           }
           .sub {
             height:24px;
@@ -130,11 +131,13 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 0px;
+            width: max-content;
           }
         }
         .questions {
           .txt { color: #666; }
           margin-top: 14px;
+          width: max-content;
         }
       }
       .fav-txt {
