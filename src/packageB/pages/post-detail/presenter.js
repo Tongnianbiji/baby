@@ -22,7 +22,6 @@ export default class Presenter extends BaseComponent {
   }
 
   componentDidMount() {
-    circleIsReload();
     this.showNavLoading()
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2]
@@ -54,7 +53,7 @@ export default class Presenter extends BaseComponent {
   componentWillUnmount(){
     const {initPageList} = postDetail;
     initPageList();
-    
+    circleIsReload();
   }
 
   onShareTimeline(){
