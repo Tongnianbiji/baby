@@ -240,11 +240,11 @@ export default {
   //清除曝光
   async clearRead(uid){
     let params = {
-      keyword: `exp:pid_openid_${staticData.openID}`,
+      keyword: `exp:pid_${staticData.openID}`,
     }
      await request.postWithToken('/test/set/cleanRead', params)
     const ret = await request.postWithToken('/test/set/cleanRead', {
-      keyword: `exp:all_pid_openid_${staticData.openID}`
+      keyword: `exp:all_pid_${staticData.openID}`
     })
     const d = request.standardResponse(ret)
     if(d.code == 0){
