@@ -1,21 +1,7 @@
-1、蓝湖：https://lanhuapp.com/web/#/item/project/board?pid=902c810f-3739-4491-bb04-7fc44b3fb8d2
-2、tpad：https://www.tapd.cn/41703947/prong/stories/stories_list
-3、高德 api：272c655ca1299de4208711f43a19fb76
-https://signin.aliyun.com/login.htm
-13671797379@1337694461213758.onaliyun.com
-13671797379
-fansile02151001
+项目介绍：这是一个面向1-18岁宝宝父母的养娃这区，这里可以分享宝宝的成长记录，可以记录宝宝成长过程中自己的思考，也可以获取宝宝成长过程中出现的择校、购房、保险、医疗等垂类信息。<br /><br />
+自我介绍：一位住在上海的普通打工人，一位互联网产品人，一位2岁宝宝的父亲，在宝宝养育过程中发现两类需求：<br /><br />
+1.养育过程中存在择校、购房、购车、保险、医疗等需求，需要获取对应的垂直信息 <br /><br />
+2.生命并不是你活了多少日子，而是你记住了多少日子，你要使你过的每一天，都值得记忆。引用自最近刚刚仙逝的百岁翻译界泰斗许渊冲的一句话，宝宝成长很快，很像记录宝宝成长过程中的成长感悟也好、养娃焦虑也好，成长阶段也好，希望能有个记录宝宝成长与家庭思考的社区产品，这些内容可以是私人空间，也可以是公共空间，也分享一下自己对于[记录的意义的思考](https://mp.weixin.qq.com/s/hRbpfGJJoJlT4rC4BP4mZw) <br /><br />
+于是有了这个社区产品，当前是基于兴趣在兼职运营这个社区，目前把社区产品开放出来，无论是前端、后端、还是产品、运营同学，有兴趣的朋友，可以一起兼职共建设个社区。<br /><br />
 
-yapi
-1464332249@qq.com
-xx1234567
-
-https://www.tapd.cn/41703947/prong/iterations/card_view#iterationId=1141703947001000003&perPage=50&wallCardType=story&timespan=1584785204972&filter_close=true
-https://gitee.com/tn-lab/tn-miniapp/branches
-https://oss.console.aliyun.com/bucket/oss-cn-shanghai/tongnian-image/object
-https://lanhuapp.com/web/#/item/project/board?pid=902c810f-3739-4491-bb04-7fc44b3fb8d2
-https://taro-docs.jd.com/taro/docs/components/forms/radio.html
-
-https://console.goeasy.io/#/appOverview  
-用户名:16602102903
-密码:tongnian_xcx
+也可以加我个人微信，进行进一步沟通(base64编码)：MTY2MDIxMDI5MDM=
